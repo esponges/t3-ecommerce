@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
+    provider = "postgresql"
     // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.text annotations in model Account below
     // Further reading: 
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
@@ -61,4 +61,16 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Product {
+    id          String   @id @default(cuid())
+    name        String
+    description String
+    discount    Float
+    categoryId  String
+    price       Float
+    image       String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 }
