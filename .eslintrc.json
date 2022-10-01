@@ -6,7 +6,7 @@
   "plugins": ["@typescript-eslint"],
   "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
   "rules": {
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
     "react/prop-types": 1,
     "max-len": ["warn", { "code": 120, "ignoreUrls": true, "ignoreRegExpLiterals": true }],
     "no-nested-ternary": "off",
@@ -14,7 +14,7 @@
     "react/function-component-definition": [
       2,
       {
-        "namedComponents": "function-declaration",
+        "namedComponents": "arrow-function",
         "unnamedComponents": "arrow-function"
       }
     ],
