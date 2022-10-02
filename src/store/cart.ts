@@ -1,30 +1,24 @@
 import { Product } from "@prisma/client";
 import create from "zustand";
 
+type Item = Product & { quantity: number };
+
 interface CartState {
-  items: Pick<Product, 'id' | 'name' | 'price' | 'discount'>[] & { quantity: number }[];
-  addToCart: (product: Pick<Product, 'id' | 'name' | 'price' | 'discount'>, quantity: number) => void;
+  items: { [key: string]: Item };
+  addToCart: (product: Product, quantity: number) => void;
 }
 
-export const cartState = create<CartState>((set) => ({
-  items: [],
+export const useCartStore = create<CartState>((set) => ({
+  items: {},
   addToCart: (product, quantity) => {
-    set((state) => ({
-      items: [
-        ...state.items,
-        {
-          ...product,
-          quantity,
-        },
-      ],
-    }));
-  }
+    set((state) => {
+      const item: Item = { ...product, quantity };
+      return {
+        items: { ...state.items, [product.id]: {
+          ...item,
+          quantity: (state.items[product.id]?.quantity || 0) + quantity,
+        } },
+      };
+    });
+  },
 }));
-
-
-
-
-
-
-
-
