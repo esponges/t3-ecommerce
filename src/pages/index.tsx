@@ -28,6 +28,10 @@ const Home: NextPage = () => {
             </li>
           ))}
         </ul>
+        <h3 className="mt-4 text-lg text-gray-600">You can also check the cart:</h3>
+        <Link href="/cart">
+          <a className="mt-2 text-sm text-violet-500 underline decoration-dotted underline-offset-2">Go to Cart</a>
+        </Link>
       </main>
     </>
   );

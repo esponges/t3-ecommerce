@@ -8,6 +8,7 @@ const ProductDetails = () => {
   const id = typeof router.query.productId === 'string' ? router.query.productId : '';
 
   const { data: product, isLoading } = trpc.useQuery(['product.getById', { id }]);
+  const { data } = trpc.useQuery(['example.hello', { text: 'World' }]);
 
   const { addToCart, items } = useCartStore((state) => state);
   const itemCartCount = items[id]?.quantity || 0;
@@ -24,14 +25,14 @@ const ProductDetails = () => {
   }
 
   return (
-    <div className='px-10 py-5'>
+    <div className="px-10 py-5">
       <h1>Product Details</h1>
       <p>Product ID: {product?.id}</p>
       <p>Product Name: {product?.name}</p>
       <p>Product Description: {product?.description}</p>
       <p>Product Price: {product?.price}</p>
       <p>In the cart {itemCartCount}</p>
-      <div className='mt-5'>
+      <div className="mt-5">
         <p>
           Quantity: {count}{' '}
           <span>
