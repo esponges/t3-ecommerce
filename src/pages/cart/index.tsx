@@ -1,7 +1,29 @@
+import { send } from 'emailjs-com';
 import { useCartStore } from '../../store/cart';
 
 const Cart = () => {
   const { items } = useCartStore((state) => state);
+
+  const handleSend = () => {
+    send(
+      process.env.EMAILJS_SERVICE_ID as string,
+      process.env.EMAILJS_TEMPLATE_ID as string,
+      {
+        message_html: 'test',
+        to_name: 'Buyer',
+        to_email: 'esponges@gmail.com',
+        from_name: 'cool shop',
+        reply_to: process.env.EMAILJS_FROM_EMAIL as string,
+      },
+      process.env.EMAILJS_USER_ID_PUBLIC_KEY as string
+    )
+      .then((response) => {
+        console.log('SUCCESS!', response.status, response.text);
+      })
+      .catch((err) => {
+        console.log('FAILED...', err);
+      });
+  };
 
   return (
     <div className="px-10 py-5">
@@ -13,6 +35,10 @@ const Cart = () => {
           </li>
         ))}
       </ul>
+      {/* test email JS send */}
+      <button className="mt-10" onClick={handleSend}>
+        Confirm Order
+      </button>
     </div>
   );
 };

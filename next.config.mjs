@@ -1,5 +1,3 @@
-import { env } from "./src/env/server.mjs";
-
 /**
  * Don't be scared of the generics here.
  * All they do is to give us autocompletion when using this.
@@ -19,5 +17,11 @@ export default defineNextConfig({
   i18n: {
     locales: ["en"],
     defaultLocale: "en",
+  },
+  env: {
+    EMAILJS_SERVICE_ID: process.env.EMAILJS_SERVICE_ID,
+    EMAILJS_TEMPLATE_ID: process.env.EMAILJS_TEMPLATE_ID,
+    EMAILJS_USER_ID_PUBLIC_KEY: process.env.EMAILJS_USER_ID_PUBLIC_KEY,
+    EMAILJS_FROM_EMAIL: process.env.EMAILJS_FROM_EMAIL,
   },
 });
