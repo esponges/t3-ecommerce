@@ -8,11 +8,10 @@ const ProductDetails = () => {
   const id = typeof router.query.productId === 'string' ? router.query.productId : '';
 
   const { data: product, isLoading } = trpc.useQuery(['product.getById', { id }]);
-  const { data } = trpc.useQuery(['example.hello', { text: 'World' }]);
 
   const { addToCart, items } = useCartStore((state) => state);
   const itemCartCount = items[id]?.quantity || 0;
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
 
   const handleAddToCart = () => {
     if (product) {
