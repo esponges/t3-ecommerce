@@ -79,12 +79,12 @@ model Product {
 
 model OrderItem {
     id        String @id @default(cuid())
-    productId String
-    orderId   String
     quantity  Int
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    orderId   String
     order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    productId String
     product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
@@ -94,6 +94,7 @@ model OrderDetail {
     address   String
     city      String
     country   String
+    postalCode String
     phone     String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
