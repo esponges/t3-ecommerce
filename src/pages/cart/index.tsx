@@ -30,13 +30,13 @@ const Cart = () => {
         productId: item.id,
         quantity: item.quantity,
       })),
-      orderDetails: {
-        address: 'test',
-        city: 'test',
+      orderDetails: [{
+        address: 'foo',
+        city: 'bar',
         country: 'test',
         postalCode: 'test',
         phone: 'test',
-      },
+      }],
     });
   };
 

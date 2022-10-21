@@ -10,22 +10,29 @@ export const orderRouter = createRouter().mutation('create', {
         quantity: z.number(),
       })
     ),
-    orderDetails: z.object({
-      address: z.string(),
-      city: z.string(),
-      country: z.string(),
-      postalCode: z.string(),
-      phone: z.string(),
-    }),
+    orderDetails: z.array(
+      z.object({
+        address: z.string(),
+        city: z.string(),
+        country: z.string(),
+        postalCode: z.string(),
+        phone: z.string(),
+      })
+    ),
   }),
   resolve: async ({ ctx, input }) => {
     try {
       const order = await ctx.prisma.order.create({
         data: {
           userId: input.userId,
+          orderItems: {
+            create: input.orderItems,
+          },
+          orderDetails: {
+            create: input.orderDetails,
+          },
         },
       });
-
       return order;
     } catch (error) {
       console.log(error);
