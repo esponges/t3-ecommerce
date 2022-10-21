@@ -31,11 +31,14 @@ const Cart = () => {
       <ul>
         {Object.entries(items).map(([id, item]) => (
           <li key={id}>
-            {item.name} - {item.price}
+            {item.name} - {item.price} - {item.quantity}
           </li>
         ))}
       </ul>
       {/* test email JS send */}
+      <div>
+        Total price: $ {Object.values(items).reduce((acc, item) => acc + item.price * item.quantity, 0)}
+      </div>
       <button className="mt-10" onClick={handleSend}>
         Confirm Order
       </button>
