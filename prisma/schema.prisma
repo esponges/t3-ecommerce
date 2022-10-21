@@ -53,6 +53,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    orders        Order[]
 }
 
 model VerificationToken {
@@ -73,4 +74,40 @@ model Product {
     image       String
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
+    orderItem   OrderItem[]
 }
+
+model OrderItem {
+    id        String @id @default(cuid())
+    productId String
+    orderId   String
+    quantity  Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model OrderDetail {
+    id        String @id @default(cuid())
+    orderId   String
+    address   String
+    city      String
+    country   String
+    phone     String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+    id          String   @id @default(cuid())
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId      String
+    orderItems  OrderItem[]
+    orderDetail OrderDetail[]
+}
+
+
