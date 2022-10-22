@@ -38,4 +38,37 @@ export const orderRouter = createRouter().mutation('create', {
       console.log(error);
     }
   },
+}).query('getByUserId', {
+  input: z.object({
+    userId: z.string(),
+    latest: z.boolean().optional(),
+  }),
+  resolve: async ({ ctx, input }) => {
+    try {
+      const order = await ctx.prisma.order.findMany({
+      // get the latest order
+        where: {
+          userId: input.userId,
+        },
+        ...(input.latest ? { orderBy: {
+          id: 'desc',
+        },
+        take: 1 } : {}),
+      });
+      return order;
+    }
+    catch (error) {
+      console.log(error);
+    }
+  },
+}).query('getAll', {
+  resolve: async ({ ctx }) => {
+    try {
+      const order = await ctx.prisma.order.findMany();
+      return order;
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
 });
