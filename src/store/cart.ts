@@ -2,9 +2,10 @@ import { Product } from '@prisma/client';
 import create from 'zustand';
 
 type Item = Product & { quantity: number };
-type CartItems = { [key: string]: Item };
+export type CartItems = { [key: string]: Item };
 interface CartState {
   items: CartItems;
+  restoreCart: (cart: CartItems) => void;
   addToCart: (product: Product, quantity: number) => void;
 }
 
@@ -12,6 +13,9 @@ const storageItems: CartItems = typeof window !== 'undefined' ? JSON.parse(local
 
 export const useCartStore = create<CartState>((set) => ({
   items: storageItems,
+  restoreCart: (cartItems?: CartItems) => {
+    set({ items: cartItems ?? {} });
+  },
   addToCart: (product, quantity) => {
     set((state) => {
       const item: Item = { ...product, quantity };
