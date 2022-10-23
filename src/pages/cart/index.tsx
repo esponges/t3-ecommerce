@@ -1,18 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useCartStore, CartItems } from '../../store/cart';
+import { useCartItems } from '../../utils/hooks/useCartItems';
 import { trpc } from '../../utils/trpc';
 
 const userId = 'cl9iv3dwe0004m2q1zvdtt420';
 
 const Cart = () => {
-  const { items } = useCartStore((state) => state);
-  const [cartItems, setCartItems] = useState<CartItems>({});
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setCartItems(items);
-    }
-  }, [items]);
+  const { cartItems } = useCartItems();
 
   const ctx = trpc.useContext();
   const createOrder = trpc.useMutation('order.create', {
@@ -49,7 +41,7 @@ const Cart = () => {
   const handleSend = () => {
     const order = createOrder.mutate({
       userId: userId,
-      orderItems: Object.values(items).map((item) => ({
+      orderItems: Object.values(cartItems).map((item) => ({
         productId: item.id,
         quantity: item.quantity,
       })),
