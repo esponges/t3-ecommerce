@@ -97,7 +97,7 @@ const Checkout = () => {
         productId: item.id,
         quantity: item.quantity,
       })),
-      orderDetails: [
+      orderDetail: [
         {
           address: data.address,
           city: data.city,

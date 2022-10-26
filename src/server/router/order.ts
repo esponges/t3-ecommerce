@@ -10,7 +10,7 @@ export const orderRouter = createRouter().mutation('create', {
         quantity: z.number(),
       })
     ),
-    orderDetails: z.array(
+    orderDetail: z.array(
       z.object({
         address: z.string(),
         city: z.string(),
@@ -28,8 +28,8 @@ export const orderRouter = createRouter().mutation('create', {
           orderItems: {
             create: input.orderItems,
           },
-          orderDetails: {
-            create: input.orderDetails,
+          orderDetail: {
+            create: input.orderDetail,
           },
         },
       });

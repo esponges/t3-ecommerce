@@ -90,7 +90,6 @@ model OrderItem {
 
 model OrderDetail {
     id        String @id @default(cuid())
-    orderId   String
     address   String
     city      String
     country   String
@@ -98,6 +97,7 @@ model OrderDetail {
     phone     String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    orderId   String  @unique
     order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }
 
@@ -108,7 +108,7 @@ model Order {
     user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId      String   
     orderItems  OrderItem[]
-    orderDetails OrderDetail[]
+    orderDetail OrderDetail[]
 }
 
 
