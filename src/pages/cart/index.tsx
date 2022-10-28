@@ -20,6 +20,11 @@ const Cart = () => {
           <a>Go to checkout</a>
         </Link>
       </div>
+      <div className='mt-5'>
+        <Link href="/">
+          <a>Go back</a>
+        </Link>
+      </div>
     </div>
   );
 };
