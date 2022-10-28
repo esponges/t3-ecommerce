@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { trpc } from '../utils/trpc';
 
 const Home: NextPage = () => {
-  const { data: products } = trpc.useQuery(['product.getAll']);
+  const { data: products, isLoading } = trpc.useQuery(['product.getAll']);
 
   return (
     <>
@@ -18,6 +18,7 @@ const Home: NextPage = () => {
         <h1 className="text-4xl font-bold text-gray-700">Welcome to our store!</h1>
         <p className="text-lg text-gray-600">The are the following products in the DB:</p>
         <ul className="flex flex-col gap-4 mt-4">
+          {isLoading && <p>Loading items...</p>}
           {products?.map((product) => (
             <li key={product.id} className="flex flex-col gap-2">
               <span className="text-lg font-bold text-gray-700">{product.name}</span>
