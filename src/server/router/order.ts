@@ -74,4 +74,23 @@ export const orderRouter = createRouter()
         console.log(error);
       }
     },
+  })
+  .query('getById', {
+    input: z.object({
+      id: z.string(),
+    }),
+    resolve: async ({ ctx, input }) => {
+      try {
+        const order = await ctx.prisma.order.findUnique({
+          where: {
+            id: input.id,
+          },
+        });
+        return order;
+      } catch (error) {
+        console.log(error);
+      }
+    }
   });
+
+
