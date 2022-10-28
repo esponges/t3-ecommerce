@@ -36,35 +36,63 @@ const Checkout = () => {
   const { cartItems } = useCartItems();
 
   const userLastOder = trpc.useQuery(['order.getByUserId', { userId: userId }]);
+  const userAllOrders = trpc.useQuery(['order.getAll']);
+
+  // console.log('userLastOder', userLastOder.data);
+  // console.log('userAllOrders', userAllOrders.data);
+
   const createOrder = trpc.useMutation('order.create', {
     onMutate: async (values) => {
       // optimistic update
       // mutation about to happen
-
-      // await queryClient.cancelQueries('order.getAll');
-      // const previousOrders = queryClient.getQueryData('order.getAll');
-      // if (previousOrders) {
-      //   queryClient.setQueryData('order.getAll', [
-      //     ...previousOrders,
-      //     {
-      //       id: '123',
-      //       userId: '123',
-      //       orderItems: [],
-      //       orderDetails: [],
-      //       createdAt: new Date().toISOString(),
-      //       updatedAt: new Date().toISOString(),
-      //     },
-      //   ]);
-      // }
-      // return { previousOrders };
     },
 
-    onSuccess: (data, variables, context) => {
-      // update the new order with the optimistic id
+    onSuccess: async (data, variables, context) => {
+      // do stuff after mutation success
+    },
 
-      // send success email
-      alert('Order created! now send email to the user with the details');
-      // send(
+
+
+    onError: (err, values, context) => {
+      // rollback?
+    },
+    onSettled: () => {
+      // Error or success... doesn't matter!
+      // queryClient.invalidateQueries('order.getAll');
+    },
+  });
+
+  const handleFormSubmit = async (data: CheckoutFormValues) => {
+
+    // tried with with mutateAsync but received undefined
+    const { mutateAsync } = createOrder;
+    const res = await mutateAsync({
+      userId: userId,
+      orderItems: Object.values(cartItems).map((item) => ({
+        productId: item.id,
+        quantity: item.quantity,
+      })),
+      // todo: figure out why array in Order model
+      orderDetail: {
+        address: data.address,
+        city: data.city,
+        country: data.country,
+        postalCode: data.postalCode,
+        phone: data.phone,
+      },
+    });
+    console.log('successful ', res);
+
+    // this doesn't work
+    // if (res && res.id) {
+    //   trpc.useQuery(['order.getById', { id: res.id }], {
+    //     onSuccess: (data) => {
+    //       console.log('do stuff with the just created order like sending this data!', data);
+    //     },
+    //   });
+    // }
+
+          // send(
       //   process.env.EMAILJS_SERVICE_ID as string,
       //   process.env.EMAILJS_TEMPLATE_ID as string,
       //   {
@@ -82,42 +110,10 @@ const Checkout = () => {
       //   })
       //   .catch((err) => {
       //     console.log('FAILED...', err);
-      //   });  
-    },
+      //   });
+      
     // clear cart after order is created
     // and redirect to success page etc
-
-
-    onError: (err, values, context) => {
-      // rollback
-      // if (context?.previousOrders) {
-      //   queryClient.setQueryData('order.getAll', context.previousOrders);
-      // }
-    },
-    onSettled: () => {
-      // Error or success... doesn't matter!
-      // queryClient.invalidateQueries('order.getAll');
-    },
-  });
-
-  const handleFormSubmit = (data: CheckoutFormValues) => {
-    console.log(data);
-
-    createOrder.mutate({
-      userId: userId,
-      orderItems: Object.values(cartItems).map((item) => ({
-        productId: item.id,
-        quantity: item.quantity,
-      })),
-      // todo: figure out why array in Order model
-      orderDetail: [{
-        address: data.address,
-        city: data.city,
-        country: data.country,
-        postalCode: data.postalCode,
-        phone: data.phone,
-      }],
-    });
   };
 
   return (
