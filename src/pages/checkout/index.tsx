@@ -37,6 +37,11 @@ const Checkout = () => {
 
   const userLastOder = trpc.useQuery(['order.getByUserId', { userId: userId }]);
   const userAllOrders = trpc.useQuery(['order.getAll']);
+  const getOrderById = (id: string) =>  trpc.useQuery(['order.getById', { id }], {
+    onSuccess: (data) => {
+      console.log('do stuff with this data: ', data);
+    }
+  });
 
   // console.log('userLastOder', userLastOder.data);
   // console.log('userAllOrders', userAllOrders.data);
@@ -84,13 +89,9 @@ const Checkout = () => {
     console.log('successful ', res);
 
     // this doesn't work
-    // if (res && res.id) {
-    //   trpc.useQuery(['order.getById', { id: res.id }], {
-    //     onSuccess: (data) => {
-    //       console.log('do stuff with the just created order like sending this data!', data);
-    //     },
-    //   });
-    // }
+    if (res && res.id) {
+      getOrderById(res.id);
+    }
 
           // send(
       //   process.env.EMAILJS_SERVICE_ID as string,
