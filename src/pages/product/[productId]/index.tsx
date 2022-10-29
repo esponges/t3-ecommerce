@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useCartStore } from '../../../store/cart';
-import { trpc } from '../../../utils/trpc';
+import { trpc } from '../../../lib/utils/trpc';
 
 const ProductDetails = () => {
   const router = useRouter();

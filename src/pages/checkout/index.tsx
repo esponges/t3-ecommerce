@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form';
 import { Order } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 
-import { useCartItems } from '../../utils/hooks/useCartItems';
-import { trpc } from '../../utils/trpc';
+import { useCartItems } from '../../lib/hooks/useCartItems';
+import { trpc } from '../../lib/utils/trpc';
 
 
 const checkoutDefaultValues = {

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useCartItems } from '../../utils/hooks/useCartItems';
+import { useCartItems } from '../../lib/hooks/useCartItems';
 
 const Cart = () => {
   const { cartItems, cartTotal } = useCartItems();
