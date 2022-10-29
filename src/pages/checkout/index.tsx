@@ -1,11 +1,9 @@
 import { send } from 'emailjs-com';
 import { useForm } from 'react-hook-form';
 import { Order } from '@prisma/client';
-import { v4 as uuidv4 } from 'uuid';
 
 import { useCartItems } from '../../lib/hooks/useCartItems';
-import { trpc } from '../../lib/utils/trpc';
-
+import { trpc } from '../../utils/trpc';
 
 const checkoutDefaultValues = {
   address: 'Foo Address',
@@ -35,18 +33,12 @@ const Checkout = () => {
 
   const { cartItems } = useCartItems();
 
-  const userLastOder = trpc.useQuery(['order.getByUserId', { userId: userId }]);
-  const userAllOrders = trpc.useQuery(['order.getAll']);
-  const getOrderById = (id: string) =>  trpc.useQuery(['order.getById', { id }], {
-    onSuccess: (data) => {
-      console.log('do stuff with this data: ', data);
-    }
-  });
 
   // console.log('userLastOder', userLastOder.data);
   // console.log('userAllOrders', userAllOrders.data);
+const create = trpc.order.create.useMutation();
 
-  const createOrder = trpc.useMutation('order.create', {
+  const createOrder = trpc.order.create.useMutation({
     onMutate: async (values) => {
       // optimistic update
       // mutation about to happen
@@ -87,11 +79,6 @@ const Checkout = () => {
       },
     });
     console.log('successful ', res);
-
-    // this doesn't work
-    if (res && res.id) {
-      getOrderById(res.id);
-    }
 
           // send(
       //   process.env.EMAILJS_SERVICE_ID as string,

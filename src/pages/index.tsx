@@ -1,10 +1,10 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import { trpc } from '../lib/utils/trpc';
+import { trpc } from '../utils/trpc';
 
 const Home: NextPage = () => {
-  const { data: products, isLoading } = trpc.useQuery(['product.getAll']);
+  const { data: products, isLoading } = trpc.product.getAll.useQuery();
 
   return (
     <>

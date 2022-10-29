@@ -13,6 +13,7 @@ const storageItems: CartItems = typeof window !== 'undefined' ? JSON.parse(local
 
 export const useCartStore = create<CartState>((set) => ({
   items: storageItems,
+  // move actions to separate file
   restoreCart: (cartItems?: CartItems) => {
     set({ items: cartItems ?? {} });
   },

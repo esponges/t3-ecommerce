@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useCartStore } from '../../../store/cart';
-import { trpc } from '../../../lib/utils/trpc';
+import { trpc } from '../../../utils/trpc';
 
 const ProductDetails = () => {
   const router = useRouter();
   const id = typeof router.query.productId === 'string' ? router.query.productId : '';
 
-  const { data: product, isLoading } = trpc.useQuery(['product.getById', { id }]);
+  const { data: product, isLoading } = trpc.product.getById.useQuery({ id });
 
   const { addToCart, items } = useCartStore((state) => state);
   const itemCartCount = items[id]?.quantity || 0;
