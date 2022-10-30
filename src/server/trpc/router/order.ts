@@ -73,11 +73,16 @@ export const orderRouter = t.router({
   }),
   getById: t.procedure
     .input(
+      // allow lazy fetching for Checkout
       z.object({
-        id: z.string(),
+        id: z.string().nullable().optional(),
       })
     )
     .query(async ({ ctx, input }) => {
+      if (!input.id) {
+        return null;
+      }
+
       const order = await ctx.prisma.order.findUnique({
         where: {
           id: input.id,
