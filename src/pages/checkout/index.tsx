@@ -1,9 +1,9 @@
 import { send } from 'emailjs-com';
 import { useForm } from 'react-hook-form';
-import { Order } from '@prisma/client';
 
 import { useCartItems } from '../../lib/hooks/useCartItems';
 import { trpc } from '../../utils/trpc';
+import { useState } from 'react';
 
 const checkoutDefaultValues = {
   address: 'Foo Address',
@@ -33,10 +33,21 @@ const Checkout = () => {
 
   const { cartItems } = useCartItems();
 
+  const [orderSent, setOrderSent] = useState(false);
+  const [orderId, setOrderId] = useState<string | null>();
 
-  // console.log('userLastOder', userLastOder.data);
-  // console.log('userAllOrders', userAllOrders.data);
-const create = trpc.order.create.useMutation();
+  const { isLoading: orderHasNotBeenResolved, data: orderData } = trpc.order.getById.useQuery(
+    { id: orderId },
+    {
+      enabled: !!orderId,
+      onSuccess: () => {
+        console.log(
+          // eslint-disable-next-line max-len
+          'getByOrderId has been resolved, you can do something outside of the hook - the data is not available here though'
+        );
+      },
+    }
+  );
 
   const createOrder = trpc.order.create.useMutation({
     onMutate: async (values) => {
@@ -46,9 +57,8 @@ const create = trpc.order.create.useMutation();
 
     onSuccess: async (data, variables, context) => {
       // do stuff after mutation success
+      setOrderSent(true);
     },
-
-
 
     onError: (err, values, context) => {
       // rollback?
@@ -60,7 +70,6 @@ const create = trpc.order.create.useMutation();
   });
 
   const handleFormSubmit = async (data: CheckoutFormValues) => {
-
     // tried with with mutateAsync but received undefined
     const { mutateAsync } = createOrder;
     const res = await mutateAsync({
@@ -78,30 +87,37 @@ const create = trpc.order.create.useMutation();
         phone: data.phone,
       },
     });
-    console.log('successful ', res);
 
-          // send(
-      //   process.env.EMAILJS_SERVICE_ID as string,
-      //   process.env.EMAILJS_TEMPLATE_ID as string,
-      //   {
-      //     // update email body with the order details and real user details
-      //     message_html: 'test',
-      //     to_name: 'Buyer',
-      //     to_email: 'esponges@gmail.com',
-      //     from_name: 'cool shop',
-      //     reply_to: process.env.EMAILJS_FROM_EMAIL as string,
-      //   },
-      //   process.env.EMAILJS_USER_ID_PUBLIC_KEY as string
-      // )
-      //   .then((response) => {
-      //     console.log('SUCCESS!', response.status, response.text);
-      //   })
-      //   .catch((err) => {
-      //     console.log('FAILED...', err);
-      //   });
-      
-    // clear cart after order is created
-    // and redirect to success page etc
+    if (res && res.id) {
+      // opt 1: add order id and send email on rerender (not ideal)
+      setOrderId(res.id);
+
+      // opt 2: send email here with the data that we have from the
+      // form, mutateAsync and the store state (better)
+      send(
+        process.env.EMAILJS_SERVICE_ID as string,
+        process.env.EMAILJS_TEMPLATE_ID as string,
+        {
+          // update email body with the order details and real user details
+          message_html: 'test',
+          to_name: 'Buyer',
+          to_email: 'foobar@gmail.com',
+          from_name: 'cool shop',
+          reply_to: process.env.EMAILJS_FROM_EMAIL as string,
+        },
+        process.env.EMAILJS_USER_ID_PUBLIC_KEY as string
+      )
+        .then((response) => {
+          console.log('SUCCESS!', response.status, response.text);
+          // probably redirect to order confirmation page
+        })
+        .catch((err) => {
+          console.log('FAILED...', err);
+          // show feedback to user of some of error
+        });
+    } else {
+      // show error to user
+    }
   };
 
   return (
@@ -147,6 +163,20 @@ const create = trpc.order.create.useMutation();
           Proceed and pay
         </button>
       </form>
+      <div className="mt-10">
+        <h2 className="mb-5">Order summary</h2>
+        <div className="grid grid-cols-2">
+          <div className="flex flex-col">
+            {orderSent ? (
+              <div className="text-success">Order sent successfully</div>
+            ) : (
+              <div className="text-danger">Order not sent</div>
+            )}
+            <div className="text-primary">Order items</div>
+            <div className="text-primary">Order details</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
