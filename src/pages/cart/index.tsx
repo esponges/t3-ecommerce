@@ -17,6 +17,9 @@ const Cart = () => {
       <div>Total price: ${cartTotal}</div>
       <div className='mt-10'>
         <Link href="/checkout">
+          {/* to do: don't allow non auth users to
+          go to the checkout, make them login and 
+          then redirect them after login */}
           <a>Go to checkout</a>
         </Link>
       </div>
