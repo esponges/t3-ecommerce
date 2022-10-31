@@ -33,6 +33,8 @@ const Checkout = () => {
 
   const { cartItems } = useCartItems();
 
+  const utils = trpc.useContext();
+
   const [orderSent, setOrderSent] = useState(false);
   const [orderId, setOrderId] = useState<string | null>();
 
@@ -53,19 +55,28 @@ const Checkout = () => {
     onMutate: async (values) => {
       // optimistic update
       // mutation about to happen
+      // you can do something like this
+      utils.order.getAll.cancel();
+      const optimisticOrders = utils.order.getAll.getData();
+
+      if (optimisticOrders) {
+        utils.order.getAll.setData(optimisticOrders);
+      }
     },
 
     onSuccess: async (data, variables, context) => {
       // do stuff after mutation success
       setOrderSent(true);
+
     },
 
     onError: (err, values, context) => {
       // rollback?
     },
     onSettled: () => {
-      // Error or success... doesn't matter!
-      // queryClient.invalidateQueries('order.getAll');
+      // Error or success... doesn't matter! 
+      // refetch the query
+      utils.order.getAll.invalidate();
     },
   });
 
@@ -78,7 +89,6 @@ const Checkout = () => {
         productId: item.id,
         quantity: item.quantity,
       })),
-      // todo: figure out why array in Order model
       orderDetail: {
         address: data.address,
         city: data.city,
