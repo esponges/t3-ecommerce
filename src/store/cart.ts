@@ -37,4 +37,20 @@ export const useCartStore = create<CartState>((set) => ({
       return updatedCart;
     });
   },
+  removeFromCart: (productId: string) => {
+    set((state) => {
+      const updatedCart = {
+        items: {
+          ...state.items,
+        },
+      };
+
+      delete updatedCart.items[productId];
+
+      // persist cart to local storage
+      localStorage.setItem('cart', JSON.stringify(updatedCart.items));
+
+      return updatedCart;
+    });
+  }
 }));
