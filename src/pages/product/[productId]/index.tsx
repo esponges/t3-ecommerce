@@ -1,6 +1,4 @@
 import { useRouter } from 'next/router';
-import { ReactElement, useState } from 'react';
-import { MainLayout } from '../../../components/layouts/main';
 import { useCartStore } from '../../../store/cart';
 import { trpc } from '../../../utils/trpc';
 
@@ -48,10 +46,6 @@ const ProductDetails = () => {
       </button>
     </div>
   );
-};
-
-ProductDetails.getLayout = function getLayout(page: ReactElement) {
-  return <MainLayout>{page}</MainLayout>;
 };
 
 export default ProductDetails;

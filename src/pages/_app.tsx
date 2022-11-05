@@ -7,6 +7,7 @@ import type { AppType, AppProps } from 'next/app';
 import { trpc } from '../utils/trpc';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ReactNode, ReactElement } from 'react';
+import { MainLayout } from '../components/layouts/main';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -24,7 +25,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }: AppPropsWithLayout) => {
-  const getLayout = Component.getLayout || ((page) => page);
+  const getLayout = Component.getLayout || ((page) => (<MainLayout>{page}</MainLayout>));
   const layout = getLayout(<Component {...pageProps} />);
 
   return (

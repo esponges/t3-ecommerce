@@ -1,6 +1,4 @@
 import Link from 'next/link';
-import { ReactElement } from 'react';
-import { MainLayout } from '../../components/layouts/main';
 import { useCartItems } from '../../lib/hooks/useCartItems';
 
 const Cart = () => {
@@ -32,10 +30,6 @@ const Cart = () => {
       </div>
     </div>
   );
-};
-
-Cart.getLayout = function getLayout(page: ReactElement) {
-  return <MainLayout>{page}</MainLayout>
 };
 
 export default Cart;

@@ -1,7 +1,5 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { ReactElement } from 'react';
-import { MainLayout } from '../components/layouts/main';
 import { trpc } from '../utils/trpc';
 
 const Home = () => {
@@ -37,10 +35,6 @@ const Home = () => {
       </main>
     </>
   );
-};
-
-Home.getLayout = function getLayout(page: ReactElement) {
-  return <MainLayout>{page}</MainLayout>;
 };
 
 export default Home;
