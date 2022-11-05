@@ -1,9 +1,11 @@
 import { send } from 'emailjs-com';
 import { useForm } from 'react-hook-form';
+import { ReactElement } from 'react';
 
 import { useCartItems } from '../../lib/hooks/useCartItems';
 import { trpc } from '../../utils/trpc';
 import { useState } from 'react';
+import { ProtectedLayout } from '../../components/layouts/protected';
 
 const checkoutDefaultValues = {
   address: 'Foo Address',
@@ -189,6 +191,10 @@ const Checkout = () => {
       </div>
     </div>
   );
+};
+
+Checkout.getLayout = function getLayout(page: ReactElement) {
+  return <ProtectedLayout>{page}</ProtectedLayout>
 };
 
 export default Checkout;
