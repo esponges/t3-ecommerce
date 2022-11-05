@@ -38,6 +38,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) =>
     <button
       onClick={onClick}
       ref={ref}
+      // eslint-disable-next-line max-len
       className={`rounded border border-gray-400 bg-white py-2 px-4 font-semibold text-gray-800 shadow hover:bg-gray-100 ${extraClassName}`}
     >
       {children}

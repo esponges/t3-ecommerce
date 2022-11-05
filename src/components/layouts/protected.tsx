@@ -1,6 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { Header } from "./header";
 
 type Props = {
   children: React.ReactNode;
@@ -18,6 +19,7 @@ export const ProtectedLayout = ({ children }: Props) => {
 
   return (
     <div className="min-h-screen bg-gray-100">
+      <Header />
       <main>{children}</main>
     </div>
   );
