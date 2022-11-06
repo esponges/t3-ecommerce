@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { ProductCard } from '../../../components/molecules/productCard';
 import { useCartStore } from '../../../store/cart';
 import { trpc } from '../../../utils/trpc';
 
@@ -25,11 +26,11 @@ const ProductDetails = () => {
 
   return (
     <div className="px-10 py-5">
-      <h1>Product Details</h1>
-      <p>Product ID: {product?.id}</p>
-      <p>Product Name: {product?.name}</p>
-      <p>Product Description: {product?.description}</p>
-      <p>Product Price: {product?.price}</p>
+      <ProductCard
+        name={product?.name}
+        price={product?.price}
+        description={product?.description}
+      />
       <p>In the cart {itemCartCount}</p>
       <div className="mt-5">
         <p>
