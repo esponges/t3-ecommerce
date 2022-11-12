@@ -33,6 +33,9 @@ export const ProductCarousel = ({ categoryId, categoryName }: Props) => {
   };
 
   const toShow = data?.pages[page]?.items;
+  // figure out last page
+  const nextCursor = data?.pages[page]?.nextCursor;
+
   return (
     <div className="flex flex-col items-center justify-center">
       <h2 className="text-2xl font-bold text-gray-700">{categoryName ?? 'Products'}</h2>
@@ -47,9 +50,11 @@ export const ProductCarousel = ({ categoryId, categoryName }: Props) => {
           />
         ))}
       </div>
-      <Button variant="primary" extraClassName="mt-2" onClick={handleFetchNextPage}>
-        More
-      </Button>
+      {nextCursor && (
+        <Button variant="primary" extraClassName="mt-2" onClick={handleFetchNextPage}>
+          More
+        </Button>
+      )}
       {page > 0 && (
         <Button variant="primary" extraClassName="mt-2" onClick={handleFetchPreviousPage}>
           Previous
