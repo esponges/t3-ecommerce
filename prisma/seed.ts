@@ -3,6 +3,7 @@ import { createLoremIpsum, getRandomNumber } from '../src/lib/utils';
 const prisma = new PrismaClient();
 
 async function main() {
+  // remove if you want to keep the existing data
   await prisma.product.deleteMany();
 
   // seed 10 products
