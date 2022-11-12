@@ -1,24 +1,10 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import { ProductCarousel } from '../components/organisms/productCarousel';
 import { trpc } from '../utils/trpc';
 
 const Home = () => {
   const { data: products, isLoading } = trpc.product.getAll.useQuery();
-  const { data, fetchNextPage, fetchPreviousPage } = trpc.product.getBatch.useInfiniteQuery({
-    limit: 5,
-  }, {
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
-  });
-
-  console.log('data', data?.pages);
-
-  const handleFetchNextPage = () => {
-    fetchNextPage();
-  };
-
-  const handleFetchPreviousPage = () => {
-    fetchPreviousPage();
-  };
 
   return (
     <>
@@ -42,25 +28,12 @@ const Home = () => {
               </Link>
             </li>
           ))}
+          <ProductCarousel />
         </ul>
         <h3 className="mt-4 text-lg text-gray-600">You can also check the cart:</h3>
         <Link href="/cart">
           <a className="mt-2 text-sm text-violet-500 underline decoration-dotted underline-offset-2">Go to Cart</a>
         </Link>
-        {/* fetchNextPage btn */}
-        <button
-          className="mt-4 px-4 py-2 bg-violet-500 text-white rounded-md"
-          onClick={handleFetchNextPage}
-        >
-          Fetch Next Page
-        </button>
-        {/* fetchPreviousPage btn */}
-        <button
-          className="mt-4 px-4 py-2 bg-violet-500 text-white rounded-md"
-          onClick={handleFetchPreviousPage}
-        >
-          Fetch Previous Page
-        </button>
       </main>
     </>
   );
