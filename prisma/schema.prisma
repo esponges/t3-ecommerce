@@ -69,7 +69,7 @@ model Product {
     name        String
     description String
     discount    Float
-    categoryId  String
+    categoryId  Int
     price       Float
     image       String
     createdAt   DateTime @default(now())
