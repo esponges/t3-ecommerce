@@ -38,7 +38,13 @@ export const ProductCarousel = ({ categoryId, categoryName }: Props) => {
       <h2 className="text-2xl font-bold text-gray-700">{categoryName ?? 'Products'}</h2>
       <div className="mt-4 flex flex-row gap-4">
         {toShow?.map((product) => (
-          <ProductCard key={product.id} name={product.name} description={product.description} price={product.price} />
+          <ProductCard
+            key={product.id}
+            name={product.name}
+            image={product.image}
+            description={product.description}
+            price={product.price}
+          />
         ))}
       </div>
       <Button variant="primary" extraClassName="mt-2" onClick={handleFetchNextPage}>

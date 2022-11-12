@@ -24,4 +24,7 @@ export default defineNextConfig({
     EMAILJS_USER_ID_PUBLIC_KEY: process.env.EMAILJS_USER_ID_PUBLIC_KEY,
     EMAILJS_FROM_EMAIL: process.env.EMAILJS_FROM_EMAIL,
   },
+  images: {
+    domains: ["raw.githubusercontent.com"],
+  },
 });

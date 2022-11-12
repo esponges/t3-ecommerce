@@ -1,5 +1,6 @@
 import { Product } from '@prisma/client';
 import Image from 'next/image';
+import { Button } from '../atoms/button';
 
 export const ProductCard = ({ name, price, description, image }: Partial<Product>) => {
   return (
@@ -27,7 +28,14 @@ export const ProductCard = ({ name, price, description, image }: Partial<Product
           </h3>
           <p className="mt-1 text-sm text-gray-500">{description}</p>
         </div>
-        <p className="text-sm font-medium text-gray-900">{price}</p>
+        <div>
+          <p className="text-sm font-medium text-gray-900 text-right">{price}</p>
+          {/* add to cart */}
+          <Button
+            variant='primary'
+            extraClassName='mt-2'
+          >Add</Button>
+        </div>
       </div>
     </div>
   );
