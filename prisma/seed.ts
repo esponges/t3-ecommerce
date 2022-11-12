@@ -7,7 +7,7 @@ async function main() {
   await prisma.product.deleteMany();
 
   // seed 10 products
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 30; i++) {
     const product = await prisma.product.create({
       data: {
         name: createLoremIpsum().generateWords(2),
