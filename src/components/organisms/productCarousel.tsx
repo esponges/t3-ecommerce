@@ -15,7 +15,7 @@ export const ProductCarousel = ({ category }: Props) => {
   const { data, fetchNextPage } = trpc.product.getBatch.useInfiniteQuery(
     {
       // todo: make this limit depending on the screen size
-      limit: 5,
+      limit: 4,
       categoryId: category?.id,
     },
     {
@@ -37,7 +37,7 @@ export const ProductCarousel = ({ category }: Props) => {
   const nextCursor = data?.pages[page]?.nextCursor;
 
   return (
-    <div className="relative flex flex-col items-center justify-center px-7">
+    <div className="relative flex flex-col items-center justify-center md:px-12 mt-6">
       <h2 className="text-2xl font-bold text-gray-700">{category?.name ?? 'Products'}</h2>
       <div className="mt-4 flex flex-row gap-4">
         {toShow?.map((product) => (
