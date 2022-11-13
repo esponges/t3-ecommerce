@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { ProductSearchbar } from '../components/molecules/ProductSearchbar';
 import { ProductCarousel } from '../components/organisms/productCarousel';
 import { trpc } from '../utils/trpc';
 
@@ -15,7 +16,8 @@ const Home = () => {
 
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
         <h1 className="text-4xl font-bold text-gray-700">Welcome to our store!</h1>
-        <p className="text-lg text-gray-600">The are the following products in the DB:</p>
+        <h3 className="text-xl font-bold text-gray-700 mt-6">What are you looking for?</h3>
+        <ProductSearchbar />
         <ul className="flex flex-col gap-4 mt-4">
           {isLoading && <p>Loading items...</p>}
           {categories?.length && (

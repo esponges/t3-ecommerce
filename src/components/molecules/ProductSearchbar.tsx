@@ -1,8 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { debounce } from "../../lib/utils";
+import { trpc } from "../../utils/trpc";
 
-export const Searchbar = ({ extraClassName = '' }) => {
+export const ProductSearchbar = ({ extraClassName = '' }) => {
   const [search, setSearch] = useState('');
+  const { data, refetch } = trpc.product.search.useQuery({
+    name: search,
+    limit: 2,
+  });
+
+  // refetch data during rerender
+  useEffect(() => {
+    refetch();
+  }, [search, refetch]);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -11,6 +21,7 @@ export const Searchbar = ({ extraClassName = '' }) => {
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
+    console.log(e.target.value, search);
   };
   const handleDebouncedSearch = debounce(handleInputChange, 500);
 
@@ -19,8 +30,6 @@ export const Searchbar = ({ extraClassName = '' }) => {
       <div className={`relative ${extraClassName}`}>
         <input
           type="text"
-          name="search"
-          id="search"
           className="bg-gray-200 focus:ring-indigo-500 focus:border-indigo-500 
             block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
           placeholder="Search"

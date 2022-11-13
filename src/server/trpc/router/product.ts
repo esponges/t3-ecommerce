@@ -59,6 +59,15 @@ export const productRouter = t.router({
     )
     .query(async({ ctx, input }) => {
       const { limit, skip, name, cursor } = input;
+
+      // avoid empty search due to useQuery refetch()
+      if (!name) {
+        return {
+          items: [],
+          nextCursor: undefined,
+        };
+      }
+
       const items = await ctx.prisma.product.findMany({
         take: limit + 1,
         skip: skip,
