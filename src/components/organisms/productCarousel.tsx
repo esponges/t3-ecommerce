@@ -3,6 +3,7 @@ import { Category } from '@prisma/client';
 import { trpc } from '../../utils/trpc';
 
 import { ProductCard } from '../molecules/productCard';
+import Image from 'next/image';
 
 type Props = {
   category?: Category;
@@ -57,7 +58,7 @@ export const ProductCarousel = ({ category }: Props) => {
           type="button"
           onClick={handleFetchNextPage}
         >
-          <span>{' > '}</span>
+          <Image src="/arrow_forward.svg" width={50} height={50} layout="fixed" alt="next" />
         </button>
       )}
       {page > 0 && (
@@ -68,7 +69,7 @@ export const ProductCarousel = ({ category }: Props) => {
           type="button"
           onClick={handleFetchPreviousPage}
         >
-          <span>{' < '}</span>
+          <Image src="/arrow_back.svg" width={50} height={50} layout="fixed" alt="next" />
         </button>
       )}
     </div>
