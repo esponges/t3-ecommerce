@@ -7,7 +7,6 @@
   "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
-    "react/prop-types": 1,
     "max-len": ["warn", { "code": 120, "ignoreUrls": true, "ignoreRegExpLiterals": true }],
     "no-nested-ternary": "off",
     "func-names": "off",
@@ -28,8 +27,6 @@
     "react/jsx-no-bind": "off",
     "react/no-unstable-nested-components": ["warn", { "allowAsProps": true }],
     "react/button-has-type": "off",
-    "react/require-default-props": "off",
-    "react/jsx-no-duplicate-props": "off", // for InputProps in TextField @ mui
     "react/react-in-jsx-scope": "off",
     "react/jsx-wrap-multilines": ["warn", { "declaration": "parens-new-line", "assignment": "parens-new-line", "return": "parens-new-line", "arrow": "parens-new-line", "logical": "parens-new-line", "prop": "parens-new-line" }],
     "no-underscore-dangle": "off",
