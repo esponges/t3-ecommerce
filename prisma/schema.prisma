@@ -70,11 +70,21 @@ model Product {
     description String
     discount    Float
     categoryId  Int
+    category    Category @relation(fields: [categoryId], references: [id])
     price       Float
     image       String
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
     orderItem   OrderItem[]
+}
+
+model Category {
+    id          Int     @id @default(autoincrement())
+    name        String
+    description String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    product     Product[]
 }
 
 model OrderItem {

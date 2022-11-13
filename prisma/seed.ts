@@ -5,6 +5,19 @@ const prisma = new PrismaClient();
 async function main() {
   // remove if you want to keep the existing data
   await prisma.product.deleteMany();
+  await prisma.category.deleteMany();
+
+  const names: string[] = ['Electronics', 'Books', 'Clothing', 'Home', 'Toys'];
+  // create 5 categories
+  for (let i = 0; i < 5; i++) {
+    await prisma.category.create({
+      data: {
+        id: i + 1,
+        name: names[i] ?? createLoremIpsum(1).generateWords(1),
+        description: createLoremIpsum().generateSentences(1),
+      },
+    });
+  }
 
   // seed 10 products
   for (let i = 0; i < 30; i++) {
