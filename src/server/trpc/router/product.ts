@@ -46,4 +46,41 @@ export const productRouter = t.router({
         nextCursor,
       };
     }),
+    // search by name for the search bar
+    // debounce it ----
+    search: t.procedure
+    .input(
+      z.object({
+        limit: z.number(),
+        cursor: z.string().nullish(),
+        skip: z.number().optional(),
+        name: z.string().optional(),
+      })
+    )
+    .query(async({ ctx, input }) => {
+      const { limit, skip, name, cursor } = input;
+      const items = await ctx.prisma.product.findMany({
+        take: limit + 1,
+        skip: skip,
+        cursor: cursor ? { id: cursor } : undefined,
+        orderBy: {
+          id: 'asc',
+        },
+        where: {
+          name: {
+            contains: name ? name : undefined,
+          },
+        },
+      });
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (items.length > limit) {
+        const nextItem = items.pop();
+        nextCursor = nextItem?.id;
+      }
+      return {
+        items,
+        nextCursor,
+      };
+    }
+  ),
 });
