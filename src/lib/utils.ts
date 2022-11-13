@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { LoremIpsum } from "lorem-ipsum";
 import uniqueId from "lodash/uniqueId";
 
@@ -38,4 +39,12 @@ export const getRandomNonRepeatedIds = (qty: number) => {
     }
   }
   return ids;
+};
+
+export const debounce = (func: (...args: any[]) => void, wait: number) => {
+  let timeout: ReturnType<typeof setTimeout>;
+  return (...args: any[]) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  };
 };
