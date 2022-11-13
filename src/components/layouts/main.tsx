@@ -6,9 +6,9 @@ interface Props {
 
 export const MainLayout = ({ children }: Props) => {
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screenbg-gray-100">
       <Header />
-      <main>{children}</main>
+      <main className="mt-16">{children}</main>
     </div>
   )
 }

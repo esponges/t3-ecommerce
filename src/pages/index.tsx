@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Link from 'next/link';
 import { ProductCarousel } from '../components/organisms/productCarousel';
 import { trpc } from '../utils/trpc';
 
