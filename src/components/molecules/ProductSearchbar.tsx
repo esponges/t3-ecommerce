@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { debounce } from "../../lib/utils";
 import { trpc } from "../../utils/trpc";
@@ -23,7 +24,10 @@ export const ProductSearchbar = ({ extraClassName = '' }) => {
     setSearch(e.target.value);
     console.log(e.target.value, search);
   };
+
   const handleDebouncedSearch = debounce(handleInputChange, 500);
+
+  const toShow = data?.items;
 
   return (
     <form onSubmit={handleSearch}>
@@ -35,9 +39,22 @@ export const ProductSearchbar = ({ extraClassName = '' }) => {
           placeholder="Search"
           onChange={handleDebouncedSearch}
         />
-        {/* <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <SearchIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-        </div> */}
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <Image
+            src="/search.svg"
+            width={20}
+            height={20}
+            alt="search"
+          />
+        </div>
+        {/* todo: improve dropdown styling */}
+        <div className="absolute top-full left-0 right-0 z-10">
+          {toShow?.map((product) => (
+            <div key={product.id}>
+              {product.name}
+            </div>
+          ))}
+        </div>
       </div>
     </form>
   );
