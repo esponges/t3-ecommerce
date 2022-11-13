@@ -3,20 +3,20 @@ import { trpc } from '../../utils/trpc';
 
 import { ProductCard } from '../molecules/productCard';
 import { Button } from '../atoms/button';
+import { Category } from '@prisma/client';
 
 type Props = {
-  categoryId?: number;
-  categoryName?: number;
+  category?: Category;
 };
 
-export const ProductCarousel = ({ categoryId, categoryName }: Props) => {
+export const ProductCarousel = ({ category }: Props) => {
   const [page, setPage] = useState(0);
 
   const { data, fetchNextPage } = trpc.product.getBatch.useInfiniteQuery(
     {
       // todo: make this limit depending on the screen size
       limit: 5,
-      categoryId,
+      categoryId: category?.id
     },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
@@ -38,7 +38,7 @@ export const ProductCarousel = ({ categoryId, categoryName }: Props) => {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <h2 className="text-2xl font-bold text-gray-700">{categoryName ?? 'Products'}</h2>
+      <h2 className="text-2xl font-bold text-gray-700">{category?.name ?? 'Products'}</h2>
       <div className="mt-4 flex flex-row gap-4">
         {toShow?.map((product) => (
           <ProductCard

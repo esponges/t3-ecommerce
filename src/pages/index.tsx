@@ -4,7 +4,7 @@ import { ProductCarousel } from '../components/organisms/productCarousel';
 import { trpc } from '../utils/trpc';
 
 const Home = () => {
-  const { data: products, isLoading } = trpc.product.getAll.useQuery();
+  const { data: categories, isLoading } = trpc.category.getAll.useQuery();
 
   return (
     <>
@@ -19,21 +19,12 @@ const Home = () => {
         <p className="text-lg text-gray-600">The are the following products in the DB:</p>
         <ul className="flex flex-col gap-4 mt-4">
           {isLoading && <p>Loading items...</p>}
-          {products?.map((product) => (
-            <li key={product.id} className="flex flex-col gap-2">
-              <span className="text-lg font-bold text-gray-700">{product.name}</span>
-              <span className="text-sm text-gray-600">{product.description}</span>
-              <Link href={`/product/${product.id}`}>
-                <a className="text-sm text-violet-500 underline decoration-dotted underline-offset-2">View Product</a>
-              </Link>
-            </li>
-          ))}
-          <ProductCarousel />
+          {categories?.length && (
+            categories.map((category) => (
+              <ProductCarousel key={category.id} category={category} />
+            ))
+          )}
         </ul>
-        <h3 className="mt-4 text-lg text-gray-600">You can also check the cart:</h3>
-        <Link href="/cart">
-          <a className="mt-2 text-sm text-violet-500 underline decoration-dotted underline-offset-2">Go to Cart</a>
-        </Link>
       </main>
     </>
   );
