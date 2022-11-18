@@ -1,8 +1,17 @@
 {
   "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+      ],
+      "parserOptions": {
+        "project": "./tsconfig.json"
+      }
+    }
+  ],
   "plugins": ["@typescript-eslint"],
   "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
   "rules": {
@@ -43,6 +52,8 @@
     "implicit-arrow-linebreak": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "react/jsx-max-props-per-line": ["warn", { "maximum": 1, "when": "multiline" }]
+    "react/jsx-max-props-per-line": ["warn", { "maximum": 1, "when": "multiline" }],
+    "@typescript-eslint/no-misused-promises": "warn"
+    // "@typescript-eslint/no-floating-promises": "warn",
   }
 }
