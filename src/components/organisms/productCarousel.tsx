@@ -1,15 +1,18 @@
 import { useState } from 'react';
-import { Category } from '@prisma/client';
+import { Category, Product } from '@prisma/client';
 import { trpc } from '../../utils/trpc';
 
 import { ProductCard } from '../molecules/productCard';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 type Props = {
   category?: Category;
 };
 
 export const ProductCarousel = ({ category }: Props) => {
+  const router = useRouter();
+
   const [page, setPage] = useState(0);
 
   const { data, fetchNextPage } = trpc.product.getBatch.useInfiniteQuery(
@@ -33,6 +36,11 @@ export const ProductCarousel = ({ category }: Props) => {
     setPage((prev) => prev - 1);
   };
 
+  const handleCardClick = (id: Product['id']) => {
+    void router.push(`/product/${id}`);
+  };
+
+
   const toShow = data?.pages[page]?.items;
   // figure out last page
   const nextCursor = data?.pages[page]?.nextCursor;
@@ -48,6 +56,8 @@ export const ProductCarousel = ({ category }: Props) => {
             image={product.image}
             description={product.description}
             price={product.price}
+            id={product.id}
+            onClick={() => handleCardClick(product.id)}
           />
         ))}
       </div>
