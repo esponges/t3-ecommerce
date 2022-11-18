@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { ProductSearchbar } from '../components/molecules/ProductSearchbar';
+import { ProductSearchbar } from '../components/molecules/productSearchbar';
 import { ProductCarousel } from '../components/organisms/productCarousel';
 import { trpc } from '../utils/trpc';
 

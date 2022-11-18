@@ -13,7 +13,7 @@
     }
   ],
   "plugins": ["@typescript-eslint"],
-  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
+  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended", "plugin:@typescript-eslint/recommended"],
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
     "max-len": ["warn", { "code": 120, "ignoreUrls": true, "ignoreRegExpLiterals": true }],
@@ -27,7 +27,7 @@
       }
     ],
     "import/prefer-default-export": "off",
-    "no-console": "off",
+    // "no-console": "on",
     "no-unused-vars": "off", // off for typescript
     "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
     "default-param-last": "off",
@@ -37,7 +37,17 @@
     "react/no-unstable-nested-components": ["warn", { "allowAsProps": true }],
     "react/button-has-type": "off",
     "react/react-in-jsx-scope": "off",
-    "react/jsx-wrap-multilines": ["warn", { "declaration": "parens-new-line", "assignment": "parens-new-line", "return": "parens-new-line", "arrow": "parens-new-line", "logical": "parens-new-line", "prop": "parens-new-line" }],
+    "react/jsx-wrap-multilines": [
+      "warn",
+      {
+        "declaration": "parens-new-line",
+        "assignment": "parens-new-line",
+        "return": "parens-new-line",
+        "arrow": "parens-new-line",
+        "logical": "parens-new-line",
+        "prop": "parens-new-line"
+      }
+    ],
     "no-underscore-dangle": "off",
     "jsx-a11y/label-has-for": "off",
     "jsx-a11y/label-has-associated-control": "off",
@@ -53,7 +63,7 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react/jsx-max-props-per-line": ["warn", { "maximum": 1, "when": "multiline" }],
-    "@typescript-eslint/no-misused-promises": "warn"
-    // "@typescript-eslint/no-floating-promises": "warn",
+    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/no-floating-promises": "off"
   }
 }

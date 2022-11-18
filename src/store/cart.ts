@@ -2,14 +2,15 @@ import { Product } from '@prisma/client';
 import create from 'zustand';
 
 type Item = Product & { quantity: number };
-export type CartItems = { [key: string]: Item };
+export type CartItems = { [key: string]: Item } | Record<string, never>;
 interface CartState {
   items: CartItems;
   restoreCart: (cart: CartItems) => void;
   addToCart: (product: Product, quantity: number) => void;
 }
 
-const storageItems: CartItems = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('cart') || '{}') : {};
+const storageItems: CartItems =
+  typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('cart') || '{}') : {};
 
 export const useCartStore = create<CartState>((set) => ({
   items: storageItems,
@@ -52,5 +53,5 @@ export const useCartStore = create<CartState>((set) => ({
 
       return updatedCart;
     });
-  }
+  },
 }));

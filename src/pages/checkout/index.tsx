@@ -54,11 +54,11 @@ const Checkout = () => {
   );
 
   const createOrder = trpc.order.create.useMutation({
-    onMutate: async (values) => {
+    onMutate: async (_values) => {
       // optimistic update
       // mutation about to happen
       // you can do something like this
-      utils.order.getAll.cancel();
+      await utils.order.getAll.cancel();
       const optimisticOrders = utils.order.getAll.getData();
 
       if (optimisticOrders) {
@@ -66,23 +66,23 @@ const Checkout = () => {
       }
     },
 
-    onSuccess: async (data, variables, context) => {
+    onSuccess: (_data, _variables, _context) => {
       // do stuff after mutation success
       setOrderSent(true);
 
     },
 
-    onError: (err, values, context) => {
+    onError: (_err, _values, _context) => {
       // rollback?
     },
-    onSettled: () => {
+    onSettled: async () => {
       // Error or success... doesn't matter! 
       // refetch the query
-      utils.order.getAll.invalidate();
+      await utils.order.getAll.invalidate();
     },
   });
 
-  const handleFormSubmit = async (data: CheckoutFormValues) => {
+  const handleFormSubmit = (data: CheckoutFormValues) => void (async () => {
     // tried with with mutateAsync but received undefined
     const { mutateAsync } = createOrder;
     const res = await mutateAsync({
@@ -130,12 +130,12 @@ const Checkout = () => {
     } else {
       // show error to user
     }
-  };
+  })();
 
   return (
     <div className="px-10 py-5">
       <h1 className="mb-10">Checkout</h1>
-      <form onSubmit={handleSubmit(handleFormSubmit)} className="md:w-[50]">
+      <form onSubmit={void handleSubmit(handleFormSubmit)} className="md:w-[50]">
         <div className="mb-5 grid">
           <label htmlFor="address" className="form-label font-bold">
             Address

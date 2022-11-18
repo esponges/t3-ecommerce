@@ -26,11 +26,10 @@ export const ProductCarousel = ({ category }: Props) => {
     }
   );
 
-  const handleFetchNextPage = () =>
-    void (async () => {
-      await fetchNextPage();
-      setPage((prev) => prev + 1);
-    })();
+  const handleFetchNextPage = () => {
+    void fetchNextPage();
+    setPage((prev) => prev + 1);
+  };
 
   const handleFetchPreviousPage = () => {
     setPage((prev) => prev - 1);
@@ -39,7 +38,6 @@ export const ProductCarousel = ({ category }: Props) => {
   const handleCardClick = (id: Product['id']) => {
     void router.push(`/product/${id}`);
   };
-
 
   const toShow = data?.pages[page]?.items;
   // figure out last page
