@@ -23,10 +23,11 @@ export const ProductCarousel = ({ category }: Props) => {
     }
   );
 
-  const handleFetchNextPage = () => { void (async () => {
-    await fetchNextPage();
-    setPage((prev) => prev + 1);
-  })() };
+  const handleFetchNextPage = () =>
+    void (async () => {
+      await fetchNextPage();
+      setPage((prev) => prev + 1);
+    })();
 
   const handleFetchPreviousPage = () => {
     setPage((prev) => prev - 1);
@@ -37,7 +38,7 @@ export const ProductCarousel = ({ category }: Props) => {
   const nextCursor = data?.pages[page]?.nextCursor;
 
   return (
-    <div className="relative flex flex-col items-center justify-center md:px-12 mt-6">
+    <div className="relative mt-6 flex flex-col items-center justify-center md:px-12">
       <h2 className="text-2xl font-bold text-gray-700">{category?.name ?? 'Products'}</h2>
       <div className="mt-4 flex flex-row gap-4">
         {toShow?.map((product) => (
