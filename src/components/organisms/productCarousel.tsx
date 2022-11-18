@@ -23,10 +23,10 @@ export const ProductCarousel = ({ category }: Props) => {
     }
   );
 
-  const handleFetchNextPage = () => {
-    fetchNextPage();
+  const handleFetchNextPage = () => { void (async () => {
+    await fetchNextPage();
     setPage((prev) => prev + 1);
-  };
+  })() };
 
   const handleFetchPreviousPage = () => {
     setPage((prev) => prev - 1);

@@ -12,7 +12,10 @@ export const ProductSearchbar = ({ extraClassName = '' }) => {
 
   // refetch data during rerender
   useEffect(() => {
-    refetch();
+
+    const r = () => void (async () => refetch())();
+    r();
+    
   }, [search, refetch]);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
