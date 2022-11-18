@@ -18,6 +18,8 @@ export const productRouter = t.router({
     .input(
       z.object({
         limit: z.number(),
+        // cursor is a reference to the last item in the previous batch
+        // it's used to fetch the next batch
         cursor: z.string().nullish(),
         skip: z.number().optional(),
         categoryId: z.number().optional(),
@@ -38,8 +40,10 @@ export const productRouter = t.router({
       });
       let nextCursor: typeof cursor | undefined = undefined;
       if (items.length > limit) {
-        const nextItem = items.pop();
-        nextCursor = nextItem?.id;
+        // return the last item from the array
+        // and also remove it from items array
+        const nextItem = items.pop(); 
+        nextCursor = nextItem?.id;  
       }
       return {
         items,
