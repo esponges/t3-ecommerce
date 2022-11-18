@@ -9,7 +9,7 @@ export default withAuth(
   },
   {
     callbacks: {
-      authorized: async ({ req, token: _token }) => {
+      authorized: ({ req, token: _token }) => {
         // token always returning null
         // temporary workaround is to use req.cookies
 
