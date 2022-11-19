@@ -45,6 +45,7 @@ export const debounce = (func: (...args: any[]) => void, wait: number) => {
   let timeout: ReturnType<typeof setTimeout>;
   return (...args: any[]) => {
     clearTimeout(timeout);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     timeout = setTimeout(() => func(...args), wait);
   };
 };

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useCartStore, CartItems } from '../../store/cart';
+import { useCartStore } from '../../store/cart';
+import type { CartItems } from '../../store/cart';
 
 export const useCartItems = () => {
   const { items } = useCartStore((state) => state);

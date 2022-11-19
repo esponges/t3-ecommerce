@@ -6,7 +6,7 @@ import type { NextPage } from 'next';
 import type { AppType, AppProps } from 'next/app';
 import { trpc } from '../utils/trpc';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { ReactNode, ReactElement } from 'react';
+import type { ReactNode, ReactElement } from 'react';
 import { MainLayout } from '../components/layouts/main';
 
 // eslint-disable-next-line @typescript-eslint/ban-types

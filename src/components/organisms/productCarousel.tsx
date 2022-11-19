@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Category, Product } from '@prisma/client';
+import type { Category, Product } from '@prisma/client';
 import { trpc } from '../../utils/trpc';
 
 import { ProductCard } from '../molecules/productCard';
@@ -27,7 +27,7 @@ export const ProductCarousel = ({ category }: Props) => {
   );
 
   const handleFetchNextPage = () => {
-    void fetchNextPage();
+    fetchNextPage();
     setPage((prev) => prev + 1);
   };
 
@@ -36,7 +36,7 @@ export const ProductCarousel = ({ category }: Props) => {
   };
 
   const handleCardClick = (id: Product['id']) => {
-    void router.push(`/product/${id}`);
+    router.push(`/product/${id}`);
   };
 
   const toShow = data?.pages[page]?.items;

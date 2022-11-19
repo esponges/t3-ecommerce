@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { send } from 'emailjs-com';
 import { useForm } from 'react-hook-form';
-import { ReactElement } from 'react';
+import type { ReactElement } from 'react';
 
 import { useCartItems } from '../../lib/hooks/useCartItems';
 import { trpc } from '../../utils/trpc';

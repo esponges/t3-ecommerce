@@ -12,6 +12,7 @@
   "rules": {
     "@typescript-eslint/consistent-type-imports": "warn",
     "@typescript-eslint/no-inferrable-types": "off",
-    "@typescript-eslint/no-floating-promises": "off"
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/no-misused-promises": "off",
   }
 }
