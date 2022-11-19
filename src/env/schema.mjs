@@ -12,6 +12,10 @@ export const serverSchema = z.object({
   NEXTAUTH_URL: z.string().url(),
   DISCORD_CLIENT_ID: z.string(),
   DISCORD_CLIENT_SECRET: z.string(),
+  EMAILJS_SERVICE_ID: z.string(),
+  EMAILJS_TEMPLATE_ID: z.string(),
+  EMAILJS_USER_ID_PUBLIC_KEY: z.string(),
+  EMAILJS_FROM_EMAIL: z.string(),
 });
 
 /**
