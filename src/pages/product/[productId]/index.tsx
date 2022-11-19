@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+
 import { ProductCard } from '../../../components/molecules/productCard';
 import { useCartStore } from '../../../store/cart';
 import { trpc } from '../../../utils/trpc';
@@ -10,13 +10,12 @@ const ProductDetails = () => {
 
   const { data: product, isLoading } = trpc.product.getById.useQuery({ id });
 
-  const { addToCart, items } = useCartStore((state) => state);
-  const itemCartCount = items[id]?.quantity || 0;
-  const [count, setCount] = useState(1);
+  const { addToCart } = useCartStore((state) => state);
 
-  const handleAddToCart = () => {
+
+  const handleAddToCart = (qty: number) => {
     if (product) {
-      addToCart(product, count);
+      addToCart(product, qty);
     }
   };
 
@@ -30,19 +29,10 @@ const ProductDetails = () => {
         name={product?.name}
         price={product?.price}
         description={product?.description}
+        fullWidth
+        showDetailsBtn={false}
+        onAddToCart={handleAddToCart}
       />
-      <p>In the cart {itemCartCount}</p>
-      <div className="mt-5">
-        <p>
-          Quantity: {count}{' '}
-          <span>
-            <button onClick={() => setCount(count + 1)}>Add +</button>
-          </span>
-        </p>
-        <button className="mt-1" onClick={handleAddToCart}>
-          Add to cart
-        </button>
-      </div>
       <button className="mt-5" onClick={() => router.push('/')}>
         Go back
       </button>
