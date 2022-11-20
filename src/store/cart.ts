@@ -1,7 +1,7 @@
 import { Product } from '@prisma/client';
 import create from 'zustand';
 
-type Item = Product & { quantity: number };
+export type Item = Product & { quantity: number };
 export type CartItems = { [key: string]: Item } | Record<string, never>;
 interface CartState {
   items: CartItems;

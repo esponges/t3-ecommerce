@@ -1,7 +1,6 @@
 import { forwardRef } from 'react';
-import type { ButtonHTMLAttributes } from 'react';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?: () => void;
   children: React.ReactNode;
   variant: 'primary' | 'secondary' | 'link';
