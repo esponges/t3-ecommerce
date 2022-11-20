@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   getCoreRowModel,
   useReactTable,
@@ -7,11 +8,15 @@ import {
 } from '@tanstack/react-table';
 import type { ColumnDef } from '@tanstack/react-table';
 
+import { DebouncedInput } from '../atoms/debouncedItem';
+import { genericFilter } from '../../lib/table';
+
 interface ReactTableProps<T extends object> {
   data: T[];
   columns: ColumnDef<T>[];
   showFooter?: boolean;
   showNavigation?: boolean;
+  showGlobalFilter?: boolean;
 }
 
 export const Table = <T extends object>({
@@ -19,14 +24,25 @@ export const Table = <T extends object>({
   columns,
   showFooter = true,
   showNavigation = true,
+  showGlobalFilter = false,
 }: ReactTableProps<T>) => {
+  const [globalFilter, setGlobalFilter] = useState('');
+
   const table = useReactTable({
     data,
     columns,
+    state: {
+      globalFilter
+    },
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     debugTable: true,
+    onGlobalFilterChange: setGlobalFilter,
+    filterFns: {
+      fuzzy: genericFilter
+    },
+    globalFilterFn: genericFilter,
   });
 
   return (
@@ -34,6 +50,14 @@ export const Table = <T extends object>({
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-4 sm:px-6 lg:px-8">
           <div className="overflow-hidden p-2">
+            {showGlobalFilter ? (
+              <DebouncedInput
+                value={globalFilter ?? ''}
+                onChange={(value) => setGlobalFilter(String(value))}
+                className="font-lg border-block border p-2 shadow"
+                placeholder="Search all columns..."
+              />
+            ) : null}
             <table className="min-w-full text-center">
               <thead className="border-b bg-gray-50">
                 {table.getHeaderGroups().map((headerGroup) => (
@@ -75,7 +99,7 @@ export const Table = <T extends object>({
             </table>
             {showNavigation ? (
               <>
-                <div className="h-2 mt-5" />
+                <div className="mt-5 h-2" />
                 <div className="flex items-center gap-2">
                   <button
                     className="cursor-pointer rounded border p-1"
