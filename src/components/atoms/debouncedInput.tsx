@@ -16,7 +16,6 @@ export const DebouncedInput = ({ value: initialValue, onChange, debounce = 300, 
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      console.log('on change', value);
       onChange(value);
     }, debounce);
 

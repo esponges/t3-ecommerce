@@ -8,7 +8,7 @@ import {
 } from '@tanstack/react-table';
 import type { ColumnDef } from '@tanstack/react-table';
 
-import { DebouncedInput } from '../atoms/debouncedItem';
+import { DebouncedInput } from '../atoms/debouncedInput';
 import { genericFilter } from '../../lib/table';
 
 interface ReactTableProps<T extends object> {
@@ -40,7 +40,7 @@ export const Table = <T extends object>({
     debugTable: true,
     onGlobalFilterChange: setGlobalFilter,
     filterFns: {
-      fuzzy: genericFilter
+      generic: genericFilter
     },
     globalFilterFn: genericFilter,
   });
@@ -54,7 +54,7 @@ export const Table = <T extends object>({
               <DebouncedInput
                 value={globalFilter ?? ''}
                 onChange={(value) => setGlobalFilter(String(value))}
-                className="font-lg border-block border p-2 shadow"
+                className="font-lg border-block border p-2 shadow mb-2"
                 placeholder="Search all columns..."
               />
             ) : null}
