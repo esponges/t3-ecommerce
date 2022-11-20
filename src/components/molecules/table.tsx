@@ -1,12 +1,10 @@
-import { getCoreRowModel, useReactTable, flexRender, createColumnHelper } from '@tanstack/react-table';
+import { getCoreRowModel, useReactTable, flexRender } from '@tanstack/react-table';
 import type { ColumnDef } from '@tanstack/react-table';
 
 interface ReactTableProps<T extends object> {
   data: T[];
   columns: ColumnDef<T>[];
 }
-
-export const columnHelper = <T extends object>() => createColumnHelper<T>();
 
 export const Table = <T extends object>({ data, columns }: ReactTableProps<T>) => {
   const table = useReactTable({
@@ -17,7 +15,7 @@ export const Table = <T extends object>({ data, columns }: ReactTableProps<T>) =
 
   return (
     <div className="p-2">
-      <table>
+      <table className='border'>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>

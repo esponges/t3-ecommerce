@@ -1,56 +1,50 @@
-import { info } from 'console';
+import { useMemo } from 'react';
 import Link from 'next/link';
-import { columnHelper, Table } from '../../components/molecules/table';
+
+import type { ColumnDef } from '@tanstack/react-table';
+
+import { Table } from '../../components/molecules/table';
 import { useCartItems } from '../../lib/hooks/useCartItems';
 import type { Item as CartItem } from '../../store/cart';
+
+export type Item = Pick<CartItem, 'name' | 'price' | 'quantity'>;
 
 const Cart = () => {
   const { cartItems, cartTotal } = useCartItems();
 
-  const tableItems = Object.values(cartItems).map(({ name, price, quantity }) => ({
+  const tableItems: Item[] = Object.values(cartItems).map(({ name, price, quantity }) => ({
     name,
     price,
     quantity,
   }));
 
-  // const helper = columnHelper<Partial<CartItem>>();
-  // const columns = [
-  //   helper.accessor("name", {
-  //     header: "Name",
-  //     cell: (row) => row.renderValue(),
-  //   }),
-  //   helper.accessor("price", {
-  //     header: "Price",
-  //     cell: (row) => row.renderValue(),
-  //   }),
-  //   helper.accessor("quantity", {
-  //     header: "Quantity",
-  //     cell: (row) => row.renderValue(),
-  //   }),
-  // ];
-
-  const columns = [
-    {
-      Header: 'Name',
-      accessorKey: 'name',
-    },
-    {
-      Header: 'Price',
-      accessorKey: 'price',
-    },
-    {
-      Header: 'Quantity',
-      accessorKey: 'quantity',
-    },
-  ];
-
+  const cols = useMemo<ColumnDef<Item>[]>(
+    () => [
+      {
+        header: 'Name',
+        cell: (row) => row.renderValue(),
+        accessor: 'name',
+      },
+      {
+        header: 'Price',
+        cell: (row) => row.renderValue(),
+        accessor: 'price',
+      },
+      {
+        header: 'Quantity',
+        cell: (row) => row.renderValue(),
+        accessor: 'quantity',
+      },
+    ],
+    []
+  );
 
   return (
     <div className="px-10 py-5">
       <h1>Cart</h1>
       <Table
         data={tableItems}
-        columns={columns}
+        columns={cols}
       />
       <ul>
         {Object.entries(cartItems).map(([id, item]) => (
