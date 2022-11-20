@@ -7,33 +7,33 @@ import { Table } from '../../components/molecules/table';
 import { useCartItems } from '../../lib/hooks/useCartItems';
 import type { Item as CartItem } from '../../store/cart';
 
-export type Item = Pick<CartItem, 'name' | 'price' | 'quantity'>;
+export type TableItem = Pick<CartItem, 'name' | 'price' | 'quantity'>;
 
 const Cart = () => {
   const { cartItems, cartTotal } = useCartItems();
 
-  const tableItems: Item[] = Object.values(cartItems).map(({ name, price, quantity }) => ({
+  const tableItems: TableItem[] = Object.values(cartItems).map(({ name, price, quantity }) => ({
     name,
     price,
     quantity,
   }));
 
-  const cols = useMemo<ColumnDef<Item>[]>(
+  const cols = useMemo<ColumnDef<TableItem>[]>(
     () => [
       {
         header: 'Name',
         cell: (row) => row.renderValue(),
-        accessor: 'name',
+        accessorKey: 'name',
       },
       {
         header: 'Price',
         cell: (row) => row.renderValue(),
-        accessor: 'price',
+        accessorKey: 'price',
       },
       {
         header: 'Quantity',
         cell: (row) => row.renderValue(),
-        accessor: 'quantity',
+        accessorKey: 'quantity',
       },
     ],
     []
