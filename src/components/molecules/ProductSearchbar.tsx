@@ -4,6 +4,7 @@ import debounce from 'lodash/debounce';
 
 import { trpc } from '../../utils/trpc';
 import { useMemo } from 'react';
+import Link from 'next/link';
 
 export const ProductSearchbar = ({ extraClassName = '' }) => {
   const [search, setSearch] = useState('');
@@ -20,7 +21,6 @@ export const ProductSearchbar = ({ extraClassName = '' }) => {
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSearch('');
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +33,7 @@ export const ProductSearchbar = ({ extraClassName = '' }) => {
   useEffect(() => {
     return () => {
       debouncedHandleInputChange.cancel();
-    }
+    };
   }, [debouncedHandleInputChange]);
 
   const toShow = data?.items;
@@ -51,11 +51,20 @@ export const ProductSearchbar = ({ extraClassName = '' }) => {
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
           <Image src="/search.svg" width={20} height={20} alt="search" />
         </div>
-        {/* todo: improve dropdown styling */}
         <div className="absolute top-full left-0 right-0 z-10">
-          {toShow?.map((product) => (
-            <div key={product.id}>{product.name}</div>
-          ))}
+          {toShow && toShow.length > 0 ? (
+            <ul className="rounded-md border border-gray-300 bg-white">
+              {toShow.map((product) => (
+                <li key={product.id}>
+                  <Link href={`/product/${product.id}`}>
+                    <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      {product.name}
+                    </a>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
       </div>
     </form>
