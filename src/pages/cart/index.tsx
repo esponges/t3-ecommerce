@@ -1,11 +1,14 @@
+
 import { useMemo } from 'react';
-import Link from 'next/link';
 
 import type { ColumnDef } from '@tanstack/react-table';
+import type { Item as CartItem } from '../../store/cart';
+
+import { useCartItems } from '../../lib/hooks/useCartItems';
 
 import { Table } from '../../components/molecules/table';
-import { useCartItems } from '../../lib/hooks/useCartItems';
-import type { Item as CartItem } from '../../store/cart';
+import { Button } from '../../components/atoms/button';
+import { Header } from '../../components/atoms/header';
 
 export type TableItem = Pick<CartItem, 'name' | 'price' | 'quantity'>;
 
@@ -16,6 +19,7 @@ const Cart = () => {
     name,
     price,
     quantity,
+    cartTotal,
   }));
 
   const cols = useMemo<ColumnDef<TableItem>[]>(
@@ -24,11 +28,13 @@ const Cart = () => {
         header: 'Name',
         cell: (row) => row.renderValue(),
         accessorKey: 'name',
+        footer: 'Total',
       },
       {
         header: 'Price',
         cell: (row) => row.renderValue(),
         accessorKey: 'price',
+        footer: () => cartTotal,
       },
       {
         header: 'Quantity',
@@ -36,36 +42,20 @@ const Cart = () => {
         accessorKey: 'quantity',
       },
     ],
-    []
+    [cartTotal]
   );
 
   return (
-    <div className="px-10 py-5">
-      <h1>Cart</h1>
-      <Table
-        data={tableItems}
-        columns={cols}
-      />
-      <ul>
-        {Object.entries(cartItems).map(([id, item]) => (
-          <li key={id}>
-            {item.name} - {item.price} - {item.quantity}
-          </li>
-        ))}
-      </ul>
-      <div>Total price: ${cartTotal}</div>
-      <div className="mt-10">
-        <Link href="/checkout">
-          {/* to do: don't allow non auth users to
-          go to the checkout, make them login and 
-          then redirect them after login */}
-          <a>Go to checkout</a>
-        </Link>
-      </div>
-      <div className="mt-5">
-        <Link href="/">
-          <a>Go back</a>
-        </Link>
+    <div className="px-10 py-5 md:w-1/2 m-auto">
+      <Header>Cart Items</Header>
+      <Table data={tableItems} columns={cols} showFooter />
+      <div className="flex justify-center mt-5">
+        <Button variant="link" href="/" extraClassName='mr-5'>
+          Go Back
+        </Button>
+        <Button variant="link" href="/checkout" extraClassName='ml-5'>
+          Checkout
+        </Button>
       </div>
     </div>
   );
