@@ -1,12 +1,19 @@
-import { getCoreRowModel, useReactTable, flexRender, getFilteredRowModel, getPaginationRowModel } from '@tanstack/react-table';
+import {
+  getCoreRowModel,
+  useReactTable,
+  flexRender,
+  getFilteredRowModel,
+  getPaginationRowModel,
+} from '@tanstack/react-table';
 import type { ColumnDef } from '@tanstack/react-table';
 
 interface ReactTableProps<T extends object> {
   data: T[];
   columns: ColumnDef<T>[];
+  showFooter: boolean;
 }
 
-export const Table = <T extends object>({ data, columns }: ReactTableProps<T>) => {
+export const Table = <T extends object>({ data, columns, showFooter = true }: ReactTableProps<T>) => {
   const table = useReactTable({
     data,
     columns,
@@ -44,6 +51,21 @@ export const Table = <T extends object>({ data, columns }: ReactTableProps<T>) =
                   </tr>
                 ))}
               </tbody>
+              {showFooter ? (
+                <tfoot className="border-t bg-gray-50">
+                  {table.getFooterGroups().map((footerGroup) => (
+                    <tr key={footerGroup.id}>
+                      {footerGroup.headers.map((header) => (
+                        <th key={header.id} colSpan={header.colSpan}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(header.column.columnDef.footer, header.getContext())}
+                        </th>
+                      ))}
+                    </tr>
+                  ))}
+                </tfoot>
+              ) : null}
             </table>
           </div>
         </div>
