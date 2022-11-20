@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
-import type { HTMLAttributes } from 'react';
+import type { ButtonHTMLAttributes } from 'react';
 
-interface ButtonProps extends HTMLAttributes<HTMLElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?: () => void;
   children: React.ReactNode;
   variant: 'primary' | 'secondary' | 'link';
@@ -9,12 +9,11 @@ interface ButtonProps extends HTMLAttributes<HTMLElement> {
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
-  const { onClick, children, variant, extraClassName, ...rest } = props;
+  const { children, variant, extraClassName, ...rest } = props;
 
   if (variant === 'primary') {
     return (
       <button
-        onClick={onClick}
         ref={ref}
         {...rest}
         className={`rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 ${extraClassName ?? ''}`}
@@ -28,7 +27,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) =>
     return (
       <button
         ref={ref}
-        onClick={onClick}
         {...rest}
         className={`rounded bg-white py-2 px-4 font-semibold text-gray-800 shadow hover:bg-gray-100 ${
           extraClassName ?? ''
@@ -41,7 +39,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) =>
 
   return (
     <button
-      onClick={onClick}
       ref={ref}
       {...rest}
       // eslint-disable-next-line max-len

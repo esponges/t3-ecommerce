@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import type { Product } from '@prisma/client';
+
 import { Button } from '../atoms/button';
 
 type Props = Partial<Product> & {
@@ -112,7 +113,7 @@ export const ProductCard = ({
                 </button>
               </div>
             )}
-            <Button onClick={handleAddToCart} variant="primary">
+            <Button onClick={handleAddToCart} variant="primary" disabled={isAddingToCart}>
               {isAddingToCart ? 'Adding...' : fullWidth ? 'Add to cart' : 'Add'}
             </Button>
             {showDetailsBtn && (
