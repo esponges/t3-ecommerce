@@ -5,6 +5,8 @@ import { trpc } from '../../utils/trpc';
 import { ProductCard } from '../molecules/productCard';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useDeviceWidth } from '../../lib/hooks/useDeviceWidth';
+import { itemsPerCarrousel } from '../../lib/products';
 
 type Props = {
   category?: Category;
@@ -12,13 +14,14 @@ type Props = {
 
 export const ProductCarousel = ({ category }: Props) => {
   const router = useRouter();
-
   const [page, setPage] = useState(0);
 
+  const { screen } = useDeviceWidth();
+  const limit = itemsPerCarrousel(screen);
   const { data, fetchNextPage } = trpc.product.getBatch.useInfiniteQuery(
     {
       // todo: make this limit depending on the screen size
-      limit: 4,
+      limit,
       categoryId: category?.id,
     },
     {
