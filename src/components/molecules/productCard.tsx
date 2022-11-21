@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import type { Product } from '@prisma/client';
 
 import { Button } from '../atoms/button';
+import { Counter } from './counter';
 
 type Props = Partial<Product> & {
   onClick?: () => void;
@@ -90,28 +91,12 @@ export const ProductCard = ({
           {/* Btns */}
           <div className={` ${fullWidth ? 'absolute bottom-0 right-0 mt-5 flex' : ''} `}>
             {fullWidth && (
-              <div className="mr-6  flex items-center justify-center">
-                <button
-                  className="border-0 p-0 text-center hover:no-underline hover:outline-none focus:no-underline focus:outline-none"
-                  type="button"
-                  onClick={() => handleChangeProductQty(-1)}
-                >
-                  <Image src="/minus.svg" width={20} height={20} alt="minus" />
-                </button>
-                <input
-                  className="w-10 border-0 p-0 text-center text-center hover:no-underline hover:outline-none focus:no-underline focus:outline-none"
-                  type="number"
-                  value={quantity}
-                  onChange={handleQtyInputChange}
-                />
-                <button
-                  className="border-0 p-0 text-center hover:no-underline hover:outline-none focus:no-underline focus:outline-none"
-                  type="button"
-                  onClick={() => handleChangeProductQty(1)}
-                >
-                  <Image src="/plus.svg" width={20} height={20} alt="plus" />
-                </button>
-              </div>
+              <Counter
+                onIncrease={handleChangeProductQty}
+                onDecrease={handleChangeProductQty}
+                onChange={handleQtyInputChange}
+                count={quantity}
+              />
             )}
             <Button onClick={handleAddToCart} variant="primary" disabled={isAddingToCart}>
               {isAddingToCart ? 'Adding...' : fullWidth ? 'Add to cart' : 'Add'}
