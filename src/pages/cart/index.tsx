@@ -48,7 +48,7 @@ const Cart = () => {
   return (
     <div className="px-10 py-5 md:w-1/2 m-auto">
       <Header>Cart Items</Header>
-      <Table data={tableItems} columns={cols} showFooter />
+      <Table data={tableItems} columns={cols} showFooter showGlobalFilter />
       <div className="flex justify-center mt-5">
         <Button variant="link" href="/" extraClassName='mr-5'>
           Go Back
