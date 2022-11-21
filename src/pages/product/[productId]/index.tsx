@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { Button } from '../../../components/atoms/button';
 
 import { ProductCard } from '../../../components/molecules/productCard';
 import { useCartStore } from '../../../store/cart';
@@ -11,7 +12,6 @@ const ProductDetails = () => {
   const { data: product, isLoading } = trpc.product.getById.useQuery({ id });
 
   const { addToCart } = useCartStore((state) => state);
-
 
   const handleAddToCart = (qty: number) => {
     if (product) {
@@ -33,9 +33,14 @@ const ProductDetails = () => {
         showDetailsBtn={false}
         onAddToCart={handleAddToCart}
       />
-      <button className="mt-5" onClick={() => router.push('/')}>
-        Go back
-      </button>
+      <div className="flex justify-center mt-5">
+        <Button variant="primary" extraClassName="mr-4" onClick={() => router.push('/cart')}>
+          Go to cart
+        </Button>
+        <Button variant="secondary" className="mt-5" onClick={() => router.push('/cart')}>
+          Go back
+        </Button>
+      </div>
     </div>
   );
 };
