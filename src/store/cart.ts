@@ -1,4 +1,4 @@
-import { Product } from '@prisma/client';
+import type { Product } from '@prisma/client';
 import create from 'zustand';
 
 export type Item = Product & { quantity: number };
@@ -9,6 +9,8 @@ interface CartState {
   addToCart: (product: Product, quantity: number) => void;
 }
 
+// todo: fix this any warning
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const storageItems: CartItems =
   typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('cart') || '{}') : {};
 

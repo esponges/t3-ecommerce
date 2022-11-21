@@ -6,17 +6,21 @@ import { ProductCard } from '../molecules/productCard';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useDeviceWidth } from '../../lib/hooks/useDeviceWidth';
-import { itemsPerCarrousel } from '../../lib/products';
+import { carrouselStyle, itemsPerCarrousel } from '../../lib/products';
 
 type Props = {
   category?: Category;
+  extraClassName?: string;
 };
 
-export const ProductCarousel = ({ category }: Props) => {
+export const ProductCarousel = ({ category, extraClassName }: Props) => {
   const router = useRouter();
   const [page, setPage] = useState(0);
 
   const { screen } = useDeviceWidth();
+
+  const className = carrouselStyle(screen);
+
   const limit = itemsPerCarrousel(screen);
   const { data, fetchNextPage } = trpc.product.getBatch.useInfiniteQuery(
     {
@@ -47,7 +51,7 @@ export const ProductCarousel = ({ category }: Props) => {
   const nextCursor = data?.pages[page]?.nextCursor;
 
   return (
-    <div className="relative mt-6 flex flex-col items-center justify-center md:px-12">
+    <div className={`relative mt-6 flex flex-col items-center justify-center md:px-12 ${className.wrapper} ${extraClassName ?? ''}`}>
       <h2 className="text-2xl font-bold text-gray-700">{category?.name ?? 'Products'}</h2>
       <div className="mt-4 flex flex-row gap-4">
         {toShow?.map((product) => (

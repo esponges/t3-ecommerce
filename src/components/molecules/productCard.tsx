@@ -6,6 +6,7 @@ import type { Product } from '@prisma/client';
 
 import { Button } from '../atoms/button';
 import { Counter } from './counter';
+import { Header } from '../atoms/header';
 
 type Props = Partial<Product> & {
   onClick?: () => void;
@@ -80,9 +81,7 @@ export const ProductCard = ({
       <div className={`mt-4 ${fullWidth ? 'block' : 'flex'} justify-between`}>
         <div>
           <h3 className="text-xl font-bold text-gray-700">
-            <a href="#">
-              <span>{name}</span>
-            </a>
+            <Header>{name}</Header>
           </h3>
           <p className="mt-1 text-sm text-gray-500">{description}</p>
         </div>
