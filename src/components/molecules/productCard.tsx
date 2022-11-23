@@ -63,7 +63,7 @@ export const ProductCard = ({
   };
 
   return (
-    <div className={`group relative rounded-lg shadow-lg p-4 ${!fullWidth ? 'sm:w-[50%] md:w-[33%] lg:w-[25%]' : 'flex md:w-[66%]'}`}>
+    <div className={`group relative rounded-lg shadow-lg p-4 md:m-4 ${!fullWidth ? 'sm:w-[50%] md:w-[33%] lg:w-[25%]' : 'flex md:w-[66%]'}`}>
       <div
         className="aspect-w-1 aspect-h-1 lg:aspect-none 
         w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75"
