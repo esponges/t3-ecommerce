@@ -57,7 +57,7 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
       }`}
     >
       <h2 className="text-2xl font-bold text-gray-700">{category?.name ?? 'Products'}</h2>
-      <div className="relative flex mt-2">
+      <div className="relative flex mt-2 justify-center">
         {toShow?.map((product) => (
           <ProductCard
             key={product.id}
@@ -71,7 +71,7 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
         ))}
         {nextCursor && (
           <button
-            className="carousel-control-next absolute top-0 bottom-0 right-0 
+            className="carousel-control-next absolute top-0 bottom-0 -right-14 
                 flex items-center justify-center border-0 p-0 text-center 
                 hover:no-underline hover:outline-none focus:no-underline focus:outline-none"
             type="button"
@@ -82,7 +82,7 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
         )}
         {page > 0 && (
           <button
-            className="carousel-control-prev absolute top-0 bottom-0 left-0 
+            className="carousel-control-prev absolute top-0 bottom-0 -left-14 
                 flex items-center justify-center border-0 p-0 text-center 
                 hover:no-underline hover:outline-none focus:no-underline focus:outline-none"
             type="button"
