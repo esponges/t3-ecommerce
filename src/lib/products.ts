@@ -7,7 +7,7 @@ export const itemsPerCarrousel = (screen: DeviceWidth): number => {
     case DeviceWidth.sm:
       return 2;
     case DeviceWidth.md:
-      return 2;
+      return 3;
     case DeviceWidth.lg:
       return 4;
     case DeviceWidth.xl:
