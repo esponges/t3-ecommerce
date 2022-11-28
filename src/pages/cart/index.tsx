@@ -12,19 +12,6 @@ import { Header } from '../../components/atoms/header';
 
 export type TableItem = Pick<CartItem, 'name' | 'price' | 'quantity'>;
 
-const dummyData = () => {
-  const items = [];
-  for (let i = 0; i < 10; i++) {
-    items.push({
-      id: i,
-      name: `Item ${i}`,
-      price: 100,
-      quantity: 1,
-    });
-  }
-  return items;
-}
-
 const Cart = () => {
   const { cartItems, cartTotal } = useCartItems();
 

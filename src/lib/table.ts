@@ -3,6 +3,7 @@ import { rankItem, rankings } from '@tanstack/match-sorter-utils';
 import type { RankingInfo } from '@tanstack/match-sorter-utils';
 import type { Row } from '@tanstack/react-table';
 
+// most of table work acceptably well with this function
 const fuzzy = <TData extends Record<string, any> = {}>(
   row: Row<TData>,
   columnId: string,
