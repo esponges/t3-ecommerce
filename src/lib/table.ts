@@ -16,6 +16,8 @@ const fuzzy = <TData extends Record<string, any> = {}>(
   return itemRank.passed;
 };
 
+//  if the value is falsy, then the columnFilters state entry for that filter will removed from that array.
+// https://github.com/KevinVandy/material-react-table/discussions/223#discussioncomment-4249221
 fuzzy.autoRemove = (val: any) => !val;
 
 const contains = <TData extends Record<string, any> = {}>(

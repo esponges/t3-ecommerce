@@ -84,7 +84,6 @@ const Checkout = () => {
   });
 
   const handleFormSubmit = (data: CheckoutFormValues) => void (async () => {
-    // tried with with mutateAsync but received undefined
     const { mutateAsync } = createOrder;
     const res = await mutateAsync({
       userId: userId,
