@@ -1,17 +1,53 @@
-import { rankItem } from '@tanstack/match-sorter-utils';
-import type { FilterFn } from '@tanstack/react-table';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { rankItem, rankings } from '@tanstack/match-sorter-utils';
+import type { RankingInfo } from '@tanstack/match-sorter-utils';
+import type { Row } from '@tanstack/react-table';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const genericFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
-  // Rank the item
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  const itemRank = rankItem(row.getValue(columnId), value);
-
-  // Store the itemRank info
-  addMeta({
-    itemRank,
+const fuzzy = <TData extends Record<string, any> = {}>(
+  row: Row<TData>,
+  columnId: string,
+  filterValue: string | number,
+  addMeta: (item: RankingInfo) => void
+) => {
+  const itemRank = rankItem(row.getValue(columnId), filterValue as string, {
+    threshold: rankings.MATCHES,
   });
-
-  // Return if the item should be filtered in/out
+  addMeta(itemRank);
   return itemRank.passed;
+};
+
+fuzzy.autoRemove = (val: any) => !val;
+
+const contains = <TData extends Record<string, any> = {}>(
+  row: Row<TData>,
+  id: string,
+  filterValue: string | number
+) =>
+  row
+    .getValue<string | number>(id)
+    .toString()
+    .toLowerCase()
+    .trim()
+    .includes(filterValue.toString().toLowerCase().trim());
+
+contains.autoRemove = (val: any) => !val;
+
+const startsWith = <TData extends Record<string, any> = {}>(
+  row: Row<TData>,
+  id: string,
+  filterValue: string | number
+) =>
+  row
+    .getValue<string | number>(id)
+    .toString()
+    .toLowerCase()
+    .trim()
+    .startsWith(filterValue.toString().toLowerCase().trim());
+
+startsWith.autoRemove = (val: any) => !val;
+
+export const filterFns = {
+  fuzzy,
+  contains,
+  startsWith,
 };
