@@ -6,10 +6,10 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
 } from '@tanstack/react-table';
-import type { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef, FilterFn } from '@tanstack/react-table';
 
 import { DebouncedInput } from '../atoms/debouncedInput';
-import { genericFilter } from '../../lib/table';
+import { filterFns } from '../../lib/table';
 
 interface ReactTableProps<T extends object> {
   data: T[];
@@ -17,6 +17,7 @@ interface ReactTableProps<T extends object> {
   showFooter?: boolean;
   showNavigation?: boolean;
   showGlobalFilter?: boolean;
+  filterFn?: FilterFn<T>;
 }
 
 export const Table = <T extends object>({
@@ -25,6 +26,7 @@ export const Table = <T extends object>({
   showFooter = true,
   showNavigation = true,
   showGlobalFilter = false,
+  filterFn = filterFns.fuzzy,
 }: ReactTableProps<T>) => {
   const [globalFilter, setGlobalFilter] = useState('');
 
@@ -39,10 +41,7 @@ export const Table = <T extends object>({
     getPaginationRowModel: getPaginationRowModel(),
     debugTable: true,
     onGlobalFilterChange: setGlobalFilter,
-    filterFns: {
-      generic: genericFilter
-    },
-    globalFilterFn: genericFilter,
+    globalFilterFn: filterFn,
   });
 
   return (
