@@ -67,6 +67,7 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
             price={product.price}
             id={product.id}
             onClick={() => handleCardClick(product.id)}
+            inline
           />
         ))}
         {nextCursor && (

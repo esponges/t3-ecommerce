@@ -13,6 +13,7 @@ type Props = Partial<Product> & {
   onAddToCart?: (qty: number) => void;
   fullWidth?: boolean;
   showDetailsBtn?: boolean;
+  inline?: boolean;
 };
 
 export const ProductCard = ({
@@ -24,6 +25,7 @@ export const ProductCard = ({
   onClick,
   onAddToCart,
   fullWidth,
+  inline,
   showDetailsBtn = true,
 }: Props) => {
   const router = useRouter();
@@ -63,7 +65,11 @@ export const ProductCard = ({
   };
 
   return (
-    <div className={`group relative rounded-lg shadow-lg p-4 md:m-4 ${!fullWidth ? 'sm:w-[50%] md:w-[33%] lg:w-[25%]' : 'flex md:w-[66%]'}`}>
+    <div
+      className={`group relative rounded-lg p-4 shadow-lg md:m-4 ${
+        !fullWidth ? 'sm:w-[50%] md:w-[33%] lg:w-[25%]' : 'flex md:w-[66%]'
+      }`}
+    >
       <div
         className="aspect-w-1 aspect-h-1 lg:aspect-none 
         w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75"
@@ -78,17 +84,17 @@ export const ProductCard = ({
           onClick={onClick}
         />
       </div>
-      <div className={`mt-4 ${fullWidth ? 'block' : 'flex'} justify-between`}>
+      <div className={`mt-4 ${fullWidth || inline ? 'block' : 'flex'} justify-between`}>
         <div>
           <h3 className="text-xl font-bold text-gray-700">
             <Header>{name}</Header>
           </h3>
           <p className="mt-1 text-sm text-gray-500">{description}</p>
         </div>
-        <div>
-          <p className={`text-right text-sm font-medium text-gray-900 ${fullWidth ? 'py-4' : ''}`}>{price}</p>
+        <div className={`${inline ? 'text-right' : ''}`}>
+          <p className={`text-right text-xl font-medium text-gray-900 ${fullWidth ? 'py-4' : ''}`}>${price} MXN</p>
           {/* Btns */}
-          <div className={` ${fullWidth ? 'absolute bottom-0 right-0 mt-5 flex' : ''} `}>
+          <div className={` ${fullWidth ? 'absolute bottom-0 right-0 mt-5 flex' : ''}`}>
             {fullWidth && (
               <Counter
                 onIncrease={handleChangeProductQty}
@@ -97,7 +103,12 @@ export const ProductCard = ({
                 count={quantity}
               />
             )}
-            <Button onClick={handleAddToCart} variant="primary" disabled={isAddingToCart}>
+            <Button
+              onClick={handleAddToCart}
+              variant="primary"
+              extraClassName={`${inline ? 'mr-2' : ''}`}
+              disabled={isAddingToCart}
+            >
               {isAddingToCart ? 'Adding...' : fullWidth ? 'Add to cart' : 'Add'}
             </Button>
             {showDetailsBtn && (
