@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { Button } from '../../../components/atoms/button';
+import { Container } from '../../../components/molecules/container';
 
 import { ProductCard } from '../../../components/molecules/productCard';
 import { useCartStore } from '../../../store/cart';
@@ -24,7 +25,7 @@ const ProductDetails = () => {
   }
 
   return (
-    <div className="px-10 py-5">
+    <Container>
       <ProductCard
         name={product?.name}
         price={product?.price}
@@ -33,7 +34,7 @@ const ProductDetails = () => {
         showDetailsBtn={false}
         onAddToCart={handleAddToCart}
       />
-      <div className="flex justify-center mt-5">
+      <div className="mt-5 flex justify-center">
         <Button variant="primary" extraClassName="mr-4" onClick={() => router.push('/cart')}>
           Go to cart
         </Button>
@@ -41,7 +42,7 @@ const ProductDetails = () => {
           Go back
         </Button>
       </div>
-    </div>
+    </Container>
   );
 };
 

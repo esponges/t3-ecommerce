@@ -67,7 +67,7 @@ export const ProductCard = ({
   return (
     <div
       className={`group relative rounded-lg p-4 shadow-lg md:m-4 ${
-        !fullWidth ? 'sm:w-[50%] md:w-[33%] lg:w-[25%]' : 'flex md:w-[66%]'
+        !fullWidth ? 'sm:w-[50%] md:w-[33%] lg:w-[25%]' : 'flex md:w-[85%]'
       }`}
     >
       <div
@@ -80,27 +80,27 @@ export const ProductCard = ({
           height={50}
           layout="responsive"
           alt={description}
-          className="h-full w-full cursor-pointer object-cover object-center lg:h-full lg:w-full"
           onClick={onClick}
         />
       </div>
-      <div className={`mt-4 ${fullWidth || inline ? 'block' : 'flex'} justify-between`}>
-        <div>
+      <div className={`mt-4 h-[50%] ${fullWidth || inline ? 'block' : 'flex'} justify-between`}>
+        <div className='text-right'>
           <h3 className="text-xl font-bold text-gray-700">
             <Header>{name}</Header>
           </h3>
-          <p className="mt-1 text-sm text-gray-500">{description}</p>
+          <p className="mt-1 hidden md:block text-sm text-gray-500">{description}</p>
         </div>
         <div className={`${inline ? 'text-right' : ''}`}>
-          <p className={`text-right text-xl font-medium text-gray-900 ${fullWidth ? 'py-4' : ''}`}>${price} MXN</p>
+          <p className={`text-right md:text-xl font-medium text-gray-900`}>${price} MXN</p>
           {/* Btns */}
-          <div className={` ${fullWidth ? 'absolute bottom-0 right-0 mt-5 flex' : ''}`}>
+          <div className={`md:mb-4 mb-2 sm:mr-2 md:mr-4 block text-right ${fullWidth ? 'right-0 mt-5' : ''}`}>
             {fullWidth && (
               <Counter
                 onIncrease={handleChangeProductQty}
                 onDecrease={handleChangeProductQty}
                 onChange={handleQtyInputChange}
                 count={quantity}
+                extraClassName="hidden md:block"
               />
             )}
             <Button
