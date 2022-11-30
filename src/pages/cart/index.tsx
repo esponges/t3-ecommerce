@@ -1,4 +1,3 @@
-
 import { useMemo } from 'react';
 
 import type { ColumnDef } from '@tanstack/react-table';
@@ -9,6 +8,7 @@ import { useCartItems } from '../../lib/hooks/useCartItems';
 import { Table } from '../../components/molecules/table';
 import { Button } from '../../components/atoms/button';
 import { Header } from '../../components/atoms/header';
+import { Container } from '../../components/molecules/container';
 
 export type TableItem = Pick<CartItem, 'name' | 'price' | 'quantity'>;
 
@@ -46,18 +46,18 @@ const Cart = () => {
   );
 
   return (
-    <div className="px-10 py-5 md:w-1/2 m-auto">
-      <Header>Cart Items</Header>
-      <Table data={tableItems} columns={cols} showFooter showGlobalFilter />
-      <div className="flex justify-center mt-5">
-        <Button variant="link" href="/" extraClassName='mr-5'>
+    <Container>
+      <Header extraClassName="text-center">Cart Items</Header>
+      <Table data={tableItems} columns={cols} showGlobalFilter showNavigation={false} />
+      <div className="mt-5 flex justify-center">
+        <Button variant="link" href="/" extraClassName="mr-5">
           Go Back
         </Button>
-        <Button variant="link" href="/checkout" extraClassName='ml-5'>
+        <Button variant="link" href="/checkout" extraClassName="ml-5">
           Checkout
         </Button>
       </div>
-    </div>
+    </Container>
   );
 };
 
