@@ -12,6 +12,7 @@ type Props = Partial<Product> & {
   onClick?: () => void;
   onAddToCart?: (qty: number) => void;
   fullWidth?: boolean;
+  width?: string;
   showDetailsBtn?: boolean;
   inline?: boolean;
 };
@@ -27,6 +28,7 @@ export const ProductCard = ({
   fullWidth,
   inline,
   showDetailsBtn = true,
+  width
 }: Props) => {
   const router = useRouter();
   const [quantity, setQuantity] = useState(1);
@@ -66,9 +68,11 @@ export const ProductCard = ({
 
   return (
     <div
-      className={`group relative rounded-lg p-4 shadow-lg md:m-4 ${
-        !fullWidth ? 'sm:w-[50%] md:w-[33%] lg:w-[25%]' : 'flex md:w-[85%]'
-      }`}
+      className={
+        `group relative rounded-lg p-4 shadow-lg md:m-4 
+        ${fullWidth ? 'flex md:w-[85%]' : ''}
+        ${width ? `w-[${width}]` : ''}
+        `}
     >
       <div
         className="aspect-w-1 aspect-h-1 lg:aspect-none 
@@ -85,9 +89,7 @@ export const ProductCard = ({
       </div>
       <div className={`mt-4 ${fullWidth || inline ? 'block' : 'flex'} ${fullWidth ? ' w-[80%]' : ''} ml-auto justify-between pb-12`}>
         <div className='text-right'>
-          <h3 className="text-xl font-bold text-gray-700">
-            <Header>{name}</Header>
-          </h3>
+          <Header>{name}</Header>
           <p className="mt-1 m-w-[50%] hidden md:block text-sm text-gray-500">{description}</p>
         </div>
         <div className={`${inline ? 'text-right' : ''} ${fullWidth ? 'mt-6' : ''}`}>

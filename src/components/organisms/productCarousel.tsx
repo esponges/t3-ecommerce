@@ -22,7 +22,7 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
   const className = carrouselStyle(screen);
 
   const limit = itemsPerCarrousel(screen);
-  const { data, fetchNextPage, isLoading } = trpc.product.getBatch.useInfiniteQuery(
+  const { data, fetchNextPage, isLoading, isFetchingNextPage } = trpc.product.getBatch.useInfiniteQuery(
     {
       // todo: make this limit depending on the screen size
       limit,
@@ -33,8 +33,8 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
     }
   );
 
-  const handleFetchNextPage = () => {
-    fetchNextPage();
+  const handleFetchNextPage = async () => {
+    await fetchNextPage();
     setPage((prev) => prev + 1);
   };
 
@@ -60,6 +60,7 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
   const toShow = data?.pages[page]?.items;
   // figure out last page
   const nextCursor = data?.pages[page]?.nextCursor;
+  const cardWidth = Math.floor((1 / limit * 100)).toString() + '%';
 
   return (
     <div
@@ -68,11 +69,11 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
       }`}
     >
       <h2 className="text-2xl font-bold text-gray-700">{category?.name ?? 'Products'}</h2>
-      <div className="relative flex mt-2 justify-center">
-        {isLoading && renderLoadingCards()}
-        {!isLoading && toShow?.map((product) => (
+      <div className="relative flex mt-2 justify-center w-full">
+        {isLoading || isFetchingNextPage && !toShow ? renderLoadingCards() : null}
+        {!isLoading && toShow?.map((product, idx) => (
           <ProductCard
-            key={product.id}
+            key={product.id ?? idx}
             name={product.name}
             image={product.image}
             description={product.description}
@@ -80,6 +81,7 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
             id={product.id}
             onClick={() => handleCardClick(product.id)}
             inline
+            width={cardWidth}
           />
         ))}
         {nextCursor && (
