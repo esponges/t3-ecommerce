@@ -83,24 +83,24 @@ export const ProductCard = ({
           onClick={onClick}
         />
       </div>
-      <div className={`mt-4 h-[50%] ${fullWidth || inline ? 'block' : 'flex'} justify-between`}>
+      <div className={`mt-4 ${fullWidth || inline ? 'block' : 'flex'} ${fullWidth ? ' w-[80%]' : ''} ml-auto justify-between pb-12`}>
         <div className='text-right'>
           <h3 className="text-xl font-bold text-gray-700">
             <Header>{name}</Header>
           </h3>
-          <p className="mt-1 hidden md:block text-sm text-gray-500">{description}</p>
+          <p className="mt-1 m-w-[50%] hidden md:block text-sm text-gray-500">{description}</p>
         </div>
-        <div className={`${inline ? 'text-right' : ''}`}>
+        <div className={`${inline ? 'text-right' : ''} ${fullWidth ? 'mt-6' : ''}`}>
           <p className={`text-right md:text-xl font-medium text-gray-900`}>${price} MXN</p>
           {/* Btns */}
-          <div className={`md:mb-4 mb-2 sm:mr-2 md:mr-4 block text-right ${fullWidth ? 'right-0 mt-5' : ''}`}>
+          <div className={`md:mb-4 mb-2 sm:mr-2 md:mr-4 block flex justify-between absolute ${fullWidth ? '' : 'bottom-0'} right-0`}>
             {fullWidth && (
               <Counter
                 onIncrease={handleChangeProductQty}
                 onDecrease={handleChangeProductQty}
                 onChange={handleQtyInputChange}
                 count={quantity}
-                extraClassName="hidden md:block"
+                extraClassName="hidden lg:block"
               />
             )}
             <Button
@@ -112,7 +112,7 @@ export const ProductCard = ({
               {isAddingToCart ? 'Adding...' : fullWidth ? 'Add to cart' : 'Add'}
             </Button>
             {showDetailsBtn && (
-              <Button onClick={handleDetailsClick} variant="primary" extraClassName="mt-2">
+              <Button onClick={handleDetailsClick} variant="primary">
                 Details
               </Button>
             )}
