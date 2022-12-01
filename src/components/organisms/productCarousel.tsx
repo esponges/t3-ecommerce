@@ -22,7 +22,7 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
   const className = carrouselStyle(screen);
 
   const limit = itemsPerCarrousel(screen);
-  const { data, fetchNextPage } = trpc.product.getBatch.useInfiniteQuery(
+  const { data, fetchNextPage, isLoading } = trpc.product.getBatch.useInfiniteQuery(
     {
       // todo: make this limit depending on the screen size
       limit,
@@ -46,6 +46,17 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
     router.push(`/product/${id}`);
   };
 
+  const renderLoadingCards = () => {
+    const cards = [];
+
+    for (let i = 0; i < limit; i++) {
+      cards.push(
+        <ProductCard />
+      );
+    }
+    return cards;
+  };
+
   const toShow = data?.pages[page]?.items;
   // figure out last page
   const nextCursor = data?.pages[page]?.nextCursor;
@@ -58,7 +69,8 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
     >
       <h2 className="text-2xl font-bold text-gray-700">{category?.name ?? 'Products'}</h2>
       <div className="relative flex mt-2 justify-center">
-        {toShow?.map((product) => (
+        {isLoading && renderLoadingCards()}
+        {!isLoading && toShow?.map((product) => (
           <ProductCard
             key={product.id}
             name={product.name}
