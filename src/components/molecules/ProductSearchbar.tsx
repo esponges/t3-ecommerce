@@ -13,7 +13,7 @@ export const ProductSearchbar = ({ extraClassName = '' }) => {
     limit: 2,
   });
 
-  // refetch data during rerender
+  // refetch data during rerender.
   // caused by the debounced handler
   useEffect(() => {
     refetch();
