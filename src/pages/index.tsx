@@ -18,7 +18,7 @@ const Home = () => {
         <h1 className="text-4xl font-bold text-gray-700">Welcome to our store!</h1>
         <h3 className="text-xl font-bold text-gray-700 mt-6">What are you looking for?</h3>
         <ProductSearchbar />
-        <ul className="flex flex-col gap-4 mt-4">
+        <ul className="flex flex-col gap-4 mt-4 w-full">
           {isLoading && <p>Loading items...</p>}
           {categories?.length && (
             categories.map((category) => (

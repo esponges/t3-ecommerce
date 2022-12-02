@@ -68,11 +68,14 @@ export const ProductCard = ({
 
   return (
     <div
-      className={
-        `group relative rounded-lg p-4 shadow-lg md:m-4 
+      className={`
         ${fullWidth ? 'flex md:w-[85%]' : ''}
-        ${width ? `w-[${width}]` : ''}
+        group relative rounded-lg p-4 shadow-lg md:m-4
         `}
+      style={{
+        // using tailwind classnames for width has erratic behavior
+        width: width ? width === '1' ? '100%' : width : undefined
+      }}
     >
       <div
         className="aspect-w-1 aspect-h-1 lg:aspect-none 

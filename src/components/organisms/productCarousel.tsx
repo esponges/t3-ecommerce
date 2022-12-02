@@ -19,7 +19,7 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
 
   const { screen } = useDeviceWidth();
 
-  const className = carrouselStyle(screen);
+  const { wrapper } = carrouselStyle(screen);
 
   const limit = itemsPerCarrousel(screen);
   const { data, fetchNextPage, isLoading, isFetchingNextPage } = trpc.product.getBatch.useInfiniteQuery(
@@ -42,6 +42,7 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
     setPage((prev) => prev - 1);
   };
 
+  const cardWidth = Math.floor((1 / limit * 100)).toString() + '%';
   const handleCardClick = (id: Product['id']) => {
     router.push(`/product/${id}`);
   };
@@ -51,7 +52,7 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
 
     for (let i = 0; i < limit; i++) {
       cards.push(
-        <ProductCard />
+        <ProductCard width={cardWidth} />
       );
     }
     return cards;
@@ -60,11 +61,10 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
   const toShow = data?.pages[page]?.items;
   // figure out last page
   const nextCursor = data?.pages[page]?.nextCursor;
-  const cardWidth = Math.floor((1 / limit * 100)).toString() + '%';
 
   return (
     <div
-      className={`relative mt-6 flex flex-col items-center justify-center md:px-12 ${className.wrapper} ${
+      className={`relative mt-6 flex flex-col items-center justify-center md:px-12 ${wrapper} ${
         extraClassName ?? ''
       }`}
     >
