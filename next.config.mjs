@@ -1,3 +1,8 @@
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 /**
  * Don't be scared of the generics here.
  * All they do is to give us autocompletion when using this.
@@ -26,5 +31,8 @@ export default defineNextConfig({
   },
   images: {
     domains: ["raw.githubusercontent.com"],
+  },
+  sassOptions: {
+    includePaths: [path.join(__dirname, "styles")],
   },
 });

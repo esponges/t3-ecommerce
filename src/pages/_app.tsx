@@ -1,5 +1,5 @@
 // src/pages/_app.tsx
-import '../styles/globals.css';
+import '../styles/globals.scss';
 import { SessionProvider } from 'next-auth/react';
 import type { Session } from 'next-auth';
 import type { NextPage } from 'next';

@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// test global styles in any component in the DOM
+.foo {
+  border: 1px solid red;
+};
