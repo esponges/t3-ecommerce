@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import 'semantic-ui-css/semantic.min.css';
 import { ProductSearchbar } from '../components/molecules/productSearchbar';
 import { ProductCarousel } from '../components/organisms/productCarousel';
 import { trpc } from '../utils/trpc';
