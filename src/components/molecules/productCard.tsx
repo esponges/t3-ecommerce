@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { Card, Image } from 'semantic-ui-react';
 
 import type { Product } from '@prisma/client';
 
@@ -12,7 +12,6 @@ type Props = Partial<Product> & {
   onClick?: () => void;
   onAddToCart?: (qty: number) => void;
   fullWidth?: boolean;
-  width?: string;
   showDetailsBtn?: boolean;
   inline?: boolean;
 };
@@ -28,7 +27,6 @@ export const ProductCard = ({
   fullWidth,
   inline,
   showDetailsBtn = true,
-  width
 }: Props) => {
   const router = useRouter();
   const [quantity, setQuantity] = useState(1);
@@ -67,47 +65,25 @@ export const ProductCard = ({
   };
 
   return (
-    <div
-      className={`
-        ${fullWidth ? 'flex md:w-[85%]' : ''}
-        group relative rounded-lg p-4 shadow-lg md:m-4
-        `}
-      style={{
-        // using tailwind classnames for width has erratic behavior
-        width: width ? width === '1' ? '100%' : width : undefined
-      }}
-    >
-      <div
-        className="aspect-w-1 aspect-h-1 lg:aspect-none 
-        w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75"
-      >
-        <Image
-          src={image ?? '/empty-bottle.png'}
-          width={50}
-          height={50}
-          layout="responsive"
-          alt={description}
-          onClick={onClick}
-        />
-      </div>
-      <div className={`mt-4 ${fullWidth || inline ? 'block' : 'flex'} ${fullWidth ? ' w-[80%]' : ''} ml-auto justify-between pb-12`}>
-        <div className='text-right'>
-          <Header>{name}</Header>
-          <p className="mt-1 m-w-[50%] hidden md:block text-sm text-gray-500">{description}</p>
-        </div>
-        <div className={`${inline ? 'text-right' : ''} ${fullWidth ? 'mt-6' : ''}`}>
-          <p className={`text-right md:text-xl font-medium text-gray-900`}>${price} MXN</p>
-          {/* Btns */}
-          <div className={`md:mb-4 mb-2 sm:mr-2 md:mr-4 block flex justify-between absolute ${fullWidth ? '' : 'bottom-0'} right-0`}>
-            {fullWidth && (
-              <Counter
-                onIncrease={handleChangeProductQty}
-                onDecrease={handleChangeProductQty}
-                onChange={handleQtyInputChange}
-                count={quantity}
-                extraClassName="hidden lg:block"
-              />
-            )}
+    <div className="card">
+      <Card>
+        <Image src={image ?? '/empty-bottle.png'} wrapped ui={false} />
+        <Card.Content>
+          <Card.Header>{name}</Card.Header>
+          <Card.Meta>
+            <span className="date">{price} MXN</span>
+          </Card.Meta>
+          <Card.Description>Matthew is a musician living in Nashville.</Card.Description>
+        </Card.Content>
+        <Card.Content extra>
+          <div className="text-center justify-center flex">
+            <Counter
+              onIncrease={handleChangeProductQty}
+              onDecrease={handleChangeProductQty}
+              onChange={handleQtyInputChange}
+              count={quantity}
+              extraClassName={'mr-2'}
+            />
             <Button
               onClick={handleAddToCart}
               variant="primary"
@@ -122,8 +98,8 @@ export const ProductCard = ({
               </Button>
             )}
           </div>
-        </div>
-      </div>
+        </Card.Content>
+      </Card>
     </div>
   );
 };

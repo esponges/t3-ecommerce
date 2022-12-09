@@ -1,0 +1,7 @@
+.card {
+  .ui.card {
+    &.first-child {
+      margin-top: 1em;
+    }
+  }
+}

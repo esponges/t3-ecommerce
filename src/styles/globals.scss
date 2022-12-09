@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+@import 'molecules/productCard';
+@import 'molecules/counter';
+
 // test global styles in any component in the DOM
 .foo {
   border: 1px solid red;
