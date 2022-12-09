@@ -50,9 +50,7 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
     const cards = [];
 
     for (let i = 0; i < limit; i++) {
-      cards.push(
-        <ProductCard />
-      );
+      cards.push(<ProductCard key={i} />);
     }
     return cards;
   };
@@ -63,25 +61,24 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
 
   return (
     <div
-      className={`relative mt-6 flex flex-col items-center justify-center md:px-12 ${wrapper} ${
-        extraClassName ?? ''
-      }`}
+      className={`relative mt-6 flex flex-col items-center justify-center md:px-12 ${wrapper} ${extraClassName ?? ''}`}
     >
       <h2 className="text-2xl font-bold text-gray-700">{category?.name ?? 'Products'}</h2>
-      <div className="relative flex mt-2 justify-center w-full">
-        {isLoading || isFetchingNextPage && !toShow ? renderLoadingCards() : null}
-        {!isLoading && toShow?.map((product, idx) => (
-          <ProductCard
-            key={product.id ?? idx}
-            name={product.name}
-            image={product.image}
-            description={product.description}
-            price={product.price}
-            id={product.id}
-            onClick={() => handleCardClick(product.id)}
-            inline
-          />
-        ))}
+      <div className="relative mt-2 flex w-full justify-center">
+        {isLoading || (isFetchingNextPage && !toShow) ? <>{renderLoadingCards()}</> : null}
+        {!isLoading &&
+          toShow?.map((product, idx) => (
+            <ProductCard
+              key={product.id ?? idx}
+              name={product.name}
+              image={product.image}
+              description={product.description}
+              price={product.price}
+              id={product.id}
+              onClick={() => handleCardClick(product.id)}
+              inline
+            />
+          ))}
         {nextCursor && (
           <button
             className="carousel-control-next absolute top-0 bottom-0 -right-14 
