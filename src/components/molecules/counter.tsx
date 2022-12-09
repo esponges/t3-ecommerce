@@ -10,7 +10,7 @@ interface Props {
 
 export const Counter = ({ onIncrease, onDecrease, onChange, count, extraClassName }: Props) => {
   return (
-    <div className={`mr-6 flex items-center justify-center ${extraClassName ??''}`}>
+    <div className={`counter flex items-center align-center justify-center ${extraClassName ??''}`}>
       <button
         className="border-0 p-0 text-center hover:no-underline hover:outline-none focus:no-underline focus:outline-none"
         type="button"
