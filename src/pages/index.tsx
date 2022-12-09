@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import 'semantic-ui-css/semantic.min.css';
+import { Loader } from '../components/molecules/loader';
 import { ProductSearchbar } from '../components/molecules/productSearchbar';
 import { ProductCarousel } from '../components/organisms/productCarousel';
 import { trpc } from '../utils/trpc';
@@ -20,7 +21,7 @@ const Home = () => {
         <h3 className="text-xl font-bold text-gray-700 mt-6">What are you looking for?</h3>
         <ProductSearchbar />
         <ul className="flex flex-col gap-4 mt-4 w-full">
-          {isLoading && <p>Loading items...</p>}
+          {isLoading && <Loader text/>}
           {categories?.length && (
             categories.map((category) => (
               <ProductCarousel key={category.id} category={category} />
