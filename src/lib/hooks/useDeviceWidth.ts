@@ -8,10 +8,17 @@ export enum DeviceWidth {
   xl = 'xl',
 }
 
-export const useDeviceWidth = (): { screen: DeviceWidth } => {
-  const [width, setWidth] = useState(window.innerWidth);
+interface ReturnTypes {
+  screen: DeviceWidth;
+  isMobile: boolean;
+}
+
+export const useDeviceWidth = (): ReturnTypes => {
+  const [width, setWidth] = useState(typeof window !== "undefined" ? window.innerWidth : DeviceWidth.md);
 
   useEffect(() => {
+    if (!window) return;
+
     const handleResize = () => setWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -32,5 +39,7 @@ export const useDeviceWidth = (): { screen: DeviceWidth } => {
     }
   };
 
-  return { screen: getWidth() };
+  const isMobile = getWidth() > DeviceWidth.sm;
+
+  return { screen: getWidth(), isMobile };
 };
