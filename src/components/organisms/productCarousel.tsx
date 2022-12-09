@@ -42,7 +42,6 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
     setPage((prev) => prev - 1);
   };
 
-  const cardWidth = Math.floor((1 / limit * 100)).toString() + '%';
   const handleCardClick = (id: Product['id']) => {
     router.push(`/product/${id}`);
   };
@@ -52,7 +51,7 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
 
     for (let i = 0; i < limit; i++) {
       cards.push(
-        <ProductCard width={cardWidth} />
+        <ProductCard />
       );
     }
     return cards;
@@ -81,7 +80,6 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
             id={product.id}
             onClick={() => handleCardClick(product.id)}
             inline
-            width={cardWidth}
           />
         ))}
         {nextCursor && (
