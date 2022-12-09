@@ -13,13 +13,13 @@ interface Props {
 export const Header = ({ children }: Props) => {
   const { data: session } = useSession();
   const { isMobile } = useDeviceWidth();
-  // const isMobile = true;
 
   const [sidebarOpened, setSidebarOpened] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
   const handleToggleSidebar = () => setSidebarOpened(!sidebarOpened);
 
+  // fix hydration issue
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -28,25 +28,30 @@ export const Header = ({ children }: Props) => {
     return null;
   }
 
-  // might be usefull in the future
+  // might be usefull in the future for the desktop header
   // const handleHideFixedMenu = () => setFixed(false);
   // const handleShowFixedMenu = () => setFixed(true);
-  console.log('isMobile', isMobile);
+
+  const menuItems = (
+    <>
+      <Menu.Item as="a" active>
+        <Link href="/">
+          <a className="text-2xl font-bold">Store</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item as="a">
+        <Link href="/cart">
+          <a className="ml-4 text-2xl font-bold">Cart</a>
+        </Link>
+      </Menu.Item>
+    </>
+  );
 
   if (isMobile) {
     return (
       <Sidebar.Pushable>
         <Sidebar as={Menu} animation="overlay" onHide={handleToggleSidebar} vertical visible={sidebarOpened}>
-          <Menu.Item as="a" active>
-            <Link href="/">
-              <a className="text-2xl font-bold">Store</a>
-            </Link>
-          </Menu.Item>
-          <Menu.Item as="a">
-            <Link href="/cart">
-              <a className="ml-4 text-2xl font-bold">Cart</a>
-            </Link>
-          </Menu.Item>
+          {menuItems}
         </Sidebar>
         <Sidebar.Pusher dimmed={sidebarOpened}>
           <Segment textAlign="center" style={{ /*  minHeight: '100vh',  */ padding: '1em 0em' }} vertical>
@@ -74,9 +79,7 @@ export const Header = ({ children }: Props) => {
             </Container>
             {/* <HomepageHeading mobile /> */}
           </Segment>
-          <main>
-            {children}
-          </main>
+          <main>{children}</main>
         </Sidebar.Pusher>
       </Sidebar.Pushable>
     );
@@ -91,16 +94,7 @@ export const Header = ({ children }: Props) => {
         <Segment textAlign="center" vertical>
           <Menu fixed={'top'} inverted={false} pointing secondary size="large">
             <Container>
-              <Menu.Item as="a" active>
-                <Link href="/">
-                  <a className="text-2xl font-bold">Store</a>
-                </Link>
-              </Menu.Item>
-              <Menu.Item as="a">
-                <Link href="/cart">
-                  <a className="ml-4 text-2xl font-bold">Cart</a>
-                </Link>
-              </Menu.Item>
+              {menuItems}
               <Menu.Item position="right">
                 {/* nextauth login */}
                 {!session ? (
@@ -120,9 +114,7 @@ export const Header = ({ children }: Props) => {
           </Menu>
         </Segment>
       </Visibility>
-      <main>
-        {children}
-      </main>
+      <main className="mt-16">{children}</main>
     </>
   );
 };
