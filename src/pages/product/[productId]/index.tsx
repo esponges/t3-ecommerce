@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { Button } from '../../../components/atoms/button';
 import { Container } from '../../../components/molecules/container';
 
-import { ProductCard } from '../../../components/molecules/productCard';
+import { ProductItem } from '../../../components/molecules/productItem';
 import { useCartStore } from '../../../store/cart';
 import { trpc } from '../../../utils/trpc';
 
@@ -26,12 +26,12 @@ const ProductDetails = () => {
 
   return (
     <Container>
-      <ProductCard
+      <ProductItem
         name={product?.name}
         price={product?.price}
         description={product?.description}
-        fullWidth
-        showDetailsBtn={false}
+        image={product?.image}
+        id={product?.id}
         onAddToCart={handleAddToCart}
       />
       <div className="mt-5 flex justify-center">
