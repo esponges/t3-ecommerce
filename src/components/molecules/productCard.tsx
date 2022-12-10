@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Card, Image } from 'semantic-ui-react';
 
@@ -6,6 +5,7 @@ import type { Product } from '@prisma/client';
 
 import { Button } from '../atoms/button';
 import { Counter } from './counter';
+import { useProduct } from '../../lib/hooks/useProduct';
 
 type Props = Partial<Product> & {
   onClick?: () => void;
@@ -28,42 +28,18 @@ export const ProductCard = ({
   showDetailsBtn = true,
 }: Props) => {
   const router = useRouter();
-  const [quantity, setQuantity] = useState(1);
-  const [isAddingToCart, setIsAddingToCart] = useState(false);
+
+  const {
+    quantity,
+    isAddingToCart,
+    handleChangeProductQty,
+    handleQtyInputChange,
+    handleAddToCart,
+  } = useProduct({ onClick, onAddToCart });
 
   const handleDetailsClick = () => {
     if (id) {
       void router.push(`/product/${id}`);
-    }
-  };
-
-  const handleChangeProductQty = (value: number) => {
-    if (quantity + value > 0) {
-      setQuantity(quantity + value);
-    }
-  };
-
-  const handleQtyInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10);
-
-    if (value > 0 || e.target.value === '') {
-      setQuantity(value);
-    }
-  };
-
-  const handleAddToCart = () => {
-    if (onClick) {
-      onClick();
-    }
-
-    if (onAddToCart) {
-      setIsAddingToCart(true);
-      onAddToCart(quantity);
-
-      // ideally this would be a toast
-      setTimeout(() => {
-        setIsAddingToCart(false);
-      }, 500);
     }
   };
 
