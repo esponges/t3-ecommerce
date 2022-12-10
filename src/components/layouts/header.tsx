@@ -34,16 +34,14 @@ export const Header = ({ children }: Props) => {
 
   const menuItems = (
     <>
-      <Menu.Item as="a" active>
-        <Link href="/">
-          <a className="text-2xl font-bold">Store</a>
-        </Link>
-      </Menu.Item>
-      <Menu.Item as="a">
-        <Link href="/cart">
-          <a className="ml-4 text-2xl font-bold">Cart</a>
-        </Link>
-      </Menu.Item>
+      <Link href="/">
+        <Menu.Item active>
+          Store
+        </Menu.Item>
+      </Link>
+      <Link href="/cart">
+        <Menu.Item>Cart</Menu.Item>
+      </Link>
     </>
   );
 
