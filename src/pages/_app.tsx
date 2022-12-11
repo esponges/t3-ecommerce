@@ -1,5 +1,3 @@
-// src/pages/_app.tsx
-import '../styles/globals.scss';
 import { SessionProvider } from 'next-auth/react';
 import type { Session } from 'next-auth';
 import type { NextPage } from 'next';
@@ -8,6 +6,9 @@ import { trpc } from '../utils/trpc';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { ReactNode, ReactElement } from 'react';
 import { MainLayout } from '../components/layouts/main';
+
+import '../styles/globals.scss';
+import 'semantic-ui-css/semantic.min.css';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
