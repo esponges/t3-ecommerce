@@ -26,14 +26,16 @@ export const ProductItem = ({
   } = useProduct({});
 
   return (
-    <Item>
-      <Item.Image src={image} alt='product' />
+    <Item className='product-item flex'>
+      <div className='w-1/2'>
+        <Item.Image src={image} alt='product' />
+      </div>
       <Item.Content>
         <Item.Header as='a'>{name}</Item.Header>
         <Item.Meta>
           <span className='cinema'>{price} MXN</span>
         </Item.Meta>
-        <Item.Description>{description}</Item.Description>
+        <Item.Description className='mt-8'>{description}</Item.Description>
         <Item.Extra>
           <Label>Category here</Label>
           <Label icon='globe' content='Additional Languages' />
