@@ -6,11 +6,17 @@ export const productRouter = t.router({
     return ctx.prisma.product.findMany();
   }),
   getById: t.procedure.input(z.object({ id: z.string() })).query(({ ctx, input }) => {
-    return ctx.prisma.product.findUnique({
+    const product = ctx.prisma.product.findUnique({
       where: {
         id: input.id,
       },
+      // return the category information from the relation
+      include: {
+        category: true,
+      },
     });
+
+    return product;
   }),
   // get an array of products
   // for infinite scroll
