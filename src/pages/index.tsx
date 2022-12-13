@@ -17,15 +17,16 @@ const Home = () => {
 
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
         <h1 className="text-4xl font-bold text-gray-700">Welcome to our store!</h1>
-        <h3 className="text-xl font-bold text-gray-700 mt-6">What are you looking for?</h3>
+        <h3 className="mt-6 text-xl font-bold text-gray-700">What are you looking for?</h3>
         <ProductSearchbar />
-        <ul className="flex flex-col gap-4 mt-4 w-full">
-          {isLoading && <Loader text/>}
-          {categories?.length && (
-            categories.map((category) => (
-              <ProductCarousel key={category.id} category={category} />
-            ))
+        <ul className="mt-4 flex w-full flex-col gap-4">
+          {isLoading && (
+            <div className="relative mt-20">
+              <Loader text />
+            </div>
           )}
+          {categories?.length &&
+            categories.map((category) => <ProductCarousel key={category.id} category={category} />)}
         </ul>
       </main>
     </>
