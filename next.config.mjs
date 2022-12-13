@@ -32,6 +32,7 @@ export default defineNextConfig({
   images: {
     domains: ["raw.githubusercontent.com"],
   },
+  // add sass support
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },

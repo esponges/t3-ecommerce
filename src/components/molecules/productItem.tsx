@@ -1,9 +1,10 @@
 import type { Product } from '@prisma/client';
 import { Item, Label } from 'semantic-ui-react';
-import { useProduct } from '../../lib/hooks/useProduct';
 
-import { Button } from '../atoms/button';
-import { Counter } from './counter';
+import { useProduct } from '@/lib/hooks/useProduct';
+
+import { Button } from '@/components/atoms/button';
+import { Counter } from '@/components/molecules/counter';
 
 type Props = Partial<Product> & {
   onClick?: () => void;
