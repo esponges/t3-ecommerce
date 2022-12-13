@@ -1,4 +1,4 @@
-import type { Product } from '@prisma/client';
+import type { Category, Product } from '@prisma/client';
 import { Item, Label } from 'semantic-ui-react';
 
 import { useProduct } from '@/lib/hooks/useProduct';
@@ -9,9 +9,10 @@ import { Counter } from '@/components/molecules/counter';
 type Props = Partial<Product> & {
   onClick?: () => void;
   onAddToCart?: (qty: number) => void;
+  category?: Partial<Category>;
 };
 
-export const ProductItem = ({ name, price, description, image, onAddToCart }: Props) => {
+export const ProductItem = ({ name, price, description, image, onAddToCart, category }: Props) => {
   const { quantity, isAddingToCart, handleChangeProductQty, handleQtyInputChange, handleAddToCart } = useProduct({ onAddToCart });
 
   return (
@@ -26,7 +27,7 @@ export const ProductItem = ({ name, price, description, image, onAddToCart }: Pr
         </Item.Meta>
         <Item.Description className="mt-8">{description}</Item.Description>
         <Item.Extra className='mt-8 text-center'>
-          <Label>Category here</Label>
+          {category?.name ? <Label>{category?.name}</Label> : null}
           <div className="flex justify-center text-center mt-8">
             <Counter
               onIncrease={handleChangeProductQty}

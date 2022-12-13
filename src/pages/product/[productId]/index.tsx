@@ -32,6 +32,7 @@ const ProductDetails = () => {
         description={product?.description}
         image={product?.image}
         id={product?.id}
+        category={product?.category}
         onAddToCart={handleAddToCart}
       />
       <div className="mt-5 flex justify-center">
