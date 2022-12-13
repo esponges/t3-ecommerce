@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { Loader } from '@/components/molecules/loader';
 import { Button } from '../../../components/atoms/button';
 import { Container } from '../../../components/molecules/container';
 
@@ -21,7 +22,7 @@ const ProductDetails = () => {
   };
 
   if (isLoading) {
-    return <p>Loading product {id}...</p>;
+    return <Loader text />;
   }
 
   return (
@@ -39,7 +40,7 @@ const ProductDetails = () => {
         <Button variant="primary" extraClassName="mr-4" onClick={() => router.push('/cart')}>
           Go to cart
         </Button>
-        <Button variant="secondary" className="mt-5" onClick={() => router.push('/cart')}>
+        <Button variant="secondary" className="mt-5" onClick={() => router.push('/')}>
           Go back
         </Button>
       </div>
