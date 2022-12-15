@@ -3,6 +3,7 @@ import { send } from 'emailjs-com';
 import { useForm } from 'react-hook-form';
 import type { ReactElement } from 'react';
 import type { User } from '@prisma/client';
+import { Button, Form, Label } from 'semantic-ui-react';
 
 import { useCartItems } from '../../lib/hooks/useCartItems';
 import { trpc } from '../../utils/trpc';
@@ -148,48 +149,48 @@ const Checkout = () => {
   })();
 
   return (
-    <div className="px-10 py-5">
+    <div className="my-10 mx-auto md:w-1/2">
       <h1 className="mb-10">Checkout</h1>
-      <form onSubmit={handleSubmit(handleFormSubmit)} className="md:w-[50]">
-        <div className="mb-5 grid">
+      <Form onSubmit={handleSubmit(handleFormSubmit)}>
+        <Form.Field>
           <label htmlFor="address" className="form-label font-bold">
             Address
           </label>
           <input type="text" className="form-control" id="address" {...register('address', { required: true })} />
           {errors.address && <span className="text-danger">This field is required</span>}
-        </div>
-        <div className="mb-5 grid">
+        </Form.Field>
+        <Form.Field>
           <label htmlFor="city" className="form-label font-bold">
             City
           </label>
           <input type="text" className="form-control" id="city" {...register('city', { required: true })} />
           {errors.city && <span className="text-danger">This field is required</span>}
-        </div>
-        <div className="mb-5 grid">
+        </Form.Field>
+        <Form.Field>
           <label htmlFor="country" className="form-label font-bold">
             Country
           </label>
           <input type="text" className="form-control" id="country" {...register('country', { required: true })} />
           {errors.country && <span className="text-danger">This field is required</span>}
-        </div>
-        <div className="mb-5 grid">
+        </Form.Field>
+        <Form.Field>
           <label htmlFor="postalCode" className="form-label font-bold">
             Postal Code
           </label>
           <input type="text" className="form-control" id="postalCode" {...register('postalCode', { required: true })} />
           {errors.postalCode && <span className="text-danger">This field is required</span>}
-        </div>
-        <div className="mb-5 grid">
+        </Form.Field>
+        <Form.Field>
           <label htmlFor="phone" className="form-label font-bold">
             Phone
           </label>
           <input type="text" className="form-control" id="phone" {...register('phone', { required: true })} />
           {errors.phone && <span className="text-danger">This field is required</span>}
-        </div>
-        <button type="submit" className="btn btn-primary mt-5">
+        </Form.Field>
+        <Button type="submit" className="btn btn-primary mt-5">
           Proceed and pay
-        </button>
-      </form>
+        </Button>
+      </Form>
       <div className="mt-10">
         <h2 className="mb-5">Order summary</h2>
         <div className="grid grid-cols-2">
