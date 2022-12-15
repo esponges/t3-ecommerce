@@ -2,11 +2,13 @@
 import { send } from 'emailjs-com';
 import { useForm } from 'react-hook-form';
 import type { ReactElement } from 'react';
+import type { User } from '@prisma/client';
 
 import { useCartItems } from '../../lib/hooks/useCartItems';
 import { trpc } from '../../utils/trpc';
 import { useState } from 'react';
 import { ProtectedLayout } from '../../components/layouts/protected';
+import { useSession } from 'next-auth/react';
 
 const checkoutDefaultValues = {
   address: 'Foo Address',
@@ -34,6 +36,9 @@ const Checkout = () => {
     formState: { errors },
   } = useForm({ defaultValues: checkoutDefaultValues });
 
+  const { data: session } = useSession();
+  const user: User|undefined = session?.user as User|undefined;
+
   const { cartItems } = useCartItems();
 
   const utils = trpc.useContext();
@@ -41,6 +46,7 @@ const Checkout = () => {
   const [orderSent, setOrderSent] = useState(false);
   const [orderId, setOrderId] = useState<string | null>();
 
+  // this doesn't go here
   const { isLoading: orderHasNotBeenResolved, data: orderData } = trpc.order.getById.useQuery(
     { id: orderId },
     {
@@ -85,8 +91,17 @@ const Checkout = () => {
 
   const handleFormSubmit = (data: CheckoutFormValues) => void (async () => {
     const { mutateAsync } = createOrder;
+
+    if (!user?.id) {
+      // todo: handle this
+      return;
+    }
+
     const res = await mutateAsync({
-      userId: userId,
+      // todo: check where this user id comes from
+      // it was breaking the request
+      // chatGPT message:  the foreign key constraint error you were getting indicates that one of the values you were using for a foreign key field did not have a corresponding record in the related table. In this case, it seems like the userId value you were using did not exist in the User table, which caused the error.
+      userId: user?.id,
       orderItems: Object.values(cartItems).map((item) => ({
         productId: item.id,
         quantity: item.quantity,
@@ -135,7 +150,7 @@ const Checkout = () => {
   return (
     <div className="px-10 py-5">
       <h1 className="mb-10">Checkout</h1>
-      <form onSubmit={void handleSubmit(handleFormSubmit)} className="md:w-[50]">
+      <form onSubmit={handleSubmit(handleFormSubmit)} className="md:w-[50]">
         <div className="mb-5 grid">
           <label htmlFor="address" className="form-label font-bold">
             Address
