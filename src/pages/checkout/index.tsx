@@ -1,15 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useState } from 'react';
 import { send } from 'emailjs-com';
 import { useForm } from 'react-hook-form';
 import type { ReactElement } from 'react';
 import type { User } from '@prisma/client';
-import { Button, Form, Label } from 'semantic-ui-react';
-
-import { useCartItems } from '../../lib/hooks/useCartItems';
-import { trpc } from '../../utils/trpc';
-import { useState } from 'react';
-import { ProtectedLayout } from '../../components/layouts/protected';
+import { Button, Form } from 'semantic-ui-react';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+
+import { useCartItems } from '@/lib/hooks/useCartItems';
+import { trpc } from '@/utils/trpc';
+import { ProtectedLayout } from '@/components/layouts/protected';
 
 const checkoutDefaultValues = {
   address: 'Foo Address',
@@ -26,9 +26,6 @@ interface CheckoutFormValues {
   postalCode: string;
   phone: string;
 }
-
-// todo: don't hardcode userId
-const userId = 'cl9iv3dwe0004m2q1zvdtt420';
 
 const Checkout = () => {
   const {
@@ -191,19 +188,11 @@ const Checkout = () => {
           Proceed and pay
         </Button>
       </Form>
-      <div className="mt-10">
-        <h2 className="mb-5">Order summary</h2>
-        <div className="grid grid-cols-2">
-          <div className="flex flex-col">
-            {orderSent ? (
-              <div className="text-success">Order sent successfully</div>
-            ) : (
-              <div className="text-danger">Order not sent</div>
-            )}
-            <div className="text-primary">Order items</div>
-            <div className="text-primary">Order details</div>
-          </div>
-        </div>
+      {/* go back button */}
+      <div className='mt-10 text-right'>
+        <Link href="/cart">
+          <Button className="btn btn-secondary mt-5">Go back</Button>
+        </Link>
       </div>
     </div>
   );
