@@ -12,10 +12,6 @@ export const serverSchema = z.object({
   NEXTAUTH_URL: z.string().url(),
   DISCORD_CLIENT_ID: z.string(),
   DISCORD_CLIENT_SECRET: z.string(),
-  EMAILJS_SERVICE_ID: z.string(),
-  EMAILJS_TEMPLATE_ID: z.string(),
-  EMAILJS_USER_ID_PUBLIC_KEY: z.string(),
-  EMAILJS_FROM_EMAIL: z.string(),
 });
 
 /**
@@ -26,6 +22,10 @@ export const serverSchema = z.object({
 export const clientSchema = z.object({
   // NEXT_PUBLIC_BAR: z.string(),
   NEXT_PUBLIC_NEXTAUTH_URL: z.string().url(),
+  NEXT_PUBLIC_EMAILJS_SERVICE_ID: z.string(),
+  NEXT_PUBLIC_EMAILJS_TEMPLATE_ID: z.string(),
+  NEXT_PUBLIC_EMAILJS_USER_ID_PUBLIC_KEY: z.string(),
+  NEXT_PUBLIC_EMAILJS_FROM_EMAIL: z.string(),
 });
 
 /**
@@ -37,4 +37,8 @@ export const clientSchema = z.object({
 export const clientEnv = {
   // NEXT_PUBLIC_BAR: process.env.NEXT_PUBLIC_BAR,
   NEXT_PUBLIC_NEXTAUTH_URL: process.env.NEXT_PUBLIC_NEXTAUTH_URL,
+  NEXT_PUBLIC_EMAILJS_SERVICE_ID: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+  NEXT_PUBLIC_EMAILJS_TEMPLATE_ID: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+  NEXT_PUBLIC_EMAILJS_USER_ID_PUBLIC_KEY: process.env.NEXT_PUBLIC_EMAILJS_USER_ID_PUBLIC_KEY,
+  NEXT_PUBLIC_EMAILJS_FROM_EMAIL: process.env.NEXT_PUBLIC_EMAILJS_FROM_EMAIL,
 };
