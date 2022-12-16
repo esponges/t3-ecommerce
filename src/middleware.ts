@@ -27,7 +27,6 @@ export default withAuth(
       authorized: ({ req, token: _token }) => {
         // token always returning null
         // temporary workaround is to use req.cookies
-        console.log('checking if authorized', req.cookies.get('next-auth.session-token'));
 
         // if truthy, user is authenticated - can proceed
         return !!req.cookies.get('next-auth.session-token');

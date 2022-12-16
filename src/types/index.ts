@@ -3,3 +3,9 @@ export interface SessionProviders {
   facebook: 'facebook';
   google: 'google';
 }
+
+export enum AuthProviders {
+  Discord = 'discord',
+  Facebook = 'facebook',
+  Google = 'google',
+}

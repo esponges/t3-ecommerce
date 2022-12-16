@@ -199,7 +199,8 @@ const Checkout = () => {
 };
 
 Checkout.getLayout = function getLayout(page: ReactElement) {
-  return <ProtectedLayout>{page}</ProtectedLayout>
+  // TODO: create some kind of layout for this component
+  return page;
 };
 
 export default Checkout;
