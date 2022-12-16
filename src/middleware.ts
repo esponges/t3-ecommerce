@@ -9,9 +9,11 @@ export default withAuth(
     if (nextUrl.startsWith("/d") && !nextUrl.startsWith('/d/login') && !nextUrl.startsWith('/checkout')) {
 
       // check for the admin user token
-      if (!req.cookies.get('store-admin-token')) {
-        return NextResponse.redirect(`${req.nextUrl.origin}/d/login`);
-      }
+      // TODO: some users will have this cookie added
+      // this must be checked against the database
+      // if (!req.cookies.get('store-admin-token')) {
+      //   return NextResponse.redirect(`${req.nextUrl.origin}/d/login`);
+      // }
     }
     
     // let user proceed since they are authenticated
@@ -19,6 +21,9 @@ export default withAuth(
   },
   {
     callbacks: {
+      // this callback will run on every request that matches the `matcher` option
+      // if its returns truthy the middleware will let the request proceed
+      // TODO: for the dashboard, check if the user is an admin, and not if she is authenticated only
       authorized: ({ req, token: _token }) => {
         // token always returning null
         // temporary workaround is to use req.cookies
