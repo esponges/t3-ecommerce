@@ -42,6 +42,9 @@ export const Header = ({ children }: Props) => {
       <Link href="/cart">
         <Menu.Item>Cart</Menu.Item>
       </Link>
+      <Link href="/d">
+        <Menu.Item>Dashboard</Menu.Item>
+      </Link>
     </>
   );
 
@@ -61,9 +64,11 @@ export const Header = ({ children }: Props) => {
                 <Menu.Item position="right">
                   {/* nextauth login */}
                   {!session ? (
-                    <Button variant="primary" onClick={() => signIn('discord')}>
-                      Login
-                    </Button>
+                    <Link href='/auth'>
+                      <Button variant="primary">
+                        Login
+                      </Button>
+                    </Link>
                   ) : (
                     <>
                       <p className="mr-4">Hello —{session.user?.name}—</p>
@@ -96,9 +101,11 @@ export const Header = ({ children }: Props) => {
               <Menu.Item position="right">
                 {/* nextauth login */}
                 {!session ? (
-                  <Button variant="primary" onClick={() => signIn('discord')}>
-                    Login
-                  </Button>
+                  <Link href='/auth'>
+                    <Button variant="primary">
+                      Login
+                    </Button>
+                  </Link>
                 ) : (
                   <>
                     <p className="mr-4">Hello —{session.user?.name}—</p>
