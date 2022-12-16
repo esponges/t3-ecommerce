@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { send } from 'emailjs-com';
 import { useForm } from 'react-hook-form';
 import type { ReactElement } from 'react';
@@ -9,7 +8,7 @@ import Link from 'next/link';
 
 import { useCartItems } from '@/lib/hooks/useCartItems';
 import { trpc } from '@/utils/trpc';
-import { ProtectedLayout } from '@/components/layouts/protected';
+import { env } from '@/env/client.mjs';
 
 const checkoutDefaultValues = {
   address: 'Foo Address',
@@ -41,23 +40,6 @@ const Checkout = () => {
 
   const utils = trpc.useContext();
 
-  const [orderSent, setOrderSent] = useState(false);
-  const [orderId, setOrderId] = useState<string | null>();
-
-  // this doesn't go here
-  const { isLoading: orderHasNotBeenResolved, data: orderData } = trpc.order.getById.useQuery(
-    { id: orderId },
-    {
-      enabled: !!orderId,
-      onSuccess: () => {
-        console.log(
-          // eslint-disable-next-line max-len
-          'getByOrderId has been resolved, you can do something outside of the hook - the data is not available here though'
-        );
-      },
-    }
-  );
-
   const createOrder = trpc.order.create.useMutation({
     onMutate: async (_values) => {
       // optimistic update
@@ -73,8 +55,6 @@ const Checkout = () => {
 
     onSuccess: (_data, _variables, _context) => {
       // do stuff after mutation success
-      setOrderSent(true);
-
     },
 
     onError: (_err, _values, _context) => {
@@ -114,23 +94,22 @@ const Checkout = () => {
     });
 
     if (res && res.id) {
-      // opt 1: add order id and send email on rerender (not ideal)
-      setOrderId(res.id);
-
-      // opt 2: send email here with the data that we have from the
-      // form, mutateAsync and the store state (better)
       send(
-        process.env.EMAILJS_SERVICE_ID as string,
-        process.env.EMAILJS_TEMPLATE_ID as string,
+        // process.env.EMAILJS_SERVICE_ID as string,
+        env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+        // process.env.EMAILJS_TEMPLATE_ID as string
+        env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
         {
           // update email body with the order details and real user details
           message_html: 'test',
           to_name: 'Buyer',
-          to_email: 'foobar@gmail.com',
+          to_email: 'esponges@gmail.com',
           from_name: 'cool shop',
-          reply_to: process.env.EMAILJS_FROM_EMAIL as string,
+          // reply_to: process.env.EMAILJS_FROM_EMAIL as string,
+          reply_to: env.NEXT_PUBLIC_EMAILJS_FROM_EMAIL,
         },
-        process.env.EMAILJS_USER_ID_PUBLIC_KEY as string
+        // process.env.EMAILJS_USER_ID_PUBLIC_KEY as string
+        env.NEXT_PUBLIC_EMAILJS_USER_ID_PUBLIC_KEY
       )
         .then((response) => {
           console.log('SUCCESS!', response.status, response.text);
