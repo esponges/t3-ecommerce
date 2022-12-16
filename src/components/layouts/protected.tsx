@@ -18,7 +18,7 @@ export const ProtectedLayout = ({ children }: Props) => {
   }, [session, router]);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div>
       <Header />
       <main>{children}</main>
     </div>
