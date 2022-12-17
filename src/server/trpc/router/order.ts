@@ -34,6 +34,44 @@ export const orderRouter = t.router({
           },
         },
       });
+
+      return order;
+    }),
+  // send email on create
+  success: t.procedure
+    .input(
+      z.object({
+        id: z.string(),
+        userId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const order = await ctx.prisma.order.findUnique({
+        where: {
+          id: input.id,
+        },
+        include: {
+          orderItems: true,
+          orderDetail: true,
+        },
+      });
+
+      if (!order) {
+        return null;
+      }
+
+      const user = await ctx.prisma.user.findUnique({
+        where: {
+          id: input.userId,
+        },
+      });
+
+      if (!user) {
+        return null;
+      }
+
+      // TODO: emailjs doesn't work in the server
+      // find an alternative to send emails server-side
       return order;
     }),
   getByUserId: t.procedure
