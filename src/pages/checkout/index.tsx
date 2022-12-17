@@ -34,7 +34,7 @@ const Checkout = () => {
   } = useForm({ defaultValues: checkoutDefaultValues });
 
   const { data: session } = useSession();
-  const user: User|undefined = session?.user as User|undefined;
+  const user: User | undefined = session?.user as User | undefined;
 
   const { cartItems } = useCartItems();
 
@@ -54,46 +54,11 @@ const Checkout = () => {
     },
 
     onSuccess: (_data, _variables, _context) => {
-      // do stuff after mutation success
-    },
+      // TODO: for the moment we must do this client side.
+      // We can't do this server side because of the emailjs library
+      // there's a trpc.order.success hook that we can use to send the email
+      // server side but I have not checked how to do it yet with a different library
 
-    onError: (_err, _values, _context) => {
-      // rollback?
-    },
-    onSettled: async () => {
-      // Error or success... doesn't matter! 
-      // refetch the query
-      await utils.order.getAll.invalidate();
-    },
-  });
-
-  const handleFormSubmit = (data: CheckoutFormValues) => void (async () => {
-    const { mutateAsync } = createOrder;
-
-    if (!user?.id) {
-      // todo: handle this
-      return;
-    }
-
-    const res = await mutateAsync({
-      // todo: check where this user id comes from
-      // it was breaking the request
-      // chatGPT message:  the foreign key constraint error you were getting indicates that one of the values you were using for a foreign key field did not have a corresponding record in the related table. In this case, it seems like the userId value you were using did not exist in the User table, which caused the error.
-      userId: user?.id,
-      orderItems: Object.values(cartItems).map((item) => ({
-        productId: item.id,
-        quantity: item.quantity,
-      })),
-      orderDetail: {
-        address: data.address,
-        city: data.city,
-        country: data.country,
-        postalCode: data.postalCode,
-        phone: data.phone,
-      },
-    });
-
-    if (res && res.id) {
       send(
         // process.env.EMAILJS_SERVICE_ID as string,
         env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
@@ -119,10 +84,45 @@ const Checkout = () => {
           console.log('FAILED...', err);
           // show feedback to user of some of error
         });
-    } else {
-      // show error to user
-    }
-  })();
+    },
+
+    onError: (_err, _values, _context) => {
+      // rollback?
+    },
+    onSettled: async () => {
+      // Error or success... doesn't matter!
+      // refetch the query
+      await utils.order.getAll.invalidate();
+    },
+  });
+
+  const handleFormSubmit = (data: CheckoutFormValues) =>
+    void (async () => {
+      const { mutateAsync } = createOrder;
+
+      if (!user?.id) {
+        // todo: handle this
+        return;
+      }
+
+      await mutateAsync({
+        // todo: check where this user id comes from
+        // it was breaking the request
+        // chatGPT message:  the foreign key constraint error you were getting indicates that one of the values you were using for a foreign key field did not have a corresponding record in the related table. In this case, it seems like the userId value you were using did not exist in the User table, which caused the error.
+        userId: user?.id,
+        orderItems: Object.values(cartItems).map((item) => ({
+          productId: item.id,
+          quantity: item.quantity,
+        })),
+        orderDetail: {
+          address: data.address,
+          city: data.city,
+          country: data.country,
+          postalCode: data.postalCode,
+          phone: data.phone,
+        },
+      });
+    })();
 
   return (
     <div className="my-10 mx-auto md:w-1/2">
@@ -168,7 +168,7 @@ const Checkout = () => {
         </Button>
       </Form>
       {/* go back button */}
-      <div className='mt-10 text-right'>
+      <div className="mt-10 text-right">
         <Link href="/cart">
           <Button className="btn btn-secondary mt-5">Go back</Button>
         </Link>
