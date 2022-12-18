@@ -10,10 +10,23 @@ type Props = Partial<Product> & {
   onClick?: () => void;
   onAddToCart?: (qty: number) => void;
   category?: Partial<Category>;
+  showDetails?: boolean;
+  showCTAs?: boolean;
 };
 
-export const ProductItem = ({ name, price, description, image, onAddToCart, category }: Props) => {
-  const { quantity, isAddingToCart, handleChangeProductQty, handleQtyInputChange, handleAddToCart } = useProduct({ onAddToCart });
+export const ProductItem = ({
+  name,
+  price,
+  description,
+  image,
+  onAddToCart,
+  category,
+  showDetails = true,
+  showCTAs = true,
+}: Props) => {
+  const { quantity, isAddingToCart, handleChangeProductQty, handleQtyInputChange, handleAddToCart } = useProduct({
+    onAddToCart,
+  });
 
   return (
     <Item className="product-item flex">
@@ -25,22 +38,24 @@ export const ProductItem = ({ name, price, description, image, onAddToCart, cate
         <Item.Meta>
           <span className="cinema">{price} MXN</span>
         </Item.Meta>
-        <Item.Description className="mt-8">{description}</Item.Description>
-        <Item.Extra className='mt-8 text-center'>
-          {category?.name ? <Label>{category?.name}</Label> : null}
-          <div className="flex justify-center text-center mt-8">
-            <Counter
-              onIncrease={handleChangeProductQty}
-              onDecrease={handleChangeProductQty}
-              onChange={handleQtyInputChange}
-              count={quantity}
-              extraClassName={'mr-2'}
-            />
-            <Button onClick={handleAddToCart} variant="primary" disabled={isAddingToCart}>
-              {isAddingToCart ? 'Adding...' : 'Add'}
-            </Button>
-          </div>
-        </Item.Extra>
+        {showDetails && <Item.Description className="mt-8">{description}</Item.Description>}
+        {showCTAs && (
+          <Item.Extra className="mt-8 text-center">
+            {category?.name ? <Label>{category?.name}</Label> : null}
+            <div className="mt-8 flex justify-center text-center">
+              <Counter
+                onIncrease={handleChangeProductQty}
+                onDecrease={handleChangeProductQty}
+                onChange={handleQtyInputChange}
+                count={quantity}
+                extraClassName={'mr-2'}
+              />
+              <Button onClick={handleAddToCart} variant="primary" disabled={isAddingToCart}>
+                {isAddingToCart ? 'Adding...' : 'Add'}
+              </Button>
+            </div>
+          </Item.Extra>
+        )}
       </Item.Content>
     </Item>
   );
