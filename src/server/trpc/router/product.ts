@@ -19,6 +19,27 @@ export const productRouter = t.router({
     return product;
   }),
   // get an array of products
+  getBatchDetails: t.procedure
+    .input(
+      z.object({
+        productIds: z.array(z.string()),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { productIds } = input;
+      const productItems = await ctx.prisma.product.findMany({
+        where: {
+          id: {
+            in: productIds,
+          },
+        },
+        include: {
+          category: true,
+        },
+      });
+      return productItems;
+    }),
+  // get an array of products
   // for infinite scroll
   getBatch: t.procedure
     .input(
