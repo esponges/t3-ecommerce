@@ -49,12 +49,22 @@ export const Header = ({ children }: Props) => {
   const dropDownOptions = [
     { label: 'Account', value: 'account', onClick: () => console.log('account') },
     { label: 'Settings', value: 'settings', onClick: () => console.log('settings') },
-    { label: 'Sign Out', value: 'sign-out', onClick: () => signOut() },
+    session
+      ? { label: 'Logout', value: 'logout', onClick: () => signOut() }
+      : { label: 'Login', value: 'login', onClick: () => console.log('login') },
   ];
 
   const trigger = (
     <span>
-      <Icon name="user" /> Hello, {session?.user?.name}
+      {session ? (
+        <>
+          <Icon name="user" /> Hello, {session?.user?.name}
+        </>
+      ) : (
+        <>
+          <Icon name="user" /> Hello, Guest
+        </>
+      )}
     </span>
   );
 
@@ -109,18 +119,7 @@ export const Header = ({ children }: Props) => {
               {menuItems}
               <Menu.Item position="right">
                 {/* nextauth login */}
-                {!session ? (
-                  <Link href="/auth">
-                    <Button variant="primary">Login</Button>
-                  </Link>
-                ) : (
-                  <>
-                    <Dropdown options={dropDownOptions} trigger={trigger} />
-                    <Button variant="primary" onClick={() => signOut()}>
-                      Logout
-                    </Button>
-                  </>
-                )}
+                <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
               </Menu.Item>
             </Container>
           </Menu>

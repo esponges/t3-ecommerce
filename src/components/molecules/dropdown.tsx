@@ -7,8 +7,9 @@ type Option = { label: string; value: string, onClick?: () => void };
 export interface DropdownProps {
   trigger: React.ReactNode;
   options: Option[];
+  className?: string;
 }
-export const Dropdown = ({ options, trigger }: DropdownProps) => {
+export const Dropdown = ({ options, trigger, className }: DropdownProps) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<Option>();
 
@@ -33,14 +34,14 @@ export const Dropdown = ({ options, trigger }: DropdownProps) => {
   };
 
   return (
-    <div className="relative p-5" ref={dropdownRef}>
+    <div className={`relative ${className || ''}`} ref={dropdownRef}>
       <div className="flex items-center" onClick={handleOpen}>
         {trigger}
         <div className="ml-2">
           <Icon name="chevron down" size="small" />
         </div>
       </div>
-      <div className={`absolute top-12 left-0 w-full z-10 ${open ? 'block' : 'hidden'}`}>
+      <div className={`absolute top-8 left-0 w-full z-10 ${open ? 'block' : 'hidden'}`}>
         <div className="bg-white shadow rounded-md overflow-hidden">
           {options.map((option) => (
             <div
