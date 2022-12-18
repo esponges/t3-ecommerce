@@ -1,7 +1,7 @@
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { Visibility, Segment, Menu, Container, Button, Sidebar, Icon } from 'semantic-ui-react';
+import { useEffect, useRef, useState } from 'react';
+import { Segment, Menu, Container, Button, Sidebar, Icon } from 'semantic-ui-react';
 
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 import { Dropdown } from '@/components/molecules/dropdown';
@@ -19,6 +19,8 @@ export const Header = ({ children }: Props) => {
   const [sidebarOpened, setSidebarOpened] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
+  const ref = useRef(null);
+
   const handleToggleSidebar = () => setSidebarOpened(!sidebarOpened);
 
   // fix hydration issue
@@ -29,10 +31,6 @@ export const Header = ({ children }: Props) => {
   if (!isMounted) {
     return null;
   }
-
-  // might be usefull in the future for the desktop header
-  // const handleHideFixedMenu = () => setFixed(false);
-  // const handleShowFixedMenu = () => setFixed(true);
 
   const menuItems = (
     <>
@@ -110,23 +108,17 @@ export const Header = ({ children }: Props) => {
   }
   return (
     <>
-      <Visibility
-        once={false}
-        // onBottomPassed={handleHideFixedMenu}
-        // onBottomPassedReverse={handleShowFixedMenu}
-      >
-        <Segment textAlign="center" vertical>
-          <Menu fixed={'top'} inverted={false} pointing secondary size="large">
-            <Container>
-              {menuItems}
-              <Menu.Item position="right">
-                {/* nextauth login */}
-                <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
-              </Menu.Item>
-            </Container>
-          </Menu>
-        </Segment>
-      </Visibility>
+      <Segment textAlign="center" vertical>
+        <Menu fixed={'top'} ref={ref} inverted={false} pointing secondary size="large">
+          <Container>
+            {menuItems}
+            <Menu.Item position="right">
+              {/* nextauth login */}
+              <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
+            </Menu.Item>
+          </Container>
+        </Menu>
+      </Segment>
       <main className="mt-16">{children}</main>
     </>
   );
