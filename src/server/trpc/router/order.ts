@@ -77,11 +77,15 @@ export const orderRouter = t.router({
   getByUserId: t.procedure
     .input(
       z.object({
-        userId: z.string(),
-        latest: z.boolean().optional(),
+        userId: z.string().optional(),
+        take: z.boolean().optional(),
       })
     )
     .query(async ({ ctx, input }) => {
+      if (!input.userId) {
+        return null;
+      }
+
       const orders = await ctx.prisma.order.findMany({
         where: {
           userId: input.userId,
@@ -93,7 +97,7 @@ export const orderRouter = t.router({
         orderBy: {
           createdAt: 'desc',
         },
-        take: input.latest ? 1 : undefined,
+        take: input.take ? 1 : undefined,
       });
       return orders;
     }),
