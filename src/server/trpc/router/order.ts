@@ -79,6 +79,7 @@ export const orderRouter = t.router({
       z.object({
         userId: z.string().optional(),
         take: z.boolean().optional(),
+        orderItemDetails: z.boolean().optional(),
       })
     )
     .query(async ({ ctx, input }) => {
@@ -91,7 +92,11 @@ export const orderRouter = t.router({
           userId: input.userId,
         },
         include: {
-          orderItems: true,
+          orderItems: input.orderItemDetails ? {
+            include: {
+              product: true,
+            },
+          } : true,
           orderDetail: true,
         },
         orderBy: {
@@ -99,6 +104,7 @@ export const orderRouter = t.router({
         },
         take: input.take ? 1 : undefined,
       });
+
       return orders;
     }),
   getAll: t.procedure.query(async ({ ctx }) => {
