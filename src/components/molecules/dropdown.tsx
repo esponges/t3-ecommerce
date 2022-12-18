@@ -10,9 +10,9 @@ export interface DropdownProps {
 }
 export const Dropdown = ({ options, trigger }: DropdownProps) => {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState(options[0]);
+  const [selected, setSelected] = useState<Option>();
 
-  // outside click
+  // outside click listener
   const dropdownRef = useRef<HTMLDivElement>(null);
   useOutsideClick({
     ref: dropdownRef,
@@ -21,7 +21,6 @@ export const Dropdown = ({ options, trigger }: DropdownProps) => {
 
   const handleSelect = (option: Option) => {
     setSelected(option);
-    // setSelectedOption(option);
     setOpen(false);
 
     if (option.onClick) {
@@ -34,14 +33,14 @@ export const Dropdown = ({ options, trigger }: DropdownProps) => {
   };
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative p-5" ref={dropdownRef}>
       <div className="flex items-center" onClick={handleOpen}>
         {trigger}
         <div className="ml-2">
-          <Icon name="chevron down" />
+          <Icon name="chevron down" size="small" />
         </div>
       </div>
-      <div className={`absolute top-0 left-0 w-full z-10 ${open ? 'block' : 'hidden'}`}>
+      <div className={`absolute top-12 left-0 w-full z-10 ${open ? 'block' : 'hidden'}`}>
         <div className="bg-white shadow rounded-md overflow-hidden">
           {options.map((option) => (
             <div
