@@ -5,6 +5,7 @@ import { Visibility, Segment, Menu, Container, Button, Sidebar, Icon } from 'sem
 
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 import { Dropdown } from '@/components/molecules/dropdown';
+import { useRouter } from 'next/router';
 
 interface Props {
   children?: React.ReactNode;
@@ -13,6 +14,7 @@ interface Props {
 export const Header = ({ children }: Props) => {
   const { data: session } = useSession();
   const { isMobile } = useDeviceWidth();
+  const router = useRouter();
 
   const [sidebarOpened, setSidebarOpened] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -46,13 +48,13 @@ export const Header = ({ children }: Props) => {
     </>
   );
 
-  const dropDownOptions = [
-    { label: 'Account', value: 'account', onClick: () => console.log('account') },
-    { label: 'Settings', value: 'settings', onClick: () => console.log('settings') },
-    session
-      ? { label: 'Logout', value: 'logout', onClick: () => signOut() }
-      : { label: 'Login', value: 'login', onClick: () => console.log('login') },
-  ];
+  const dropDownOptions = session
+    ? [
+        { label: 'Logout', value: 'logout', onClick: () => signOut() },
+        { label: 'Account', value: 'account', onClick: () => router.push('/auth/account') },
+        { label: 'Settings', value: 'settings', onClick: () => console.log('settings') },
+      ]
+    : [{ label: 'Login', value: 'login', onClick: () => router.push('/auth') }];
 
   const trigger = (
     <span>
