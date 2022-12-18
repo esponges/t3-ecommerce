@@ -1,10 +1,10 @@
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Visibility, Segment, Menu, Container, Button, Sidebar, Icon } from 'semantic-ui-react';
-import { useDeviceWidth } from '../../lib/hooks/useDeviceWidth';
 
-// import { Button } from '../atoms/button';
+import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
+import { Dropdown } from '@/components/molecules/dropdown';
 
 interface Props {
   children?: React.ReactNode;
@@ -35,9 +35,7 @@ export const Header = ({ children }: Props) => {
   const menuItems = (
     <>
       <Link href="/">
-        <Menu.Item active>
-          Store
-        </Menu.Item>
+        <Menu.Item active>Store</Menu.Item>
       </Link>
       <Link href="/cart">
         <Menu.Item>Cart</Menu.Item>
@@ -46,6 +44,18 @@ export const Header = ({ children }: Props) => {
         <Menu.Item>Dashboard</Menu.Item>
       </Link>
     </>
+  );
+
+  const dropDownOptions = [
+    { label: 'Account', value: 'account', onClick: () => console.log('account') },
+    { label: 'Settings', value: 'settings', onClick: () => console.log('settings') },
+    { label: 'Sign Out', value: 'sign-out', onClick: () => signOut() },
+  ];
+
+  const trigger = (
+    <span>
+      <Icon name="user" /> Hello, {session?.user?.name}
+    </span>
   );
 
   if (isMobile) {
@@ -64,14 +74,13 @@ export const Header = ({ children }: Props) => {
                 <Menu.Item position="right">
                   {/* nextauth login */}
                   {!session ? (
-                    <Link href='/auth'>
-                      <Button variant="primary">
-                        Login
-                      </Button>
+                    <Link href="/auth">
+                      <Button variant="primary">Login</Button>
                     </Link>
                   ) : (
                     <>
                       <p className="mr-4">Hello —{session.user?.name}—</p>
+
                       <Button variant="primary" onClick={() => signOut()}>
                         Logout
                       </Button>
@@ -101,14 +110,12 @@ export const Header = ({ children }: Props) => {
               <Menu.Item position="right">
                 {/* nextauth login */}
                 {!session ? (
-                  <Link href='/auth'>
-                    <Button variant="primary">
-                      Login
-                    </Button>
+                  <Link href="/auth">
+                    <Button variant="primary">Login</Button>
                   </Link>
                 ) : (
                   <>
-                    <p className="mr-4">Hello —{session.user?.name}—</p>
+                    <Dropdown options={dropDownOptions} trigger={trigger} />
                     <Button variant="primary" onClick={() => signOut()}>
                       Logout
                     </Button>
