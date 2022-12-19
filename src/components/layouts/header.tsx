@@ -1,6 +1,6 @@
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Segment, Menu, Container, Button, Sidebar, Icon } from 'semantic-ui-react';
 
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
@@ -46,9 +46,9 @@ export const Header = ({ children }: Props) => {
 
   const dropDownOptions = session
     ? [
-        { label: 'Logout', value: 'logout', onClick: () => signOut() },
-        { label: 'Account', value: 'account', onClick: () => router.push('/auth/account') },
-        { label: 'Settings', value: 'settings', onClick: () => console.log('settings') },
+      { label: 'Account', value: 'account', onClick: () => router.push('/auth/account') },
+      { label: 'Logout', value: 'logout', onClick: () => signOut() },
+        // { label: 'Settings', value: 'settings', onClick: () => console.log('settings') },
       ]
     : [{ label: 'Login', value: 'login', onClick: () => router.push('/auth') }];
 
