@@ -19,8 +19,6 @@ export const Header = ({ children }: Props) => {
   const [sidebarOpened, setSidebarOpened] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
-  const ref = useRef(null);
-
   const handleToggleSidebar = () => setSidebarOpened(!sidebarOpened);
 
   // fix hydration issue
@@ -108,17 +106,15 @@ export const Header = ({ children }: Props) => {
   }
   return (
     <>
-      <Segment textAlign="center" vertical>
-        <Menu fixed={'top'} ref={ref} inverted={false} pointing secondary size="large">
-          <Container>
-            {menuItems}
-            <Menu.Item position="right">
-              {/* nextauth login */}
-              <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
-            </Menu.Item>
-          </Container>
-        </Menu>
-      </Segment>
+      <Menu fixed={'top'} inverted={false} pointing secondary size="large">
+        <Container>
+          {menuItems}
+          <Menu.Item position="right">
+            {/* nextauth login */}
+            <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
+          </Menu.Item>
+        </Container>
+      </Menu>
       <main className="mt-16">{children}</main>
     </>
   );
