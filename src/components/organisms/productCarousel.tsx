@@ -70,11 +70,7 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
           toShow?.map((product, idx) => (
             <ProductCard
               key={product.id ?? idx}
-              name={product.name}
-              image={product.image}
-              description={product.description}
-              price={product.price}
-              id={product.id}
+              product={product}
               onClick={() => handleCardClick(product.id)}
               inline
             />

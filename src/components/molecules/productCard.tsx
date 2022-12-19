@@ -1,33 +1,45 @@
-import { useRouter } from 'next/router';
+  import { useRouter } from 'next/router';
 import { Card, Image } from 'semantic-ui-react';
 
 import type { Product } from '@prisma/client';
 
-import { Button } from '../atoms/button';
-import { Counter } from './counter';
-import { useProduct } from '../../lib/hooks/useProduct';
+import { Button } from '@/components/atoms/button';
+import { Counter } from '@/components/molecules/counter';
+import { useProduct } from '@/lib/hooks/useProduct';
+import { useCartStore } from '@/store/cart';
 
-type Props = Partial<Product> & {
+type Props = {
+  product?: Product;
   onClick?: () => void;
   onAddToCart?: (qty: number) => void;
+  redirOnImageClick?: boolean;
   fullWidth?: boolean;
   showDetailsBtn?: boolean;
   inline?: boolean;
 };
 
 export const ProductCard = ({
-  name,
-  price,
-  description,
-  image,
-  id,
+  product,
   onClick,
   onAddToCart,
   fullWidth,
   inline,
   showDetailsBtn = true,
+  redirOnImageClick = true,
 }: Props) => {
   const router = useRouter();
+  const { addToCart } = useCartStore();
+
+  const handleAdd = (qty: number) => {
+    if (product && !onAddToCart) {
+      addToCart(product, qty);
+      return;
+    }
+
+    if (onAddToCart) {
+      onAddToCart(qty);
+    }
+  };
 
   const {
     quantity,
@@ -35,24 +47,26 @@ export const ProductCard = ({
     handleChangeProductQty,
     handleQtyInputChange,
     handleAddToCart,
-  } = useProduct({ onClick, onAddToCart });
+  } = useProduct({ onAddToCart: handleAdd });
 
   const handleDetailsClick = () => {
-    if (id) {
-      void router.push(`/product/${id}`);
+    if (product?.id) {
+      void router.push(`/product/${product?.id}`);
     }
   };
 
   return (
     <div className="card m-2">
       <Card>
-        <Image src={image ?? '/empty-bottle.png'} alt='product' wrapped ui={false} />
+        <div onClick={redirOnImageClick ? handleDetailsClick : undefined}>
+          <Image src={product?.image ?? '/empty-bottle.png'} alt='product' className='w-full pointer-events-auto' />
+        </div>
         <Card.Content>
-          <Card.Header>{name}</Card.Header>
+          <Card.Header>{product?.name}</Card.Header>
           <Card.Meta>
-            <span className="date">{price} MXN</span>
+            <span className="date">{product?.price} MXN</span>
           </Card.Meta>
-          <Card.Description className='h-20'>{description}</Card.Description>
+          <Card.Description className='h-20'>{product?.description}</Card.Description>
         </Card.Content>
         <Card.Content extra>
           <div className="text-center justify-center flex">
