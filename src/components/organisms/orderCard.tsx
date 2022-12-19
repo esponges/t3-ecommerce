@@ -23,6 +23,7 @@ export const OrderCard = ({ order, user }: Props) => {
         header: 'Name',
         cell: (row) => row.renderValue(),
         accessorKey: 'name',
+        footer: () => 'Total',
       },
       {
         header: 'Price',
@@ -48,7 +49,7 @@ export const OrderCard = ({ order, user }: Props) => {
         <p className="text-gray-500">Customer: {user?.name}</p>
         <p className="text-gray-500">Total: {total}</p>
       </div>
-      <div className="flex justify-between">
+      <div className="w-full">
         <Table data={products} columns={columns} showNavigation={false} />
       </div>
     </div>
