@@ -19,7 +19,7 @@ export const productRouter = t.router({
     return product;
   }),
   // get an array of products
-  getBatchDetails: t.procedure
+  getBatchByIds: t.procedure
     .input(
       z.object({
         productIds: z.array(z.string()),
