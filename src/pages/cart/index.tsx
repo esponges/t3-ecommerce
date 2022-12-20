@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useMemo } from 'react';
 
-import type { ColumnDef } from '@tanstack/react-table';
-import type { Item as CartItem } from '../../store/cart';
+import type { CellContext, ColumnDef } from '@tanstack/react-table';
+import type { Item as CartItem } from '@/store/cart';
+import { useCartStore } from '@/store/cart';
 
 import { useCartItems } from '../../lib/hooks/useCartItems';
 
@@ -9,20 +11,39 @@ import { Table } from '../../components/molecules/table';
 import { Button } from '../../components/atoms/button';
 import { Header } from '../../components/atoms/header';
 import { Container } from '../../components/molecules/container';
+import { Icon } from 'semantic-ui-react';
 
-export type TableItem = Pick<CartItem, 'name' | 'price' | 'quantity'>;
+export type TableItem = Pick<CartItem, 'name' | 'price' | 'quantity' | 'id'>;
 
 const Cart = () => {
   const { cartItems, cartTotal } = useCartItems();
+  const { removeFromCart } = useCartStore();
 
-  const tableItems: TableItem[] = Object.values(cartItems).map(({ name, price, quantity }) => ({
+  const tableItems: TableItem[] = Object.values(cartItems).map(({ name, price, quantity, id }) => ({
     name,
     price,
     quantity,
     cartTotal,
+    id,
   }));
 
-  const cols = useMemo<ColumnDef<TableItem>[]>(
+  const renderActions = (row: CellContext<TableItem, string>) => {
+    const id = row.getValue();
+
+    const handleRemove = () => {
+      removeFromCart(id);
+    };
+
+    return (
+      <div className="flex justify-center">
+        <span className="mr-5 cursor-pointer" onClick={handleRemove}>
+          <Icon name="trash" />
+        </span>
+      </div>
+    );
+  };
+
+  const cols = useMemo<ColumnDef<TableItem, string>[]>(
     () => [
       {
         header: 'Name',
@@ -41,8 +62,13 @@ const Cart = () => {
         cell: (row) => row.renderValue(),
         accessorKey: 'quantity',
       },
+      {
+        header: '',
+        cell: (row) => renderActions(row),
+        accessorKey: 'id',
+      },
     ],
-    [cartTotal]
+    [cartTotal, renderActions]
   );
 
   return (

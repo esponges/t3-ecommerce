@@ -7,6 +7,7 @@ interface CartState {
   items: CartItems;
   restoreCart: (cart: CartItems) => void;
   addToCart: (product: Product, quantity: number) => void;
+  removeFromCart: (productId: string) => void;
 }
 
 // todo: fix this any warning
