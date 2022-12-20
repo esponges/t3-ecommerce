@@ -18,7 +18,6 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
   const [page, setPage] = useState(0);
 
   const { screen } = useDeviceWidth();
-
   const { wrapper } = carrouselStyle(screen);
 
   const limit = itemsPerCarrousel(screen);
@@ -88,13 +87,13 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
         )}
         {page > 0 && (
           <button
-            className="carousel-control-prev absolute top-0 bottom-0 -left-14 
+            className="carousel-control-prev absolute top-0 bottom-0 -left-10 
                 flex items-center justify-center border-0 p-0 text-center 
                 hover:no-underline hover:outline-none focus:no-underline focus:outline-none"
             type="button"
             onClick={handleFetchPreviousPage}
           >
-            <Image src="/arrow_back.svg" width={50} height={50} layout="fixed" alt="next" />
+            <Image src="/arrow_back.svg" width={50} height={50} layout="fixed" alt="prev" />
           </button>
         )}
       </div>
