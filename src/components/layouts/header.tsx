@@ -18,6 +18,36 @@ export const Header = ({ children }: Props) => {
 
   const [sidebarOpened, setSidebarOpened] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [showHeader, setShowHeader] = useState(true);
+  const [prevScrollPos, setPrevScrollPos] = useState(typeof window !== "undefined" ? window.scrollY : 0);
+  // todo: move this logic to a hook
+
+  useEffect(() => {
+    if (!isMounted || isMobile) {
+      return;
+    }
+
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY;
+      const scrollUp = currentScrollPos < prevScrollPos;
+
+      if (scrollUp) {
+        setShowHeader(true);
+      } else {
+        if (currentScrollPos > 50) {
+          setShowHeader(false);
+        }
+      }
+
+      setPrevScrollPos(currentScrollPos);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isMobile, isMounted, prevScrollPos]);
 
   const handleToggleSidebar = () => setSidebarOpened(!sidebarOpened);
 
@@ -46,8 +76,8 @@ export const Header = ({ children }: Props) => {
 
   const dropDownOptions = session
     ? [
-      { label: 'Account', value: 'account', onClick: () => router.push('/auth/account') },
-      { label: 'Logout', value: 'logout', onClick: () => signOut() },
+        { label: 'Account', value: 'account', onClick: () => router.push('/auth/account') },
+        { label: 'Logout', value: 'logout', onClick: () => signOut() },
         // { label: 'Settings', value: 'settings', onClick: () => console.log('settings') },
       ]
     : [{ label: 'Login', value: 'login', onClick: () => router.push('/auth') }];
@@ -106,7 +136,14 @@ export const Header = ({ children }: Props) => {
   }
   return (
     <>
-      <Menu fixed={'top'} inverted={false} pointing secondary size="large">
+      <Menu
+        fixed={'top'}
+        className={`header ${!showHeader ? 'hidden' : ''}`}
+        inverted={false}
+        pointing
+        secondary
+        size="large"
+      >
         <Container>
           {menuItems}
           <Menu.Item position="right">
