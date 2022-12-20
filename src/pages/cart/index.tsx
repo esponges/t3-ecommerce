@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { useMemo } from 'react';
 
 import type { CellContext, ColumnDef } from '@tanstack/react-table';
@@ -26,6 +27,24 @@ const Cart = () => {
     id,
   }));
 
+  const renderActions = useMemo(() => {
+    // use memo doesn't take arguments, only if it returns a function as a closure
+    return (removeFn: (id: string) => void, row: CellContext<TableItem, string>) => {
+      const handleRemove = () => {
+        const id = row.getValue();
+        removeFn(id);
+      };
+
+      return (
+        <div className="flex justify-center">
+          <span className="mr-5 cursor-pointer" onClick={handleRemove}>
+            <Icon name="trash" />
+          </span>
+        </div>
+      );
+    };
+  }, []);
+
   const cols = useMemo<ColumnDef<TableItem, string>[]>(
     () => [
       {
@@ -47,27 +66,11 @@ const Cart = () => {
       },
       {
         header: '',
-        cell: (row) => {
-          // TODO: fix type error - if I define this function outside in its own scope, wrapping
-          // with useMemo I'd get a type error:
-          // '(row: CellContext<TableItem, string>) => JSX.Element' is not assignable to parameter of type '() => Element'.
-          const handleRemove = () => {
-            const id = row.getValue();
-            removeFromCart(id);
-          };
-
-          return (
-            <div className="flex justify-center">
-              <span className="mr-5 cursor-pointer" onClick={handleRemove}>
-                <Icon name="trash" />
-              </span>
-            </div>
-          );
-        },
+        cell: (row) => renderActions(removeFromCart, row),
         accessorKey: 'id',
       },
     ],
-    [cartTotal, removeFromCart]
+    [cartTotal, removeFromCart, renderActions]
   );
 
   return (
