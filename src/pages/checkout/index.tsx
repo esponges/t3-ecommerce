@@ -1,4 +1,3 @@
-import { send } from 'emailjs-com';
 import { useForm } from 'react-hook-form';
 import type { ReactElement } from 'react';
 import type { User } from '@prisma/client';
@@ -7,8 +6,9 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 import { useCartItems } from '@/lib/hooks/useCartItems';
+import { sendConfirmationEmail } from '@/lib/order';
+
 import { trpc } from '@/utils/trpc';
-import { env } from '@/env/client.mjs';
 
 const checkoutDefaultValues = {
   address: 'Foo Address',
@@ -58,32 +58,7 @@ const Checkout = () => {
       // We can't do this server side because of the emailjs library
       // there's a trpc.order.success hook that we can use to send the email
       // server side but I have not checked how to do it yet with a different library
-
-      send(
-        // process.env.EMAILJS_SERVICE_ID as string,
-        env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        // process.env.EMAILJS_TEMPLATE_ID as string
-        env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        {
-          // update email body with the order details and real user details
-          message_html: 'test',
-          to_name: 'Buyer',
-          to_email: 'esponges@gmail.com',
-          from_name: 'cool shop',
-          // reply_to: process.env.EMAILJS_FROM_EMAIL as string,
-          reply_to: env.NEXT_PUBLIC_EMAILJS_FROM_EMAIL,
-        },
-        // process.env.EMAILJS_USER_ID_PUBLIC_KEY as string
-        env.NEXT_PUBLIC_EMAILJS_USER_ID_PUBLIC_KEY
-      )
-        .then((response) => {
-          console.log('SUCCESS!', response.status, response.text);
-          // probably redirect to order confirmation page
-        })
-        .catch((err) => {
-          console.log('FAILED...', err);
-          // show feedback to user of some of error
-        });
+      sendConfirmationEmail();
     },
 
     onError: (_err, _values, _context) => {
@@ -92,7 +67,7 @@ const Checkout = () => {
     onSettled: async () => {
       // Error or success... doesn't matter!
       // refetch the query
-      await utils.order.getAll.invalidate();
+      await utils.order.getByUserId.invalidate();
     },
   });
 
