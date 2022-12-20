@@ -5,6 +5,7 @@ import { useProduct } from '@/lib/hooks/useProduct';
 
 import { Button } from '@/components/atoms/button';
 import { Counter } from '@/components/molecules/counter';
+import Image from 'next/image';
 
 type Props = Partial<Product> & {
   onClick?: () => void;
@@ -31,7 +32,14 @@ export const ProductItem = ({
   return (
     <Item className="product-item flex">
       <div className="w-1/2">
-        <Item.Image src={image} alt="product" />
+        <Image
+          src={image ?? '/empty-bottle.png'}
+          alt="product"
+          width={400}
+          height={400}
+          placeholder="blur"
+          blurDataURL={'/empty-bottle.png'}
+        />
       </div>
       <Item.Content>
         <Item.Header as="a">{name}</Item.Header>
