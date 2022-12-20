@@ -6,12 +6,13 @@ import type { OrderDetails } from "@/types";
 import type { User } from "@prisma/client";
 
 import { OrderCard } from "@/components/organisms/orderCard";
+import { Loader } from "@/components/molecules/loader";
 
 const AccountDetails = () => {
   const { data: session } = useSession();
   const user: User | undefined = session?.user as User | undefined;
   
-  const { data: orderData } = trpc.order.getByUserId.useQuery({
+  const { data: orderData, isLoading } = trpc.order.getByUserId.useQuery({
     userId: user?.id,
     orderItemDetails: true,
   }, {
@@ -23,11 +24,11 @@ const AccountDetails = () => {
       <h1 className="mb-10">Account Details</h1>
       <h2>Orders</h2>
       <ul>
+        {isLoading && <Loader />}
         {orderData?.map((order) => (
           <li key={order.id}>
             <OrderCard
               order={order as OrderDetails}
-              user={user}
             />
           </li>
         ))}
