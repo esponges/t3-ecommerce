@@ -6,6 +6,7 @@ import { useProduct } from '@/lib/hooks/useProduct';
 import { Button } from '@/components/atoms/button';
 import { Counter } from '@/components/molecules/counter';
 import Image from 'next/image';
+import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 
 type Props = Partial<Product> & {
   onClick?: () => void;
@@ -28,10 +29,11 @@ export const ProductItem = ({
   const { quantity, isAddingToCart, handleChangeProductQty, handleQtyInputChange, handleAddToCart } = useProduct({
     onAddToCart,
   });
+  const { isMobile } = useDeviceWidth();
 
   return (
-    <Item className="product-item flex">
-      <div className="w-1/2">
+    <Item className={`product-item ${!isMobile ? 'flex' : ''}`}>
+      <div className={`${!isMobile ? 'w-1/2' : ''}`}>
         <Image
           src={image ?? '/empty-bottle.png'}
           alt="product"
@@ -41,7 +43,7 @@ export const ProductItem = ({
           blurDataURL={'/empty-bottle.png'}
         />
       </div>
-      <Item.Content>
+      <Item.Content className={`${!isMobile ? '' : 'text-center'}`}>
         <Item.Header as="a">{name}</Item.Header>
         <Item.Meta>
           <span className="cinema">{price} MXN</span>
