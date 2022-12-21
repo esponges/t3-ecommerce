@@ -21,7 +21,7 @@ type Props = {
 
 export const ProductCard = ({
   product,
-  onClick,
+  /* onClick, */
   onAddToCart,
   fullWidth,
   inline,

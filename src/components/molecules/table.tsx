@@ -51,8 +51,7 @@ export const Table = <T extends object>({
           <div className="p-2">
             {showGlobalFilter ? (
               <DebouncedInput
-                value={globalFilter ?? ''}
-                onChange={(value) => setGlobalFilter(String(value))}
+                value={globalFilter ?? ''} onChange={(value) => setGlobalFilter(String(value))}
                 className="font-lg border-block border p-2 shadow mb-2"
                 placeholder="Search all columns..."
               />
@@ -73,7 +72,10 @@ export const Table = <T extends object>({
                 {table.getRowModel().rows.map((row) => (
                   <tr key={row.id} className='border-b" bg-white'>
                     {row.getVisibleCells().map((cell) => (
-                      <td className="whitespace-nowrap px-2 md:px-6 py-4 text-sm font-light text-gray-900" key={cell.id}>
+                      <td 
+                        className="whitespace-nowrap px-2 md:px-6 py-4 text-sm font-light text-gray-900" 
+                        key={cell.id}
+                      >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </td>
                     ))}

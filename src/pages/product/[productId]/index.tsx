@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router';
 import { Loader } from '@/components/molecules/loader';
-import { Button } from '../../../components/atoms/button';
-import { Container } from '../../../components/molecules/container';
+import { Button } from '@/components/atoms/button';
+import { Container } from '@/components/molecules/container';
 
-import { ProductItem } from '../../../components/molecules/productItem';
-import { useCartStore } from '../../../store/cart';
-import { trpc } from '../../../utils/trpc';
+import { ProductItem } from '@/components/molecules/productItem';
+import { useCartStore } from '@/store/cart';
+import { trpc } from '@/utils/trpc';
 
 const ProductDetails = () => {
   const router = useRouter();

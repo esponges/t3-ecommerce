@@ -80,10 +80,7 @@ const Checkout = () => {
         return;
       }
 
-      await mutateAsync({
-        // todo: check where this user id comes from
-        // it was breaking the request
-        // chatGPT message:  the foreign key constraint error you were getting indicates that one of the values you were using for a foreign key field did not have a corresponding record in the related table. In this case, it seems like the userId value you were using did not exist in the User table, which caused the error.
+      await mutateAsync({ 
         userId: user?.id,
         orderItems: Object.values(cartItems).map((item) => ({
           productId: item.id,

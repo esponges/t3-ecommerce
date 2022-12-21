@@ -19,7 +19,7 @@ export const Counter = ({ onIncrease, onDecrease, onChange, count, extraClassNam
         <Image src="/minus.svg" width={20} height={20} alt="minus" />
       </button>
       <input
-        className="w-10 border-0 p-0 text-center text-center hover:no-underline hover:outline-none focus:no-underline focus:outline-none"
+        className="w-10 border-0 p-0 hover:no-underline hover:outline-none focus:no-underline focus:outline-none"
         type="number"
         value={count}
         onChange={onChange}
