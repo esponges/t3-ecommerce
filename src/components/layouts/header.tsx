@@ -1,7 +1,14 @@
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Segment, Menu, Container, Button, Sidebar, Icon } from 'semantic-ui-react';
+import {
+Segment,
+Menu,
+Container,
+Button,
+Sidebar,
+Icon
+} from 'semantic-ui-react'
 
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 import { Dropdown } from '@/components/molecules/dropdown';
@@ -83,6 +90,9 @@ export const Header = ({ children }: Props) => {
                 <Menu.Item onClick={handleToggleSidebar}>
                   <Icon name="sidebar" />
                 </Menu.Item>
+                <Link href="/">
+                  <Menu.Item active>Store</Menu.Item>
+                </Link>
                 <Menu.Item position="right">
                   {/* nextauth login */}
                   {!session ? (
@@ -91,8 +101,6 @@ export const Header = ({ children }: Props) => {
                     </Link>
                   ) : (
                     <>
-                      <p className="mr-4">Hello —{session.user?.name}—</p>
-
                       <Button variant="primary" onClick={() => signOut()}>
                         Logout
                       </Button>
