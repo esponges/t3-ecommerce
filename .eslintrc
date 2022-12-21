@@ -3,7 +3,7 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "import-newlines"],
   "extends": [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
@@ -23,6 +23,17 @@
         }
       }
     ],
-    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "max-len": ["error", 120],
+    // newline after import - requires import-newlines plugin
+    "import-newlines/enforce": ["error", 4, 120],
+    // newline on React component props
+    "react/jsx-closing-bracket-location": [
+      "error",
+      {
+        "selfClosing": "line-aligned",
+        "nonEmpty": "line-aligned"
+      }
+    ]
   }
 }
