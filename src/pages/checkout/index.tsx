@@ -9,6 +9,8 @@ import { useCartItems } from '@/lib/hooks/useCartItems';
 import { sendConfirmationEmail } from '@/lib/order';
 
 import { trpc } from '@/utils/trpc';
+import { useRouter } from 'next/router';
+import { PageContainer } from '@/components/layouts/pageContainer';
 
 const checkoutDefaultValues = {
   address: 'Foo Address',
@@ -27,6 +29,8 @@ interface CheckoutFormValues {
 }
 
 const Checkout = () => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -53,12 +57,14 @@ const Checkout = () => {
       }
     },
 
-    onSuccess: (_data, _variables, _context) => {
+    onSuccess: (data, _variables, _context) => {
       // TODO: for the moment we must do this client side.
       // We can't do this server side because of the emailjs library
       // there's a trpc.order.success hook that we can use to send the email
       // server side but I have not checked how to do it yet with a different library
-      sendConfirmationEmail();
+      // sendConfirmationEmail();
+      console.log('data', data.id, 'redirecting...');
+      router.push(`/auth/account/order/confirm/${data.id}`);
     },
 
     onError: (_err, _values, _context) => {
@@ -68,6 +74,7 @@ const Checkout = () => {
       // Error or success... doesn't matter!
       // refetch the query
       await utils.order.getByUserId.invalidate();
+      console.log('onSettled rdy');
     },
   });
 
@@ -97,7 +104,7 @@ const Checkout = () => {
     })();
 
   return (
-    <div className="my-10 mx-auto md:w-1/2">
+    <PageContainer>
       <h1 className="mb-10">Checkout</h1>
       <Form onSubmit={handleSubmit(handleFormSubmit)}>
         <Form.Field>
@@ -125,7 +132,9 @@ const Checkout = () => {
           <label htmlFor="postalCode" className="form-label font-bold">
             Postal Code
           </label>
-          <input type="text" className="form-control" id="postalCode" {...register('postalCode', { required: true })} />
+          <input 
+          type="text" className="form-control" id="postalCode" {...register('postalCode', { required: true })}
+          />
           {errors.postalCode && <span className="text-danger">This field is required</span>}
         </Form.Field>
         <Form.Field>
@@ -145,7 +154,7 @@ const Checkout = () => {
           <Button className="btn btn-secondary mt-5">Go back</Button>
         </Link>
       </div>
-    </div>
+    </PageContainer>
   );
 };
 
