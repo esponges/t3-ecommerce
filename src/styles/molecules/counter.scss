@@ -1,5 +1,13 @@
 .counter {
   input {
-    text-align: right;
+    text-align: center;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .counter {
+    input {
+      text-align: right;
+    }
   }
 }
