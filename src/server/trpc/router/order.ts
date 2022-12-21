@@ -1,9 +1,9 @@
 import { z } from 'zod';
-import { t } from '../trpc';
+import { authedProcedure, t } from '../trpc';
 
 // todo: use protectedProcedure to require authentication
 export const orderRouter = t.router({
-  create: t.procedure
+  create: authedProcedure
     .input(
       z.object({
         userId: z.string(),
@@ -38,7 +38,7 @@ export const orderRouter = t.router({
       return order;
     }),
   // send email on create
-  success: t.procedure
+  success: authedProcedure
     .input(
       z.object({
         id: z.string(),
@@ -74,7 +74,7 @@ export const orderRouter = t.router({
       // find an alternative to send emails server-side
       return order;
     }),
-  getByUserId: t.procedure
+  getByUserId: authedProcedure
     .input(
       z.object({
         userId: z.string().optional(),
@@ -92,11 +92,13 @@ export const orderRouter = t.router({
           userId: input.userId,
         },
         include: {
-          orderItems: input.orderItemDetails ? {
-            include: {
-              product: true,
-            },
-          } : true,
+          orderItems: input.orderItemDetails
+            ? {
+                include: {
+                  product: true,
+                },
+              }
+            : true,
           orderDetail: true,
         },
         orderBy: {
@@ -107,7 +109,7 @@ export const orderRouter = t.router({
 
       return orders;
     }),
-  getAll: t.procedure.query(async ({ ctx }) => {
+  getAll: authedProcedure.query(async ({ ctx }) => {
     const orders = await ctx.prisma.order.findMany({
       include: {
         orderItems: true,
@@ -119,7 +121,7 @@ export const orderRouter = t.router({
     });
     return orders;
   }),
-  getById: t.procedure
+  getById: authedProcedure
     .input(
       // allow lazy fetching for Checkout
       z.object({
@@ -136,7 +138,11 @@ export const orderRouter = t.router({
           id: input.id,
         },
         include: {
-          orderItems: true,
+          orderItems: {
+            include: {
+              product: true,
+            },
+          },
           orderDetail: true,
         },
       });
