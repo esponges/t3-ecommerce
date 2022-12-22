@@ -9,6 +9,7 @@ import { MainLayout } from '../components/layouts/main';
 
 import '../styles/globals.scss';
 import 'semantic-ui-css/semantic.min.css';
+import { ProtectedLayout } from '@/components/layouts/protected';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -27,11 +28,13 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout || ((page) => (<MainLayout>{page}</MainLayout>));
-  const layout = getLayout(<Component {...pageProps} />);
+  const layout = getLayout(<Component {...pageProps} />) as JSX.Element;
 
   return (
     <SessionProvider session={session}>
-      {layout}
+      <ProtectedLayout>
+        {layout}
+      </ProtectedLayout>
       <ReactQueryDevtools />
     </SessionProvider>
   );
