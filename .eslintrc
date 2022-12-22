@@ -24,9 +24,9 @@
       }
     ],
     "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
-    "max-len": ["error", 120],
     // newline after import - requires import-newlines plugin
-    "import-newlines/enforce": ["error", 4, 120],
+    "max-len": ["error", 120],
+    "import-newlines/enforce": ["error", 3, 120],
     // newline on React component props
     "react/jsx-closing-bracket-location": [
       "error",
@@ -34,6 +34,7 @@
         "selfClosing": "line-aligned",
         "nonEmpty": "line-aligned"
       }
-    ]
+    ],
+    "indent": ["warn", 2, { "SwitchCase": 1 }]
   }
 }

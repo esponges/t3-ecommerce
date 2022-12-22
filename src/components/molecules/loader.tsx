@@ -1,4 +1,9 @@
-import { Dimmer, Segment, Loader as SemanticLoader, Image } from 'semantic-ui-react';
+import {
+  Dimmer,
+  Segment,
+  Loader as SemanticLoader,
+  Image
+} from 'semantic-ui-react'
 
 interface Props {
   size?: 'mini' | 'small' | 'medium' | 'large' | 'big' | 'huge' | 'massive';
