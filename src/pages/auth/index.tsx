@@ -13,12 +13,12 @@ const Login = () => {
   
   const router = useRouter();
 
-  // if user is already logged in and has a callbackUrl, redirect to it
+  // if user is already logged in and has a returnUrl, redirect to it
   useEffect(() => {
-    if (session && router.query.callbackUrl) {
+    if (session && router.query.returnUrl) {
 
-      const url = router.query.callbackUrl as string;
-      // remove base url from callbackUrl
+      const url = router.query.returnUrl as string;
+      // remove base url from returnUrl
       // comes in this format: http://${baseUrl}/${route}
       const route = url.replace(`${env.NEXT_PUBLIC_NEXTAUTH_URL}`, '');
 

@@ -27,10 +27,10 @@ export const ProtectedLayout = ({ children }: Props): JSX.Element => {
 
     if (unAuthorized) {
       console.log('not authorized')
-      // router.push({
-      //   pathname: '/login',
-      //   query: { returnUrl: router.asPath },
-      // });
+      router.push({
+        pathname: '/auth',
+        query: { returnUrl: router.asPath },
+      });
     }
   }, [loading, unAuthorized, sessionStatus, router]);
 
@@ -40,6 +40,5 @@ export const ProtectedLayout = ({ children }: Props): JSX.Element => {
     )
   }
 
-  // return authorized ? <div>{children}</div> : <></>;
-  return <div>{children}</div>;
+  return authorized ? <div>{children}</div> : <></>;
 };
