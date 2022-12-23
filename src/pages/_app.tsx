@@ -14,27 +14,26 @@ import { ProtectedLayout } from '@/components/layouts/protected';
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
+  requireAuth?: boolean;
 };
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
   pageProps: {
     session: Session | null;
-  }
+  };
 };
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }: AppPropsWithLayout) => {
-  const getLayout = Component.getLayout || ((page) => (<MainLayout>{page}</MainLayout>));
+  const getLayout = Component.getLayout || ((page) => <MainLayout>{page}</MainLayout>);
   const layout = getLayout(<Component {...pageProps} />) as JSX.Element;
 
   return (
     <SessionProvider session={session}>
-      <ProtectedLayout>
-        {layout}
-      </ProtectedLayout>
+      {Component.requireAuth ? <ProtectedLayout>{layout}</ProtectedLayout> : layout}
       <ReactQueryDevtools />
     </SessionProvider>
   );
