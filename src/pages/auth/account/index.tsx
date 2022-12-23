@@ -37,4 +37,6 @@ const AccountDetails = () => {
   );
 };
 
+AccountDetails.requireAuth = true;
+
 export default AccountDetails;

@@ -23,4 +23,6 @@ const OrderConfirmDetail = () => {
   );
 };
 
+OrderConfirmDetail.requireAuth = true;
+
 export default OrderConfirmDetail;

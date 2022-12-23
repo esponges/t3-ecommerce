@@ -133,7 +133,7 @@ const Checkout = () => {
             Postal Code
           </label>
           <input 
-          type="text" className="form-control" id="postalCode" {...register('postalCode', { required: true })}
+            type="text" className="form-control" id="postalCode" {...register('postalCode', { required: true })}
           />
           {errors.postalCode && <span className="text-danger">This field is required</span>}
         </Form.Field>
@@ -162,5 +162,7 @@ Checkout.getLayout = function getLayout(page: ReactElement) {
   // TODO: create some kind of layout for this component
   return page;
 };
+
+Checkout.requireAuth = true;
 
 export default Checkout;
