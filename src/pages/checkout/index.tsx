@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-import type { ReactElement } from 'react';
 import type { User } from '@prisma/client';
 import { Button, Form } from 'semantic-ui-react';
 import { useSession } from 'next-auth/react';

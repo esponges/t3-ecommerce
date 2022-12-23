@@ -14,6 +14,7 @@ type Props = Partial<Product> & {
   category?: Partial<Category>;
   showDetails?: boolean;
   showCTAs?: boolean;
+  qty?: number;
 };
 
 export const ProductItem = ({
@@ -25,6 +26,7 @@ export const ProductItem = ({
   category,
   showDetails = true,
   showCTAs = true,
+  qty,
 }: Props) => {
   const { quantity, isAddingToCart, handleChangeProductQty, handleQtyInputChange, handleAddToCart } = useProduct({
     onAddToCart,
@@ -46,7 +48,8 @@ export const ProductItem = ({
       <Item.Content className={`${!isMobile ? '' : 'text-center'}`}>
         <Item.Header as="a">{name}</Item.Header>
         <Item.Meta>
-          <span className="cinema">{price} MXN</span>
+          <span className="cinema">{price} MXN</span> 
+          {qty && <span className="cinema ml-5">x{qty}</span>}
         </Item.Meta>
         {showDetails && <Item.Description className="mt-8">{description}</Item.Description>}
         {showCTAs && (
@@ -57,7 +60,7 @@ export const ProductItem = ({
                 onIncrease={handleChangeProductQty}
                 onDecrease={handleChangeProductQty}
                 onChange={handleQtyInputChange}
-                count={quantity}
+                count={qty ?? quantity}
                 extraClassName={'mr-2'}
               />
               <Button onClick={handleAddToCart} variant="primary" disabled={isAddingToCart}>

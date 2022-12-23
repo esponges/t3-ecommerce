@@ -17,6 +17,7 @@ type Props = {
   fullWidth?: boolean;
   showDetailsBtn?: boolean;
   inline?: boolean;
+  qty?: number;
 };
 
 export const ProductCard = ({
@@ -27,6 +28,7 @@ export const ProductCard = ({
   inline,
   showDetailsBtn = true,
   redirOnImageClick = true,
+  qty,
 }: Props) => {
   const router = useRouter();
   const { addToCart } = useCartStore();
@@ -79,7 +81,7 @@ export const ProductCard = ({
               onIncrease={handleChangeProductQty}
               onDecrease={handleChangeProductQty}
               onChange={handleQtyInputChange}
-              count={quantity}
+              count={qty ?? quantity}
               extraClassName={'mr-2'}
             />
             <Button
