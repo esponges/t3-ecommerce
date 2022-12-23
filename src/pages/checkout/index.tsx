@@ -158,11 +158,6 @@ const Checkout = () => {
   );
 };
 
-Checkout.getLayout = function getLayout(page: ReactElement) {
-  // TODO: create some kind of layout for this component
-  return page;
-};
-
 Checkout.requireAuth = true;
 
 export default Checkout;

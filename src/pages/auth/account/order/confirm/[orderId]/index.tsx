@@ -12,8 +12,6 @@ const OrderConfirmDetail = () => {
     enabled: !!orderId && typeof orderId === 'string',
   });
 
-  console.log('data', data);
-
   return (
     <PageContainer> 
       {isLoading && <Loader />}
