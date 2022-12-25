@@ -2,18 +2,19 @@ import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import {
-Segment,
-Menu,
-Container,
-Button,
-Sidebar,
-Icon
+  Segment,
+  Menu,
+  Container,
+  Button,
+  Sidebar,
+  Icon
 } from 'semantic-ui-react'
 
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 import { Dropdown } from '@/components/molecules/dropdown';
 import { useRouter } from 'next/router';
 import { useScroll } from '@/lib/hooks/useScroll';
+import { PageRoutes } from '@/lib/routes';
 
 interface Props {
   children?: React.ReactNode;
@@ -23,6 +24,9 @@ export const Header = ({ children }: Props) => {
   const { data: session } = useSession();
   const { isMobile } = useDeviceWidth();
   const router = useRouter();
+
+  const pathname = router.pathname;
+  console.log('pathname', pathname);
 
   const [sidebarOpened, setSidebarOpened] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -43,10 +47,10 @@ export const Header = ({ children }: Props) => {
 
   const menuItems = (
     <>
-      <Link href="/">
+      <Link href={`${PageRoutes.Home}`}>
         <Menu.Item active>Store</Menu.Item>
       </Link>
-      <Link href="/cart">
+      <Link href={`${PageRoutes.Cart}`}>
         <Menu.Item>Cart</Menu.Item>
       </Link>
       <Link href="/d">
@@ -57,11 +61,11 @@ export const Header = ({ children }: Props) => {
 
   const dropDownOptions = session
     ? [
-        { label: 'Account', value: 'account', onClick: () => router.push('/auth/account') },
-        { label: 'Logout', value: 'logout', onClick: () => signOut() },
-        // { label: 'Settings', value: 'settings', onClick: () => console.log('settings') },
-      ]
-    : [{ label: 'Login', value: 'login', onClick: () => router.push('/auth') }];
+      { label: 'Account', value: 'account', onClick: () => router.push(PageRoutes.Account) },
+      { label: 'Logout', value: 'logout', onClick: () => signOut() },
+      // { label: 'Settings', value: 'settings', onClick: () => console.log('settings') },
+    ]
+    : [{ label: 'Login', value: 'login', onClick: () => router.push(PageRoutes.Login) }];
 
   const trigger = (
     <span>
@@ -90,13 +94,13 @@ export const Header = ({ children }: Props) => {
                 <Menu.Item onClick={handleToggleSidebar}>
                   <Icon name="sidebar" />
                 </Menu.Item>
-                <Link href="/">
+                <Link href={`${PageRoutes.Home}`}>
                   <Menu.Item active>Store</Menu.Item>
                 </Link>
                 <Menu.Item position="right">
                   {/* nextauth login */}
                   {!session ? (
-                    <Link href="/auth">
+                    <Link href={`${PageRoutes.Login}`}>
                       <Button variant="primary">Login</Button>
                     </Link>
                   ) : (
