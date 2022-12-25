@@ -1,3 +1,4 @@
+import { Footer } from "./footer";
 import { Header } from "./header";
 
 interface Props {
@@ -10,6 +11,7 @@ export const MainLayout = ({ children }: Props) => {
       <Header>
         {children}
       </Header>
+      <Footer />
     </div>
   )
 }
