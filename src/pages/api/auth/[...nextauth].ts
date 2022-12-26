@@ -5,6 +5,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 import { prisma } from "@/server/db/client";
 import { env } from "@/env/server.mjs";
+import { PageRoutes } from "@/lib/routes";
 
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
@@ -19,7 +20,7 @@ export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
   pages: {
-    signIn: '/auth/login',
+    signIn: PageRoutes.Login,
     // signOut: '/auth/signout',
   },
   providers: [
