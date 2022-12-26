@@ -25,9 +25,6 @@ export const Header = ({ children }: Props) => {
   const { isMobile } = useDeviceWidth();
   const router = useRouter();
 
-  const pathname = router.pathname;
-  console.log('pathname', pathname);
-
   const [sidebarOpened, setSidebarOpened] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   // todo: move this logic to a hook

@@ -77,9 +77,9 @@ export const productRouter = t.router({
         nextCursor,
       };
     }),
-    // search by name for the search bar
-    // debounce it ----
-    search: t.procedure
+  // search by name for the search bar
+  // debounce it ----
+  search: t.procedure
     .input(
       z.object({
         limit: z.number(),
@@ -122,5 +122,5 @@ export const productRouter = t.router({
         nextCursor,
       };
     }
-  ),
+    ),
 });
