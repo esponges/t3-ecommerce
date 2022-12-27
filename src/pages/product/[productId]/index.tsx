@@ -24,6 +24,7 @@ const ProductDetails = (
   const router = useRouter();
   const id = props.id;
 
+  
   // this query is automatically prefetched on server side
   const { data: product, isLoading } = trpc.product.getById.useQuery({ id });
 
@@ -82,7 +83,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
   return {
     props: {
-      dehydratedState: ssg.dehydrate(),
+      trpcState: ssg.dehydrate(),
       id,
     },
   };
