@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import type {
   GetServerSidePropsContext,
@@ -42,6 +43,10 @@ const ProductDetails = (
 
   return (
     <Container>
+      <Head>
+        <title>{product?.name}</title>
+        <meta name="description" content={product?.description} />
+      </Head>
       <ProductItem
         name={product?.name}
         price={product?.price}
