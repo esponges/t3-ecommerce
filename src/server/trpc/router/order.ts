@@ -94,10 +94,10 @@ export const orderRouter = t.router({
         include: {
           orderItems: input.orderItemDetails
             ? {
-                include: {
-                  product: true,
-                },
-              }
+              include: {
+                product: true,
+              },
+            }
             : true,
           orderDetail: true,
         },

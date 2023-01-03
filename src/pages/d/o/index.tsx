@@ -3,8 +3,6 @@ import { trpc } from '@/utils/trpc';
 const Orders = () => {
   const { data } = trpc.order.getAll.useQuery();
 
-  console.log('orders', data);
-
   return (
     <div>
       <h1>Orders</h1>
