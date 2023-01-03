@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useCartStore } from '../../store/cart';
+import { useCartItems as useItems } from '../../store/cart';
 import type { CartItems } from '../../store/cart';
 
 export const useCartItems = () => {
-  const { items } = useCartStore((state) => state);
+  const items = useItems();
   const [cartItems, setCartItems] = useState<CartItems>({});
   const cartTotal = Object.values(cartItems).reduce((acc, item) => acc + item.price * item.quantity, 0);
 

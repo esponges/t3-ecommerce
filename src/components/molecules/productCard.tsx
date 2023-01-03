@@ -6,7 +6,7 @@ import type { Product } from '@prisma/client';
 import { Button } from '@/components/atoms/button';
 import { Counter } from '@/components/molecules/counter';
 import { useProduct } from '@/lib/hooks/useProduct';
-import { useCartStore } from '@/store/cart';
+import { useCartActions } from '@/store/cart';
 import Image from 'next/image';
 
 type Props = {
@@ -31,7 +31,7 @@ export const ProductCard = ({
   qty,
 }: Props) => {
   const router = useRouter();
-  const { addToCart } = useCartStore();
+  const { addToCart } = useCartActions();  
 
   const handleAdd = (qty: number) => {
     if (product && !onAddToCart) {

@@ -13,7 +13,7 @@ import { Button } from '@/components/atoms/button';
 import { Container } from '@/components/molecules/container';
 
 import { ProductItem } from '@/components/molecules/productItem';
-import { useCartStore } from '@/store/cart';
+import { useCartActions } from '@/store/cart';
 import { trpc } from '@/utils/trpc';
 import { appRouter } from '@/server/trpc/router';
 import { createContext } from '@/server/trpc/context';
@@ -28,7 +28,7 @@ const ProductDetails = (
   // this query is automatically prefetched on server side
   const { data: product, isLoading } = trpc.product.getById.useQuery({ id });
 
-  const { addToCart } = useCartStore((state) => state);
+  const { addToCart } = useCartActions();
 
   const handleAddToCart = (qty: number) => {
     if (product) {

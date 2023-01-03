@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 
 import type { CellContext, ColumnDef } from '@tanstack/react-table';
 import type { Item as CartItem } from '@/store/cart';
-import { useCartStore } from '@/store/cart';
+import { useCartActions } from '@/store/cart';
 
 import { useCartItems } from '../../lib/hooks/useCartItems';
 
@@ -17,7 +17,7 @@ export type TableItem = Pick<CartItem, 'name' | 'price' | 'quantity' | 'id'>;
 
 const Cart = () => {
   const { cartItems, cartTotal } = useCartItems();
-  const { removeFromCart } = useCartStore();
+  const { removeFromCart } = useCartActions();
 
   const tableItems: TableItem[] = Object.values(cartItems).map(({ name, price, quantity, id }) => ({
     name,
