@@ -48,12 +48,12 @@ const Checkout = () => {
       // optimistic update
       // mutation about to happen
       // you can do something like this
-      await utils.order.getAll.cancel();
-      const optimisticOrders = utils.order.getAll.getData();
+      // await utils.order.getAll.cancel();
+      // const optimisticOrders = utils.order.getAll.getData();
 
-      if (optimisticOrders) {
-        utils.order.getAll.setData(optimisticOrders);
-      }
+      // if (optimisticOrders) {
+      //   utils.order.getAll.setData(optimisticOrders);
+      // }
     },
 
     onSuccess: (data, _variables, _context) => {
@@ -62,7 +62,6 @@ const Checkout = () => {
       // there's a trpc.order.success hook that we can use to send the email
       // server side but I have not checked how to do it yet with a different library
       // sendConfirmationEmail();
-      console.log('data', data.id, 'redirecting...');
       router.push(`/auth/account/order/confirm/${data.id}`);
     },
 
