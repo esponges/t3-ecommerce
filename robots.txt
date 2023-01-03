@@ -1,0 +1,9 @@
+// block path pages/d/*
+User-agent: *
+Disallow: /d
+Disallow: /auth
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+
