@@ -2,6 +2,7 @@
 User-agent: *
 Disallow: /d
 Disallow: /auth
+Disallow: /checkout
 
 # Allow all crawlers
 User-agent: *
