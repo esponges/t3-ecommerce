@@ -90,7 +90,6 @@ export const productRouter = t.router({
       };
     }),
   // search by name for the search bar
-  // debounce it ----
   search: t.procedure
     .input(
       z.object({
@@ -116,11 +115,12 @@ export const productRouter = t.router({
         skip: skip,
         cursor: cursor ? { id: cursor } : undefined,
         orderBy: {
-          id: 'asc',
+          price: 'desc',
         },
         where: {
           name: {
             contains: name ? name : undefined,
+            mode: 'insensitive',
           },
         },
       });
