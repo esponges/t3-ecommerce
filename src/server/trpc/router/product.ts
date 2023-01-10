@@ -18,6 +18,18 @@ export const productRouter = t.router({
 
     return product;
   }),
+  getByName: t.procedure.input(z.object({ name: z.string() })).query(({ ctx, input }) => {
+    const product = ctx.prisma.product.findFirst({
+      where: {
+        name: input.name,
+      },
+      include: {
+        category: true,
+      }
+    });
+
+    return product;
+  }),
   // get an array of products
   getBatchByIds: t.procedure
     .input(
