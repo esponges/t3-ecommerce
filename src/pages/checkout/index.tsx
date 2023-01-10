@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 import { useCartItems } from '@/lib/hooks/useCartItems';
-// import { sendConfirmationEmail } from '@/lib/order';
+import { sendConfirmationEmail } from '@/lib/order';
 
 import { trpc } from '@/utils/trpc';
 import { useRouter } from 'next/router';
@@ -61,7 +61,7 @@ const Checkout = () => {
       // We can't do this server side because of the emailjs library
       // there's a trpc.order.success hook that we can use to send the email
       // server side but I have not checked how to do it yet with a different library
-      // sendConfirmationEmail();
+      sendConfirmationEmail();
       router.push(`/auth/account/order/confirm/${data.id}`);
     },
 
