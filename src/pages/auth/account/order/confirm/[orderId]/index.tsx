@@ -19,26 +19,28 @@ const OrderConfirmDetail = () => {
 
   return (
     <PageContainer>
-      {isLoading && <Loader />}
-      <h1>Order Confirm Detail</h1>
-      {data && (
-        <div className='mb-10'>
-          <OrderCard order={data} />
-        </div>
-      )}
-      {data?.orderItems.map((orderItem) => (
-        <ProductItem
-          key={orderItem.id}
-          name={orderItem.product.name}
-          price={orderItem.product.price}
-          description={orderItem.product.description}
-          image={orderItem.product.image}
-          id={orderItem.product.id}
-          qty={orderItem.quantity}
-          showCTAs={false}
-          allowDetailsRedir
-        />
-      ))}
+      <div className='px-6'>
+        {isLoading && <Loader />}
+        <h1>Order Confirm Detail</h1>
+        {data && (
+          <div className="mb-10">
+            <OrderCard order={data} />
+          </div>
+        )}
+        {data?.orderItems.map((orderItem) => (
+          <ProductItem
+            key={orderItem.id}
+            name={orderItem.product.name}
+            price={orderItem.product.price}
+            description={orderItem.product.description}
+            image={orderItem.product.image}
+            id={orderItem.product.id}
+            qty={orderItem.quantity}
+            showCTAs={false}
+            allowDetailsRedir
+          />
+        ))}
+      </div>
     </PageContainer>
   );
 };

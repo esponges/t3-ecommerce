@@ -45,7 +45,7 @@ export const ProductItem = ({
   };
 
   return (
-    <div className={`product-item ${!isMobile ? 'columns-2' : ''}`}>
+    <div className={`product-item ${!isMobile ? 'columns-2' : 'px-4 my-4'}`}>
       <div className={`${!isMobile ? 'mx-auto w-3/4' : ''}`}>
         <Image
           src={image ?? '/empty-bottle.png'}
