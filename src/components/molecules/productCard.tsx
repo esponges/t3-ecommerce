@@ -31,7 +31,7 @@ export const ProductCard = ({
   qty,
 }: Props) => {
   const router = useRouter();
-  const { addToCart } = useCartActions();  
+  const { addToCart } = useCartActions();
 
   const handleAdd = (qty: number) => {
     if (product && !onAddToCart) {
@@ -57,11 +57,11 @@ export const ProductCard = ({
   return (
     <div className="card m-2">
       <Card>
-        <div onClick={redirOnImageClick ? handleDetailsClick : undefined}>
+        <div className="cursor-pointer" onClick={redirOnImageClick ? handleDetailsClick : undefined}>
           <Image
             src={product?.image ?? '/empty-bottle.png'}
             alt="product"
-            className="pointer-events-auto w-full"
+            className="w-full"
             placeholder="blur"
             blurDataURL="/empty-bottle.png"
             width={300}
@@ -69,7 +69,7 @@ export const ProductCard = ({
           />
         </div>
         <Card.Content>
-          <Card.Header>{product?.name}</Card.Header>
+          <Card.Header className='cursor-pointer'>{product?.name}</Card.Header>
           <Card.Meta>
             <span className="date">{product?.price} MXN</span>
           </Card.Meta>
