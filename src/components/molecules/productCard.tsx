@@ -49,8 +49,8 @@ export const ProductCard = ({
   });
 
   const handleDetailsClick = () => {
-    if (product?.id) {
-      void router.push(`/product/${product?.id}`);
+    if (product?.name) {
+      void router.push(`/product/${product?.name}`);
     }
   };
 

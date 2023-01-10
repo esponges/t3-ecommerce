@@ -41,8 +41,8 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
     setPage((prev) => prev - 1);
   };
 
-  const handleCardClick = (id: Product['id']) => {
-    router.push(`/product/${id}`);
+  const handleCardClick = (name: Product['name']) => {
+    router.push(`/product/${name}`);
   };
 
   const renderLoadingCards = () => {
@@ -70,7 +70,7 @@ export const ProductCarousel = ({ category, extraClassName }: Props) => {
             <ProductCard
               key={product.id ?? idx}
               product={product}
-              onClick={() => handleCardClick(product.id)}
+              onClick={() => handleCardClick(product.name)}
               inline
             />
           ))}

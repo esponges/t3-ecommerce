@@ -30,7 +30,6 @@ export const ProductItem = ({
   showCTAs = true,
   qty,
   allowDetailsRedir = false,
-  id,
 }: Props) => {
   const { quantity, isAddingToCart, handleChangeProductQty, handleQtyInputChange, handleAddToCart } = useProduct({
     onAddToCart,
@@ -39,8 +38,8 @@ export const ProductItem = ({
   const router = useRouter();
 
   const handleRedirectToDetails = () => {
-    if (allowDetailsRedir && id) {
-      void router.push(`/product/${id}`);
+    if (allowDetailsRedir && name) {
+      void router.push(`/product/${name}`);
     }
   };
 

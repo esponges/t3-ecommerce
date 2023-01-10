@@ -56,7 +56,7 @@ export const ProductSearchbar = ({ extraClassName = '' }) => {
             <ul className="rounded-md border border-gray-300 bg-white">
               {toShow.map((product) => (
                 <li key={product.id}>
-                  <Link href={`/product/${product.id}`}>
+                  <Link href={`/product/${product.name}`}>
                     <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                       {product.name}
                     </a>
