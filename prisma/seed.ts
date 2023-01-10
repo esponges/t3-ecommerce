@@ -19,7 +19,7 @@ async function main() {
     });
   }
 
-  // seed 10 products
+  // seed 30 products
   for (let i = 0; i < 30; i++) {
     const product = await prisma.product.create({
       data: {

@@ -6,9 +6,12 @@ import { trpc } from '../utils/trpc';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { ReactNode, ReactElement } from 'react';
 import { MainLayout } from '../components/layouts/main';
+import { ToastContainer } from 'react-toastify';
 
 import '../styles/globals.scss';
 import 'semantic-ui-css/semantic.min.css';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { ProtectedLayout } from '@/components/layouts/protected';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -33,6 +36,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
   return (
     <SessionProvider session={session}>
+      <ToastContainer />
       {Component.requireAuth ? <ProtectedLayout>{layout}</ProtectedLayout> : layout}
       <ReactQueryDevtools />
     </SessionProvider>

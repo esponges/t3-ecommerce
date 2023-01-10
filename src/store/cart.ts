@@ -1,4 +1,5 @@
 import type { Product } from '@prisma/client';
+import { toast } from 'react-toastify';
 import create from 'zustand';
 
 export type Item = Product & { quantity: number };
@@ -39,6 +40,9 @@ const useCartStore = create<CartState>((set) => ({
 
         // persist cart to local storage
         localStorage.setItem('cart', JSON.stringify(updatedCart.items));
+
+        // show toast
+        toast(`${product.name} (${quantity}x) added to cart`);
 
         return updatedCart;
       });
