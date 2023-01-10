@@ -36,6 +36,7 @@ const OrderConfirmDetail = () => {
           id={orderItem.product.id}
           qty={orderItem.quantity}
           showCTAs={false}
+          allowDetailsRedir
         />
       ))}
     </PageContainer>

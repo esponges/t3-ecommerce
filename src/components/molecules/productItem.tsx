@@ -7,6 +7,7 @@ import { Button } from '@/components/atoms/button';
 import { Counter } from '@/components/molecules/counter';
 import Image from 'next/image';
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
+import { useRouter } from 'next/router';
 
 type Props = Partial<Product> & {
   onClick?: () => void;
@@ -15,6 +16,7 @@ type Props = Partial<Product> & {
   showDetails?: boolean;
   showCTAs?: boolean;
   qty?: number;
+  allowDetailsRedir?: boolean;
 };
 
 export const ProductItem = ({
@@ -27,15 +29,24 @@ export const ProductItem = ({
   showDetails = true,
   showCTAs = true,
   qty,
+  allowDetailsRedir = false,
+  id,
 }: Props) => {
   const { quantity, isAddingToCart, handleChangeProductQty, handleQtyInputChange, handleAddToCart } = useProduct({
     onAddToCart,
   });
   const { isMobile } = useDeviceWidth();
+  const router = useRouter();
+
+  const handleRedirectToDetails = () => {
+    if (allowDetailsRedir && id) {
+      void router.push(`/product/${id}`);
+    }
+  };
 
   return (
     <div className={`product-item ${!isMobile ? 'columns-2' : ''}`}>
-      <div className={`${!isMobile ? 'w-3/4 mx-auto' : ''}`}>
+      <div className={`${!isMobile ? 'mx-auto w-3/4' : ''}`}>
         <Image
           src={image ?? '/empty-bottle.png'}
           alt="product"
@@ -47,9 +58,15 @@ export const ProductItem = ({
         />
       </div>
       <Item.Content className={`${!isMobile ? '' : 'text-center'}`}>
-        <Item.Header as="a">{name}</Item.Header>
+        <Item.Header
+          as="a"
+          onClick={handleRedirectToDetails}
+          className={`${allowDetailsRedir ? 'cursor-pointer' : ''}`}
+        >
+          {name}
+        </Item.Header>
         <Item.Meta>
-          <span className="cinema">{price} MXN</span> 
+          <span className="cinema">{price} MXN</span>
           {qty && <span className="cinema ml-5">x{qty}</span>}
         </Item.Meta>
         {showDetails && <Item.Description className="mt-8">{description}</Item.Description>}
