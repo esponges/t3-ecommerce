@@ -23,11 +23,10 @@ const ProductDetails = (
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) => {
   const router = useRouter();
-  const id = props.id;
-
+  const name = props.name;
   
   // this query is automatically prefetched on server side
-  const { data: product, isLoading } = trpc.product.getById.useQuery({ id });
+  const { data: product, isLoading } = trpc.product.getByName.useQuery({ name });
 
   const { addToCart } = useCartActions();
 
@@ -82,14 +81,14 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     transformer: superjson,
   });
 
-  const id = ctx.params?.productId as string;
+  const name = ctx.params?.name as string;
 
-  await ssg.product.getById.prefetch({ id });
+  await ssg.product.getByName.prefetch({ name });
 
   return {
     props: {
       trpcState: ssg.dehydrate(),
-      id,
+      name,
     },
   };
 };
