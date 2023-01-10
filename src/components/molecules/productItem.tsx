@@ -34,15 +34,16 @@ export const ProductItem = ({
   const { isMobile } = useDeviceWidth();
 
   return (
-    <Item className={`product-item ${!isMobile ? 'flex' : ''}`}>
-      <div className={`${!isMobile ? 'w-1/2' : ''}`}>
+    <div className={`product-item ${!isMobile ? 'columns-2' : ''}`}>
+      <div className={`${!isMobile ? 'w-3/4 mx-auto' : ''}`}>
         <Image
           src={image ?? '/empty-bottle.png'}
           alt="product"
-          width={400}
-          height={400}
+          width={500}
+          height={500}
           placeholder="blur"
           blurDataURL={'/empty-bottle.png'}
+          className="w-full"
         />
       </div>
       <Item.Content className={`${!isMobile ? '' : 'text-center'}`}>
@@ -70,6 +71,6 @@ export const ProductItem = ({
           </Item.Extra>
         )}
       </Item.Content>
-    </Item>
+    </div>
   );
 };
