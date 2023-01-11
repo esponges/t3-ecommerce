@@ -33,11 +33,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) =>
     return (
       <button
         ref={ref}
-        {...rest}
         onClick={() => handleNavigate(href ?? '')}
         className={`rounded bg-white py-2 px-4 font-semibold text-gray-800 shadow hover:bg-gray-100 ${
           extraClassName ?? ''
         }`}
+        {...rest}
       >
         {children}
       </button>
