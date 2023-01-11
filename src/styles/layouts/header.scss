@@ -4,4 +4,9 @@
   &.hidden {
     transform: translateY(-100%);
   }
+
+  // override semantic-ui
+  &.ui.secondary.menu {
+    @apply bg-gray-100;
+  }
 }

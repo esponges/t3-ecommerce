@@ -78,7 +78,7 @@ export const Header = ({ children }: Props) => {
     </span>
   );
 
-  if (isMobile) {
+  const renderMobile = () => {
     return (
       <Sidebar.Pushable>
         <Sidebar as={Menu} animation="overlay" onHide={handleToggleSidebar} vertical visible={sidebarOpened}>
@@ -116,26 +116,30 @@ export const Header = ({ children }: Props) => {
         </Sidebar.Pusher>
       </Sidebar.Pushable>
     );
-  }
-  return (
-    <>
-      <Menu
-        fixed={'top'}
-        className={`header ${!showHeader ? 'hidden' : ''}`}
-        inverted={false}
-        pointing
-        secondary
-        size="large"
-      >
-        <Container>
-          {menuItems}
-          <Menu.Item position="right">
-            {/* nextauth login */}
-            <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
-          </Menu.Item>
-        </Container>
-      </Menu>
-      <main className="mt-16">{children}</main>
-    </>
-  );
+  };
+
+  const renderDesktop = () => {
+    return (
+      <>
+        <Menu
+          fixed={'top'}
+          className={`header ${!showHeader ? 'hidden' : ''}`}
+          inverted={false}
+          pointing
+          secondary
+          size="large"
+        >
+          <Container>
+            {menuItems}
+            <Menu.Item position="right">
+              {/* nextauth login */}
+              <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
+            </Menu.Item>
+          </Container>
+        </Menu>
+        <main className="mt-16">{children}</main>
+      </>
+    );
+  };
+  return isMobile ? renderMobile() : renderDesktop();
 };
