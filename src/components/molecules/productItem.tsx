@@ -8,6 +8,7 @@ import { Counter } from '@/components/molecules/counter';
 import Image from 'next/image';
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 import { useRouter } from 'next/router';
+import { PageRoutes } from '@/lib/routes';
 
 type Props = Partial<Product> & {
   onClick?: () => void;
@@ -39,7 +40,7 @@ export const ProductItem = ({
 
   const handleRedirectToDetails = () => {
     if (allowDetailsRedir && name) {
-      void router.push(`/product/${name}`);
+      void router.push(`${PageRoutes.Products}/${name}`);
     }
   };
 

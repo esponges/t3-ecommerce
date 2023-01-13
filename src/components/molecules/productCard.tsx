@@ -8,6 +8,7 @@ import { Counter } from '@/components/molecules/counter';
 import { useProduct } from '@/lib/hooks/useProduct';
 import { useCartActions } from '@/store/cart';
 import Image from 'next/image';
+import { PageRoutes } from '@/lib/routes';
 
 type Props = {
   product?: Product;
@@ -50,7 +51,7 @@ export const ProductCard = ({
 
   const handleDetailsClick = () => {
     if (product?.name) {
-      void router.push(`/product/${product?.name}`);
+      void router.push(`${PageRoutes.Products}/${product?.name}`);
     }
   };
 

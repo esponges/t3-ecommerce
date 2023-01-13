@@ -5,6 +5,7 @@ import debounce from 'lodash/debounce';
 import { trpc } from '../../utils/trpc';
 import { useMemo } from 'react';
 import Link from 'next/link';
+import { PageRoutes } from '@/lib/routes';
 
 export const ProductSearchbar = ({ extraClassName = '' }) => {
   const [search, setSearch] = useState('');
@@ -56,7 +57,7 @@ export const ProductSearchbar = ({ extraClassName = '' }) => {
             <ul className="rounded-md border border-gray-300 bg-white">
               {toShow.map((product) => (
                 <li key={product.id}>
-                  <Link href={`/product/${product.name}`}>
+                  <Link href={`${PageRoutes.Products}/${product.name}`}>
                     <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                       {product.name}
                     </a>

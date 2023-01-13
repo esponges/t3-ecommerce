@@ -54,14 +54,14 @@ const Cart = () => {
     return (row: CellContext<TableItem, string>) => {
       const name = row.getValue();
 
-      return <Link href={`/product/${name}`}>{name}</Link>;
+      return <Link href={`${PageRoutes.Products}/${name}`}>{name}</Link>;
     };
   }, []);
 
   const minPurchase = 1500;
   const hasMinPurchase = cartTotal >= minPurchase;
 
-  const showCompleteMin = () => {
+  const showCompleteMinPurchaseToast = () => {
     return toast(`Please spend at least $${minPurchase} to complete your order`, {
       type: 'error',
     });
@@ -69,7 +69,7 @@ const Cart = () => {
   
   const handleCheckout = () => {
     if (!hasMinPurchase) {
-      return showCompleteMin();
+      return showCompleteMinPurchaseToast();
     }
     router.push(PageRoutes.Checkout);
   };
