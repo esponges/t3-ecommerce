@@ -50,8 +50,8 @@ export const Header = ({ children }: Props) => {
       <Link href={`${PageRoutes.Cart}`}>
         <Menu.Item>Cart</Menu.Item>
       </Link>
-      <Link href="/d">
-        <Menu.Item>Dashboard</Menu.Item>
+      <Link href={`${PageRoutes.List}`}>
+        <Menu.Item>List</Menu.Item>
       </Link>
     </>
   );

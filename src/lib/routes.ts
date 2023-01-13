@@ -9,7 +9,8 @@ export enum PageRoutes {
   Account = "/auth/account",
   // Products
   Products = "/products",
-  Product = "/product/[name]",
+  Product = "/products/[name]",
+  List = "/products/list",
   // Admin
   // ...
 }
