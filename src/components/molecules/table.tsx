@@ -101,7 +101,7 @@ export const Table = <T extends object>({
             {showNavigation ? (
               <>
                 <div className="mt-5 h-2" />
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 justify-center">
                   <button
                     className="cursor-pointer rounded border p-1"
                     onClick={() => table.setPageIndex(0)}
