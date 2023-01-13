@@ -17,7 +17,7 @@ import { Header } from '@/components/atoms/header';
 import { Container } from '@/components/molecules/container';
 import { PageRoutes } from '@/lib/routes';
 
-export type TableItem = Pick<CartItem, 'name' | 'price' | 'quantity' | 'id'>;
+type TableItem = Pick<CartItem, 'name' | 'price' | 'quantity' | 'id'>;
 
 const Cart = () => {
   const { cartItems, cartTotal } = useCartItems();

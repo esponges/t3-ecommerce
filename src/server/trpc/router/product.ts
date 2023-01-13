@@ -3,7 +3,18 @@ import { t } from '../trpc';
 
 export const productRouter = t.router({
   getAll: t.procedure.query(({ ctx }) => {
-    return ctx.prisma.product.findMany();
+    return ctx.prisma.product.findMany(
+      // display the category name
+      {
+        include: {
+          category: {
+            select: {
+              name: true,
+            },
+          }
+        },
+      }
+    );
   }),
   getById: t.procedure.input(z.object({ id: z.string() })).query(({ ctx, input }) => {
     const product = ctx.prisma.product.findUnique({
