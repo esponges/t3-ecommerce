@@ -18,6 +18,7 @@ interface ReactTableProps<T extends object> {
   showNavigation?: boolean;
   showGlobalFilter?: boolean;
   filterFn?: FilterFn<T>;
+  pageSize?: number;
 }
 
 export const Table = <T extends object>({
@@ -27,14 +28,21 @@ export const Table = <T extends object>({
   showNavigation = true,
   showGlobalFilter = false,
   filterFn = filterFns.fuzzy,
+  pageSize = 15,
 }: ReactTableProps<T>) => {
   const [globalFilter, setGlobalFilter] = useState('');
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSizeState, setPageSize] = useState(pageSize);
 
   const table = useReactTable({
     data,
     columns,
     state: {
-      globalFilter
+      globalFilter,
+      pagination: {
+        pageSize: pageSizeState,
+        pageIndex: pageIndex,
+      },
     },
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -43,6 +51,18 @@ export const Table = <T extends object>({
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: filterFn,
   });
+
+  const { pagination } = table.getState();
+
+  const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newPageSize = Number(e.target.value);
+    setPageSize(newPageSize);
+    setPageIndex(0);
+  };
+
+  const handlePageChange = (newPageIndex: number) => {
+    setPageIndex(newPageIndex);
+  };
 
   return (
     <div className="flex flex-col text-center">
@@ -150,9 +170,7 @@ export const Table = <T extends object>({
                   </span>
                   <select
                     value={table.getState().pagination.pageSize}
-                    onChange={(e) => {
-                      table.setPageSize(Number(e.target.value));
-                    }}
+                    onChange={handlePageSizeChange}
                   >
                     {[10, 20, 30, 40, 50].map((pageSize) => (
                       <option key={pageSize} value={pageSize}>
