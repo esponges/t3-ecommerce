@@ -44,15 +44,31 @@ export const Header = ({ children }: Props) => {
 
   const menuItems = (
     <>
-      <Link href={`${PageRoutes.Home}`}>
-        <Menu.Item active>Store</Menu.Item>
-      </Link>
       <Link href={`${PageRoutes.Cart}`}>
         <Menu.Item>Cart</Menu.Item>
       </Link>
       <Link href={`${PageRoutes.List}`}>
         <Menu.Item>List</Menu.Item>
       </Link>
+    </>
+  );
+
+  const menuItemsMobile = (
+    <>
+      <Menu.Item position="right">
+        {/* nextauth login */}
+        {!session ? (
+          <Link href={`${PageRoutes.Login}`}>
+            <Button variant="primary">Login</Button>
+          </Link>
+        ) : (
+          <>
+            <Button variant="primary" onClick={() => signOut()}>
+              Logout
+            </Button>
+          </>
+        )}
+      </Menu.Item>
     </>
   );
 
@@ -83,30 +99,21 @@ export const Header = ({ children }: Props) => {
       <Sidebar.Pushable>
         <Sidebar as={Menu} animation="overlay" onHide={handleToggleSidebar} vertical visible={sidebarOpened}>
           {menuItems}
+          {menuItemsMobile}
         </Sidebar>
         <Sidebar.Pusher dimmed={sidebarOpened}>
           <Segment textAlign="center" style={{ /*  minHeight: '100vh',  */ padding: '1em 0em' }} vertical>
             <Container>
               <Menu secondary size="large">
-                <Menu.Item onClick={handleToggleSidebar}>
+                <Menu.Item onClick={handleToggleSidebar} position="left">
                   <Icon name="sidebar" />
                 </Menu.Item>
                 <Link href={`${PageRoutes.Home}`}>
-                  <Menu.Item active>Store</Menu.Item>
+                  <Menu.Item>Store</Menu.Item>
                 </Link>
+                {/* searchbar */}
                 <Menu.Item position="right">
-                  {/* nextauth login */}
-                  {!session ? (
-                    <Link href={`${PageRoutes.Login}`}>
-                      <Button variant="primary">Login</Button>
-                    </Link>
-                  ) : (
-                    <>
-                      <Button variant="primary" onClick={() => signOut()}>
-                        Logout
-                      </Button>
-                    </>
-                  )}
+                  <Icon name="search" />
                 </Menu.Item>
               </Menu>
             </Container>
@@ -131,6 +138,12 @@ export const Header = ({ children }: Props) => {
         >
           <Container>
             {menuItems}
+            <Menu.Item>
+              {/* store */}
+              <Link href={`${PageRoutes.Home}`}>
+                <a>Store</a>
+              </Link>
+            </Menu.Item>
             <Menu.Item position="right">
               {/* nextauth login */}
               <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
