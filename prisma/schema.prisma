@@ -76,6 +76,8 @@ model Product {
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
     orderItem   OrderItem[]
+    score       Float
+    favScore    Float
 }
 
 model Category {
