@@ -78,6 +78,18 @@ model Product {
     orderItem   OrderItem[]
     score       Float
     favScore    Float
+    productSpecs ProductSpecs?
+}
+
+model ProductSpecs {
+    id        String @id @default(cuid())
+    productId String @unique
+    product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+    capacity  String
+    volume    String
+    age       String
+    country   String
+    year      String
 }
 
 model Category {
