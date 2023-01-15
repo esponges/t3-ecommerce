@@ -1,5 +1,10 @@
 import type { Category, Product } from '@prisma/client';
-import { Item, Label } from 'semantic-ui-react';
+import {
+  Item,
+  Label,
+  Tab,
+  Table
+} from 'semantic-ui-react'
 
 import { useProduct } from '@/lib/hooks/useProduct';
 
@@ -59,11 +64,14 @@ export const ProductItem = ({
       </div>
       <Item.Content className={`${!isMobile ? '' : 'text-center'}`}>
         <Item.Header
-          as="a"
+          as="h1"
           onClick={handleRedirectToDetails}
           className={`${allowDetailsRedir ? 'cursor-pointer' : ''}`}
         >
           {name}
+        </Item.Header>
+        <Item.Header as="h4" className="mt-4">
+          {category?.name ? <Label>{category?.name}</Label> : null}
         </Item.Header>
         <Item.Meta>
           <span className="cinema">{price} MXN</span>
@@ -72,7 +80,7 @@ export const ProductItem = ({
         {showDetails && <Item.Description className="mt-8">{description}</Item.Description>}
         {showCTAs && (
           <Item.Extra className="mt-8 text-center">
-            {category?.name ? <Label>{category?.name}</Label> : null}
+            
             <div className="mt-8 flex justify-center text-center">
               <Counter
                 onIncrease={handleChangeProductQty}
@@ -87,6 +95,31 @@ export const ProductItem = ({
             </div>
           </Item.Extra>
         )}
+        {/* Technical details */}
+        <Item.Extra className='md:mt-4 mt-2'>
+          <Table basic='very'>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>Technical Details</Table.HeaderCell>
+                <Table.HeaderCell></Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              <Table.Row>
+                <Table.Cell>Size</Table.Cell>
+                <Table.Cell>750ml</Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell>Volume</Table.Cell>
+                <Table.Cell>10%</Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell>Country</Table.Cell>
+                <Table.Cell>Mexico</Table.Cell>
+              </Table.Row>
+            </Table.Body>
+          </Table>
+        </Item.Extra>
       </Item.Content>
     </div>
   );
