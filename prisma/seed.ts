@@ -33,6 +33,10 @@ async function main() {
           1,
           898
         )}.png`,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        score: 0,
+        favScore: 0,
       },
     });
     console.log(product);

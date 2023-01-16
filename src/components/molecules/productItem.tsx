@@ -1,10 +1,5 @@
 import type { Category, Product } from '@prisma/client';
-import {
-  Item,
-  Label,
-  Tab,
-  Table
-} from 'semantic-ui-react'
+import { Item, Label, Table } from 'semantic-ui-react'
 
 import { useProduct } from '@/lib/hooks/useProduct';
 
