@@ -85,11 +85,12 @@ model ProductSpecs {
     id        String @id @default(cuid())
     productId String @unique
     product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-    capacity  String
-    volume    String
-    age       String
-    country   String
-    year      String
+    capacity  String?
+    volume    String?
+    age       String?
+    country   String?
+    year      String?
+    variety   String?
 }
 
 model Category {
