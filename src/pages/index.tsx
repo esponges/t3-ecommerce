@@ -3,6 +3,7 @@ import superjson from 'superjson';
 import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from 'next';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { IKImage } from 'imagekitio-react';
 
 import { ProductSearchbar } from '@/components/molecules/productSearchbar';
 import { ProductCarousel } from '@/components/organisms/productCarousel';
@@ -11,8 +12,9 @@ import { trpc } from '@/utils/trpc';
 import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '@/server/trpc/router';
 import { createContext } from '@/server/trpc/context';
-import { IKImage } from 'imagekitio-react';
+
 import { env } from '@/env/client.mjs';
+
 import { Pill } from '@/components/atoms/pill';
 
 const carouselUrls = [
@@ -22,6 +24,7 @@ const carouselUrls = [
 ];
 
 const Home = () => {
+  
   const { data: categories } = trpc.category.getAll.useQuery();
 
   return (
@@ -31,7 +34,7 @@ const Home = () => {
         <meta name="description" content="Main Store Page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="container mx-auto flex md:min-h-screen flex-col items-center justify-center p-4">
+      <div className='container mx-auto flex md:min-h-screen flex-col items-center justify-center p-4'>
         <h1 className="text-4xl font-bold text-gray-700">Bienvenido a Vinoreo</h1>
         <Carousel
           showStatus={false}
@@ -48,7 +51,6 @@ const Home = () => {
                 <IKImage
                   urlEndpoint={env.NEXT_PUBLIC_IMAGEKIT_URL}
                   path={url}
-                  // transformation={[{ height: 500, width: 500 }]}
                   loading="lazy"
                   className="h-full w-full object-cover"
                 />
@@ -69,6 +71,7 @@ const Home = () => {
           })}
         </ul>
         <ProductSearchbar className='mb-6 md:mb-12' />
+        <ProductCarousel tag='Los Más Vendidos' favorite={true} />
       </div>
     </>
   );
@@ -84,6 +87,9 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   });
 
   await ssg.category.getAll.prefetch();
+  // we'll set limit to 4 for now since we don't have a way to know the screen size
+  // on the server side
+  await ssg.product.getBatch.prefetch({ favorite: true, limit: 4 });
 
   return {
     props: {
