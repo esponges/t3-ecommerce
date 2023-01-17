@@ -18,3 +18,5 @@ For production you can use postgres. To create the database:
 
 This is an app bootstrapped according to the [init.tips](https://init.tips) stack, also known as the T3-Stack.
 # t3-ecommerce
+
+This app has been forked initially from https://github.com/esponges/t3-ecommerce
