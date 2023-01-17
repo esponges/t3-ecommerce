@@ -128,28 +128,32 @@ export const Header = ({ children }: Props) => {
   const renderDesktop = () => {
     return (
       <>
-        <Menu
-          fixed={'top'}
-          className={`header ${!showHeader ? 'hidden' : ''}`}
-          inverted={false}
-          pointing
-          secondary
-          size="large"
-        >
-          <Container>
-            {menuItems}
-            <Menu.Item>
-              {/* store */}
-              <Link href={`${PageRoutes.Home}`}>
-                <a>Store</a>
-              </Link>
-            </Menu.Item>
-            <Menu.Item position="right">
-              {/* nextauth login */}
-              <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
-            </Menu.Item>
-          </Container>
-        </Menu>
+        <nav>
+          <Menu
+            fixed={'top'}
+            className={`header ${!showHeader ? 'hidden' : ''}`}
+            inverted={false}
+            pointing
+            secondary
+            size="large"
+          >
+            <Container>
+              <Menu className="w-full" secondary>
+                {menuItems}
+                <Menu.Item>
+                  {/* store */}
+                  <Link href={`${PageRoutes.Home}`}>
+                    <a>Store</a>
+                  </Link>
+                </Menu.Item>
+                <Menu.Item position="right">
+                  {/* nextauth login */}
+                  <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
+                </Menu.Item>
+              </Menu>
+            </Container>
+          </Menu>
+        </nav>
         <main className="mt-16">{children}</main>
       </>
     );
