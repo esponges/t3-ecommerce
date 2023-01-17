@@ -2,7 +2,7 @@ import Head from 'next/head';
 import superjson from 'superjson';
 import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from 'next';
 import { Carousel } from 'react-responsive-carousel';
-import "react-responsive-carousel/lib/styles/carousel.min.css"; 
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 import { ProductSearchbar } from '@/components/molecules/productSearchbar';
 import { ProductCarousel } from '@/components/organisms/productCarousel';
@@ -13,6 +13,7 @@ import { appRouter } from '@/server/trpc/router';
 import { createContext } from '@/server/trpc/context';
 import { IKImage } from 'imagekitio-react';
 import { env } from '@/env/client.mjs';
+import { Pill } from '@/components/atoms/pill';
 
 const carouselUrls = [
   '/hero-1.png?ik-sdk-version=javascript-1.4.3&updatedAt=1673917229291',
@@ -30,17 +31,16 @@ const Home = () => {
         <meta name="description" content="Main Store Page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
-        <h1 className="text-4xl font-bold text-gray-700">Bienvenido</h1>
+      <div className="container mx-auto flex md:min-h-screen flex-col items-center justify-center p-4">
+        <h1 className="text-4xl font-bold text-gray-700">Bienvenido a Vinoreo</h1>
         <Carousel
-          // showThumbs={false}
           showStatus={false}
-          // showIndicators={false}
+          showArrows={true}
           infiniteLoop
           autoPlay
-          interval={2500}
+          interval={3500}
           transitionTime={1000}
-          className="w-full"
+          className="w-full md:w-3/4"
         >
           {carouselUrls.map((url) => {
             return (
@@ -56,8 +56,19 @@ const Home = () => {
             );
           })}
         </Carousel>
-        <h3 className="mt-6 text-xl font-bold text-gray-700">What are you looking for?</h3>
-        <ProductSearchbar />
+        <h3 className="mt-6 text-xl font-bold text-gray-700">Estás buscando algo?</h3>
+        <ul className="md:my-12 my-6 flex w-full flex-wrap md:flex-row pl-0 md:w-3/4 ">
+          {categories?.map((category) => {
+            return (
+              <li className="flex-auto text-center" key={category.id}>
+                <Pill href={`/category/${category.id}`} className="bg-blue-500 text-lg">
+                  {category.name}
+                </Pill>
+              </li>
+            );
+          })}
+        </ul>
+        <ProductSearchbar className='mb-6 md:mb-12' />
       </div>
     </>
   );
