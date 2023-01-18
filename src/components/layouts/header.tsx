@@ -133,7 +133,7 @@ export const Header = ({ children }: Props) => {
   const renderDesktop = () => {
     return (
       <>
-        <nav>
+        <nav className='bg-primary-blue'>
           <Menu
             fixed={'top'}
             className={`header ${!showHeader ? 'hidden' : ''}`}
@@ -144,12 +144,11 @@ export const Header = ({ children }: Props) => {
           >
             <Container>
               <Menu className="w-full" secondary>
-                {menuItems}
-                {/* store */}
                 <Link href={`${PageRoutes.Home}`}>
                   <Menu.Item active={getIsActiveRoute(PageRoutes.Home)}>Vinoreo</Menu.Item>
                 </Link>
-                <Menu.Item>
+                {menuItems}
+                <Menu.Item position='right'>
                   {/* nextauth login */}
                   <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
                 </Menu.Item>

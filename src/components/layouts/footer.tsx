@@ -1,11 +1,11 @@
 /* eslint-disable max-len */
 export const Footer = () => {
   return (
-    <footer className="bg-gray-100 text-center text-gray-600 lg:text-left">
+    <footer className="bg-primary-blue text-center text-white lg:text-left">
       <div className="flex items-center justify-center border-b border-gray-300 p-6 lg:justify-between">
         <div className="mr-12 hidden lg:block"/>
         <div className="flex justify-center">
-          <a href="#!" className="mr-6 text-gray-600">
+          <a href="#!" className="mr-6 text-white">
             <svg
               aria-hidden="true"
               focusable="false"
@@ -22,7 +22,7 @@ export const Footer = () => {
               ></path>
             </svg>
           </a>
-          <a href="#!" className="mr-6 text-gray-600">
+          <a href="#!" className="mr-6 text-white">
             <svg
               aria-hidden="true"
               focusable="false"
@@ -39,7 +39,7 @@ export const Footer = () => {
               ></path>
             </svg>
           </a>
-          <a href="#!" className="mr-6 text-gray-600">
+          <a href="#!" className="mr-6 text-white">
             <svg
               aria-hidden="true"
               focusable="false"
@@ -56,7 +56,7 @@ export const Footer = () => {
               ></path>
             </svg>
           </a>
-          <a href="#!" className="mr-6 text-gray-600">
+          <a href="#!" className="mr-6 text-white">
             <svg
               aria-hidden="true"
               focusable="false"
@@ -73,7 +73,7 @@ export const Footer = () => {
               ></path>
             </svg>
           </a>
-          <a href="#!" className="mr-6 text-gray-600">
+          <a href="#!" className="mr-6 text-white">
             <svg
               aria-hidden="true"
               focusable="false"
@@ -90,7 +90,7 @@ export const Footer = () => {
               ></path>
             </svg>
           </a>
-          <a href="#!" className="text-gray-600">
+          <a href="#!" className="text-white">
             <svg
               aria-hidden="true"
               focusable="false"
@@ -148,22 +148,22 @@ export const Footer = () => {
           <div className="">
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">Products</h6>
             <p className="mb-4">
-              <a href="#!" className="text-gray-600">
+              <a href="#!" className="text-white">
                 Angular
               </a>
             </p>
             <p className="mb-4">
-              <a href="#!" className="text-gray-600">
+              <a href="#!" className="text-white">
                 React
               </a>
             </p>
             <p className="mb-4">
-              <a href="#!" className="text-gray-600">
+              <a href="#!" className="text-white">
                 Vue
               </a>
             </p>
             <p>
-              <a href="#!" className="text-gray-600">
+              <a href="#!" className="text-white">
                 Laravel
               </a>
             </p>
@@ -171,22 +171,22 @@ export const Footer = () => {
           <div className="">
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">Useful links</h6>
             <p className="mb-4">
-              <a href="#!" className="text-gray-600">
+              <a href="#!" className="text-white">
                 Pricing
               </a>
             </p>
             <p className="mb-4">
-              <a href="#!" className="text-gray-600">
+              <a href="#!" className="text-white">
                 Settings
               </a>
             </p>
             <p className="mb-4">
-              <a href="#!" className="text-gray-600">
+              <a href="#!" className="text-white">
                 Orders
               </a>
             </p>
             <p>
-              <a href="#!" className="text-gray-600">
+              <a href="#!" className="text-white">
                 Help
               </a>
             </p>
@@ -268,10 +268,10 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="bg-gray-200 p-6 text-center">
-        <span>© 2021 Copyright:</span>
-        <a className="font-semibold text-gray-600" href="#">
-          Cool Store
+      <div className="bg-secondary-blue p-6 text-center">
+        <span>© {new Date().getFullYear()} Copyright: </span>
+        <a className="font-semibold text-white" href="#">
+          Vinoreo
         </a>
       </div>
     </footer>

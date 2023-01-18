@@ -7,6 +7,17 @@
 
   // override semantic-ui
   &.ui.secondary.menu {
-    @apply bg-gray-100;
+    @apply bg-primary-blue;
+
+    .ui.menu {
+      
+      .item {
+        @apply text-white;
+      }
+      
+      .active.item {
+        @apply border-white;
+      }
+    }
   }
 }
