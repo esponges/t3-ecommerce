@@ -42,13 +42,18 @@ export const Header = ({ children }: Props) => {
     return null;
   }
 
+  const getIsActiveRoute = (route: PageRoutes) => {
+    const { pathname } = router;
+    return pathname === route || undefined;
+  };
+
   const menuItems = (
     <>
       <Link href={`${PageRoutes.Cart}`}>
-        <Menu.Item>Cart</Menu.Item>
+        <Menu.Item active={getIsActiveRoute(PageRoutes.Cart)}>Cart</Menu.Item>
       </Link>
       <Link href={`${PageRoutes.List}`}>
-        <Menu.Item>List</Menu.Item>
+        <Menu.Item active={getIsActiveRoute(PageRoutes.List)} >List</Menu.Item>
       </Link>
     </>
   );
@@ -140,13 +145,11 @@ export const Header = ({ children }: Props) => {
             <Container>
               <Menu className="w-full" secondary>
                 {menuItems}
+                {/* store */}
+                <Link href={`${PageRoutes.Home}`}>
+                  <Menu.Item active={getIsActiveRoute(PageRoutes.Home)}>Vinoreo</Menu.Item>
+                </Link>
                 <Menu.Item>
-                  {/* store */}
-                  <Link href={`${PageRoutes.Home}`}>
-                    <a>Store</a>
-                  </Link>
-                </Menu.Item>
-                <Menu.Item position="right">
                   {/* nextauth login */}
                   <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
                 </Menu.Item>
