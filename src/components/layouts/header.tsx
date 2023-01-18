@@ -15,6 +15,7 @@ import { Dropdown } from '@/components/molecules/dropdown';
 import { useRouter } from 'next/router';
 import { useScroll } from '@/lib/hooks/useScroll';
 import { PageRoutes } from '@/lib/routes';
+import { Image } from '../atoms/image';
 
 interface Props {
   children?: React.ReactNode;
@@ -50,10 +51,10 @@ export const Header = ({ children }: Props) => {
   const menuItems = (
     <>
       <Link href={`${PageRoutes.List}`}>
-        <Menu.Item active={getIsActiveRoute(PageRoutes.List)} >Lista</Menu.Item>
+        <Menu.Item active={getIsActiveRoute(PageRoutes.List)}>Lista</Menu.Item>
       </Link>
       <Link href={`${PageRoutes.List}`}>
-        <Menu.Item active={getIsActiveRoute(PageRoutes.List)} >Categorías</Menu.Item>
+        <Menu.Item active={getIsActiveRoute(PageRoutes.List)}>Categorías</Menu.Item>
       </Link>
       <Link href={`${PageRoutes.Cart}`}>
         <Menu.Item active={getIsActiveRoute(PageRoutes.Cart)}>Carrito</Menu.Item>
@@ -89,7 +90,7 @@ export const Header = ({ children }: Props) => {
     : [{ label: 'Login', value: 'login', onClick: () => router.push(PageRoutes.Login) }];
 
   const trigger = (
-    <span className='pointer-events-auto'>
+    <span className="pointer-events-auto">
       {session ? (
         <>
           <Icon name="user" /> Hola, {session?.user?.name}
@@ -136,7 +137,7 @@ export const Header = ({ children }: Props) => {
   const renderDesktop = () => {
     return (
       <>
-        <nav className='bg-primary-blue'>
+        <nav className="bg-primary-blue">
           <Menu
             fixed={'top'}
             className={`header ${!showHeader ? 'hidden' : ''}`}
@@ -146,16 +147,21 @@ export const Header = ({ children }: Props) => {
             size="large"
           >
             <Container>
-              <Menu className="w-full flex relative" secondary>
-                <div className='flex'>
-                  {menuItems}
-                </div>
-                <div className='absolute l-0 r-0'>
+              <Menu className="relative flex w-full" secondary>
+                <div className="flex">{menuItems}</div>
+                <div className="l-0 r-0 absolute">
                   <Link href={`${PageRoutes.Home}`}>
-                    <Menu.Item active={getIsActiveRoute(PageRoutes.Home)}>Vinoreo</Menu.Item>
+                    <Image
+                      // eslint-disable-next-line max-len
+                      path="https://ik.imagekit.io/5wjtgrwr1/logo-no-slogan.png?ik-sdk-version=javascript-1.4.3&updatedAt=1674056851908"
+                      alt="logo-vinoreo-header"
+                      width={100}
+                      height={100}
+                      className="mt-1"
+                    />
                   </Link>
                 </div>
-                <div className='ml-auto'>
+                <div className="ml-auto">
                   <Menu.Item>
                     {/* nextauth login */}
                     <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
