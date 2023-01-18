@@ -146,16 +146,16 @@ export const Header = ({ children }: Props) => {
             size="large"
           >
             <Container>
-              <Menu className="w-full flex" secondary>
+              <Menu className="w-full flex relative" secondary>
                 <div className='flex'>
                   {menuItems}
                 </div>
-                <div className='mx-auto'>
+                <div className='absolute l-0 r-0'>
                   <Link href={`${PageRoutes.Home}`}>
                     <Menu.Item active={getIsActiveRoute(PageRoutes.Home)}>Vinoreo</Menu.Item>
                   </Link>
                 </div>
-                <div>
+                <div className='ml-auto'>
                   <Menu.Item>
                     {/* nextauth login */}
                     <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
