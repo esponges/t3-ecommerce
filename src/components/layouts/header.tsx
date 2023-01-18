@@ -49,11 +49,14 @@ export const Header = ({ children }: Props) => {
 
   const menuItems = (
     <>
-      <Link href={`${PageRoutes.Cart}`}>
-        <Menu.Item active={getIsActiveRoute(PageRoutes.Cart)}>Cart</Menu.Item>
+      <Link href={`${PageRoutes.List}`}>
+        <Menu.Item active={getIsActiveRoute(PageRoutes.List)} >Lista</Menu.Item>
       </Link>
       <Link href={`${PageRoutes.List}`}>
-        <Menu.Item active={getIsActiveRoute(PageRoutes.List)} >List</Menu.Item>
+        <Menu.Item active={getIsActiveRoute(PageRoutes.List)} >Categorías</Menu.Item>
+      </Link>
+      <Link href={`${PageRoutes.Cart}`}>
+        <Menu.Item active={getIsActiveRoute(PageRoutes.Cart)}>Carrito</Menu.Item>
       </Link>
     </>
   );
@@ -86,14 +89,14 @@ export const Header = ({ children }: Props) => {
     : [{ label: 'Login', value: 'login', onClick: () => router.push(PageRoutes.Login) }];
 
   const trigger = (
-    <span>
+    <span className='pointer-events-auto'>
       {session ? (
         <>
-          <Icon name="user" /> Hello, {session?.user?.name}
+          <Icon name="user" /> Hola, {session?.user?.name}
         </>
       ) : (
         <>
-          <Icon name="user" /> Hello, Guest
+          <Icon name="user" /> Hola, Invitado
         </>
       )}
     </span>
@@ -143,15 +146,21 @@ export const Header = ({ children }: Props) => {
             size="large"
           >
             <Container>
-              <Menu className="w-full" secondary>
-                <Link href={`${PageRoutes.Home}`}>
-                  <Menu.Item active={getIsActiveRoute(PageRoutes.Home)}>Vinoreo</Menu.Item>
-                </Link>
-                {menuItems}
-                <Menu.Item position='right'>
-                  {/* nextauth login */}
-                  <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
-                </Menu.Item>
+              <Menu className="w-full flex" secondary>
+                <div className='flex'>
+                  {menuItems}
+                </div>
+                <div className='mx-auto'>
+                  <Link href={`${PageRoutes.Home}`}>
+                    <Menu.Item active={getIsActiveRoute(PageRoutes.Home)}>Vinoreo</Menu.Item>
+                  </Link>
+                </div>
+                <div>
+                  <Menu.Item>
+                    {/* nextauth login */}
+                    <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
+                  </Menu.Item>
+                </div>
               </Menu>
             </Container>
           </Menu>

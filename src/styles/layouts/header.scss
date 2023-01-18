@@ -12,11 +12,11 @@
     .ui.menu {
       
       .item {
-        @apply text-white;
+        @apply text-white hover:text-black;
       }
       
       .active.item {
-        @apply border-white;
+        @apply border-white hover:text-gray-500;
       }
     }
   }
