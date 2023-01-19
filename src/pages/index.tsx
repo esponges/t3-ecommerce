@@ -22,7 +22,6 @@ const carouselUrls = [
 ];
 
 const Home = () => {
-  
   const { data: categories } = trpc.category.getAll.useQuery();
 
   return (

@@ -111,7 +111,7 @@ export const Header = ({ children }: Props) => {
           {menuItemsMobile}
         </Sidebar>
         <Sidebar.Pusher dimmed={sidebarOpened}>
-          <Segment textAlign="center" className="header bg-primary-blue" style={{ padding: '1em 0em' }} vertical>
+          <Segment textAlign="center" className="header bg-primary-blue" style={{ padding: '0.25rem 0rem' }} vertical>
             <Container>
               <Menu secondary size="large">
                 <Menu.Item onClick={handleToggleSidebar} position="left">
@@ -156,8 +156,8 @@ export const Header = ({ children }: Props) => {
             <Container>
               <Menu className="relative flex w-full" secondary>
                 <div className="flex">{menuItems}</div>
-                <div className="absolute left-[45%]">
-                  <Link href={`${PageRoutes.Home}`}>
+                <Link href={`${PageRoutes.Home}`}>
+                  <div className="absolute left-[45%]">
                     <Image
                       // eslint-disable-next-line max-len
                       path="https://ik.imagekit.io/5wjtgrwr1/logo-no-slogan.png?ik-sdk-version=javascript-1.4.3&updatedAt=1674056851908"
@@ -166,8 +166,8 @@ export const Header = ({ children }: Props) => {
                       height={100}
                       className="mt-1"
                     />
-                  </Link>
-                </div>
+                  </div>
+                </Link>
                 <div className="ml-auto">
                   <Menu.Item>
                     {/* nextauth login */}
