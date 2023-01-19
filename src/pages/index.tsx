@@ -3,7 +3,6 @@ import superjson from 'superjson';
 import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from 'next';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { IKImage } from 'imagekitio-react';
 
 import { ProductSearchbar } from '@/components/molecules/productSearchbar';
 import { ProductCarousel } from '@/components/organisms/productCarousel';
@@ -13,14 +12,13 @@ import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '@/server/trpc/router';
 import { createContext } from '@/server/trpc/context';
 
-import { env } from '@/env/client.mjs';
-
 import { Pill } from '@/components/atoms/pill';
+import { Image } from '@/components/atoms/image';
 
 const carouselUrls = [
-  '/hero-1.png?ik-sdk-version=javascript-1.4.3&updatedAt=1673917229291',
-  '/hero-2.png?ik-sdk-version=javascript-1.4.3&updatedAt=1673917231502',
-  '/hero-3.png?ik-sdk-version=javascript-1.4.3&updatedAt=1673917229711',
+  'https://ik.imagekit.io/5wjtgrwr1/hero-1.png?ik-sdk-version=javascript-1.4.3&updatedAt=1674086938720',
+  'https://ik.imagekit.io/5wjtgrwr1/hero-2.png?ik-sdk-version=javascript-1.4.3&updatedAt=1674086938776',
+  'https://ik.imagekit.io/5wjtgrwr1/hero-3.png?ik-sdk-version=javascript-1.4.3&updatedAt=1674086938742',
 ];
 
 const Home = () => {
@@ -39,20 +37,20 @@ const Home = () => {
         <Carousel
           showStatus={false}
           showArrows={true}
+          showThumbs={false}
           infiniteLoop
           autoPlay
           interval={3500}
           transitionTime={1000}
           className="w-full md:w-3/4"
         >
-          {carouselUrls.map((url) => {
+          {carouselUrls.map((url, idx) => {
             return (
               <div key={url}>
-                <IKImage
-                  urlEndpoint={env.NEXT_PUBLIC_IMAGEKIT_URL}
+                <Image
                   path={url}
-                  loading="lazy"
-                  className="h-full w-full object-cover"
+                  className="w-full object-cover"
+                  alt={`Home Hero Image ${idx + 1}`}
                 />
               </div>
             );
