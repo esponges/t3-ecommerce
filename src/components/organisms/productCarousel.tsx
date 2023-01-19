@@ -74,6 +74,7 @@ export const ProductCarousel = ({ category, tag, favorite = false, extraClassNam
               product={product}
               onClick={() => handleCardClick(product.name)}
               inline
+              showDetailsBtn={false}
             />
           ))}
         {nextCursor && (

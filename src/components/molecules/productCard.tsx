@@ -77,7 +77,7 @@ export const ProductCard = ({
           <Card.Description className="h-20">{product?.description}</Card.Description>
         </Card.Content>
         <Card.Content extra>
-          <div className="flex justify-center text-center">
+          <div className="flex justify-around text-center">
             <Counter
               onIncrease={handleChangeProductQty}
               onDecrease={handleChangeProductQty}
@@ -85,19 +85,21 @@ export const ProductCard = ({
               count={qty ?? quantity}
               extraClassName={'mr-2'}
             />
-            <Button
-              onClick={handleAddToCart}
-              variant="primary"
-              extraClassName={`${inline ? 'mr-2' : ''}`}
-              disabled={isAddingToCart}
-            >
-              {isAddingToCart ? 'Adding...' : fullWidth ? 'Add to cart' : 'Add'}
-            </Button>
-            {showDetailsBtn && (
-              <Button onClick={handleDetailsClick} variant="primary">
-                Details
+            <div>
+              <Button
+                onClick={handleAddToCart}
+                variant="primary"
+                extraClassName={`${inline ? 'mr-2' : ''}`}
+                disabled={isAddingToCart}
+              >
+                {isAddingToCart ? 'Añadiendo...' : fullWidth ? 'Añadir al carrito' : 'Añadir'}
               </Button>
-            )}
+              {showDetailsBtn && (
+                <Button onClick={handleDetailsClick} variant="primary">
+                  Details
+                </Button>
+              )}
+            </div>
           </div>
         </Card.Content>
       </Card>
