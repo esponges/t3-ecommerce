@@ -7,23 +7,21 @@ interface PillProps {
   bg?: string;
 }
 
-export const Pill = ({ children, className = '', href, bg = 'bg-gray-200', ...props }: PillProps) => {
+export const Pill = ({
+  children,
+  className = 'text-sm text-gray-700',
+  href,
+  ...props
+}: PillProps) => {
   const renderChildren = () => {
     if (href) {
-      return (
-        <Link href={href}>
-          {children}
-        </Link>
-      );
+      return <Link href={href}>{children}</Link>;
     }
     return children;
   };
 
   return (
-    <div
-      className={`${bg} inline-flex items-center rounded-full px-3 py-1 text-sm text-gray-700 ${className}`}
-      {...props}
-    >
+    <div className={`inline-flex items-center rounded-full px-3 py-1 ${className}`} {...props}>
       {renderChildren()}
     </div>
   );
