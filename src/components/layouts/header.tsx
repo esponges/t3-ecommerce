@@ -111,14 +111,21 @@ export const Header = ({ children }: Props) => {
           {menuItemsMobile}
         </Sidebar>
         <Sidebar.Pusher dimmed={sidebarOpened}>
-          <Segment textAlign="center" style={{ /*  minHeight: '100vh',  */ padding: '1em 0em' }} vertical>
+          <Segment textAlign="center" className="header bg-primary-blue" style={{ padding: '1em 0em' }} vertical>
             <Container>
               <Menu secondary size="large">
                 <Menu.Item onClick={handleToggleSidebar} position="left">
                   <Icon name="sidebar" />
                 </Menu.Item>
                 <Link href={`${PageRoutes.Home}`}>
-                  <Menu.Item>Store</Menu.Item>
+                  <Image
+                    // eslint-disable-next-line max-len
+                    path="https://ik.imagekit.io/5wjtgrwr1/logo-no-slogan.png?ik-sdk-version=javascript-1.4.3&updatedAt=1674056851908"
+                    alt="logo-vinoreo-header"
+                    width={100}
+                    height={100}
+                    className="mt-1"
+                  />
                 </Link>
                 {/* searchbar */}
                 <Menu.Item position="right">
@@ -149,7 +156,7 @@ export const Header = ({ children }: Props) => {
             <Container>
               <Menu className="relative flex w-full" secondary>
                 <div className="flex">{menuItems}</div>
-                <div className="left-[45%] absolute">
+                <div className="absolute left-[45%]">
                   <Link href={`${PageRoutes.Home}`}>
                     <Image
                       // eslint-disable-next-line max-len

@@ -6,17 +6,27 @@
   }
 
   // override semantic-ui
-  &.ui.secondary.menu {
-    @apply bg-primary-blue;
-
-    .ui.menu {
-      
-      .item {
-        @apply text-white hover:text-black;
+  &.ui {
+    &.secondary.menu {
+      @apply bg-primary-blue;
+  
+      .ui.menu {
+        .item {
+          @apply text-white hover:text-black;
+        }
+        
+        .active.item {
+          @apply border-white hover:text-gray-500;
+        }
       }
-      
-      .active.item {
-        @apply border-white hover:text-gray-500;
+    }
+
+    // mobile menu
+    &.vertical.segment {
+      @apply bg-primary-blue;
+
+      .ui.secondary.menu .item {
+        @apply text-white;
       }
     }
   }
