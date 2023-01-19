@@ -149,7 +149,7 @@ export const Header = ({ children }: Props) => {
             <Container>
               <Menu className="relative flex w-full" secondary>
                 <div className="flex">{menuItems}</div>
-                <div className="l-0 r-0 absolute">
+                <div className="left-[45%] absolute">
                   <Link href={`${PageRoutes.Home}`}>
                     <Image
                       // eslint-disable-next-line max-len

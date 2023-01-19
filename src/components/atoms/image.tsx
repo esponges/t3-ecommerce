@@ -22,6 +22,7 @@ export const Image = ({ ...props }: Props) => {
     <IKImage 
       urlEndpoint={urlEndpoint} 
       {...props}
+      // TODO: this is a hack to get the path to work, fix Props type
       // if props are passed in after, they will override the path
       path={path} 
     />
