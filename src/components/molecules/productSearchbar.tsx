@@ -7,7 +7,15 @@ import { useMemo } from 'react';
 import Link from 'next/link';
 import { PageRoutes } from '@/lib/routes';
 
-export const ProductSearchbar = ({ className = '' }) => {
+interface Props {
+  className?: string;
+  inputClassName?: string;
+}
+
+export const ProductSearchbar = ({
+  className = '',
+  inputClassName = 'border-gray-300 bg-gray-200 pl-10 sm:text-sm',
+}: Props) => {
   const [search, setSearch] = useState('');
   const { data, refetch } = trpc.product.search.useQuery({
     name: search,
@@ -44,8 +52,8 @@ export const ProductSearchbar = ({ className = '' }) => {
       <div className={`relative ${className}`}>
         <input
           type="text"
-          className="block w-full rounded-md 
-            border-gray-300 bg-gray-200 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className={`${inputClassName} block w-full rounded-md 
+          focus:border-indigo-500 focus:ring-indigo-500`}
           placeholder="Buscar producto"
           onChange={debouncedHandleInputChange}
         />
@@ -58,9 +66,7 @@ export const ProductSearchbar = ({ className = '' }) => {
               {toShow.map((product) => (
                 <li key={product.id}>
                   <Link href={`${PageRoutes.Products}/${product.name}`}>
-                    <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                      {product.name}
-                    </a>
+                    <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">{product.name}</a>
                   </Link>
                 </li>
               ))}

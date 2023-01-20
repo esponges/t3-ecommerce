@@ -31,7 +31,7 @@ const Home = () => {
         <meta name="description" content="Main Store Page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className='container mx-auto flex md:min-h-screen flex-col items-center justify-center p-4'>
+      <div className="container mx-auto flex flex-col items-center justify-center p-4 md:min-h-screen">
         <Carousel
           showStatus={false}
           showArrows={true}
@@ -45,29 +45,25 @@ const Home = () => {
           {carouselUrls.map((url, idx) => {
             return (
               <div key={url}>
-                <Image
-                  path={url}
-                  className="w-full object-cover"
-                  alt={`Home Hero Image ${idx + 1}`}
-                />
+                <Image path={url} className="w-full object-cover" alt={`Home Hero Image ${idx + 1}`} />
               </div>
             );
           })}
         </Carousel>
-        <h3 className="mt-6 text-xl font-bold text-gray-700">¿Estás buscando algo?</h3>
-        <ul className="md:my-12 my-6 flex w-full flex-wrap md:flex-row pl-0 md:w-3/4 ">
+        <ul className="my-6 flex w-full flex-wrap pl-0 md:my-12 md:w-1/2">
           {categories?.map((category) => {
             return (
               <li className="flex-auto text-center" key={category.id}>
-                <Pill href={`/category/${category.id}`} className="bg-blue-200 text-lg">
+                <Pill href={`/category/${category.id}`} className="bg-blue-200 text-lg m-4">
                   {category.name}
                 </Pill>
               </li>
             );
           })}
         </ul>
-        <ProductSearchbar className='mb-6 md:mb-12' />
-        <ProductCarousel tag='Los Más Vendidos' tagClassName='text-4xl' favorite={true} />
+        <h3 className="mt-6 text-xl font-bold text-gray-700">¿Estás buscando algo?</h3>
+        <ProductSearchbar className="mb-6 md:mb-12" />
+        <ProductCarousel tag="Los Más Vendidos" tagClassName="text-4xl" favorite={true} />
       </div>
     </>
   );

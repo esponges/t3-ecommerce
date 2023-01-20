@@ -20,6 +20,7 @@ const storageItems: CartItems =
 
 const useCartStore = create<CartState>((set) => ({
   items: storageItems,
+  // create an action folder once gets bigger
   actions: {
     restoreCart: (cartItems?: CartItems) => {
       set({ items: cartItems ?? {} });
