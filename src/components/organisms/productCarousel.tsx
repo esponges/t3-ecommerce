@@ -14,6 +14,7 @@ type Props = {
   tag?: string;
   tagClassName?: string;
   extraClassName?: string;
+  showDescriptions?: boolean;
 };
 
 export const ProductCarousel = ({
@@ -22,6 +23,7 @@ export const ProductCarousel = ({
   favorite = false,
   extraClassName,
   tagClassName = 'text-2xl font-bold text-gray-700',
+  showDescriptions = true,
 }: Props) => {
   const router = useRouter();
   const [page, setPage] = useState(0);
@@ -70,6 +72,8 @@ export const ProductCarousel = ({
   // don't show empty categories
   if (toShow?.length === 0) return null;
 
+  console.log(showDescriptions, 'show?');
+
   return (
     <div
       className={`relative mt-6 flex flex-col items-center justify-center md:px-12 ${wrapper} ${extraClassName ?? ''}`}
@@ -85,6 +89,7 @@ export const ProductCarousel = ({
               onClick={() => handleCardClick(product.name)}
               inline
               showDetailsBtn={false}
+              showDescription={showDescriptions}
             />
           ))}
         {nextCursor && (

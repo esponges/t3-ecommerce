@@ -17,6 +17,7 @@ type Props = {
   redirOnImageClick?: boolean;
   fullWidth?: boolean;
   showDetailsBtn?: boolean;
+  showDescription?: boolean;
   inline?: boolean;
   qty?: number;
 };
@@ -28,6 +29,7 @@ export const ProductCard = ({
   fullWidth,
   inline,
   showDetailsBtn = true,
+  showDescription = true,
   redirOnImageClick = true,
   qty,
 }: Props) => {
@@ -51,7 +53,7 @@ export const ProductCard = ({
 
   const handleDetailsClick = () => {
     if (product?.name) {
-      void router.push(`${PageRoutes.Products}/${product?.name}`);
+      void router.push(`${PageRoutes.Product}/${product?.name}`);
     }
   };
 
@@ -70,11 +72,11 @@ export const ProductCard = ({
           />
         </div>
         <Card.Content>
-          <Card.Header className='cursor-pointer'>{product?.name}</Card.Header>
+          <Card.Header className="cursor-pointer">{product?.name}</Card.Header>
           <Card.Meta>
             <span className="date">{product?.price} MXN</span>
           </Card.Meta>
-          <Card.Description className="h-20">{product?.description}</Card.Description>
+          {showDescription && <Card.Description className="h-20">{product?.description}</Card.Description>}
         </Card.Content>
         <Card.Content extra>
           <div className="flex justify-around text-center">
