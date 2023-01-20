@@ -15,6 +15,7 @@ import { createContext } from '@/server/trpc/context';
 import { Pill } from '@/components/atoms/pill';
 import { Image } from '@/components/atoms/image';
 import { env } from '@/env/client.mjs';
+import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 
 const carouselUrls = [
   `${env.NEXT_PUBLIC_IMAGEKIT_URL}/hero-1.png?ik-sdk-version=javascript-1.4.3&updatedAt=1674086938720`,
@@ -24,6 +25,7 @@ const carouselUrls = [
 
 const Home = () => {
   const { data: categories } = trpc.category.getAll.useQuery();
+  const { isMobile } = useDeviceWidth();
 
   return (
     <>
@@ -55,7 +57,11 @@ const Home = () => {
           {categories?.map((category) => {
             return (
               <li className="flex-auto text-center" key={category.id}>
-                <Pill href={`/category/${category.id}`} roundedStyle='rounded-md' className="bg-blue-200 text-lg m-4">
+                <Pill
+                  href={`/category/${category.id}`}
+                  roundedStyle="rounded-md"
+                  className="m-1 bg-blue-200 text-lg md:m-4 "
+                >
                   {category.name}
                 </Pill>
               </li>
@@ -64,7 +70,7 @@ const Home = () => {
         </ul>
         <h3 className="mt-6 text-xl font-bold text-gray-700">¿Estás buscando algo?</h3>
         <ProductSearchbar className="mb-6 md:mb-12" />
-        <ProductCarousel tag="Los Más Vendidos" tagClassName="text-4xl" favorite={true} />
+        <ProductCarousel showDescriptions={!isMobile} tag="Los Más Vendidos" tagClassName="text-4xl" favorite={true} />
       </div>
     </>
   );
