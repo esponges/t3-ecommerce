@@ -54,8 +54,8 @@ export const Header = ({ children }: Props) => {
       <Link href={`${PageRoutes.List}`}>
         <Menu.Item active={getIsActiveRoute(PageRoutes.List)}>Lista</Menu.Item>
       </Link>
-      <Link href={`${PageRoutes.List}`}>
-        <Menu.Item active={getIsActiveRoute(PageRoutes.List)}>Categorías</Menu.Item>
+      <Link href={`${PageRoutes.ListTable}`}>
+        <Menu.Item active={getIsActiveRoute(PageRoutes.ListTable)}>Categorías</Menu.Item>
       </Link>
       <Link href={`${PageRoutes.Cart}`}>
         <Menu.Item active={getIsActiveRoute(PageRoutes.Cart)}>

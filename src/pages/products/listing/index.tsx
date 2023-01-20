@@ -10,6 +10,7 @@ import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '@/server/trpc/router';
 import { createContext } from '@/server/trpc/context';
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
+import { Header } from '@/components/atoms/header';
 
 const ProductListing = () => {
   const { data: categories } = trpc.category.getAll.useQuery();
@@ -23,7 +24,7 @@ const ProductListing = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
-        <h3 className="mt-6 text-xl font-bold text-gray-700">What are you looking for?</h3>
+        <Header size='xl'>¿Buscas algo específico?</Header>
         <ProductSearchbar />
         <ul className="mt-4 flex w-full flex-col gap-4">
           {categories?.length &&

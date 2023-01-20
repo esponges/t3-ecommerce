@@ -10,6 +10,7 @@ export enum PageRoutes {
   // Products
   // Products = "/products",
   Product = "/products/[name]",
+  Products = "/products",
   List = "/products/listing",
   ListTable = "/products/listing/table",
   // Admin

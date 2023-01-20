@@ -17,6 +17,7 @@ import { Table } from '@/components/molecules/table';
 
 import type { Product } from '@/types';
 import { PageRoutes } from '@/lib/routes';
+import { ProductSearchbar } from '@/components/molecules/productSearchbar';
 
 // consider that the Category will only return a name
 type TableItem = Product & { category: string };
@@ -64,12 +65,14 @@ const ProductTable = () => {
 
   return (
     <>
-      <Container>
-        <Head>
-          <title>List</title>
-          <meta name="description" content="All our available products" />
-        </Head>
-        <Header>Products</Header>
+      <Head>
+        <title>List</title>
+        <meta name="description" content="All our available products" />
+      </Head>
+      <Container extraClassName='text-center'>
+        <Header size='3xl'>Todos nuestros productos</Header>
+        <Header size='xl'>¿Buscas algo específico?</Header>
+        <ProductSearchbar className='w-1/2 md:w-1/3 mx-auto' />
         <Table data={tableItems} columns={cols} />
       </Container>
     </>
