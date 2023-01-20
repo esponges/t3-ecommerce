@@ -32,14 +32,14 @@ const Login = () => {
     <div className="flex h-screen items-center justify-center">
       {!session ? (
         <Button variant="secondary" onClick={() => void signIn(AuthProviders.Discord)}>
-          Login with Discord <Icon name="discord" size='huge' />
+          Login con Discord <Icon name="discord" size='huge' />
         </Button>
       ) : (
         <div>
-          <p>Already logged in</p>
+          <p>Sesión active</p>
           <Link href="/">
             <Button variant="primary" extraClassName="mt-4">
-              Go to home
+              Regresar al inicio
             </Button>
           </Link>
         </div>

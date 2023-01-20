@@ -24,7 +24,7 @@ export const useDeviceWidth = (): ReturnTypes => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const getWidth = () => {
+  const getDeviceScreenSize = () => {
     switch (true) {
       case width < 600:
         return DeviceWidth.xs;
@@ -39,7 +39,7 @@ export const useDeviceWidth = (): ReturnTypes => {
     }
   };
 
-  const isMobile = getWidth() > DeviceWidth.sm;
+  const isMobile = width < 600;
 
-  return { screen: getWidth(), isMobile };
+  return { screen: getDeviceScreenSize(), isMobile };
 };

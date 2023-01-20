@@ -59,7 +59,9 @@ export const Header = ({ children }: Props) => {
       </Link>
       <Link href={`${PageRoutes.Cart}`}>
         <Menu.Item active={getIsActiveRoute(PageRoutes.Cart)}>
-          <Icon name="cart" /> {cartCount > 0 ? <Label color="yellow">{cartCount}</Label> : null}
+          <Icon name="cart" />
+          {'Carrito'}
+          {cartCount > 0 ? <Label color="yellow">{cartCount}</Label> : null}
         </Menu.Item>
       </Link>
     </>
@@ -132,7 +134,9 @@ export const Header = ({ children }: Props) => {
                 </Link>
                 {/* searchbar */}
                 <Menu.Item position="right">
-                  <Icon name="search" />
+                  <Link href={PageRoutes.ListTable}>
+                    <Icon name="search" />
+                  </Link>
                 </Menu.Item>
               </Menu>
             </Container>
