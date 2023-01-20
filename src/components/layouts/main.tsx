@@ -10,8 +10,8 @@ export const MainLayout = ({ children }: Props) => {
     <div className="min-h-screen">
       <Header>
         {children}
+        <Footer />
       </Header>
-      <Footer />
     </div>
   )
 }

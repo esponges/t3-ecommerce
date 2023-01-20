@@ -5,12 +5,14 @@ interface PillProps {
   href?: string;
   children: React.ReactNode;
   bg?: string;
+  roundedStyle?: 'rounded-full' | 'rounded-md' | 'rounded-sm';
 }
 
 export const Pill = ({
   children,
   className = 'text-sm text-gray-700',
   href,
+  roundedStyle = 'rounded-full',
   ...props
 }: PillProps) => {
   const renderChildren = () => {
@@ -21,7 +23,7 @@ export const Pill = ({
   };
 
   return (
-    <div className={`inline-flex items-center rounded-full px-3 py-1 ${className}`} {...props}>
+    <div className={`inline-flex items-center px-3 py-1 ${className} ${roundedStyle}`} {...props}>
       {renderChildren()}
     </div>
   );

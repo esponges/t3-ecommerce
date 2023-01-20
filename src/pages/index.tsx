@@ -29,7 +29,7 @@ const Home = () => {
     <>
       <Head>
         <title>Vinoreo</title>
-        <meta name="description" content="Main Store Page" />
+        <meta name="description" content="Vinoreo Home Page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="container mx-auto flex flex-col items-center justify-center p-4 md:min-h-screen">
@@ -55,7 +55,7 @@ const Home = () => {
           {categories?.map((category) => {
             return (
               <li className="flex-auto text-center" key={category.id}>
-                <Pill href={`/category/${category.id}`} className="bg-blue-200 text-lg m-4">
+                <Pill href={`/category/${category.id}`} roundedStyle='rounded-md' className="bg-blue-200 text-lg m-4">
                   {category.name}
                 </Pill>
               </li>

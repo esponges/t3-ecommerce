@@ -1,3 +1,6 @@
+import { PageRoutes } from '@/lib/routes';
+import Link from 'next/link';
+
 /* eslint-disable max-len */
 export const Footer = () => {
   return (
@@ -72,32 +75,22 @@ export const Footer = () => {
               </svg>
               VINOREO
             </h6>
-            <p>
-              Siempre precios de mayoreo, hasta la puerta de tu hogar.
-            </p>
+            <p>Siempre precios de mayoreo, hasta la puerta de tu hogar.</p>
           </div>
           <div className="">
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">Productos</h6>
-            <p className="mb-4">
-              <a href="#!" className="text-white">
-                Angular
-              </a>
-            </p>
-            <p className="mb-4">
-              <a href="#!" className="text-white">
-                React
-              </a>
-            </p>
-            <p className="mb-4">
-              <a href="#!" className="text-white">
-                Vue
-              </a>
-            </p>
-            <p>
-              <a href="#!" className="text-white">
-                Laravel
-              </a>
-            </p>
+            <Link href={PageRoutes.List}>
+              <p className="mb-4">Whisky</p>
+            </Link>
+            <Link href={PageRoutes.List}>
+              <p className="mb-4">Tequila</p>
+            </Link>
+            <Link href={PageRoutes.List}>
+              <p className="mb-4">Ginebra</p>
+            </Link>
+            <Link href={PageRoutes.List}>
+              <p>Mezcal</p>
+            </Link>
           </div>
           <div className="hidden md:block">
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">Useful links</h6>
