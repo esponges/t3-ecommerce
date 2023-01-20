@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import type { Category, Product } from '@prisma/client';
-import { trpc } from '../../utils/trpc';
+import { trpc } from '@/utils/trpc';
 
-import { ProductCard } from '../molecules/productCard';
+import { ProductCard } from '@/components/molecules/productCard';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useDeviceWidth } from '../../lib/hooks/useDeviceWidth';
-import { carrouselStyle, itemsPerCarrousel } from '../../lib/products';
+import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
+import { carrouselStyle, itemsPerCarrousel } from '@/lib/products';
 
 type Props = {
   category?: Category;
@@ -66,6 +66,9 @@ export const ProductCarousel = ({
   const toShow = data?.pages[page]?.items;
   // figure out last page
   const nextCursor = data?.pages[page]?.nextCursor;
+
+  // don't show empty categories
+  if (toShow?.length === 0) return null;
 
   return (
     <div
