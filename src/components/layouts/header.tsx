@@ -7,15 +7,18 @@ import {
   Container,
   Button,
   Sidebar,
-  Icon
+  Icon,
+  Label
 } from 'semantic-ui-react'
+import { useRouter } from 'next/router';
 
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
-import { Dropdown } from '@/components/molecules/dropdown';
-import { useRouter } from 'next/router';
+import { useCartItems } from '@/lib/hooks/useCartItems';
 import { useScroll } from '@/lib/hooks/useScroll';
 import { PageRoutes } from '@/lib/routes';
-import { Image } from '../atoms/image';
+
+import { Dropdown } from '@/components/molecules/dropdown';
+import { Image } from '@/components/atoms/image';
 
 interface Props {
   children?: React.ReactNode;
@@ -25,14 +28,11 @@ export const Header = ({ children }: Props) => {
   const { data: session } = useSession();
   const { isMobile } = useDeviceWidth();
   const router = useRouter();
+  const { cartCount } = useCartItems();
 
   const [sidebarOpened, setSidebarOpened] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  // todo: move this logic to a hook
-
   const { showHeader } = useScroll({ isMobile, isMounted });
-
-  const handleToggleSidebar = () => setSidebarOpened(!sidebarOpened);
 
   // fix hydration issue
   useEffect(() => {
@@ -42,6 +42,7 @@ export const Header = ({ children }: Props) => {
   if (!isMounted) {
     return null;
   }
+  const handleToggleSidebar = () => setSidebarOpened(!sidebarOpened);
 
   const getIsActiveRoute = (route: PageRoutes) => {
     const { pathname } = router;
@@ -57,7 +58,9 @@ export const Header = ({ children }: Props) => {
         <Menu.Item active={getIsActiveRoute(PageRoutes.List)}>Categorías</Menu.Item>
       </Link>
       <Link href={`${PageRoutes.Cart}`}>
-        <Menu.Item active={getIsActiveRoute(PageRoutes.Cart)}>Carrito</Menu.Item>
+        <Menu.Item active={getIsActiveRoute(PageRoutes.Cart)}>
+          <Icon name="cart" /> {cartCount > 0 ? <Label color="yellow">{cartCount}</Label> : null}
+        </Menu.Item>
       </Link>
     </>
   );

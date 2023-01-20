@@ -6,6 +6,7 @@ export const useCartItems = () => {
   const items = useItems();
   const [cartItems, setCartItems] = useState<CartItems>({});
   const cartTotal = Object.values(cartItems).reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const cartCount = Object.values(cartItems).reduce((acc, item) => acc + item.quantity, 0);
 
   // get rid of hydration problems
   // since we set them from the localStorage in the store
@@ -15,5 +16,5 @@ export const useCartItems = () => {
     }
   }, [items]);
 
-  return { cartItems, cartTotal };
+  return { cartItems, cartTotal, cartCount };
 };
