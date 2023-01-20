@@ -14,11 +14,12 @@ import { createContext } from '@/server/trpc/context';
 
 import { Pill } from '@/components/atoms/pill';
 import { Image } from '@/components/atoms/image';
+import { env } from '@/env/client.mjs';
 
 const carouselUrls = [
-  'https://ik.imagekit.io/5wjtgrwr1/hero-1.png?ik-sdk-version=javascript-1.4.3&updatedAt=1674086938720',
-  'https://ik.imagekit.io/5wjtgrwr1/hero-2.png?ik-sdk-version=javascript-1.4.3&updatedAt=1674086938776',
-  'https://ik.imagekit.io/5wjtgrwr1/hero-3.png?ik-sdk-version=javascript-1.4.3&updatedAt=1674086938742',
+  `${env.NEXT_PUBLIC_IMAGEKIT_URL}/hero-1.png?ik-sdk-version=javascript-1.4.3&updatedAt=1674086938720`,
+  `${env.NEXT_PUBLIC_IMAGEKIT_URL}/hero-2.png?ik-sdk-version=javascript-1.4.3&updatedAt=1674086938776`,
+  `${env.NEXT_PUBLIC_IMAGEKIT_URL}/hero-3.png?ik-sdk-version=javascript-1.4.3&updatedAt=1674086938742`,
 ];
 
 const Home = () => {
