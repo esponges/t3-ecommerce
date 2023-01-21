@@ -18,12 +18,14 @@ import { Table } from '@/components/molecules/table';
 import type { Product } from '@/types';
 import { PageRoutes } from '@/lib/routes';
 import { ProductSearchbar } from '@/components/molecules/productSearchbar';
+import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 
 // consider that the Category will only return a name
 type TableItem = Product & { category: string };
 
 const ProductTable = () => {
-  const { data } = trpc.product.getAll.useQuery();
+  const { data } = trpc.product.getAll.useQuery({});
+  const { isMobile } = useDeviceWidth();
 
   const tableItems = useMemo(() => {
     return data?.map((product) => ({
@@ -45,17 +47,17 @@ const ProductTable = () => {
   const cols = useMemo<ColumnDef<TableItem, string>[]>(
     () => [
       {
-        header: 'Name',
+        header: 'Producto',
         cell: (row) => renderProductLink(row),
         accessorKey: 'name',
       },
       {
-        header: 'Price',
+        header: 'Precio',
         cell: (row) => row.getValue(),
         accessorKey: 'price',
       },
       {
-        header: 'Category',
+        header: 'Categoría',
         cell: (row) => row.getValue(),
         accessorKey: 'category'
       },
@@ -73,7 +75,7 @@ const ProductTable = () => {
         <Header size='3xl'>Todos nuestros productos</Header>
         <Header size='xl'>¿Buscas algo específico?</Header>
         <ProductSearchbar className='w-1/2 md:w-1/3 mx-auto' />
-        <Table data={tableItems} columns={cols} />
+        <Table data={tableItems} columns={cols} isMobile={isMobile} />
       </Container>
     </>
   );
@@ -88,7 +90,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     transformer: superjson,
   });
 
-  await ssg.product.getAll.prefetch();
+  await ssg.product.getAll.prefetch({});
 
   return {
     props: {

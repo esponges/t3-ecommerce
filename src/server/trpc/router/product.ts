@@ -2,45 +2,55 @@ import { z } from 'zod';
 import { t } from '../trpc';
 
 export const productRouter = t.router({
-  getAll: t.procedure.query(({ ctx }) => {
-    return ctx.prisma.product.findMany(
-      // display the category name
-      {
-        include: {
-          category: {
-            select: {
-              name: true,
+  getAll: t.procedure
+    .input(
+      z.object({
+        orderBy: z.enum(['price', 'category']).optional(),
+      })
+    )
+    .query(({ ctx }) => {
+      return ctx.prisma.product.findMany(
+        // display the category name
+        {
+          include: {
+            category: {
+              select: {
+                name: true,
+              },
             },
-          }
+          },
+        }
+      );
+    }),
+  getById: t.procedure
+    .input(z.object({ id: z.string() }))
+    .query(({ ctx, input }) => {
+      const product = ctx.prisma.product.findUnique({
+        where: {
+          id: input.id,
         },
-      }
-    );
-  }),
-  getById: t.procedure.input(z.object({ id: z.string() })).query(({ ctx, input }) => {
-    const product = ctx.prisma.product.findUnique({
-      where: {
-        id: input.id,
-      },
-      // return the category information from the relation
-      include: {
-        category: true,
-      },
-    });
+        // return the category information from the relation
+        include: {
+          category: true,
+        },
+      });
 
-    return product;
-  }),
-  getByName: t.procedure.input(z.object({ name: z.string() })).query(({ ctx, input }) => {
-    const product = ctx.prisma.product.findFirst({
-      where: {
-        name: input.name,
-      },
-      include: {
-        category: true,
-      }
-    });
+      return product;
+    }),
+  getByName: t.procedure
+    .input(z.object({ name: z.string() }))
+    .query(({ ctx, input }) => {
+      const product = ctx.prisma.product.findFirst({
+        where: {
+          name: input.name,
+        },
+        include: {
+          category: true,
+        },
+      });
 
-    return product;
-  }),
+      return product;
+    }),
   // get an array of products
   getBatchByIds: t.procedure
     .input(
@@ -76,7 +86,7 @@ export const productRouter = t.router({
         favorite: z.boolean().optional(),
       })
     )
-    .query(async({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       const { limit, skip, categoryId, cursor, favorite } = input;
       const items = await ctx.prisma.product.findMany({
         take: limit + 1,
@@ -87,17 +97,19 @@ export const productRouter = t.router({
         },
         where: {
           categoryId: categoryId ? categoryId : undefined,
-          favScore: favorite ? {
-            gt: 0,
-          } : undefined,
+          favScore: favorite
+            ? {
+              gt: 0,
+            }
+            : undefined,
         },
       });
       let nextCursor: typeof cursor | undefined = undefined;
       if (items.length > limit) {
         // return the last item from the array
         // and also remove it from items array
-        const nextItem = items.pop(); 
-        nextCursor = nextItem?.id;  
+        const nextItem = items.pop();
+        nextCursor = nextItem?.id;
       }
       return {
         items,
@@ -114,7 +126,7 @@ export const productRouter = t.router({
         name: z.string().optional(),
       })
     )
-    .query(async({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       const { limit, skip, name, cursor } = input;
 
       // avoid empty search due to useQuery refetch()
@@ -148,6 +160,5 @@ export const productRouter = t.router({
         items,
         nextCursor,
       };
-    }
-    ),
+    }),
 });

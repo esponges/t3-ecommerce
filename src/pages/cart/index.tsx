@@ -77,19 +77,19 @@ const Cart = () => {
   const cols = useMemo<ColumnDef<TableItem, string>[]>(
     () => [
       {
-        header: 'Name',
+        header: 'Producto',
         cell: (row) => renderProductLink(row),
         accessorKey: 'name',
         footer: 'Total',
       },
       {
-        header: 'Price',
+        header: 'Precio',
         cell: (row) => row.renderValue(),
         accessorKey: 'price',
         footer: () => cartTotal,
       },
       {
-        header: 'Quantity',
+        header: 'Cantidad',
         cell: (row) => row.renderValue(),
         accessorKey: 'quantity',
       },

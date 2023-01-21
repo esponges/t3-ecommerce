@@ -19,6 +19,7 @@ interface ReactTableProps<T extends object> {
   showGlobalFilter?: boolean;
   filterFn?: FilterFn<T>;
   pageSize?: number;
+  isMobile?: boolean;
 }
 
 export const Table = <T extends object>({
@@ -29,6 +30,7 @@ export const Table = <T extends object>({
   showGlobalFilter = false,
   filterFn = filterFns.fuzzy,
   pageSize = 15,
+  isMobile = false,
 }: ReactTableProps<T>) => {
   const [globalFilter, setGlobalFilter] = useState('');
   const [pageIndex, setPageIndex] = useState(0);
@@ -159,13 +161,13 @@ export const Table = <T extends object>({
                     {'>>'}
                   </button>
                   <span className="flex cursor-pointer items-center gap-1">
-                    <div>Page</div>
+                    <div>{!isMobile ? 'Página' : 'Pag'}</div>
                     <strong>
-                      {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+                      {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
                     </strong>
                   </span>
                   <span className="flex items-center gap-1">
-                    | Go to page:
+                    | Ir a:
                     <input
                       type="number"
                       defaultValue={table.getState().pagination.pageIndex + 1}
@@ -182,7 +184,7 @@ export const Table = <T extends object>({
                   >
                     {[10, 20, 30, 40, 50].map((pageSize) => (
                       <option key={pageSize} value={pageSize}>
-                        Show {pageSize}
+                        Ver {pageSize}
                       </option>
                     ))}
                   </select>
