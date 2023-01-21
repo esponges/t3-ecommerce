@@ -16,6 +16,7 @@ import { Button } from '@/components/atoms/button';
 import { Header } from '@/components/atoms/header';
 import { Container } from '@/components/molecules/container';
 import { PageRoutes } from '@/lib/routes';
+import { PriceCell } from '@/components/atoms/table/PriceCell';
 
 type TableItem = Pick<CartItem, 'name' | 'price' | 'quantity' | 'id'>;
 
@@ -84,9 +85,9 @@ const Cart = () => {
       },
       {
         header: 'Precio',
-        cell: (row) => row.renderValue(),
+        cell: (row) => <PriceCell<TableItem> price={row.renderValue()} />,
         accessorKey: 'price',
-        footer: () => cartTotal,
+        footer: () => <PriceCell<TableItem> price={cartTotal.toString()} />,
       },
       {
         header: 'Cantidad',
