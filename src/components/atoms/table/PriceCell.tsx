@@ -1,6 +1,5 @@
-/* eslint-disable react/display-name */
 import type { CellContext } from '@tanstack/react-table';
-import { memo } from 'react';
+import { useMemo } from 'react';
 
 interface Props<T> {
   row?: CellContext<T, string>;
@@ -8,8 +7,9 @@ interface Props<T> {
   currency?: string;
 }
 
-// same component with React.memo
-export const PriceCell = memo(<T,>({ row, price, currency = 'MXN' }: Props<T>) => {
+// comma in the generic fixes a compiler error
+export const PriceCell = <T,>({ row, price, currency = 'MXN' }: Props<T>) => {
   const value = price ?? row?.getValue();
-  return <>{`${currency} $${value ?? ''}`}</>;
-});
+  const formatted = useMemo(() => `${currency} $${value ?? ''}`, [value, currency]);
+  return <>{formatted}</>;
+};
