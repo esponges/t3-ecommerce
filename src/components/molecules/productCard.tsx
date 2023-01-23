@@ -53,7 +53,7 @@ export const ProductCard = ({
 
   const handleDetailsClick = () => {
     if (product?.name) {
-      void router.push(`${PageRoutes.Product}/${product?.name}`);
+      void router.push(`${PageRoutes.Products}/${product?.name}`);
     }
   };
 
