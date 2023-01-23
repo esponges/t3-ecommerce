@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 import { carrouselStyle, itemsPerCarrousel } from '@/lib/products';
+import { Header } from '../atoms/header';
 
 type Props = {
   category?: Category;
@@ -60,7 +61,7 @@ export const ProductCarousel = ({
     const cards = [];
 
     for (let i = 0; i < limit; i++) {
-      cards.push(<ProductCard key={i} />);
+      cards.push(<ProductCard showAddToCartBtn={false} showDetailsBtn={false} key={i} />);
     }
     return cards;
   };
@@ -76,7 +77,9 @@ export const ProductCarousel = ({
     <div
       className={`relative mt-6 flex flex-col items-center justify-center md:px-12 ${wrapper} ${extraClassName ?? ''}`}
     >
-      <h2 className={`${tagClassName}`}>{tag || category?.name || 'Products'}</h2>
+      <Header size='7xl'>
+        {tag || category?.name || 'Products'}
+      </Header>
       <div className="relative mt-2 flex w-full justify-center">
         {isLoading || (isFetchingNextPage && !toShow) ? <>{renderLoadingCards()}</> : null}
         {!isLoading &&

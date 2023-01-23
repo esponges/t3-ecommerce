@@ -17,6 +17,7 @@ type Props = {
   redirOnImageClick?: boolean;
   fullWidth?: boolean;
   showDetailsBtn?: boolean;
+  showAddToCartBtn?: boolean;
   showDescription?: boolean;
   inline?: boolean;
   qty?: number;
@@ -29,6 +30,7 @@ export const ProductCard = ({
   fullWidth,
   inline,
   showDetailsBtn = true,
+  showAddToCartBtn = true,
   showDescription = true,
   redirOnImageClick = true,
   qty,
@@ -88,19 +90,21 @@ export const ProductCard = ({
               extraClassName={'mr-2'}
             />
             <div>
-              <Button
-                onClick={handleAddToCart}
-                variant="primary"
-                extraClassName={`${inline ? 'mr-2' : ''}`}
-                disabled={isAddingToCart}
-              >
-                {isAddingToCart ? 'Añadiendo...' : fullWidth ? 'Añadir al carrito' : 'Añadir'}
-              </Button>
-              {showDetailsBtn && (
+              {showAddToCartBtn ? (
+                <Button
+                  onClick={handleAddToCart}
+                  variant="primary"
+                  extraClassName={`${inline ? 'mr-2' : ''}`}
+                  disabled={isAddingToCart}
+                >
+                  {isAddingToCart ? 'Añadiendo...' : fullWidth ? 'Añadir al carrito' : 'Añadir'}
+                </Button>
+              ) : null}
+              {showDetailsBtn ? (
                 <Button onClick={handleDetailsClick} variant="primary">
                   Details
                 </Button>
-              )}
+              ): null}
             </div>
           </div>
         </Card.Content>
