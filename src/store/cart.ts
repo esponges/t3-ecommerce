@@ -10,6 +10,7 @@ interface CartState {
     restoreCart: (cart: CartItems) => void;
     addToCart: (product: Product, quantity: number) => void;
     removeFromCart: (productId: string) => void;
+    updateCartItems: (items: Product[]) => void;
   };
 }
 
@@ -43,11 +44,33 @@ const useCartStore = create<CartState>((set) => ({
         localStorage.setItem('cart', JSON.stringify(updatedCart.items));
 
         // show toast
-        toast(`${product.name} (${quantity}x) added to cart`);
+        toast(`${product.name} (${quantity}x) agregado`);
 
         return updatedCart;
       });
     },
+    updateCartItems: (toUpdate: Product[]) => {
+      set((state) => {
+        const updatedCart = {
+          items: {
+            ...state.items,
+          },
+        };
+
+        toUpdate.forEach((item) => {
+          updatedCart.items[item.id] = {
+            ...item,
+            quantity: state.items[item.id]?.quantity || 0,
+          };
+        });
+
+        // persist cart to local storage
+        localStorage.setItem('cart', JSON.stringify(updatedCart.items));
+
+        return updatedCart;
+      });
+    },
+
     removeFromCart: (productId: string) => {
       set((state) => {
         const updatedCart = {
@@ -57,6 +80,8 @@ const useCartStore = create<CartState>((set) => ({
         };
 
         delete updatedCart.items[productId];
+
+        toast(`${state.items[productId]?.name || ''} eliminado`);
 
         // persist cart to local storage
         localStorage.setItem('cart', JSON.stringify(updatedCart.items));
