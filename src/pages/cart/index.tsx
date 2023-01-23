@@ -21,6 +21,9 @@ import { PriceCell } from '@/components/atoms/table/PriceCell';
 type TableItem = Pick<CartItem, 'name' | 'price' | 'quantity' | 'id'>;
 
 const Cart = () => {
+  // todo: atm cart items are stored in local storage, so they are kept even if the user logs out
+  // however the prices are not updated, so the user can buy products at a lower price
+  // we should either update the prices or remove the items from the cart when the user logs out
   const { cartItems, cartTotal } = useCartItems();
   const { removeFromCart } = useCartActions();
   const router = useRouter(); useRouter

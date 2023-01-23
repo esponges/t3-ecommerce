@@ -72,8 +72,6 @@ export const ProductCarousel = ({
   // don't show empty categories
   if (toShow?.length === 0) return null;
 
-  console.log(showDescriptions, 'show?');
-
   return (
     <div
       className={`relative mt-6 flex flex-col items-center justify-center md:px-12 ${wrapper} ${extraClassName ?? ''}`}
