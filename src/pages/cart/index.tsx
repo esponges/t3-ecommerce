@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import { useEffect, useMemo } from 'react';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Message } from 'semantic-ui-react';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
@@ -8,7 +8,6 @@ import { useRouter } from 'next/router';
 import type { CellContext, ColumnDef } from '@tanstack/react-table';
 import type { Item as CartItem } from '@/store/cart';
 import { useCartActions } from '@/store/cart';
-
 
 import { Table } from '@/components/molecules/table';
 import { Button } from '@/components/atoms/button';
@@ -23,11 +22,15 @@ import { trpc } from '@/utils/trpc';
 
 type TableItem = Pick<CartItem, 'name' | 'price' | 'quantity' | 'id'>;
 
+// consider moving this to a constants file when there's one
+export const MIN_PURCHASE = 1500;
+
 const Cart = () => {
   const { cartItems, cartTotal } = useCartItems();
   const { removeFromCart, updateCartItems } = useCartActions();
-  const router = useRouter(); useRouter
-  
+  const router = useRouter();
+  useRouter;
+
   const itemIds = Object.keys(cartItems);
   const { data } = trpc.product.getBatchByIds.useQuery({ productIds: itemIds });
 
@@ -49,12 +52,12 @@ const Cart = () => {
   }, [data, cartItems]);
 
   // update the prices if there's been a price change
-  
+
   useEffect(() => {
     if (!data || !priceChangeIds.length) return;
-  
+
     // get the items that have changed
-    const toUpdate = data.filter((item) => priceChangeIds.includes(item.id))
+    const toUpdate = data.filter((item) => priceChangeIds.includes(item.id));
     // update the cart items
     updateCartItems(toUpdate);
   }, [data, priceChangeIds, updateCartItems]);
@@ -93,20 +96,23 @@ const Cart = () => {
     };
   }, []);
 
-  const minPurchase = 1500;
-  const hasMinPurchase = cartTotal >= minPurchase;
+  const hasMinPurchase = cartTotal >= MIN_PURCHASE;
 
   const showCompleteMinPurchaseToast = () => {
-    return toast(`Please spend at least $${minPurchase} to complete your order`, {
+    return toast(`Please spend at least $${MIN_PURCHASE} to complete your order`, {
       type: 'error',
     });
   };
-  
+
   const handleCheckout = () => {
     if (!hasMinPurchase) {
       return showCompleteMinPurchaseToast();
     }
     router.push(PageRoutes.Checkout);
+  };
+
+  const handleBack = () => {
+    router.push(PageRoutes.List);
   };
 
   const cols = useMemo<ColumnDef<TableItem, string>[]>(
@@ -140,13 +146,32 @@ const Cart = () => {
   return (
     <Container>
       <Header extraClassName="text-center">Tu carrito</Header>
-      <Table data={tableItems} columns={cols} showGlobalFilter={false} showNavigation={false} />
-      <div className="mt-5 flex justify-center">
-        <Button variant="link" href="/" extraClassName="mr-5">
+      <div className="my-15">
+        {tableItems.length ? (
+          <Table data={tableItems} columns={cols} showGlobalFilter={false} showNavigation={false} />
+        ) : (
+          <Message
+            icon="shopping cart"
+            header="Tu carrito está vacío"
+            size="big"
+            content="Agrega productos a tu carrito para continuar"
+          />
+        )}
+      </div>
+      <div className={`${!hasMinPurchase ? 'block md:mx-auto text-center md:w-1/2' : 'flex justify-center '}`}>
+        {hasMinPurchase ? (
+          <Button variant="link" onClick={handleCheckout}>
+            Continuar
+          </Button>
+        ) : (
+          <Message
+            icon="info circle"
+            header="Aún no puedes continuar"
+            content={`Para continuar debes tener al menos $${MIN_PURCHASE} en el carrito`}
+          />
+        )}
+        <Button variant="link" onClick={handleBack} extraClassName="mr-5">
           Regresar
-        </Button>
-        <Button variant='link' onClick={handleCheckout} extraClassName="ml-5">
-          Checkout
         </Button>
       </div>
     </Container>
