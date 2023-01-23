@@ -55,20 +55,26 @@ export const productRouter = t.router({
   getBatchByIds: t.procedure
     .input(
       z.object({
-        productIds: z.array(z.string()),
+        productIds: z.array(z.string()).optional(),
+        include: z.object({
+          category: z.boolean().optional(),
+        }).optional(),
       })
     )
     .query(async ({ ctx, input }) => {
-      const { productIds } = input;
+      const { productIds, include } = input;
+
+      if (!productIds?.length) {
+        return [];
+      }
+
       const productItems = await ctx.prisma.product.findMany({
         where: {
           id: {
             in: productIds,
           },
         },
-        include: {
-          category: true,
-        },
+        include: include,
       });
       return productItems;
     }),
