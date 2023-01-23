@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Icon } from 'semantic-ui-react';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
@@ -9,24 +9,55 @@ import type { CellContext, ColumnDef } from '@tanstack/react-table';
 import type { Item as CartItem } from '@/store/cart';
 import { useCartActions } from '@/store/cart';
 
-import { useCartItems } from '@/lib/hooks/useCartItems';
 
 import { Table } from '@/components/molecules/table';
 import { Button } from '@/components/atoms/button';
 import { Header } from '@/components/atoms/header';
 import { Container } from '@/components/molecules/container';
-import { PageRoutes } from '@/lib/routes';
 import { PriceCell } from '@/components/atoms/table/PriceCell';
+
+import { useCartItems } from '@/lib/hooks/useCartItems';
+import { PageRoutes } from '@/lib/routes';
+
+import { trpc } from '@/utils/trpc';
 
 type TableItem = Pick<CartItem, 'name' | 'price' | 'quantity' | 'id'>;
 
 const Cart = () => {
-  // todo: atm cart items are stored in local storage, so they are kept even if the user logs out
-  // however the prices are not updated, so the user can buy products at a lower price
-  // we should either update the prices or remove the items from the cart when the user logs out
   const { cartItems, cartTotal } = useCartItems();
-  const { removeFromCart } = useCartActions();
+  const { removeFromCart, updateCartItems } = useCartActions();
   const router = useRouter(); useRouter
+  
+  const itemIds = Object.keys(cartItems);
+  const { data } = trpc.product.getBatchByIds.useQuery({ productIds: itemIds });
+
+  // figure out if there's been a price change
+  const priceChangeIds = useMemo(() => {
+    if (!data) return [];
+
+    const ids: string[] = [];
+    data.forEach((item) => {
+      const { id, price } = item;
+      const cartItem = cartItems[id];
+
+      if (cartItem && cartItem.price !== price) {
+        // the price has changed, add the id to the list
+        ids.push(id);
+      }
+    });
+    return ids;
+  }, [data, cartItems]);
+
+  // update the prices if there's been a price change
+  
+  useEffect(() => {
+    if (!data || !priceChangeIds.length) return;
+  
+    // get the items that have changed
+    const toUpdate = data.filter((item) => priceChangeIds.includes(item.id))
+    // update the cart items
+    updateCartItems(toUpdate);
+  }, [data, priceChangeIds, updateCartItems]);
 
   const tableItems: TableItem[] = Object.values(cartItems).map(({ name, price, quantity, id }) => ({
     name,
@@ -108,11 +139,11 @@ const Cart = () => {
 
   return (
     <Container>
-      <Header extraClassName="text-center">Cart Items</Header>
-      <Table data={tableItems} columns={cols} showGlobalFilter showNavigation={false} />
+      <Header extraClassName="text-center">Tu carrito</Header>
+      <Table data={tableItems} columns={cols} showGlobalFilter={false} showNavigation={false} />
       <div className="mt-5 flex justify-center">
         <Button variant="link" href="/" extraClassName="mr-5">
-          Go Back
+          Regresar
         </Button>
         <Button variant='link' onClick={handleCheckout} extraClassName="ml-5">
           Checkout
