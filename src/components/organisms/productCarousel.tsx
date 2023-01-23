@@ -23,7 +23,6 @@ export const ProductCarousel = ({
   tag,
   favorite = false,
   extraClassName,
-  tagClassName = 'text-2xl font-bold text-gray-700',
   showDescriptions = true,
 }: Props) => {
   const router = useRouter();

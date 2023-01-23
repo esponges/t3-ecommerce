@@ -45,7 +45,7 @@ export const Footer = () => {
         </div>
       </div>
       <div className="mx-6 py-10 text-center md:text-left">
-        <div className="grid-1 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid-1 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           <div className="">
             <h6
               className="
@@ -91,29 +91,6 @@ export const Footer = () => {
             <Link href={PageRoutes.List}>
               <p>Mezcal</p>
             </Link>
-          </div>
-          <div className="hidden md:block">
-            <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">Useful links</h6>
-            <p className="mb-4">
-              <a href="#!" className="text-white">
-                Pricing
-              </a>
-            </p>
-            <p className="mb-4">
-              <a href="#!" className="text-white">
-                Settings
-              </a>
-            </p>
-            <p className="mb-4">
-              <a href="#!" className="text-white">
-                Orders
-              </a>
-            </p>
-            <p>
-              <a href="#!" className="text-white">
-                Help
-              </a>
-            </p>
           </div>
           <div className="">
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">Contacto</h6>

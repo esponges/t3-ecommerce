@@ -164,7 +164,7 @@ export const Header = ({ children }: Props) => {
               <Menu className="relative flex w-full" secondary>
                 <div className="flex">{menuItems}</div>
                 <Link href={`${PageRoutes.Home}`}>
-                  <div className="absolute left-[45%]">
+                  <div className="absolute left-[45%] hover:cursor-pointer">
                     <Image
                       // eslint-disable-next-line max-len
                       path="https://ik.imagekit.io/5wjtgrwr1/logo-no-slogan.png?ik-sdk-version=javascript-1.4.3&updatedAt=1674056851908"
