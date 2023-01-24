@@ -76,6 +76,7 @@ model Product {
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
     orderItem   OrderItem[]
+    stock       Int      @default(10000)
     score       Float    @default(0)
     favScore    Float    @default(0)
     productSpecs ProductSpecs?
