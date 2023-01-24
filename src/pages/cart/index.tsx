@@ -51,16 +51,43 @@ const Cart = () => {
     return ids;
   }, [data, cartItems]);
 
+  const noStockIds = useMemo(() => {
+    if (!data) return [];
+
+    const ids: string[] = [];
+    data.forEach((item) => {
+      const { id, stock } = item;
+      const cartItem = cartItems[id];
+
+      if ((cartItem && cartItem.quantity > stock) || !stock) {
+        ids.push(id);
+      }
+    });
+    return ids;
+  }, [data, cartItems]);
+
   // update the prices if there's been a price change
-
   useEffect(() => {
-    if (!data || !priceChangeIds.length) return;
+    if (!data || (!priceChangeIds.length && !noStockIds.length)) return;
 
-    // get the items that have changed
-    const toUpdate = data.filter((item) => priceChangeIds.includes(item.id));
-    // update the cart items
-    updateCartItems(toUpdate);
-  }, [data, priceChangeIds, updateCartItems]);
+    if (!!priceChangeIds.length) {
+      // get the items that have changed
+      const toUpdate = data.filter((item) => priceChangeIds.includes(item.id));
+      // update the cart items
+      updateCartItems(toUpdate);
+    }
+
+    // TODO: in the future we'd like to show a warning instead of removing the items
+    if (!!noStockIds.length) {
+      noStockIds.forEach((id) => {
+        removeFromCart(id);
+      });
+      toast('Algunos productos fueron retirados de tu carrito por falta de stock', {
+        type: 'error',
+      });
+    }
+  }, [data, priceChangeIds, updateCartItems, noStockIds, removeFromCart]);
+
 
   const tableItems: TableItem[] = Object.values(cartItems).map(({ name, price, quantity, id }) => ({
     name,
@@ -158,19 +185,21 @@ const Cart = () => {
           />
         )}
       </div>
-      <div className={`${!hasMinPurchase ? 'block md:mx-auto text-center md:w-1/2' : 'flex justify-center '}`}>
+      <div className={`${!hasMinPurchase ? 'block text-center md:mx-auto md:w-1/2' : 'flex justify-center '}`}>
         {hasMinPurchase ? (
           <Button variant="link" onClick={handleCheckout}>
             Continuar
           </Button>
         ) : (
-          <Message
-            icon="info circle"
-            header="Aún no puedes continuar"
-            content={`Para continuar debes tener al menos $${MIN_PURCHASE} en el carrito`}
-          />
+          !!tableItems.length && (
+            <Message
+              icon="info circle"
+              header="Aún no puedes continuar"
+              content={`Para continuar debes tener al menos $${MIN_PURCHASE} en el carrito`}
+            />
+          )
         )}
-        <Button variant="link" onClick={handleBack} extraClassName="mr-5">
+        <Button variant="link" onClick={handleBack} extraClassName="mr-5 mt-5">
           Regresar
         </Button>
       </div>
