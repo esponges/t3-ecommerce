@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { authedProcedure, t } from '../trpc';
+import { sendNodeMailerGmailTest } from '@/server/common/mailer';
 
 // todo: use protectedProcedure to require authentication
 export const orderRouter = t.router({
@@ -23,6 +24,8 @@ export const orderRouter = t.router({
       })
     )
     .mutation(async ({ ctx, input }) => {
+      await sendNodeMailerGmailTest();
+
       const order = await ctx.prisma.order.create({
         data: {
           userId: input.userId,
@@ -37,7 +40,6 @@ export const orderRouter = t.router({
 
       return order;
     }),
-  // send email on create
   success: authedProcedure
     .input(
       z.object({
@@ -46,6 +48,7 @@ export const orderRouter = t.router({
       })
     )
     .mutation(async ({ ctx, input }) => {
+      // send email on create
       const order = await ctx.prisma.order.findUnique({
         where: {
           id: input.id,
