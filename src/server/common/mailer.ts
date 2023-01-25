@@ -1,5 +1,15 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { env } from '@/env/server.mjs';
 import nodemailer from 'nodemailer';
+
+// had to disabled any typesafety to get this working
+// there are conflicts with a peerDependency for next-auth
+// that requires nodemailer v6.6.5
+// the latest version of @types/nodemailer is v6.4.7
+// therefore the types are not compatible here
 
 export const sendNodeMailerGmailTest = async () => {
   const transporter = nodemailer.createTransport({
@@ -34,10 +44,10 @@ export const sendNodeMailerGmailTest = async () => {
   });
 
   // send mail with defined transport object
-  const info = await transporter.sendMail(mailOptions, (error, info) => {
+  await transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(error);
     }
-    console.log('Email sent: ' + info.response);
+    console.log(`Email sent: ${info.response}`);
   });
 };
