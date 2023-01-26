@@ -5,7 +5,6 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 import { useCartItems } from '@/lib/hooks/useCartItems';
-import { sendConfirmationEmail } from '@/lib/order';
 
 import { trpc } from '@/utils/trpc';
 import { useRouter } from 'next/router';
