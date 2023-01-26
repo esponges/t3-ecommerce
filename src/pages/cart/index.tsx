@@ -187,7 +187,7 @@ const Cart = () => {
       </div>
       <div className={`${!hasMinPurchase ? 'block text-center md:mx-auto md:w-1/2' : 'flex justify-center '}`}>
         {hasMinPurchase ? (
-          <Button variant="link" onClick={handleCheckout}>
+          <Button variant="link" onClick={handleCheckout} extraClassName='mr-2'>
             Continuar
           </Button>
         ) : (
@@ -199,7 +199,7 @@ const Cart = () => {
             />
           )
         )}
-        <Button variant="link" onClick={handleBack} extraClassName="mr-5 mt-5">
+        <Button variant="link" onClick={handleBack} extraClassName='ml-2'>
           Regresar
         </Button>
       </div>
