@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { Button } from '@/components/atoms/button';
 import { AuthProviders } from '@/types';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Message } from 'semantic-ui-react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { env } from '@/env/client.mjs';
@@ -31,12 +31,25 @@ const Login = () => {
   return (
     <div className="flex h-screen items-center justify-center">
       {!session ? (
-        <Button variant="secondary" onClick={() => void signIn(AuthProviders.Discord)}>
-          Login con Discord <Icon name="discord" size='huge' />
-        </Button>
+        <div className='block text-center md:w-1/3'>
+          <Message
+            info
+            header="¡Hola!"
+            content="Por favor, inicia sesión con alguno de nuestros proveedres para proceder con tu compra"
+          />
+          <div className='mt-10 w-full'>
+            <Button variant="secondary" extraClassName='w-full' onClick={() => void signIn(AuthProviders.Discord)}>
+              Discord <Icon name="discord" size='huge' />
+            </Button>
+          </div>
+        </div>
       ) : (
-        <div>
-          <p>Sesión activa</p>
+        <div className='text-center md:w-1/3'>
+          <Message
+            success
+            header="¡Bienvenido!"
+            content="Ya puedes acceder a la aplicación"
+          />
           <Link href="/">
             <Button variant="primary" extraClassName="mt-4">
               Regresar al inicio

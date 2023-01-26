@@ -10,6 +10,7 @@ import { sendConfirmationEmail } from '@/lib/order';
 import { trpc } from '@/utils/trpc';
 import { useRouter } from 'next/router';
 import { PageContainer } from '@/components/layouts/pageContainer';
+import { Header } from '@/components/atoms/header';
 
 const checkoutDefaultValues = {
   address: 'Foo Address',
@@ -110,7 +111,7 @@ const Checkout = () => {
 
   return (
     <PageContainer>
-      <h1 className="mb-10">Checkout</h1>
+      <Header size='5xl'>Checkout</Header>
       <Form onSubmit={handleSubmit(handleFormSubmit)}>
         <Form.Field>
           <label htmlFor="address" className="form-label font-bold">
