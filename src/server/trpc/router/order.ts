@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { authedProcedure, t } from '../trpc';
-import { sendNodeMailerGmailTest, sendOrderConfirmationEmail } from '@/server/common/mailer';
+import { sendOrderConfirmationEmail } from '@/server/common/mailer';
 
 // todo: use protectedProcedure to require authentication
 export const orderRouter = t.router({
