@@ -47,7 +47,7 @@ export const sendOrderConfirmationEmail = async (order: OrderWithPayload, userEm
   });
 
   // send mail with defined transport object
-  await transporter.sendMail(mailOptions, (error, info) => {
+  transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(error);
     }
