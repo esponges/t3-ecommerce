@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import type { User } from '@prisma/client';
-import { Button, Form } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
@@ -11,13 +11,15 @@ import { trpc } from '@/utils/trpc';
 import { useRouter } from 'next/router';
 import { PageContainer } from '@/components/layouts/pageContainer';
 import { Header } from '@/components/atoms/header';
+import { Button } from '@/components/atoms/button';
+import { InputMessage } from '@/components/atoms/inputMessage';
 
 const checkoutDefaultValues = {
-  address: 'Foo Address',
-  city: 'Bar City',
-  country: 'Mars',
-  postalCode: '666',
-  phone: '6666666666',
+  address: '',
+  city: '',
+  country: '',
+  postalCode: '',
+  phone: '',
 };
 
 interface CheckoutFormValues {
@@ -52,7 +54,6 @@ const Checkout = () => {
       // you can do something like this
       // await utils.order.getAll.cancel();
       // const optimisticOrders = utils.order.getAll.getData();
-
       // if (optimisticOrders) {
       //   utils.order.getAll.setData(optimisticOrders);
       // }
@@ -93,7 +94,7 @@ const Checkout = () => {
         return;
       }
 
-      await mutateAsync({ 
+      await mutateAsync({
         userId: user?.id,
         orderItems: Object.values(cartItems).map((item) => ({
           productId: item.id,
@@ -109,55 +110,73 @@ const Checkout = () => {
       });
     })();
 
+  // TODO: add cp dropdown and delivery hour & day
   return (
     <PageContainer>
-      <Header size='5xl'>Checkout</Header>
+      <Header size="5xl">Finalizar pedido</Header>
       <Form onSubmit={handleSubmit(handleFormSubmit)}>
         <Form.Field>
           <label htmlFor="address" className="form-label font-bold">
-            Address
+            Dirección de envío
           </label>
-          <input type="text" className="form-control" id="address" {...register('address', { required: true })} />
-          {errors.address && <span className="text-danger">This field is required</span>}
+          <input
+            type="text"
+            placeholder="Calle/Av, Exterior e Interior"
+            className="form-control"
+            id="address"
+            {...register('address', { required: true })}
+          />
+          {errors.address && <InputMessage type="error" message="Requerido" />}
         </Form.Field>
         <Form.Field>
           <label htmlFor="city" className="form-label font-bold">
-            City
+            Ciudad
           </label>
-          <input type="text" className="form-control" id="city" {...register('city', { required: true })} />
-          {errors.city && <span className="text-danger">This field is required</span>}
-        </Form.Field>
-        <Form.Field>
-          <label htmlFor="country" className="form-label font-bold">
-            Country
-          </label>
-          <input type="text" className="form-control" id="country" {...register('country', { required: true })} />
-          {errors.country && <span className="text-danger">This field is required</span>}
+          <input
+            type="text"
+            placeholder="Municipio"
+            className="form-control"
+            id="city"
+            {...register('city', { required: true })}
+          />
+          {errors.city && <InputMessage type="error" message="Requerido" />}
         </Form.Field>
         <Form.Field>
           <label htmlFor="postalCode" className="form-label font-bold">
-            Postal Code
+            Código Postal
           </label>
-          <input 
-            type="text" className="form-control" id="postalCode" {...register('postalCode', { required: true })}
+          <input
+            type="text"
+            placeholder="CP"
+            className="form-control"
+            id="postalCode"
+            {...register('postalCode', { required: true, minLength: 5, maxLength: 5 })}
           />
-          {errors.postalCode && <span className="text-danger">This field is required</span>}
+          {errors.postalCode && <InputMessage type="error" message="Requerido" />}
         </Form.Field>
         <Form.Field>
           <label htmlFor="phone" className="form-label font-bold">
-            Phone
+            Teléfono de contacto
           </label>
-          <input type="text" className="form-control" id="phone" {...register('phone', { required: true })} />
-          {errors.phone && <span className="text-danger">This field is required</span>}
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Teléfono de 10 dígitos"
+            id="phone"
+            {...register('phone', { required: true, minLength: 10, maxLength: 10 })}
+          />
+          {errors.phone && <InputMessage type="error" message="Requerido" />}
         </Form.Field>
-        <Button type="submit" className="btn btn-primary mt-5">
-          Proceed and pay
+        <Button variant="primary" className="btn btn-primary mt-5" type="submit">
+          Genera tu orden
         </Button>
       </Form>
       {/* go back button */}
       <div className="mt-10 text-right">
         <Link href="/cart">
-          <Button className="btn btn-secondary mt-5">Go back</Button>
+          <Button variant="secondary" className="btn btn-secondary mt-5">
+            Regresa
+          </Button>
         </Link>
       </div>
     </PageContainer>
