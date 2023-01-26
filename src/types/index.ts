@@ -26,6 +26,10 @@ export type Product = Prisma.ProductGetPayload<{
 
 export type Category = Prisma.CategoryGetPayload<{}>;
 
+export type OrderWithPayload = Prisma.OrderGetPayload<{
+  include: { orderItems: true; orderDetail: true };
+}>;
+
 export interface OrderDetails extends Order {
   orderItems: OrderItem[];
   orderDetail: OrderDetail | null;

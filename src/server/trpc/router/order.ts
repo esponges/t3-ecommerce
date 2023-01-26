@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { authedProcedure, t } from '../trpc';
-import { sendNodeMailerGmailTest } from '@/server/common/mailer';
+import { sendNodeMailerGmailTest, sendOrderConfirmationEmail } from '@/server/common/mailer';
 
 // todo: use protectedProcedure to require authentication
 export const orderRouter = t.router({
@@ -24,7 +24,6 @@ export const orderRouter = t.router({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      await sendNodeMailerGmailTest();
 
       const order = await ctx.prisma.order.create({
         data: {
@@ -69,10 +68,11 @@ export const orderRouter = t.router({
         },
       });
 
-      if (!user) {
+      if (!user?.email) {
         return null;
       }
 
+      await sendOrderConfirmationEmail(order, user.email);
       // TODO: emailjs doesn't work in the server
       // find an alternative to send emails server-side
       return order;

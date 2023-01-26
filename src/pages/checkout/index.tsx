@@ -43,6 +43,7 @@ const Checkout = () => {
 
   const utils = trpc.useContext();
 
+  const successfulOrderConfirmation = trpc.order.success.useMutation();
   const createOrder = trpc.order.create.useMutation({
     onMutate: async (_values) => {
       // optimistic update
@@ -56,13 +57,20 @@ const Checkout = () => {
       // }
     },
 
-    onSuccess: (data, _variables, _context) => {
+    onSuccess: async (data, _variables, _context) => {
       // TODO: for the moment we must do this client side.
       // We can't do this server side because of the emailjs library
       // there's a trpc.order.success hook that we can use to send the email
       // server side but I have not checked how to do it yet with a different library
-      sendConfirmationEmail();
-      router.push(`/auth/account/order/confirm/${data.id}`);
+      // sendConfirmationEmail();
+      const { mutateAsync } = successfulOrderConfirmation;
+      if (data?.id && data.userId) {
+        await mutateAsync({
+          id: data.id,
+          userId: data.userId,
+        });
+      }
+      // router.push(`/auth/account/order/confirm/${data.id}`);
     },
 
     onError: (_err, _values, _context) => {
@@ -72,7 +80,6 @@ const Checkout = () => {
       // Error or success... doesn't matter!
       // refetch the query
       await utils.order.getByUserId.invalidate();
-      console.log('onSettled rdy');
     },
   });
 

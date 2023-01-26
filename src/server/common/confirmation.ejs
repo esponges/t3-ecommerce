@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Order Confirmation</title>
+  </head>
+  <body>
+    <h1>Order Confirmation</h1>
+    <p>Dear <%= userEmail %>,</p>
+    <p>Thank you for your order!</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% order.orderItems.forEach(item => { %>
+          <tr>
+            <td><%= item.orderId %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <p>Shipping Address:</p>
+    <p>
+      <%= order.orderDetail.address %>, 
+      <%= order.orderDetail.city %>, 
+      <%= order.orderDetail.country %>, 
+      <%= order.orderDetail.postalCode %>, 
+      <%= order.orderDetail.phone %>
+    </p>
+    <p>Total: <%= order.total %></p>
+    <p>We will send you a confirmation email when your order is shipped.</p>
+    <p>Thank you for shopping with us!</p>
+  </body>
+</html>
