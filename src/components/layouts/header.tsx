@@ -95,16 +95,9 @@ export const Header = ({ children }: Props) => {
     : [{ label: 'Login', value: 'login', onClick: () => router.push(PageRoutes.Login) }];
 
   const trigger = (
-    <span className="pointer-events-auto">
-      {session ? (
-        <>
-          <Icon name="user" /> Hola, {session?.user?.name}
-        </>
-      ) : (
-        <>
-          <Icon name="user" /> Hola, Invitado
-        </>
-      )}
+    <span className='cursor-pointer'>
+      <Icon name="user" />
+      Hola {session?.user?.name || ', Invitado'}
     </span>
   );
 
