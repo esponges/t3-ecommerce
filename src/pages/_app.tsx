@@ -13,6 +13,7 @@ import 'semantic-ui-css/semantic.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { ProtectedLayout } from '@/components/layouts/protected';
+import Head from 'next/head';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -36,6 +37,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
   return (
     <SessionProvider session={session}>
+      <Head>
+        <title>Vinoreo</title>
+        <meta name="description" content="Tienda de vinos y licores" />
+        <link rel="icon" href="/v-icon.ico" />
+      </Head>
       <ToastContainer />
       {Component.requireAuth ? <ProtectedLayout>{layout}</ProtectedLayout> : layout}
       <ReactQueryDevtools />

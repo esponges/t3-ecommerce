@@ -30,7 +30,6 @@ const Home = () => {
   return (
     <>
       <Head>
-        <title>Vinoreo</title>
         <meta name="description" content="Vinoreo Home Page" />
         <link rel="icon" href="/v-icon.ico" />
       </Head>
