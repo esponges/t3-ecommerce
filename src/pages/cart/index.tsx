@@ -171,7 +171,7 @@ const Cart = () => {
   );
 
   return (
-    <Container>
+    <Container extraClassName='min-h-screen'>
       <Header extraClassName="text-center">Tu carrito</Header>
       <div className="my-15">
         {tableItems.length ? (

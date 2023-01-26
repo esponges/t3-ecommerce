@@ -36,7 +36,7 @@ const Login = () => {
         </Button>
       ) : (
         <div>
-          <p>Sesión active</p>
+          <p>Sesión activa</p>
           <Link href="/">
             <Button variant="primary" extraClassName="mt-4">
               Regresar al inicio

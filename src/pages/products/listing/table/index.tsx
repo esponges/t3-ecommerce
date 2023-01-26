@@ -71,7 +71,7 @@ const ProductTable = () => {
         <title>List</title>
         <meta name="description" content="All our available products" />
       </Head>
-      <Container extraClassName='text-center'>
+      <Container extraClassName='text-center min-h-screen'>
         <Header size='3xl'>Todos nuestros productos</Header>
         <Header size='xl'>¿Buscas algo específico?</Header>
         <ProductSearchbar className='w-1/2 md:w-1/3 mx-auto' />
