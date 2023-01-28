@@ -3,18 +3,32 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 
-// had to disabled any typesafety to get this working
-// there are conflicts with a peerDependency for next-auth
+// had to disable any typesafety to get this working
+// there are conflicts with a peerDependency for next-auth v4.14
 // that requires nodemailer v6.6.5
 // the latest version of @types/nodemailer is v6.4.7
 // therefore the types are not compatible here
 import { env } from '@/env/server.mjs';
 import nodemailer from 'nodemailer';
-import type { OrderWithPayload } from '@/types';
 import ejs from 'ejs';
 import path from 'path';
 
-export const sendOrderConfirmationEmail = async (order: OrderWithPayload, userEmail: string) => {
+import type { Product } from '@prisma/client';
+import type { OrderWithPayload } from '@/types';
+
+type OrderWithPayloadAndProducts = OrderWithPayload & {
+  orderItems: {
+    id: string;
+    quantity: number;
+    createdAt: Date;
+    updatedAt: Date;
+    orderId: string;
+    productId: string;
+    product: Product | undefined;
+  }[];
+};
+
+export const sendOrderConfirmationEmail = async (order: OrderWithPayloadAndProducts, userEmail: string) => {
   const template = path.join(process.cwd(), 'src/server/common/templates/confirmation.ejs');
 
   const html = await ejs.renderFile(template, { order, userEmail });
@@ -38,7 +52,7 @@ export const sendOrderConfirmationEmail = async (order: OrderWithPayload, userEm
   };
 
   // verify connection configuration
-  transporter.verify((error, success) => {
+  transporter.verify((error, _success) => {
     if (error) {
       console.log(error);
     } else {

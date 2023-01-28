@@ -72,7 +72,27 @@ export const orderRouter = t.router({
         return null;
       }
 
-      await sendOrderConfirmationEmail(order, user.email);
+      // get order items products
+      const products = await ctx.prisma.product.findMany({
+        where: {
+          id: {
+            in: order.orderItems.map((item) => item.productId),
+          },
+        },
+      });
+
+      const orderWithProducts = {
+        ...order,
+        orderItems: order.orderItems.map((item) => {
+          const product = products.find((p) => p.id === item.productId);
+          return {
+            ...item,
+            product,
+          };
+        }),
+      };
+
+      await sendOrderConfirmationEmail(orderWithProducts, user.email);
       // TODO: emailjs doesn't work in the server
       // find an alternative to send emails server-side
       return order;
