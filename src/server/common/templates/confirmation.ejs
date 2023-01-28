@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Order Confirmation</title>
+    <title>Confirmación de order</title>
   </head>
   <body>
-    <h1>Order Confirmation</h1>
-    <p>Dear <%= userEmail %>,</p>
-    <p>Thank you for your order!</p>
+    <h1>Confirmación de orden</h1>
+    <p>Estimado <%= userEmail %>,</p>
+    <p>Gracias por tu orden en Vinoreo</p>
     <table>
       <thead>
         <tr>
-          <th>Product</th>
-          <th>Quantity</th>
-          <th>Price</th>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Precio</th>
         </tr>
       </thead>
       <tbody>
@@ -25,16 +25,16 @@
         <% }); %>
       </tbody>
     </table>
-    <p>Shipping Address:</p>
+    <p>Dirección de envío:</p>
     <p>
       <%= order.orderDetail.address %>, 
       <%= order.orderDetail.city %>, 
-      <%= order.orderDetail.country %>, 
       <%= order.orderDetail.postalCode %>, 
       <%= order.orderDetail.phone %>
     </p>
     <p>Total: <%= order.total %></p>
-    <p>We will send you a confirmation email when your order is shipped.</p>
-    <p>Thank you for shopping with us!</p>
+    <p>Te contactaremos si tenemos dudas.</p>
+    <p>Gracias por tu compra!</p>
+    <h5>Vinoreo</h5>
   </body>
 </html>
