@@ -18,7 +18,9 @@
       <tbody>
         <% order.orderItems.forEach(item => { %>
           <tr>
-            <td><%= item.orderId %></td>
+            <td><%= item.product.name %></td>
+            <td><%= item.quantity %></td>
+            <td><%= item.product.price %></td>
           </tr>
         <% }); %>
       </tbody>
