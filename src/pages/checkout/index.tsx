@@ -84,6 +84,8 @@ const Checkout = () => {
     },
   });
 
+  const isCreating = createOrder.isLoading;
+
   const handleFormSubmit = (data: CheckoutFormValues) =>
     void (async () => {
       const { mutateAsync } = createOrder;
@@ -166,14 +168,14 @@ const Checkout = () => {
           />
           {errors.phone && <InputMessage type="error" message="Requerido" />}
         </Form.Field>
-        <Button variant="primary" className="btn btn-primary mt-5" type="submit">
-          Genera tu orden
+        <Button variant="primary" className="btn btn-primary mt-5" type="submit" disabled={isCreating}>
+          {isCreating ? 'Generando pedido...' : 'Finalizar pedido'}
         </Button>
       </Form>
       {/* go back button */}
       <div className="mt-10 text-right">
         <Link href="/cart">
-          <Button variant="secondary" className="btn btn-secondary mt-5">
+          <Button variant="secondary" className="btn btn-secondary mt-5" disabled={isCreating}>
             Regresa
           </Button>
         </Link>
