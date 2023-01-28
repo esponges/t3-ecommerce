@@ -12,6 +12,7 @@ import { PageContainer } from '@/components/layouts/pageContainer';
 import { Header } from '@/components/atoms/header';
 import { Button } from '@/components/atoms/button';
 import { InputMessage } from '@/components/atoms/inputMessage';
+import { Searchbar } from '@/components/molecules/searchbar';
 
 const checkoutDefaultValues = {
   address: '',
@@ -146,12 +147,13 @@ const Checkout = () => {
           <label htmlFor="postalCode" className="form-label font-bold">
             Código Postal
           </label>
-          <input
-            type="text"
-            placeholder="CP"
-            className="form-control"
-            id="postalCode"
-            {...register('postalCode', { required: true, minLength: 5, maxLength: 5 })}
+          <Searchbar
+            placeholder="Código postal"
+            onChange={(e) => console.log(e.target.value)}
+            onSelect={(e) => console.log(e)}
+            inputProps={
+              register('postalCode', { required: true })
+            }
           />
           {errors.postalCode && <InputMessage type="error" message="Requerido" />}
         </Form.Field>
