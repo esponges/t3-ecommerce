@@ -20,7 +20,7 @@ import { PageRoutes } from '@/lib/routes';
 
 import { trpc } from '@/utils/trpc';
 
-type TableItem = Pick<CartItem, 'name' | 'price' | 'quantity' | 'id'>;
+export type TableCartItem = Pick<CartItem, 'name' | 'price' | 'quantity' | 'id'>;
 
 // consider moving this to a constants file when there's one
 export const MIN_PURCHASE = 1500;
@@ -89,7 +89,7 @@ const Cart = () => {
   }, [data, priceChangeIds, updateCartItems, noStockIds, removeFromCart]);
 
 
-  const tableItems: TableItem[] = Object.values(cartItems).map(({ name, price, quantity, id }) => ({
+  const tableItems: TableCartItem[] = Object.values(cartItems).map(({ name, price, quantity, id }) => ({
     name,
     price,
     quantity,
@@ -99,7 +99,7 @@ const Cart = () => {
 
   const renderActions = useMemo(() => {
     // use memo doesn't take arguments, only if it returns a function as a closure
-    return (removeFn: (id: string) => void, row: CellContext<TableItem, string>) => {
+    return (removeFn: (id: string) => void, row: CellContext<TableCartItem, string>) => {
       const handleRemove = () => {
         const id = row.getValue();
         removeFn(id);
@@ -116,7 +116,7 @@ const Cart = () => {
   }, []);
 
   const renderProductLink = useMemo(() => {
-    return (row: CellContext<TableItem, string>) => {
+    return (row: CellContext<TableCartItem, string>) => {
       const name = row.getValue();
 
       return <Link href={`${PageRoutes.Products}/${name}`}>{name}</Link>;
@@ -142,7 +142,7 @@ const Cart = () => {
     router.push(PageRoutes.List);
   };
 
-  const cols = useMemo<ColumnDef<TableItem, string>[]>(
+  const cols = useMemo<ColumnDef<TableCartItem, string>[]>(
     () => [
       {
         header: 'Producto',
@@ -152,9 +152,9 @@ const Cart = () => {
       },
       {
         header: 'Precio',
-        cell: (row) => <PriceCell<TableItem> price={row.renderValue()} />,
+        cell: (row) => <PriceCell<TableCartItem> price={row.renderValue()} />,
         accessorKey: 'price',
-        footer: () => <PriceCell<TableItem> price={cartTotal.toString()} />,
+        footer: () => <PriceCell<TableCartItem> price={cartTotal.toString()} />,
       },
       {
         header: 'Cantidad',
