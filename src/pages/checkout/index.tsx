@@ -1,23 +1,24 @@
 import { useForm } from 'react-hook-form';
 import type { User } from '@prisma/client';
-import { Form } from 'semantic-ui-react';
+import { Dropdown, Form } from 'semantic-ui-react';
+import type { DropdownProps } from 'semantic-ui-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { useCartItems } from '@/lib/hooks/useCartItems';
+import { validation } from '@/lib/checkout';
 
 import { trpc } from '@/utils/trpc';
-import { useRouter } from 'next/router';
+
 import { PageContainer } from '@/components/layouts/pageContainer';
 import { Header } from '@/components/atoms/header';
 import { Button } from '@/components/atoms/button';
 import { InputMessage } from '@/components/atoms/inputMessage';
-import { Searchbar } from '@/components/molecules/searchbar';
 
 const checkoutDefaultValues = {
   address: '',
   city: '',
-  country: '',
   postalCode: '',
   phone: '',
 };
@@ -25,7 +26,6 @@ const checkoutDefaultValues = {
 interface CheckoutFormValues {
   address: string;
   city: string;
-  country: string;
   postalCode: string;
   phone: string;
 }
@@ -33,21 +33,21 @@ interface CheckoutFormValues {
 const Checkout = () => {
   const router = useRouter();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ defaultValues: checkoutDefaultValues });
-
   const { data: session } = useSession();
   const user: User | undefined = session?.user as User | undefined;
 
   const { cartItems } = useCartItems();
 
-  const utils = trpc.useContext();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm({ defaultValues: checkoutDefaultValues });
 
+  const utils = trpc.useContext();
   const successfulOrderConfirmation = trpc.order.success.useMutation();
-  const createOrder = trpc.order.create.useMutation({
+  const { mutateAsync, isLoading: isCreating } = trpc.order.create.useMutation({
     onMutate: async (_values) => {
       // optimistic update
       // mutation about to happen
@@ -85,12 +85,40 @@ const Checkout = () => {
     },
   });
 
-  const isCreating = createOrder.isLoading;
+  const cps = [
+    {
+      key: 1,
+      text: 'CP 1',
+      value: 1,
+    },
+    {
+      key: 2,
+      text: 'CP 2',
+      value: 2,
+    },
+    {
+      key: 3,
+      text: 'CP 3',
+      value: 3,
+    },
+  ];
+
+  const handleCPChange = (event: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
+    if (data.value) {
+      if (typeof data.value === 'string') {
+        setValue('postalCode', data.value);
+        return;
+      }
+      if (typeof data.value === 'number') {
+        setValue('postalCode', data.value.toString());
+        return;
+      }
+      console.error('CP value is not a string or number');
+    }
+  };
 
   const handleFormSubmit = (data: CheckoutFormValues) =>
     void (async () => {
-      const { mutateAsync } = createOrder;
-
       if (!user?.id) {
         // todo: handle this
         return;
@@ -105,7 +133,7 @@ const Checkout = () => {
         orderDetail: {
           address: data.address,
           city: data.city,
-          country: data.country,
+          country: 'MX',
           postalCode: data.postalCode,
           phone: data.phone,
         },
@@ -126,36 +154,37 @@ const Checkout = () => {
             placeholder="Calle/Av, Exterior e Interior"
             className="form-control"
             id="address"
-            {...register('address', { required: true })}
+            {...register('address', validation.address)}
           />
-          {errors.address && <InputMessage type="error" message="Requerido" />}
+          {errors.address && <InputMessage type="error" message={errors.address.message || 'Requerido'} />}
         </Form.Field>
         <Form.Field>
           <label htmlFor="city" className="form-label font-bold">
-            Ciudad
+            Municipio
           </label>
           <input
             type="text"
             placeholder="Municipio"
             className="form-control"
             id="city"
-            {...register('city', { required: true })}
+            {...register('city', validation.city)}
           />
-          {errors.city && <InputMessage type="error" message="Requerido" />}
+          {errors.city && <InputMessage type="error" message={errors.city.message ?? 'Requerido'} />}
         </Form.Field>
         <Form.Field>
           <label htmlFor="postalCode" className="form-label font-bold">
             Código Postal
           </label>
-          <Searchbar
-            placeholder="Código postal"
-            onChange={(e) => console.log(e.target.value)}
-            onSelect={(e) => console.log(e)}
-            inputProps={
-              register('postalCode', { required: true })
-            }
+          <Dropdown
+            selection
+            options={cps}
+            placeholder="Selecciona tu código postal"
+            id="postalCode"
+            search
+            {...register('postalCode', validation.postalCode)}
+            onChange={handleCPChange}
           />
-          {errors.postalCode && <InputMessage type="error" message="Requerido" />}
+          {errors.postalCode && <InputMessage type="error" message={errors.postalCode.message ?? 'Requerido'} />}
         </Form.Field>
         <Form.Field>
           <label htmlFor="phone" className="form-label font-bold">
@@ -166,9 +195,9 @@ const Checkout = () => {
             className="form-control"
             placeholder="Teléfono de 10 dígitos"
             id="phone"
-            {...register('phone', { required: true, minLength: 10, maxLength: 10 })}
+            {...register('phone', validation.phone)}
           />
-          {errors.phone && <InputMessage type="error" message="Requerido" />}
+          {errors.phone && <InputMessage type="error" message={errors.phone.message ?? 'Requerido'} />}
         </Form.Field>
         <Button variant="primary" className="btn btn-primary mt-5" type="submit" disabled={isCreating}>
           {isCreating ? 'Generando pedido...' : 'Finalizar pedido'}
