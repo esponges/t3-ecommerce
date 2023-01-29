@@ -1,6 +1,11 @@
 import debounce from 'lodash/debounce';
 import Image from 'next/image';
-import { useMemo, useEffect, useCallback } from 'react';
+import {
+  useMemo,
+  useEffect,
+  useCallback,
+  useState
+} from 'react'
 
 interface Props {
   className?: string;
@@ -15,6 +20,7 @@ interface Props {
     name?: string;
   }[];
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
+  multiple?: boolean;
 }
 
 export const Searchbar = ({
@@ -27,12 +33,34 @@ export const Searchbar = ({
   inputType = 'text',
   inputProps,
   placeholder = 'Buscar',
+  multiple = false,
 }: Props) => {
+  const [selected, setSelected] = useState<string[]>([]);
+
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       onChange(e);
     },
     [onChange]
+  );
+
+  const handleSelect = useCallback(
+    (e: React.MouseEvent<HTMLLIElement>) => {
+      if (multiple) {
+        const id = e.currentTarget.dataset.id;
+        if (id) {
+          if (selected.includes(id)) {
+            setSelected(selected.filter((item) => item !== id));
+          } else {
+            setSelected([...selected, id]);
+          }
+        }
+      } else {
+        setSelected([]);
+      }
+      onSelect(e);
+    },
+    [multiple, onSelect, selected]
   );
 
   const handleDebounceInputChange = useMemo(
@@ -63,8 +91,17 @@ export const Searchbar = ({
       {searchResults.length > 0 && (
         <ul className="absolute top-full left-0 w-full rounded-md border border-gray-300 bg-white shadow-md">
           {searchResults.map((item) => (
-            <li key={item?.id ?? item.name} className="cursor-pointer p-2 hover:bg-gray-100" onClick={onSelect}>
+            <li key={item?.id ?? item.name} className="cursor-pointer p-2 hover:bg-gray-100" onClick={handleSelect}>
               {item.name}
+            </li>
+          ))}
+        </ul>
+      )}
+      {selected.length > 0 && (
+        <ul className="absolute top-full left-0 w-full rounded-md border border-gray-300 bg-white shadow-md">
+          {selected.map((item) => (
+            <li key={item} className="cursor-pointer p-2 hover:bg-gray-100" onClick={handleSelect}>
+              {item}
             </li>
           ))}
         </ul>
