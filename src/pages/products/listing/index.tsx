@@ -1,6 +1,10 @@
 import Head from 'next/head';
 import superjson from 'superjson';
-import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from 'next';
+import type {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse
+} from 'next'
 
 import { ProductSearchbar } from '@/components/molecules/productSearchbar';
 import { ProductCarousel } from '@/components/organisms/productCarousel';

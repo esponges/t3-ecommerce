@@ -3,7 +3,11 @@ import { useMemo } from 'react';
 import Head from 'next/head';
 import superjson from 'superjson';
 import type { ColumnDef, CellContext } from '@tanstack/react-table';
-import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from 'next';
+import type {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse
+} from 'next'
 import Link from 'next/link';
 
 import { createProxySSGHelpers } from '@trpc/react-query/ssg';

@@ -1,6 +1,10 @@
 import Head from 'next/head';
 import superjson from 'superjson';
-import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from 'next';
+import type {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse
+} from 'next'
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
