@@ -1,6 +1,12 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import type { User } from '@prisma/client';
-import { Dropdown, Form } from 'semantic-ui-react';
+import {
+  Dropdown,
+  Form,
+  Accordion,
+  Icon
+} from 'semantic-ui-react'
 import type { DropdownProps } from 'semantic-ui-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
@@ -15,6 +21,9 @@ import { PageContainer } from '@/components/layouts/pageContainer';
 import { Header } from '@/components/atoms/header';
 import { Button } from '@/components/atoms/button';
 import { InputMessage } from '@/components/atoms/inputMessage';
+
+import type { TableCartItem } from '../cart';
+import { CartItems } from '@/components/molecules/cartItems';
 
 const checkoutDefaultValues = {
   address: '',
@@ -32,11 +41,18 @@ interface CheckoutFormValues {
 
 const Checkout = () => {
   const router = useRouter();
-
+  const [activeIndex, setActiveIndex] = useState<number|undefined>(0);
+  
   const { data: session } = useSession();
   const user: User | undefined = session?.user as User | undefined;
 
-  const { cartItems } = useCartItems();
+  const { cartItems, cartTotal } = useCartItems();
+  const tableCartItems: TableCartItem[] = Object.values(cartItems).map((item) => ({
+    name: item.name,
+    price: item.price,
+    quantity: item.quantity,
+    id: item.id,
+  }));
 
   const {
     register,
@@ -117,6 +133,10 @@ const Checkout = () => {
     }
   };
 
+  const handleAccordionOpenClose = () => {
+    setActiveIndex(activeIndex === 0 ? undefined : 0);
+  }
+
   const handleFormSubmit = (data: CheckoutFormValues) =>
     void (async () => {
       if (!user?.id) {
@@ -144,6 +164,26 @@ const Checkout = () => {
   return (
     <PageContainer>
       <Header size="5xl">Finalizar pedido</Header>
+      <Accordion
+        // fluid
+        // styled
+        className="my-8"
+      >
+        <Accordion.Title
+          active={activeIndex === 0}
+          index={0}
+          onClick={handleAccordionOpenClose}
+        >
+          <Icon name='dropdown' />
+          Tu pedido
+        </Accordion.Title>
+        <Accordion.Content active={activeIndex === 0}>
+          <CartItems
+            tableItems={tableCartItems}
+            cartTotal={cartTotal}
+          />
+        </Accordion.Content>
+      </ Accordion>
       <Form onSubmit={handleSubmit(handleFormSubmit)}>
         <Form.Field>
           <label htmlFor="address" className="form-label font-bold">
