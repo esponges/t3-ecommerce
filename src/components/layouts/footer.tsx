@@ -79,16 +79,16 @@ export const Footer = () => {
           </div>
           <div className="">
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">Productos</h6>
-            <Link href={PageRoutes.List}>
+            <Link href={`${PageRoutes.List}#Whisky`}>
               <p className="mb-4">Whisky</p>
             </Link>
-            <Link href={PageRoutes.List}>
+            <Link href={`${PageRoutes.List}#Tequila`}>
               <p className="mb-4">Tequila</p>
             </Link>
-            <Link href={PageRoutes.List}>
+            <Link href={`${PageRoutes.List}#Gin`}>
               <p className="mb-4">Ginebra</p>
             </Link>
-            <Link href={PageRoutes.List}>
+            <Link href={`${PageRoutes.List}#Mezcal`}>
               <p>Mezcal</p>
             </Link>
           </div>
