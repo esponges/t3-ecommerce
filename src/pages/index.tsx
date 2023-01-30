@@ -61,7 +61,7 @@ const Home = () => {
             return (
               <li className="flex-auto text-center" key={category.id}>
                 <Pill
-                  href={`/category/${category.id}`}
+                  href={`/products/listing#${category.name}`}
                   roundedStyle="rounded-md"
                   className="m-1 bg-blue-200 text-lg md:m-4 "
                 >

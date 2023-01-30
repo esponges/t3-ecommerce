@@ -76,8 +76,10 @@ export const ProductCarousel = ({
     <div
       className={`relative mt-6 flex flex-col items-center justify-center md:px-12 ${wrapper} ${extraClassName ?? ''}`}
     >
-      <Header size='7xl'>
-        {tag || category?.name || 'Products'}
+      <Header size='9xl' extraClassName='uppercase'>
+        <span id={`${tag || category?.name || '#'}`}>
+          {tag || category?.name || 'Products'}
+        </span>
       </Header>
       <div className="relative mt-2 flex w-full justify-center">
         {isLoading || (isFetchingNextPage && !toShow) ? <>{renderLoadingCards()}</> : null}

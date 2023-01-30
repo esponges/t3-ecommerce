@@ -35,7 +35,7 @@ const Login = () => {
           <Message
             info
             header="¡Hola!"
-            content="Por favor, inicia sesión con alguno de nuestros proveedres para proceder con tu compra"
+            content="Por favor, inicia sesión con alguno de nuestros proveedores para proceder con tu pedido"
           />
           <div className='mt-10 w-full'>
             <Button variant="secondary" extraClassName='w-full' onClick={() => void signIn(AuthProviders.Discord)}>

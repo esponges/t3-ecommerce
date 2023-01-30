@@ -27,7 +27,7 @@ const ProductListing = () => {
         <link rel="icon" href="/v-icon.ico" />
       </Head>
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
-        <Header size='xl'>¿Buscas algo específico?</Header>
+        <Header size="xl">¿Buscas algo específico?</Header>
         <ProductSearchbar />
         <ul className="mt-4 flex w-full flex-col gap-4">
           {categories?.length &&
