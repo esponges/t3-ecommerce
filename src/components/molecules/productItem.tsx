@@ -99,21 +99,21 @@ export const ProductItem = ({
           <Table basic='very'>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>Technical Details</Table.HeaderCell>
+                <Table.HeaderCell>Detalles técnicos</Table.HeaderCell>
                 <Table.HeaderCell></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
               <Table.Row>
-                <Table.Cell>Size</Table.Cell>
+                <Table.Cell>Capacidad</Table.Cell>
                 <Table.Cell>750ml</Table.Cell>
               </Table.Row>
               <Table.Row>
-                <Table.Cell>Volume</Table.Cell>
+                <Table.Cell>Volumen Alc.</Table.Cell>
                 <Table.Cell>10%</Table.Cell>
               </Table.Row>
               <Table.Row>
-                <Table.Cell>Country</Table.Cell>
+                <Table.Cell>País de procedencia</Table.Cell>
                 <Table.Cell>Mexico</Table.Cell>
               </Table.Row>
             </Table.Body>

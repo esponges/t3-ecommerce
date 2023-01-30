@@ -57,10 +57,10 @@ const ProductDetails = (
       />
       <div className="mt-5 flex justify-center">
         <Button variant="primary" extraClassName="mr-4" onClick={() => router.push('/cart')}>
-          Go to cart
+          Ir al carrito
         </Button>
         <Button variant="secondary" className="mt-5" onClick={() => router.push('/')}>
-          Go back
+          Regresar
         </Button>
       </div>
     </Container>
