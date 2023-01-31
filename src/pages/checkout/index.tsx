@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useMemo, useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import type { User } from '@prisma/client';
 import {
   Dropdown,
@@ -13,7 +13,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { useCartItems } from '@/lib/hooks/useCartItems';
-import { validation } from '@/lib/checkout';
+import {
+  getAvailableDaysOptions,
+  getScheduleOptions,
+  validation
+} from '@/lib/checkout'
 
 import { trpc } from '@/utils/trpc';
 
@@ -30,6 +34,8 @@ const checkoutDefaultValues = {
   city: '',
   postalCode: '',
   phone: '',
+  schedule : '',
+  day: '',
 };
 
 interface CheckoutFormValues {
@@ -37,7 +43,27 @@ interface CheckoutFormValues {
   city: string;
   postalCode: string;
   phone: string;
+  schedule: string;
+  day: string;
 }
+
+const cps = [
+  {
+    key: 1,
+    text: 'CP 1',
+    value: 1,
+  },
+  {
+    key: 2,
+    text: 'CP 2',
+    value: 2,
+  },
+  {
+    key: 3,
+    text: 'CP 3',
+    value: 3,
+  },
+];
 
 const Checkout = () => {
   const router = useRouter();
@@ -59,6 +85,8 @@ const Checkout = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    getValues,
+    setError,
   } = useForm({ defaultValues: checkoutDefaultValues });
 
   const utils = trpc.useContext();
@@ -101,26 +129,27 @@ const Checkout = () => {
     },
   });
 
-  const cps = [
-    {
-      key: 1,
-      text: 'CP 1',
-      value: 1,
-    },
-    {
-      key: 2,
-      text: 'CP 2',
-      value: 2,
-    },
-    {
-      key: 3,
-      text: 'CP 3',
-      value: 3,
-    },
-  ];
+  const chosenDay = getValues('day');
+  const daysOptions = useMemo(() => getAvailableDaysOptions(), []);
+  const scheduleOptions = useMemo(() => getScheduleOptions(chosenDay), [chosenDay]);
 
+  const handleDayChange = (event: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
+    if (data.value && typeof data.value === 'string') {
+      setValue('day', data.value);
+      setError('day', {});
+    } 
+  }
+
+  const handleScheduleChange = (event: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
+    if (data.value && typeof data.value === 'string') {
+      setValue('schedule', data.value);
+      setError('schedule', {});
+    }
+  }
+     
   const handleCPChange = (event: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
     if (data.value) {
+      setError('postalCode', {});
       if (typeof data.value === 'string') {
         setValue('postalCode', data.value);
         return;
@@ -185,6 +214,37 @@ const Checkout = () => {
         </Accordion.Content>
       </ Accordion>
       <Form onSubmit={handleSubmit(handleFormSubmit)}>
+        {/* chose day */}
+        <Form.Field>
+          <label htmlFor="day" className="form-label font-bold">
+            Día de entrega
+          </label>
+          <Dropdown
+            placeholder="Día de entrega"
+            fluid
+            selection
+            options={daysOptions}
+            {...register('day', validation.day)}
+            onChange={handleDayChange}
+          />
+          {errors.day?.message && <InputMessage type="error" message={errors.day.message} />}
+        </Form.Field>
+        {/* chose schedule */}
+        <Form.Field>
+          <label htmlFor="schedule" className="form-label font-bold">
+            Horario de entrega
+          </label>
+          <Dropdown
+            placeholder={chosenDay ? 'Horario de entrega' : 'Elige primero el día'}
+            fluid
+            selection
+            options={scheduleOptions}
+            disabled={!chosenDay}
+            {...register('schedule', validation.schedule)}
+            onChange={handleScheduleChange}
+          />
+          {errors.schedule?.message && <InputMessage type="error" message={errors.schedule.message} />}
+        </Form.Field>
         <Form.Field>
           <label htmlFor="address" className="form-label font-bold">
             Dirección de envío
@@ -224,7 +284,7 @@ const Checkout = () => {
             {...register('postalCode', validation.postalCode)}
             onChange={handleCPChange}
           />
-          {errors.postalCode && <InputMessage type="error" message={errors.postalCode.message ?? 'Requerido'} />}
+          {errors.postalCode?.message && <InputMessage type="error" message={errors.postalCode.message} />}
         </Form.Field>
         <Form.Field>
           <label htmlFor="phone" className="form-label font-bold">
