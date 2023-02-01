@@ -25,19 +25,31 @@
         <% }); %>
       </tbody>
     </table>
-    <p>Dirección de envío:</p>
+    <p>
+      <b>
+        Total: <%= order.total %>
+      </b>
+    </p>
+    <p>
+      <b>
+        Dirección de envío:
+      </b>
+    </p>
     <p>
       <%= order.orderDetail.address %>, 
       <%= order.orderDetail.city %>, 
       <%= order.orderDetail.postalCode %>, 
       <%= order.orderDetail.phone %>
     </p>
-    <p>Horario y día de envío:</p>
+    <p>
+      <b>
+        Horario y día de entrega:
+      </b>
+    </p>
     <p>
       <%= order.orderDetail.day %> —
       <%= order.orderDetail.schedule %>, 
     </p>
-    <p>Total: <%= order.total %></p>
     <p>Te contactaremos si tenemos dudas.</p>
     <p>Gracias por tu compra!</p>
     <h5>Vinoreo</h5>

@@ -23,13 +23,14 @@ export const orderRouter = t.router({
           schedule: z.string(),
           day: z.string(),
         }),
+        total: z.number(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-
       const order = await ctx.prisma.order.create({
         data: {
           userId: input.userId,
+          total: input.total,
           orderItems: {
             create: input.orderItems,
           },

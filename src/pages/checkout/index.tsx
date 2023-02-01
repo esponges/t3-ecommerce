@@ -188,6 +188,7 @@ const Checkout = () => {
           day: data.day,
           schedule: data.schedule,
         },
+        total: cartTotal,
       });
     })();
 
