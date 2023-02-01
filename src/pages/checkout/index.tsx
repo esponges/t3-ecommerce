@@ -185,6 +185,8 @@ const Checkout = () => {
           country: 'MX',
           postalCode: data.postalCode,
           phone: data.phone,
+          day: data.day,
+          schedule: data.schedule,
         },
       });
     })();
@@ -251,7 +253,7 @@ const Checkout = () => {
           </label>
           <input
             type="text"
-            placeholder="Calle/Av, Exterior e Interior"
+            placeholder="Calle/Av + Exterior e Interior"
             className="form-control"
             id="address"
             {...register('address', validation.address)}

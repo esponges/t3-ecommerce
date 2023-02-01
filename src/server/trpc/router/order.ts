@@ -20,6 +20,8 @@ export const orderRouter = t.router({
           country: z.string(),
           postalCode: z.string(),
           phone: z.string(),
+          schedule: z.string(),
+          day: z.string(),
         }),
       })
     )

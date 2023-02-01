@@ -101,6 +101,7 @@ model Category {
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
     product     Product[]
+    score       Float    @default(0)
 }
 
 model OrderItem {
@@ -121,6 +122,8 @@ model OrderDetail {
     country   String
     postalCode String
     phone     String
+    schedule  String   @default("")
+    day       String   @default("")
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     orderId   String  @unique
@@ -132,7 +135,8 @@ model Order {
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
     user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId      String   
+    userId      String
+    total       Float    @default(0) 
     orderItems  OrderItem[]
     orderDetail OrderDetail?
 }

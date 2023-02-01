@@ -12,7 +12,6 @@ import { useCartActions } from '@/store/cart';
 import { Table } from '@/components/molecules/table';
 import { Button } from '@/components/atoms/button';
 import { Header } from '@/components/atoms/header';
-import { Container } from '@/components/molecules/container';
 import { PriceCell } from '@/components/atoms/table/PriceCell';
 
 import { useCartItems } from '@/lib/hooks/useCartItems';
