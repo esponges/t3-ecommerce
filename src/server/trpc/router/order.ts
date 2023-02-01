@@ -92,7 +92,7 @@ export const orderRouter = t.router({
         }),
       };
 
-      await sendOrderConfirmationEmail(orderWithProducts, user.name ?? user.email);
+      await sendOrderConfirmationEmail(orderWithProducts, user.email, user.name || '');
       // TODO: emailjs doesn't work in the server
       // find an alternative to send emails server-side
       return order;

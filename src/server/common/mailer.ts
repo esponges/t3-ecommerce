@@ -28,10 +28,14 @@ type OrderWithPayloadAndProducts = OrderWithPayload & {
   }[];
 };
 
-export const sendOrderConfirmationEmail = async (order: OrderWithPayloadAndProducts, userEmail: string) => {
+export const sendOrderConfirmationEmail = async (
+  order: OrderWithPayloadAndProducts,
+  userEmail: string,
+  userName: string
+) => {
   const template = path.join(process.cwd(), 'src/server/common/templates/confirmation.ejs');
 
-  const html = await ejs.renderFile(template, { order, userEmail });
+  const html = await ejs.renderFile(template, { order, userName });
 
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -65,6 +69,6 @@ export const sendOrderConfirmationEmail = async (order: OrderWithPayloadAndProdu
     if (error) {
       console.log(error);
     }
-    console.log(`Email sent: ${info.response}`);
+    console.log(`Email sent: ${info?.response}`);
   });
 };
