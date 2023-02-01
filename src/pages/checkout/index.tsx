@@ -117,7 +117,7 @@ const Checkout = () => {
           userId: data.userId,
         });
       }
-      // router.push(`/auth/account/order/confirm/${data.id}`);
+      router.push(`/order/${user?.id as string}/${data?.id}`);
     },
 
     onError: (_err, _values, _context) => {
@@ -201,8 +201,8 @@ const Checkout = () => {
         <meta name="robots" content="noindex" />
         <title>Finalizar pedido</title>
       </Head>
-      <PageContainer>
-        <Header size="5xl">Finalizar pedido</Header>
+      <PageContainer className='text-center'>
+        <Header size="9xl" extraClassName='uppercase'>Finalizar pedido</Header>
         <Accordion
           className="my-8"
         >
@@ -214,7 +214,7 @@ const Checkout = () => {
             <CartItems tableItems={tableCartItems} cartTotal={cartTotal} />
           </Accordion.Content>
         </Accordion>
-        <Form onSubmit={handleSubmit(handleFormSubmit)}>
+        <Form onSubmit={handleSubmit(handleFormSubmit)} className='px-5 text-left'>
           {/* chose day */}
           <Form.Field>
             <label htmlFor="day" className="form-label font-bold">
@@ -301,17 +301,16 @@ const Checkout = () => {
             {errors.phone && <InputMessage type="error" message={errors.phone.message ?? 'Requerido'} />}
           </Form.Field>
           <Button variant="primary" className="btn btn-primary mt-5" type="submit" disabled={isCreating}>
-            {isCreating ? 'Generando pedido...' : 'Finalizar pedido'}
+            {isCreating ? 'Generando pedido...' : 'Confirmar pedido'}
           </Button>
+          <div className="mt-10">
+            <Link href="/cart">
+              <Button variant="secondary" className="btn btn-secondary mt-5" disabled={isCreating}>
+                Regresa
+              </Button>
+            </Link>
+          </div>
         </Form>
-        {/* go back button */}
-        <div className="mt-10 text-right">
-          <Link href="/cart">
-            <Button variant="secondary" className="btn btn-secondary mt-5" disabled={isCreating}>
-              Regresa
-            </Button>
-          </Link>
-        </div>
       </PageContainer>
     </>
   );
