@@ -83,7 +83,7 @@ export const Table = <T extends object>({
               <DebouncedInput
                 value={globalFilter ?? ''} onChange={(value) => setGlobalFilter(String(value))}
                 className="font-lg border-block border p-2 shadow mb-2"
-                placeholder="Search all columns..."
+                placeholder="Filtrar..."
               />
             ) : null}
             <table className="min-w-full text-center">

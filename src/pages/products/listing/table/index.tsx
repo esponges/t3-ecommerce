@@ -78,8 +78,7 @@ const ProductTable = () => {
       <Container extraClassName='text-center min-h-screen'>
         <Header size='3xl'>Todos nuestros productos</Header>
         <Header size='xl'>¿Buscas algo específico?</Header>
-        <ProductSearchbar className='w-1/2 md:w-1/3 mx-auto' />
-        <Table data={tableItems} columns={cols} isMobile={isMobile} />
+        <Table data={tableItems} columns={cols} isMobile={isMobile} showGlobalFilter />
       </Container>
     </>
   );
