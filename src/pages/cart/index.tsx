@@ -170,7 +170,7 @@ const Cart = () => {
   );
 
   return (
-    <PageContainer>
+    <PageContainer verticallyCentered>
       <Header extraClassName="text-center uppercase" size='9xl'>Tu carrito</Header>
       <div className="my-15">
         {tableItems.length ? (
