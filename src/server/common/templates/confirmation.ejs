@@ -32,6 +32,11 @@
       <%= order.orderDetail.postalCode %>, 
       <%= order.orderDetail.phone %>
     </p>
+    <p>Horario y día de envío:</p>
+    <p>
+      <%= order.orderDetail.day %> —
+      <%= order.orderDetail.schedule %>, 
+    </p>
     <p>Total: <%= order.total %></p>
     <p>Te contactaremos si tenemos dudas.</p>
     <p>Gracias por tu compra!</p>

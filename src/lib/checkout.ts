@@ -1,4 +1,3 @@
-
 export const validation = {
   address: {
     required: 'La dirección es requerida',
