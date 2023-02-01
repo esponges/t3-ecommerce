@@ -42,6 +42,11 @@ const Login = () => {
               Discord <Icon name="discord" size='huge' />
             </Button>
           </div>
+          <div className='mt-10 w-full'>
+            <Button variant="secondary" extraClassName='w-full' onClick={() => void signIn(AuthProviders.Google)}>
+              Google <Icon name="google" size='huge' />
+            </Button>
+          </div>
         </div>
       ) : (
         <div className='text-center md:w-1/3'>
