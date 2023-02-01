@@ -6,7 +6,7 @@ type Props = {
 
 export const PageContainer = ({children}: Props) => {
   return (
-    <div className="my-10 mx-auto md:w-1/2">
+    <div className="my-10 mx-auto md:w-1/2 md:min-h-[60vh]">
       {children}
     </div>
   );

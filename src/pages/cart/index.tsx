@@ -19,6 +19,7 @@ import { useCartItems } from '@/lib/hooks/useCartItems';
 import { PageRoutes } from '@/lib/routes';
 
 import { trpc } from '@/utils/trpc';
+import { PageContainer } from '@/components/layouts/pageContainer';
 
 export type TableCartItem = Pick<CartItem, 'name' | 'price' | 'quantity' | 'id'>;
 
@@ -87,7 +88,6 @@ const Cart = () => {
       });
     }
   }, [data, priceChangeIds, updateCartItems, noStockIds, removeFromCart]);
-
 
   const tableItems: TableCartItem[] = Object.values(cartItems).map(({ name, price, quantity, id }) => ({
     name,
@@ -171,8 +171,8 @@ const Cart = () => {
   );
 
   return (
-    <Container extraClassName='min-h-screen'>
-      <Header extraClassName="text-center">Tu carrito</Header>
+    <PageContainer>
+      <Header extraClassName="text-center uppercase" size='9xl'>Tu carrito</Header>
       <div className="my-15">
         {tableItems.length ? (
           <Table data={tableItems} columns={cols} showGlobalFilter={false} showNavigation={false} />
@@ -187,7 +187,7 @@ const Cart = () => {
       </div>
       <div className={`${!hasMinPurchase ? 'block text-center md:mx-auto md:w-1/2' : 'flex justify-center '}`}>
         {hasMinPurchase ? (
-          <Button variant="link" onClick={handleCheckout} extraClassName='mr-2'>
+          <Button variant="link" onClick={handleCheckout} extraClassName="mr-2">
             Continuar
           </Button>
         ) : (
@@ -199,11 +199,11 @@ const Cart = () => {
             />
           )
         )}
-        <Button variant="link" onClick={handleBack} extraClassName='ml-2'>
+        <Button variant="link" onClick={handleBack} extraClassName="ml-2">
           Regresar
         </Button>
       </div>
-    </Container>
+    </PageContainer>
   );
 };
 
