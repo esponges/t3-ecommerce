@@ -24,6 +24,7 @@ const ProductListing = () => {
     <>
       <Head>
         <meta name="description" content="Lista de productos por categoría" />
+        <title>Productos</title>
         <link rel="icon" href="/v-icon.ico" />
       </Head>
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">

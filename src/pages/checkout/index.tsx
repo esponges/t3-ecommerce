@@ -28,13 +28,14 @@ import { InputMessage } from '@/components/atoms/inputMessage';
 
 import type { TableCartItem } from '../cart';
 import { CartItems } from '@/components/molecules/cartItems';
+import Head from 'next/head';
 
 const checkoutDefaultValues = {
   address: '',
   city: '',
   postalCode: '',
   phone: '',
-  schedule : '',
+  schedule: '',
   day: '',
 };
 
@@ -67,8 +68,8 @@ const cps = [
 
 const Checkout = () => {
   const router = useRouter();
-  const [activeIndex, setActiveIndex] = useState<number|undefined>(0);
-  
+  const [activeIndex, setActiveIndex] = useState<number | undefined>(0);
+
   const { data: session } = useSession();
   const user: User | undefined = session?.user as User | undefined;
 
@@ -137,16 +138,16 @@ const Checkout = () => {
     if (data.value && typeof data.value === 'string') {
       setValue('day', data.value);
       setError('day', {});
-    } 
-  }
+    }
+  };
 
   const handleScheduleChange = (event: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
     if (data.value && typeof data.value === 'string') {
       setValue('schedule', data.value);
       setError('schedule', {});
     }
-  }
-     
+  };
+
   const handleCPChange = (event: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
     if (data.value) {
       setError('postalCode', {});
@@ -164,7 +165,7 @@ const Checkout = () => {
 
   const handleAccordionOpenClose = () => {
     setActiveIndex(activeIndex === 0 ? undefined : 0);
-  }
+  };
 
   const handleFormSubmit = (data: CheckoutFormValues) =>
     void (async () => {
@@ -194,127 +195,125 @@ const Checkout = () => {
 
   // TODO: add cp dropdown and delivery hour & day
   return (
-    <PageContainer>
-      <Header size="5xl">Finalizar pedido</Header>
-      <Accordion
-        // fluid
-        // styled
-        className="my-8"
-      >
-        <Accordion.Title
-          active={activeIndex === 0}
-          index={0}
-          onClick={handleAccordionOpenClose}
+    <>
+      <Head>
+        {/* dont index */}
+        <meta name="robots" content="noindex" />
+        <title>Finalizar pedido</title>
+      </Head>
+      <PageContainer>
+        <Header size="5xl">Finalizar pedido</Header>
+        <Accordion
+          className="my-8"
         >
-          <Icon name='dropdown' />
-          Tu pedido
-        </Accordion.Title>
-        <Accordion.Content active={activeIndex === 0}>
-          <CartItems
-            tableItems={tableCartItems}
-            cartTotal={cartTotal}
-          />
-        </Accordion.Content>
-      </ Accordion>
-      <Form onSubmit={handleSubmit(handleFormSubmit)}>
-        {/* chose day */}
-        <Form.Field>
-          <label htmlFor="day" className="form-label font-bold">
-            Día de entrega
-          </label>
-          <Dropdown
-            placeholder="Día de entrega"
-            fluid
-            selection
-            options={daysOptions}
-            {...register('day', validation.day)}
-            onChange={handleDayChange}
-          />
-          {errors.day?.message && <InputMessage type="error" message={errors.day.message} />}
-        </Form.Field>
-        {/* chose schedule */}
-        <Form.Field>
-          <label htmlFor="schedule" className="form-label font-bold">
-            Horario de entrega
-          </label>
-          <Dropdown
-            placeholder={chosenDay ? 'Horario de entrega' : 'Elige primero el día'}
-            fluid
-            selection
-            options={scheduleOptions}
-            disabled={!chosenDay}
-            {...register('schedule', validation.schedule)}
-            onChange={handleScheduleChange}
-          />
-          {errors.schedule?.message && <InputMessage type="error" message={errors.schedule.message} />}
-        </Form.Field>
-        <Form.Field>
-          <label htmlFor="address" className="form-label font-bold">
-            Dirección de envío
-          </label>
-          <input
-            type="text"
-            placeholder="Calle/Av + Exterior e Interior"
-            className="form-control"
-            id="address"
-            {...register('address', validation.address)}
-          />
-          {errors.address && <InputMessage type="error" message={errors.address.message || 'Requerido'} />}
-        </Form.Field>
-        <Form.Field>
-          <label htmlFor="city" className="form-label font-bold">
-            Municipio
-          </label>
-          <input
-            type="text"
-            placeholder="Municipio"
-            className="form-control"
-            id="city"
-            {...register('city', validation.city)}
-          />
-          {errors.city && <InputMessage type="error" message={errors.city.message ?? 'Requerido'} />}
-        </Form.Field>
-        <Form.Field>
-          <label htmlFor="postalCode" className="form-label font-bold">
-            Código Postal
-          </label>
-          <Dropdown
-            selection
-            options={cps}
-            placeholder="Selecciona tu código postal"
-            id="postalCode"
-            search
-            {...register('postalCode', validation.postalCode)}
-            onChange={handleCPChange}
-          />
-          {errors.postalCode?.message && <InputMessage type="error" message={errors.postalCode.message} />}
-        </Form.Field>
-        <Form.Field>
-          <label htmlFor="phone" className="form-label font-bold">
-            Teléfono de contacto
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Teléfono de 10 dígitos"
-            id="phone"
-            {...register('phone', validation.phone)}
-          />
-          {errors.phone && <InputMessage type="error" message={errors.phone.message ?? 'Requerido'} />}
-        </Form.Field>
-        <Button variant="primary" className="btn btn-primary mt-5" type="submit" disabled={isCreating}>
-          {isCreating ? 'Generando pedido...' : 'Finalizar pedido'}
-        </Button>
-      </Form>
-      {/* go back button */}
-      <div className="mt-10 text-right">
-        <Link href="/cart">
-          <Button variant="secondary" className="btn btn-secondary mt-5" disabled={isCreating}>
-            Regresa
+          <Accordion.Title active={activeIndex === 0} index={0} onClick={handleAccordionOpenClose}>
+            <Icon name="dropdown" />
+            Tu pedido
+          </Accordion.Title>
+          <Accordion.Content active={activeIndex === 0}>
+            <CartItems tableItems={tableCartItems} cartTotal={cartTotal} />
+          </Accordion.Content>
+        </Accordion>
+        <Form onSubmit={handleSubmit(handleFormSubmit)}>
+          {/* chose day */}
+          <Form.Field>
+            <label htmlFor="day" className="form-label font-bold">
+              Día de entrega
+            </label>
+            <Dropdown
+              placeholder="Día de entrega"
+              fluid
+              selection
+              options={daysOptions}
+              {...register('day', validation.day)}
+              onChange={handleDayChange}
+            />
+            {errors.day?.message && <InputMessage type="error" message={errors.day.message} />}
+          </Form.Field>
+          {/* chose schedule */}
+          <Form.Field>
+            <label htmlFor="schedule" className="form-label font-bold">
+              Horario de entrega
+            </label>
+            <Dropdown
+              placeholder={chosenDay ? 'Horario de entrega' : 'Elige primero el día'}
+              fluid
+              selection
+              options={scheduleOptions}
+              disabled={!chosenDay}
+              {...register('schedule', validation.schedule)}
+              onChange={handleScheduleChange}
+            />
+            {errors.schedule?.message && <InputMessage type="error" message={errors.schedule.message} />}
+          </Form.Field>
+          <Form.Field>
+            <label htmlFor="address" className="form-label font-bold">
+              Dirección de envío
+            </label>
+            <input
+              type="text"
+              placeholder="Calle/Av + Exterior e Interior"
+              className="form-control"
+              id="address"
+              {...register('address', validation.address)}
+            />
+            {errors.address && <InputMessage type="error" message={errors.address.message || 'Requerido'} />}
+          </Form.Field>
+          <Form.Field>
+            <label htmlFor="city" className="form-label font-bold">
+              Municipio
+            </label>
+            <input
+              type="text"
+              placeholder="Municipio"
+              className="form-control"
+              id="city"
+              {...register('city', validation.city)}
+            />
+            {errors.city && <InputMessage type="error" message={errors.city.message ?? 'Requerido'} />}
+          </Form.Field>
+          <Form.Field>
+            <label htmlFor="postalCode" className="form-label font-bold">
+              Código Postal
+            </label>
+            <Dropdown
+              selection
+              options={cps}
+              placeholder="Selecciona tu código postal"
+              id="postalCode"
+              search
+              {...register('postalCode', validation.postalCode)}
+              onChange={handleCPChange}
+            />
+            {errors.postalCode?.message && <InputMessage type="error" message={errors.postalCode.message} />}
+          </Form.Field>
+          <Form.Field>
+            <label htmlFor="phone" className="form-label font-bold">
+              Teléfono de contacto
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Teléfono de 10 dígitos"
+              id="phone"
+              {...register('phone', validation.phone)}
+            />
+            {errors.phone && <InputMessage type="error" message={errors.phone.message ?? 'Requerido'} />}
+          </Form.Field>
+          <Button variant="primary" className="btn btn-primary mt-5" type="submit" disabled={isCreating}>
+            {isCreating ? 'Generando pedido...' : 'Finalizar pedido'}
           </Button>
-        </Link>
-      </div>
-    </PageContainer>
+        </Form>
+        {/* go back button */}
+        <div className="mt-10 text-right">
+          <Link href="/cart">
+            <Button variant="secondary" className="btn btn-secondary mt-5" disabled={isCreating}>
+              Regresa
+            </Button>
+          </Link>
+        </div>
+      </PageContainer>
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import Head from 'next/head';
 import superjson from 'superjson';
 import type { ColumnDef, CellContext } from '@tanstack/react-table';
@@ -21,23 +21,27 @@ import { Table } from '@/components/molecules/table';
 
 import type { Product } from '@/types';
 import { PageRoutes } from '@/lib/routes';
-import { ProductSearchbar } from '@/components/molecules/productSearchbar';
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 
 // consider that the Category will only return a name
 type TableItem = Product & { category: string };
 
 const ProductTable = () => {
-  const { data } = trpc.product.getAll.useQuery({});
+  const { data } = trpc.product.getAll.useQuery({},
+    {
+      // we  use useCallback since we want to memoize the selector
+      // select is a fn, not a value, so useMemo won't work
+      select: useCallback((products: Product[]) => products.map((product) => ({
+        name: product.name,
+        price: product.price,
+        category: product.category.name,
+      })), []),
+    }
+  );
+
   const { isMobile } = useDeviceWidth();
 
-  const tableItems = useMemo(() => {
-    return data?.map((product) => ({
-      name: product.name,
-      price: product.price,
-      category: product.category.name,
-    })) as TableItem[];
-  }, [data]);
+  // const tableItems = data as TableItem[];
 
   // to do, create a reusable component for the renderers
   const renderProductLink = useMemo(() => {
@@ -72,13 +76,13 @@ const ProductTable = () => {
   return (
     <>
       <Head>
-        <title>List</title>
-        <meta name="description" content="All our available products" />
+        <title>Products</title>
+        <meta name="description" content="Nuestra lista de productos completa" />
       </Head>
       <Container extraClassName='text-center min-h-screen'>
         <Header size='3xl'>Todos nuestros productos</Header>
         <Header size='xl'>¿Buscas algo específico?</Header>
-        <Table data={tableItems} columns={cols} isMobile={isMobile} showGlobalFilter />
+        <Table data={data as TableItem[]} columns={cols} isMobile={isMobile} showGlobalFilter />
       </Container>
     </>
   );
