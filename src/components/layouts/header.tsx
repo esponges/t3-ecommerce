@@ -67,21 +67,25 @@ export const Header = ({ children }: Props) => {
     </>
   );
 
-  const menuItemsMobile = (
+  const menuItemsMobile = !session ? (
     <>
       <Menu.Item position="right">
-        {/* nextauth login */}
-        {!session ? (
-          <Link href={`${PageRoutes.Login}`}>
-            <Button variant="primary">Login</Button>
-          </Link>
-        ) : (
-          <>
-            <Button variant="primary" onClick={() => signOut()}>
-              Logout
-            </Button>
-          </>
-        )}
+        <Link href={`${PageRoutes.Login}`}>
+          <Button variant="primary">Login</Button>
+        </Link>
+      </Menu.Item>
+    </>
+  ) : (
+    <>
+      <Menu.Item>
+        <Button variant="primary" onClick={() => signOut()}>
+          Logout
+        </Button>
+      </Menu.Item>
+      <Menu.Item>
+        <Link href={`${PageRoutes.Account}`}>
+          <Button variant="primary">Bienvenido {session?.user?.name}</Button>
+        </Link>
       </Menu.Item>
     </>
   );

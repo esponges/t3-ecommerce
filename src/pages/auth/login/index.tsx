@@ -31,7 +31,7 @@ const Login = () => {
   return (
     <PageContainer verticallyCentered>
       {!session ? (
-        <div className="block px-6 text-center">
+        <div className="block p-6 text-center">
           <Message
             info
             header="¡Hola!"
@@ -49,7 +49,7 @@ const Login = () => {
           </div>
         </div>
       ) : (
-        <div className="text-center">
+        <div className="text-center p-10">
           <Message success header="¡Bienvenido!" content="Ya puedes acceder a la aplicación" />
           <Link href="/">
             <Button variant="primary" extraClassName="mt-4">
