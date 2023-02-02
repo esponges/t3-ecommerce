@@ -14,7 +14,8 @@ import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '@/server/trpc/router';
 import { createContext } from '@/server/trpc/context';
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
-import { Header } from '@/components/atoms/header';
+import { Header, HeaderSizes } from '@/components/atoms/header';
+import { PageContainer } from '@/components/layouts/pageContainer';
 
 const ProductListing = () => {
   const { data: categories } = trpc.category.getAll.useQuery();
@@ -27,16 +28,16 @@ const ProductListing = () => {
         <title>Productos</title>
         <link rel="icon" href="/v-icon.ico" />
       </Head>
-      <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
-        <Header size="xl">¿Buscas algo específico?</Header>
-        <ProductSearchbar />
+      <PageContainer className="text-center" header={{ title: 'Nuestros productos' }}>
+        <Header size={HeaderSizes.xl}>¿O Buscas algo específico?</Header>
+        <ProductSearchbar className="mx-auto w-1/2 md:w-1/3" />
         <ul className="mt-4 flex w-full flex-col gap-4">
           {categories?.length &&
             categories.map((category) => (
               <ProductCarousel showDescriptions={!isMobile} key={category.id} category={category} />
             ))}
         </ul>
-      </main>
+      </PageContainer>
     </>
   );
 };

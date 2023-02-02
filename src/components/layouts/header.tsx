@@ -52,7 +52,7 @@ export const Header = ({ children }: Props) => {
   const menuItems = (
     <>
       <Link href={`${PageRoutes.List}`}>
-        <Menu.Item active={getIsActiveRoute(PageRoutes.List)}>Categorías</Menu.Item>
+        <Menu.Item active={getIsActiveRoute(PageRoutes.List)}>Productos</Menu.Item>
       </Link>
       <Link href={`${PageRoutes.ListTable}`}>
         <Menu.Item active={getIsActiveRoute(PageRoutes.ListTable)}>Lista</Menu.Item>
