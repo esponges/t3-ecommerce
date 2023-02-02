@@ -9,7 +9,6 @@ import { trpc } from '@/utils/trpc';
 
 import type { TableCartItem } from '@/pages/cart';
 import { PageContainer } from '@/components/layouts/pageContainer';
-import { Header } from '@/components/atoms/header';
 import { Label } from '@/components/atoms/label';
 import { CartItems } from '@/components/molecules/cartItems';
 import { Button } from '@/components/atoms/button';
@@ -37,6 +36,10 @@ const OrderDetails = () => {
     }
   );
 
+  const header = {
+    title: 'Detalles de tu pedido',
+  };
+
   // todo: match userId with orderId
   if (!userId || !orderId) {
     return (
@@ -51,10 +54,7 @@ const OrderDetails = () => {
   }
 
   return (
-    <PageContainer verticallyCentered className="mb-5">
-      <Header size="9xl" extraClassName="uppercase pt-5">
-        Detalles de tu pedido
-      </Header>
+    <PageContainer verticallyCentered className="mb-5" header={header}>
       <Card className="mb-5">
         <Card.Content>
           {isLoading && <p>Loading...</p>}

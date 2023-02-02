@@ -22,7 +22,6 @@ import {
 import { trpc } from '@/utils/trpc';
 
 import { PageContainer } from '@/components/layouts/pageContainer';
-import { Header } from '@/components/atoms/header';
 import { Button } from '@/components/atoms/button';
 import { InputMessage } from '@/components/atoms/inputMessage';
 
@@ -201,11 +200,8 @@ const Checkout = () => {
         <meta name="robots" content="noindex" />
         <title>Finalizar pedido</title>
       </Head>
-      <PageContainer className='text-center'>
-        <Header size="9xl" extraClassName='uppercase'>Finalizar pedido</Header>
-        <Accordion
-          className="my-8"
-        >
+      <PageContainer className="text-center" header={{ title: 'Finalizar pedido' }}>
+        <Accordion className="my-8">
           <Accordion.Title active={activeIndex === 0} index={0} onClick={handleAccordionOpenClose}>
             <Icon name="dropdown" />
             Tu pedido
@@ -214,7 +210,7 @@ const Checkout = () => {
             <CartItems tableItems={tableCartItems} cartTotal={cartTotal} />
           </Accordion.Content>
         </Accordion>
-        <Form onSubmit={handleSubmit(handleFormSubmit)} className='px-5 text-left'>
+        <Form onSubmit={handleSubmit(handleFormSubmit)} className="px-5 text-left">
           {/* chose day */}
           <Form.Field>
             <label htmlFor="day" className="form-label font-bold">

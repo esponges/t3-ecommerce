@@ -15,27 +15,31 @@ import { appRouter } from '@/server/trpc/router';
 import { trpc } from '@/utils/trpc';
 import { createContext } from '@/server/trpc/context';
 
-import { Container } from '@/components/molecules/container';
-import { Header } from '@/components/atoms/header';
 import { Table } from '@/components/molecules/table';
 
 import type { Product } from '@/types';
 import { PageRoutes } from '@/lib/routes';
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
+import { PageContainer } from '@/components/layouts/pageContainer';
 
 // consider that the Category will only return a name
 type TableItem = Product & { category: string };
 
 const ProductTable = () => {
-  const { data } = trpc.product.getAll.useQuery({},
+  const { data } = trpc.product.getAll.useQuery(
+    {},
     {
       // we  use useCallback since we want to memoize the selector
       // select is a fn, not a value, so useMemo won't work
-      select: useCallback((products: Product[]) => products.map((product) => ({
-        name: product.name,
-        price: product.price,
-        category: product.category.name,
-      })), []),
+      select: useCallback(
+        (products: Product[]) =>
+          products.map((product) => ({
+            name: product.name,
+            price: product.price,
+            category: product.category.name,
+          })),
+        []
+      ),
     }
   );
 
@@ -67,7 +71,7 @@ const ProductTable = () => {
       {
         header: 'Categoría',
         cell: (row) => row.getValue(),
-        accessorKey: 'category'
+        accessorKey: 'category',
       },
     ],
     [renderProductLink]
@@ -79,11 +83,9 @@ const ProductTable = () => {
         <title>Products</title>
         <meta name="description" content="Nuestra lista de productos completa" />
       </Head>
-      <Container extraClassName='text-center min-h-screen'>
-        <Header size='3xl'>Todos nuestros productos</Header>
-        <Header size='xl'>¿Buscas algo específico?</Header>
+      <PageContainer header={{ title: 'Nuestros Productos' }} className="text-center">
         <Table data={data as TableItem[]} columns={cols} isMobile={isMobile} showGlobalFilter />
-      </Container>
+      </PageContainer>
     </>
   );
 };

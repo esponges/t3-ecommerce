@@ -35,6 +35,7 @@
         "nonEmpty": "line-aligned"
       }
     ],
-    "indent": ["warn", 2, { "SwitchCase": 1 }]
+    "indent": "off",
+    "@typescript-eslint/indent": ["error", 2]
   }
 }
