@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { Card, Message } from 'semantic-ui-react';

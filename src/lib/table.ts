@@ -26,12 +26,12 @@ const contains = <TData extends Record<string, any> = {}>(
   id: string,
   filterValue: string | number
 ) =>
-    row
-      .getValue<string | number>(id)
-      .toString()
-      .toLowerCase()
-      .trim()
-      .includes(filterValue.toString().toLowerCase().trim());
+  row
+    .getValue<string | number>(id)
+    .toString()
+    .toLowerCase()
+    .trim()
+    .includes(filterValue.toString().toLowerCase().trim());
 
 contains.autoRemove = (val: any) => !val;
 
@@ -40,12 +40,12 @@ const startsWith = <TData extends Record<string, any> = {}>(
   id: string,
   filterValue: string | number
 ) =>
-    row
-      .getValue<string | number>(id)
-      .toString()
-      .toLowerCase()
-      .trim()
-      .startsWith(filterValue.toString().toLowerCase().trim());
+  row
+    .getValue<string | number>(id)
+    .toString()
+    .toLowerCase()
+    .trim()
+    .startsWith(filterValue.toString().toLowerCase().trim());
 
 startsWith.autoRemove = (val: any) => !val;
 
