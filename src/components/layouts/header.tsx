@@ -92,8 +92,8 @@ export const Header = ({ children }: Props) => {
 
   const dropDownOptions = session
     ? [
-      { label: 'Account', value: 'account', onClick: () => router.push(PageRoutes.Account) },
-      { label: 'Logout', value: 'logout', onClick: () => signOut() },
+      { label: 'Cuenta', value: 'account', onClick: () => router.push(PageRoutes.Account) },
+      { label: 'Cerra Sesión', value: 'logout', onClick: () => signOut() },
       // { label: 'Settings', value: 'settings', onClick: () => console.log('settings') },
     ]
     : [{ label: 'Login', value: 'login', onClick: () => router.push(PageRoutes.Login) }];
