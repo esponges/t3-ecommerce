@@ -11,6 +11,7 @@ interface CartState {
     addToCart: (product: Product, quantity: number) => void;
     removeFromCart: (productId: string) => void;
     updateCartItems: (items: Product[]) => void;
+    clearCart: () => void;
   };
 }
 
@@ -64,7 +65,6 @@ const useCartStore = create<CartState>((set) => ({
           };
         });
 
-        // persist cart to local storage
         localStorage.setItem('cart', JSON.stringify(updatedCart.items));
 
         return updatedCart;
@@ -83,7 +83,18 @@ const useCartStore = create<CartState>((set) => ({
 
         toast(`${state.items[productId]?.name || ''} eliminado`);
 
-        // persist cart to local storage
+        localStorage.setItem('cart', JSON.stringify(updatedCart.items));
+
+        return updatedCart;
+      });
+    },
+
+    clearCart: () => {
+      set((_state) => {
+        const updatedCart = {
+          items: {},
+        };
+
         localStorage.setItem('cart', JSON.stringify(updatedCart.items));
 
         return updatedCart;

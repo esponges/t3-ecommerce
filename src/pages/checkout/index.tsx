@@ -28,6 +28,7 @@ import { InputMessage } from '@/components/atoms/inputMessage';
 import type { TableCartItem } from '../cart';
 import { CartItems } from '@/components/molecules/cartItems';
 import Head from 'next/head';
+import { useCartActions } from '@/store/cart';
 
 const checkoutDefaultValues = {
   address: '',
@@ -73,6 +74,7 @@ const Checkout = () => {
   const user: User | undefined = session?.user as User | undefined;
 
   const { cartItems, cartTotal } = useCartItems();
+  const { clearCart } = useCartActions();
   const tableCartItems: TableCartItem[] = Object.values(cartItems).map((item) => ({
     name: item.name,
     price: item.price,
@@ -117,6 +119,7 @@ const Checkout = () => {
         });
       }
       router.push(`/order/${user?.id as string}/${data?.id}`);
+      // clearCart();
     },
 
     onError: (_err, _values, _context) => {
