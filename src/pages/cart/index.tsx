@@ -1,7 +1,6 @@
 /* eslint-disable react/display-name */
 import { useEffect, useMemo } from 'react';
 import { Icon, Message } from 'semantic-ui-react';
-import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 
@@ -11,7 +10,6 @@ import { useCartActions } from '@/store/cart';
 
 import { Table } from '@/components/molecules/table';
 import { Button } from '@/components/atoms/button';
-import { Header } from '@/components/atoms/header';
 import { PriceCell } from '@/components/atoms/table/PriceCell';
 
 import { useCartItems } from '@/lib/hooks/useCartItems';
@@ -19,8 +17,10 @@ import { PageRoutes } from '@/lib/routes';
 
 import { trpc } from '@/utils/trpc';
 import { PageContainer } from '@/components/layouts/pageContainer';
+import { ProductDetailsCell } from '@/components/atoms/table/ProductDetailsCell';
 
 export type TableCartItem = Pick<CartItem, 'name' | 'price' | 'quantity' | 'id'>;
+type TableCartItemWithImage = TableCartItem & { image: string };
 
 // consider moving this to a constants file when there's one
 export const MIN_PURCHASE = 1500;
@@ -88,17 +88,18 @@ const Cart = () => {
     }
   }, [data, priceChangeIds, updateCartItems, noStockIds, removeFromCart]);
 
-  const tableItems: TableCartItem[] = Object.values(cartItems).map(({ name, price, quantity, id }) => ({
+  const tableItems: TableCartItemWithImage[] = Object.values(cartItems).map(({ name, price, quantity, id, image }) => ({
     name,
     price,
     quantity,
     cartTotal,
     id,
+    image,
   }));
 
   const renderActions = useMemo(() => {
     // use memo doesn't take arguments, only if it returns a function as a closure
-    return (removeFn: (id: string) => void, row: CellContext<TableCartItem, string>) => {
+    return (removeFn: (id: string) => void, row: CellContext<TableCartItemWithImage, string>) => {
       const handleRemove = () => {
         const id = row.getValue();
         removeFn(id);
@@ -111,14 +112,6 @@ const Cart = () => {
           </span>
         </div>
       );
-    };
-  }, []);
-
-  const renderProductLink = useMemo(() => {
-    return (row: CellContext<TableCartItem, string>) => {
-      const name = row.getValue();
-
-      return <Link href={`${PageRoutes.Products}/${name}`}>{name}</Link>;
     };
   }, []);
 
@@ -141,19 +134,19 @@ const Cart = () => {
     router.push(PageRoutes.List);
   };
 
-  const cols = useMemo<ColumnDef<TableCartItem, string>[]>(
+  const cols = useMemo<ColumnDef<TableCartItemWithImage, string>[]>(
     () => [
       {
         header: 'Producto',
-        cell: (row) => renderProductLink(row),
+        cell: (row) => <ProductDetailsCell<TableCartItemWithImage> row={row} imageUrl={row.row.original.image} />,
         accessorKey: 'name',
         footer: 'Total',
       },
       {
         header: 'Precio',
-        cell: (row) => <PriceCell<TableCartItem> price={row.renderValue()} />,
+        cell: (row) => <PriceCell<TableCartItemWithImage> price={row.renderValue()} />,
         accessorKey: 'price',
-        footer: () => <PriceCell<TableCartItem> price={cartTotal.toString()} />,
+        footer: () => <PriceCell<TableCartItemWithImage> price={cartTotal.toString()} />,
       },
       {
         header: 'Cantidad',
@@ -166,12 +159,11 @@ const Cart = () => {
         accessorKey: 'id',
       },
     ],
-    [cartTotal, removeFromCart, renderActions, renderProductLink]
+    [cartTotal, removeFromCart, renderActions]
   );
 
   return (
-    <PageContainer verticallyCentered>
-      <Header extraClassName="text-center uppercase" size='9xl'>Tu carrito</Header>
+    <PageContainer verticallyCentered header={{ title: 'Tu carrito' }}>
       <div className="my-15">
         {tableItems.length ? (
           <Table data={tableItems} columns={cols} showGlobalFilter={false} showNavigation={false} />
