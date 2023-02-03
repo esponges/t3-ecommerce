@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 import { carrouselStyle, itemsPerCarrousel } from '@/lib/products';
-import { Header } from '../atoms/header';
+import { Header, HeaderSizes } from '../atoms/header';
 
 type Props = {
   category?: Category;
@@ -76,7 +76,7 @@ export const ProductCarousel = ({
     <div
       className={`relative mt-6 flex flex-col items-center justify-center md:px-12 ${wrapper} ${extraClassName ?? ''}`}
     >
-      <Header size='9xl' extraClassName='uppercase'>
+      <Header size={HeaderSizes["9xl"]} extraClassName='uppercase'>
         <span id={`${tag || category?.name || '#'}`}>
           {tag || category?.name || 'Products'}
         </span>
