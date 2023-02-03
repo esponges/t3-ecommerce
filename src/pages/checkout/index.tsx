@@ -119,7 +119,7 @@ const Checkout = () => {
         });
       }
       router.push(`/order/${user?.id as string}/${data?.id}`);
-      // clearCart();
+      clearCart();
     },
 
     onError: (_err, _values, _context) => {

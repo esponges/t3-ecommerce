@@ -31,7 +31,7 @@ type OrderWithPayloadAndProducts = OrderWithPayload & {
 export const sendOrderConfirmationEmail = async (
   order: OrderWithPayloadAndProducts,
   userEmail: string,
-  userName: string,
+  userName: string
 ) => {
   const template = path.join(process.cwd(), 'src/server/common/templates/confirmation.ejs');
   const html = await ejs.renderFile(template, { order, userName });
@@ -70,4 +70,28 @@ export const sendOrderConfirmationEmail = async (
     }
     console.log(`Email sent: ${info?.response}`);
   });
+
+  // env.ADMIN_EMAILS is a string with a list of emails separated by commas
+  // convert to array
+  // TODO: get emails from DB instead of env
+  const adminEmails = env.ADMIN_EMAILS.split(',').map((email) => email.trim());
+
+  // iterate over admin emails and send a copy of the email to each
+  adminEmails.forEach((adminEmail) => {
+    const adminMailOptions = {
+      from: env.GMAIL_USERNAME,
+      to: adminEmail,
+      subject: 'Nuevo pedido en Vinoreo',
+      html,
+    };
+
+    transporter.sendMail(adminMailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      }
+      console.log(`Email sent: ${info?.response}`);
+    });
+  });
+
+  return;
 };

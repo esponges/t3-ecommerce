@@ -16,6 +16,7 @@ export const serverSchema = z.object({
   GOOGLE_CLIENT_SECRET: z.string(),
   GMAIL_APP_PASSWORD: z.string(),
   GMAIL_USERNAME: z.string(),
+  ADMIN_EMAILS: z.string(),
 });
 
 /**
