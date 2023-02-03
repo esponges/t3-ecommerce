@@ -85,7 +85,7 @@ const OrderDetails = () => {
         </Card.Content>
         <Button
           onClick={() => router.push('/')}
-          extraClassName="w-full md:w-auto"
+          className="w-full md:w-auto"
           variant='primary'
         >
         Regresar al inicio

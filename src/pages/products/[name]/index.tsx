@@ -56,7 +56,7 @@ const ProductDetails = (
         onAddToCart={handleAddToCart}
       />
       <div className="mt-5 flex justify-center">
-        <Button variant="primary" extraClassName="mr-4" onClick={() => router.push('/cart')}>
+        <Button variant="primary" className="mr-4" onClick={() => router.push('/cart')}>
           Ir al carrito
         </Button>
         <Button variant="secondary" className="mt-5" onClick={() => router.push('/')}>

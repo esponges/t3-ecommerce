@@ -20,7 +20,7 @@ export const PageContainer = ({ children, verticallyCentered, className, header 
   return (
     <div className={`${verticallyCentered ? vertClasses : classes} ${className || ''}`}>
       {header && (
-        <Header size={header.size} extraClassName={`${header.className || ''} pt-5 uppercase`}>
+        <Header size={header.size} className={`${header.className || ''} pt-5 uppercase`}>
           {header.title}
         </Header>
       )}

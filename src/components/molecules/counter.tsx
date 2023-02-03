@@ -5,12 +5,12 @@ interface Props {
   onDecrease: (qty: number) => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   count: number;
-  extraClassName?: string;
+  className?: string;
 }
 
-export const Counter = ({ onIncrease, onDecrease, onChange, count, extraClassName }: Props) => {
+export const Counter = ({ onIncrease, onDecrease, onChange, count, className }: Props) => {
   return (
-    <div className={`counter flex items-center align-center justify-center ${extraClassName ??''}`}>
+    <div className={`counter flex items-center align-center justify-center ${className ??''}`}>
       <button
         className="border-0 p-0 text-center hover:no-underline hover:outline-none focus:no-underline focus:outline-none"
         type="button"

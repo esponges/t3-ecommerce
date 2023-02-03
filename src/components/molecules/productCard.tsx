@@ -87,14 +87,14 @@ export const ProductCard = ({
               onDecrease={handleChangeProductQty}
               onChange={handleQtyInputChange}
               count={qty ?? quantity}
-              extraClassName={'mr-2'}
+              className={'mr-2'}
             />
             <div>
               {showAddToCartBtn ? (
                 <Button
                   onClick={handleAddToCart}
                   variant="primary"
-                  extraClassName={`${inline ? 'mr-2' : ''}`}
+                  className={`${inline ? 'mr-2' : ''}`}
                   disabled={isAddingToCart}
                 >
                   {isAddingToCart ? 'Añadiendo...' : fullWidth ? 'Añadir al carrito' : 'Añadir'}

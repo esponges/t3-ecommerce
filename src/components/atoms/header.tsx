@@ -1,18 +1,3 @@
-// export type HeaderSizes =
-//   | 'xs'
-//   | 'sm'
-//   | 'md'
-//   | 'lg'
-//   | 'xl'
-//   | '2xl'
-//   | '3xl'
-//   | '4xl'
-//   | '5xl'
-//   | '6xl'
-//   | '7xl'
-//   | '8xl'
-//   | '9xl';
-
 export enum HeaderSizes {
   xs = 'xs',
   sm = 'sm',
@@ -32,11 +17,11 @@ export enum HeaderSizes {
 interface HeaderProps {
   size?: HeaderSizes;
   children: React.ReactNode;
-  extraClassName?: string;
+  className?: string;
 }
 
-export const Header = ({ size, children, extraClassName }: HeaderProps) => {
+export const Header = ({ size, children, className }: HeaderProps) => {
   const sizeClass = size ? `text-${size}` : 'text-2xl';
 
-  return <h1 className={`${sizeClass} font-bold text-gray-700 ${extraClassName ?? ''}`}>{children}</h1>;
+  return <h1 className={`${sizeClass} font-bold text-gray-700 ${className ?? ''}`}>{children}</h1>;
 };

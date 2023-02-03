@@ -30,7 +30,7 @@ const AccountDetails = () => {
         <Loader />
       ) : (
         <>
-          <Header size={HeaderSizes['2xl']} extraClassName="uppercase">
+          <Header size={HeaderSizes['2xl']} className="uppercase">
             Tus pedidos
           </Header>
           <ul>

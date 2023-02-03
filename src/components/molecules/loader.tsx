@@ -12,7 +12,7 @@ interface Props {
   inverted?: boolean;
   active?: boolean;
   disabled?: boolean;
-  extraClassName?: string;
+  className?: string;
 }
 
 export const Loader = ({
@@ -22,14 +22,14 @@ export const Loader = ({
   inverted = false,
   active = true,
   disabled = false,
-  extraClassName = '',
+  className = '',
 }: Props) => {
   if (disabled) {
     return null;
   }
 
   if (text) {
-    <Segment className={extraClassName}>
+    <Segment className={className}>
       <Dimmer active>
         <SemanticLoader size="massive" active={active} inline={inline} inverted={inverted}>
           Loading
@@ -42,5 +42,5 @@ export const Loader = ({
     </Segment>;
   }
 
-  return <SemanticLoader active={active} inline={inline} inverted={inverted} size={size} className={extraClassName} />;
+  return <SemanticLoader active={active} inline={inline} inverted={inverted} size={size} className={className} />;
 };

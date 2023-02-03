@@ -38,12 +38,12 @@ const Login = () => {
             content="Por favor, inicia sesión con alguno de nuestros proveedores para proceder con tu pedido"
           />
           <div className="mt-10 w-full">
-            <Button variant="secondary" extraClassName="w-full" onClick={() => void signIn(AuthProviders.Discord)}>
+            <Button variant="secondary" className="w-full" onClick={() => void signIn(AuthProviders.Discord)}>
               Discord <Icon name="discord" size="huge" />
             </Button>
           </div>
           <div className="mt-10 w-full">
-            <Button variant="secondary" extraClassName="w-full" onClick={() => void signIn(AuthProviders.Google)}>
+            <Button variant="secondary" className="w-full" onClick={() => void signIn(AuthProviders.Google)}>
               Google <Icon name="google" size="huge" />
             </Button>
           </div>
@@ -52,7 +52,7 @@ const Login = () => {
         <div className="text-center p-10">
           <Message success header="¡Bienvenido!" content="Ya puedes acceder a la aplicación" />
           <Link href="/">
-            <Button variant="primary" extraClassName="mt-4">
+            <Button variant="primary" className="mt-4">
               Regresar al inicio
             </Button>
           </Link>

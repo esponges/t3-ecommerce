@@ -14,7 +14,7 @@ type Props = {
   favorite?: boolean;
   tag?: string;
   tagClassName?: string;
-  extraClassName?: string;
+  className?: string;
   showDescriptions?: boolean;
 };
 
@@ -22,7 +22,7 @@ export const ProductCarousel = ({
   category,
   tag,
   favorite = false,
-  extraClassName,
+  className,
   showDescriptions = true,
 }: Props) => {
   const router = useRouter();
@@ -74,9 +74,9 @@ export const ProductCarousel = ({
 
   return (
     <div
-      className={`relative mt-6 flex flex-col items-center justify-center md:px-12 ${wrapper} ${extraClassName ?? ''}`}
+      className={`relative mt-6 flex flex-col items-center justify-center md:px-12 ${wrapper} ${className ?? ''}`}
     >
-      <Header size={HeaderSizes["9xl"]} extraClassName='uppercase'>
+      <Header size={HeaderSizes["9xl"]} className='uppercase'>
         <span id={`${tag || category?.name || '#'}`}>
           {tag || category?.name || 'Products'}
         </span>
