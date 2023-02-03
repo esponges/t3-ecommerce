@@ -30,6 +30,9 @@ export const validation = {
   schedule: {
     required: 'El horario es requerido',
   },
+  payment: {
+    required: 'El método de pago es requerido',
+  },
 };
 
 const schedule = [

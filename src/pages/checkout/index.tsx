@@ -6,7 +6,6 @@ import {
   Form,
   Accordion,
   Icon,
-  Checkbox,
 } from 'semantic-ui-react'
 import type { DropdownProps } from 'semantic-ui-react';
 import { useSession } from 'next-auth/react';
@@ -31,6 +30,7 @@ import { CartItems } from '@/components/molecules/cartItems';
 import Head from 'next/head';
 import { useCartActions } from '@/store/cart';
 import { PaymentMethods } from '@/types';
+import { RadioGroup } from '@/components/molecules/radioGroup';
 // import { RadioGroup } from '@/components/molecules/radioGroup';
 // import { Checkbox } from '@/components/atoms/checkbox';
 
@@ -243,20 +243,10 @@ const Checkout = () => {
               name="payment"
               control={control}
               render={({ field }) => (
-                <>
-                  {paymentOptions.map((option) => (
-                    <Checkbox
-                      key={option.value}
-                      label={option.label}
-                      value={option.value}
-                      name="payment"
-                      checked={field.value === option.value}
-                      onChange={(e, { value }) => {
-                        field.onChange(value);
-                      }}
-                    />
-                  ))}
-                </>
+                <RadioGroup
+                  field={field}  
+                  options={paymentOptions}
+                />
               )}
             />
             {errors.payment?.message && <InputMessage type="error" message={errors.payment.message} />}

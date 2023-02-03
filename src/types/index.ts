@@ -13,6 +13,16 @@ export enum AuthProviders {
   Google = 'google',
 }
 
+export enum PaymentMethods {
+  Cash = 'cash',
+  Transfer = 'transfer',
+  // to implement
+  // CreditCard = 'credit-card',
+  // DebitCard = 'debit-card',
+  // Paypal = 'paypal',
+  // MercadoPago = 'mercado-pago',
+}
+
 /* Prisma queries don't include relations by default
   https://github.com/prisma/prisma/discussions/10928#discussioncomment-1920961
 */
