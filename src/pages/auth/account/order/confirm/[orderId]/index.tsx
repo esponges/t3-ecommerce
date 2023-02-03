@@ -6,6 +6,7 @@ import { Loader } from '@/components/molecules/loader';
 import { ProductItem } from '@/components/molecules/productItem';
 import { OrderCard } from '@/components/organisms/orderCard';
 
+// this page is deprecated (?)
 const OrderConfirmDetail = () => {
   const router = useRouter();
   const { orderId } = router.query;
@@ -18,10 +19,9 @@ const OrderConfirmDetail = () => {
   );
 
   return (
-    <PageContainer>
+    <PageContainer header={{ title: 'Historial de pedidos'}}>
       <div className='px-6'>
         {isLoading && <Loader />}
-        <h1>Order Confirm Detail</h1>
         {data && (
           <div className="mb-10">
             <OrderCard order={data} />
