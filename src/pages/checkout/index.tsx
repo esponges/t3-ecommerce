@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import type { User } from '@prisma/client';
 import {
   Dropdown,
   Form,
   Accordion,
-  Icon
+  Icon,
+  Checkbox,
 } from 'semantic-ui-react'
 import type { DropdownProps } from 'semantic-ui-react';
 import { useSession } from 'next-auth/react';
@@ -29,15 +30,9 @@ import type { TableCartItem } from '../cart';
 import { CartItems } from '@/components/molecules/cartItems';
 import Head from 'next/head';
 import { useCartActions } from '@/store/cart';
-
-const checkoutDefaultValues = {
-  address: '',
-  city: '',
-  postalCode: '',
-  phone: '',
-  schedule: '',
-  day: '',
-};
+import { PaymentMethods } from '@/types';
+// import { RadioGroup } from '@/components/molecules/radioGroup';
+// import { Checkbox } from '@/components/atoms/checkbox';
 
 interface CheckoutFormValues {
   address: string;
@@ -46,7 +41,18 @@ interface CheckoutFormValues {
   phone: string;
   schedule: string;
   day: string;
+  payment: PaymentMethods;
 }
+
+const checkoutDefaultValues: CheckoutFormValues = {
+  address: '',
+  city: '',
+  postalCode: '',
+  phone: '',
+  schedule: '',
+  day: '',
+  payment: PaymentMethods.Transfer,
+};
 
 const cps = [
   {
@@ -89,6 +95,7 @@ const Checkout = () => {
     setValue,
     getValues,
     setError,
+    control,
   } = useForm({ defaultValues: checkoutDefaultValues });
 
   const utils = trpc.useContext();
@@ -195,6 +202,19 @@ const Checkout = () => {
       });
     })();
 
+  const paymentOptions = [
+    {
+      label: 'Efectivo al recibir tu pedido',
+      value: PaymentMethods.Cash,
+    },
+    {
+      label: 'Transferencia bancaria previa',
+      value: PaymentMethods.Transfer,
+    },
+  ];
+
+  console.log(getValues('payment'), 'getValues(payment)');
+
   // TODO: add cp dropdown and delivery hour & day
   return (
     <>
@@ -214,7 +234,33 @@ const Checkout = () => {
           </Accordion.Content>
         </Accordion>
         <Form onSubmit={handleSubmit(handleFormSubmit)} className="px-5 text-left">
-          {/* chose day */}
+          {/* payment using RadioGroupComponent */}
+          <Form.Field>
+            <label htmlFor="payment" className="form-label font-bold">
+              Método de pago
+            </label>
+            <Controller
+              name="payment"
+              control={control}
+              render={({ field }) => (
+                <>
+                  {paymentOptions.map((option) => (
+                    <Checkbox
+                      key={option.value}
+                      label={option.label}
+                      value={option.value}
+                      name="payment"
+                      checked={field.value === option.value}
+                      onChange={(e, { value }) => {
+                        field.onChange(value);
+                      }}
+                    />
+                  ))}
+                </>
+              )}
+            />
+            {errors.payment?.message && <InputMessage type="error" message={errors.payment.message} />}
+          </Form.Field>
           <Form.Field>
             <label htmlFor="day" className="form-label font-bold">
               Día de entrega
