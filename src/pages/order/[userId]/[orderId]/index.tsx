@@ -56,8 +56,8 @@ const OrderDetails = () => {
 
   return (
     <PageContainer verticallyCentered className="mb-5" header={header}>
-      <Card className="mb-5">
-        <Card.Content>
+      <Card className="mb-5 md:w-1/2 order-success-card">
+        <Card.Content className='md:w-full'>
           {isLoading && <p>Loading...</p>}
           {order && (
             <div>
