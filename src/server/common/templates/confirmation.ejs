@@ -30,6 +30,29 @@
         Total: <%= order.total %>
       </b>
     </p>
+    <% if (bankDetails) { %>
+      <div>
+        <h3>Transferencia bancaria</h3>
+        <p>
+          <b>
+            Banco:
+          </b>
+          <%= bankDetails.bankName %>
+        </p>
+        <p>
+          <b>
+            CLABE:
+          </b>
+          <%= bankDetails.accountNumber %>
+        </p>
+        <p>
+          <b>
+            Nombre:
+          </b>
+          <%= bankDetails.bankName %>
+        </p>
+      </div>
+    <% } %>
     <p>
       <b>
         Dirección de envío:

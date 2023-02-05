@@ -33,8 +33,14 @@ export const sendOrderConfirmationEmail = async (
   userEmail: string,
   userName: string
 ) => {
+  const bankDetails = order.orderDetail?.payment === 'transfer' ? {
+    bankName: env.BANK_NAME,
+    accountName: env.BANK_ACCOUNT_NAME,
+    accountNumber: env.BANK_ACCOUNT_NUMBER,
+  } : null;
+
   const template = path.join(process.cwd(), 'src/server/common/templates/confirmation.ejs');
-  const html = await ejs.renderFile(template, { order, userName });
+  const html = await ejs.renderFile(template, { order, userName, bankDetails });
 
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',

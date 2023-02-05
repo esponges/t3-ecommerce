@@ -223,9 +223,6 @@ const Checkout = () => {
     },
   ];
 
-  console.log(getValues('payment'), 'getValues(payment)');
-
-  // TODO: add cp dropdown and delivery hour & day
   return (
     <>
       <Head>
@@ -335,6 +332,7 @@ const Checkout = () => {
               render={({ field }) => (
                 <RadioGroup
                   onChange={handlePaymentChange}
+                  className="flex flex-col"
                   label="Método de pago"
                   field={field}
                   options={paymentOptions}
