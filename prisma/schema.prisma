@@ -124,6 +124,7 @@ model OrderDetail {
     phone     String
     schedule  String   @default("")
     day       String   @default("")
+    payment   String   @default("")
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     orderId   String  @unique

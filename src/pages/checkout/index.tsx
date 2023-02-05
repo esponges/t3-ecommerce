@@ -236,14 +236,12 @@ const Checkout = () => {
         <Form onSubmit={handleSubmit(handleFormSubmit)} className="px-5 text-left">
           {/* payment using RadioGroupComponent */}
           <Form.Field>
-            <label htmlFor="payment" className="form-label font-bold">
-              Método de pago
-            </label>
             <Controller
               name="payment"
               control={control}
               render={({ field }) => (
                 <RadioGroup
+                  label="Método de pago"
                   field={field}  
                   options={paymentOptions}
                 />

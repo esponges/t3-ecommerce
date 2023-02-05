@@ -1,4 +1,3 @@
-import { Header, HeaderSizes } from '../atoms/header';
 import type {
   FieldValues,
   ControllerRenderProps,
@@ -8,7 +7,7 @@ import type {
 interface Props<T extends FieldValues, fieldName extends Path<T>> {
   field: ControllerRenderProps<T, fieldName>;
   options: { value: string; label: string }[];
-  label?: string;
+  label: string;
   disabled?: boolean;
   className?: string;
   type?: 'checkbox' | 'radio';
@@ -24,7 +23,9 @@ export const RadioGroup = <T extends FieldValues, fieldName extends Path<T>>({
 }: Props<T, fieldName>) => {
   return (
     <div className={className}>
-      <Header size={HeaderSizes['2xl']}>{label}</Header>
+      <label htmlFor={label} className="form-label font-bold">
+        {label}
+      </label>
       {options.map((option) => (
         <label key={option.value}>
           <input
