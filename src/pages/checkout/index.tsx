@@ -6,7 +6,7 @@ import {
   Form,
   Accordion,
   Icon,
-  Message,
+  Message
 } from 'semantic-ui-react'
 import type { DropdownProps } from 'semantic-ui-react';
 import { useSession } from 'next-auth/react';
@@ -76,6 +76,7 @@ const cps = [
 const Checkout = () => {
   const router = useRouter();
   const [activeIndex, setActiveIndex] = useState<number | undefined>(0);
+  const [, setPaymentMethod] = useState<PaymentMethods>(PaymentMethods.Transfer);
 
   const { data: session } = useSession();
   const user: User | undefined = session?.user as User | undefined;
@@ -176,6 +177,14 @@ const Checkout = () => {
     setActiveIndex(activeIndex === 0 ? undefined : 0);
   };
 
+  // force rerender to show hide transfer payment
+  const handlePaymentChange = (event: React.SyntheticEvent<HTMLElement, Event>) => {
+    const target = event.target as HTMLInputElement;
+    if (target.value) {
+      setPaymentMethod(target.value as PaymentMethods);
+    }
+  };
+
   const handleFormSubmit = (data: CheckoutFormValues) =>
     void (async () => {
       if (!user?.id) {
@@ -235,29 +244,6 @@ const Checkout = () => {
           </Accordion.Content>
         </Accordion>
         <Form onSubmit={handleSubmit(handleFormSubmit)} className="px-5 text-left">
-          <Form.Field>
-            <Controller
-              name="payment"
-              control={control}
-              render={({ field }) => (
-                <RadioGroup
-                  label="Método de pago"
-                  field={field}  
-                  options={paymentOptions}
-                />
-              )}
-            />
-            {errors.payment?.message && <InputMessage type="error" message={errors.payment.message} />}
-          </Form.Field>
-          {getValues('payment') === PaymentMethods.Transfer ? (
-            <Message
-              info
-              icon="info circle"
-              header="Información de transferencia"
-              content="Una vez que hayas realizado tu pedido, recibirás un correo con los datos de la cuenta bancaria
-               a la que debes realizar la transferencia. El pedido se enviará una vez que se haya recibido el pago."
-            />
-          ): null}
           <Form.Field>
             <label htmlFor="day" className="form-label font-bold">
               Día de entrega
@@ -342,6 +328,30 @@ const Checkout = () => {
             />
             {errors.phone && <InputMessage type="error" message={errors.phone.message ?? 'Requerido'} />}
           </Form.Field>
+          <Form.Field>
+            <Controller
+              name="payment"
+              control={control}
+              render={({ field }) => (
+                <RadioGroup
+                  onChange={handlePaymentChange}
+                  label="Método de pago"
+                  field={field}
+                  options={paymentOptions}
+                />
+              )}
+            />
+            {errors.payment?.message && <InputMessage type="error" message={errors.payment.message} />}
+          </Form.Field>
+          {getValues('payment') === PaymentMethods.Transfer ? (
+            <Message
+              info
+              icon="info circle"
+              header="Información de transferencia"
+              content="Una vez que hayas realizado tu pedido, recibirás un correo con los datos de la cuenta bancaria
+               a la que debes realizar la transferencia. El pedido se enviará una vez que se haya recibido el pago."
+            />
+          ) : null}
           <Button variant="primary" className="btn btn-primary mt-5" type="submit" disabled={isCreating}>
             {isCreating ? 'Generando pedido...' : 'Confirmar pedido'}
           </Button>

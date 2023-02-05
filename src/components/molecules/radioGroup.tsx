@@ -11,6 +11,7 @@ interface Props<T extends FieldValues, fieldName extends Path<T>> {
   disabled?: boolean;
   className?: string;
   type?: 'checkbox' | 'radio';
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const RadioGroup = <T extends FieldValues, fieldName extends Path<T>>({
@@ -20,7 +21,16 @@ export const RadioGroup = <T extends FieldValues, fieldName extends Path<T>>({
   disabled,
   className,
   type,
+  onChange,
 }: Props<T, fieldName>) => {
+  
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    field.onChange(e);
+    if (onChange) {
+      onChange(e);
+    }
+  };
+
   return (
     <div className={className}>
       <label htmlFor={label} className="form-label font-bold">
@@ -35,6 +45,7 @@ export const RadioGroup = <T extends FieldValues, fieldName extends Path<T>>({
             checked={field.value === option.value}
             disabled={disabled}
             className="mr-2"
+            onChange={handleChange}
           />
           {option.label}
         </label>
