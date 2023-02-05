@@ -9,6 +9,7 @@
 // the latest version of @types/nodemailer is v6.4.7
 // therefore the types are not compatible here
 import { env } from '@/env/server.mjs';
+import { env as envClient } from '@/env/client.mjs';
 import nodemailer from 'nodemailer';
 import ejs from 'ejs';
 import path from 'path';
@@ -34,9 +35,9 @@ export const sendOrderConfirmationEmail = async (
   userName: string
 ) => {
   const bankDetails = order.orderDetail?.payment === 'transfer' ? {
-    bankName: env.BANK_NAME,
-    accountName: env.BANK_ACCOUNT_NAME,
-    accountNumber: env.BANK_ACCOUNT_NUMBER,
+    bankName: envClient.NEXT_PUBLIC_BANK_NAME,
+    accountName: envClient.NEXT_PUBLIC_BANK_ACCOUNT_NAME,
+    accountNumber: envClient.NEXT_PUBLIC_BANK_ACCOUNT_NUMBER,
   } : null;
 
   const template = path.join(process.cwd(), 'src/server/common/templates/confirmation.ejs');

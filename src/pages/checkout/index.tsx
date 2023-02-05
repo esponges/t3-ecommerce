@@ -32,8 +32,6 @@ import Head from 'next/head';
 import { useCartActions } from '@/store/cart';
 import { PaymentMethods } from '@/types';
 import { RadioGroup } from '@/components/molecules/radioGroup';
-// import { RadioGroup } from '@/components/molecules/radioGroup';
-// import { Checkbox } from '@/components/atoms/checkbox';
 
 interface CheckoutFormValues {
   address: string;
@@ -126,8 +124,8 @@ const Checkout = () => {
           userId: data.userId,
         });
       }
-      // router.push(`/order/${user?.id as string}/${data?.id}`);
-      // clearCart();
+      router.push(`/order/${user?.id as string}/${data?.id}`);
+      clearCart();
     },
 
     onError: (_err, _values, _context) => {

@@ -7,6 +7,7 @@ import { Card, Message } from 'semantic-ui-react';
 import type { OrderDetails as IOrderDetails } from '@/types';
 
 import { trpc } from '@/utils/trpc';
+import { env } from '@/env/client.mjs';
 
 import type { TableCartItem } from '@/pages/cart';
 import { PageContainer } from '@/components/layouts/pageContainer';
@@ -56,8 +57,8 @@ const OrderDetails = () => {
 
   return (
     <PageContainer verticallyCentered className="mb-5" header={header}>
-      <Card className="mb-5 md:w-1/2 order-success-card">
-        <Card.Content className='md:w-full'>
+      <Card className="order-success-card mb-5 md:w-1/2">
+        <Card.Content className="md:w-full">
           {isLoading && <p>Loading...</p>}
           {order && (
             <div>
@@ -67,15 +68,36 @@ const OrderDetails = () => {
               <p className="mt-4">${order.total} MXN</p>
               <Label className="mb-2">Productos</Label>
               <CartItems tableItems={order.orderItems as TableCartItem[]} cartTotal={order.total as number} />
+              {order.orderDetail?.payment === 'transfer' ? (
+                <div className="my-5 border border-gray-300 p-5">
+                  <p className="mb-2">
+                    Para poderte enviar tu pedido, por favor realiza el pago a la siguiente cuenta bancaria:
+                  </p>
+                  <p className="mb-2">
+                    Banco:
+                    <b className='ml-3'>{env.NEXT_PUBLIC_BANK_NAME}</b>
+                  </p>
+                  <p className="mb-2">
+                    CLABE:
+                    <b className='ml-3'>{env.NEXT_PUBLIC_BANK_ACCOUNT_NUMBER}</b>
+                  </p>
+                  <p className="mb-2">
+                    Nombre:
+                    <b className='ml-3'>{env.NEXT_PUBLIC_BANK_ACCOUNT_NAME}</b>
+                  </p>
+                </div>
+              ) : null}
               <Label className="mb-2">Dirección</Label>
-              <p className="mt-4">{`
+              <p className="mt-4">
+                {`
                 ${order.orderDetail?.address || ''}, 
                 ${order.orderDetail?.city || ''},  
                 ${order.orderDetail?.postalCode || ''}
               `}
               </p>
               <Label className="mb-2">Entrega</Label>
-              <p className="mt-4">{`
+              <p className="mt-4">
+                {`
                 ${order.orderDetail?.day || ''},
                 ${order.orderDetail?.schedule || ''}
               `}
@@ -83,12 +105,8 @@ const OrderDetails = () => {
             </div>
           )}
         </Card.Content>
-        <Button
-          onClick={() => router.push('/')}
-          className="w-full md:w-auto"
-          variant='primary'
-        >
-        Regresar al inicio
+        <Button onClick={() => router.push('/')} className="w-full md:w-auto" variant="primary">
+          Regresar al inicio
         </Button>
       </Card>
     </PageContainer>
