@@ -6,6 +6,7 @@ import {
   Form,
   Accordion,
   Icon,
+  Message,
 } from 'semantic-ui-react'
 import type { DropdownProps } from 'semantic-ui-react';
 import { useSession } from 'next-auth/react';
@@ -117,7 +118,6 @@ const Checkout = () => {
       // We can't do this server side because of the emailjs library
       // there's a trpc.order.success hook that we can use to send the email
       // server side but I have not checked how to do it yet with a different library
-      // sendConfirmationEmail();
       const { mutateAsync } = successfulOrderConfirmation;
       if (data?.id && data.userId) {
         await mutateAsync({
@@ -125,8 +125,8 @@ const Checkout = () => {
           userId: data.userId,
         });
       }
-      router.push(`/order/${user?.id as string}/${data?.id}`);
-      clearCart();
+      // router.push(`/order/${user?.id as string}/${data?.id}`);
+      // clearCart();
     },
 
     onError: (_err, _values, _context) => {
@@ -197,6 +197,7 @@ const Checkout = () => {
           phone: data.phone,
           day: data.day,
           schedule: data.schedule,
+          payment: data.payment,
         },
         total: cartTotal,
       });
@@ -208,7 +209,7 @@ const Checkout = () => {
       value: PaymentMethods.Cash,
     },
     {
-      label: 'Transferencia bancaria previa',
+      label: 'Transferencia bancaria',
       value: PaymentMethods.Transfer,
     },
   ];
@@ -234,7 +235,6 @@ const Checkout = () => {
           </Accordion.Content>
         </Accordion>
         <Form onSubmit={handleSubmit(handleFormSubmit)} className="px-5 text-left">
-          {/* payment using RadioGroupComponent */}
           <Form.Field>
             <Controller
               name="payment"
@@ -249,6 +249,15 @@ const Checkout = () => {
             />
             {errors.payment?.message && <InputMessage type="error" message={errors.payment.message} />}
           </Form.Field>
+          {getValues('payment') === PaymentMethods.Transfer ? (
+            <Message
+              info
+              icon="info circle"
+              header="Información de transferencia"
+              content="Una vez que hayas realizado tu pedido, recibirás un correo con los datos de la cuenta bancaria
+               a la que debes realizar la transferencia. El pedido se enviará una vez que se haya recibido el pago."
+            />
+          ): null}
           <Form.Field>
             <label htmlFor="day" className="form-label font-bold">
               Día de entrega

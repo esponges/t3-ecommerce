@@ -22,6 +22,7 @@ export const orderRouter = t.router({
           phone: z.string(),
           schedule: z.string(),
           day: z.string(),
+          payment: z.string(),
         }),
         total: z.number(),
       })
