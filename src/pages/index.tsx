@@ -17,14 +17,13 @@ import { appRouter } from '@/server/trpc/router';
 import { createContext } from '@/server/trpc/context';
 
 import { Pill } from '@/components/atoms/pill';
-import { Image } from '@/components/atoms/image';
-import { env } from '@/env/client.mjs';
+import Image from 'next/image';
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 
-const carouselUrls = [
-  `${env.NEXT_PUBLIC_IMAGEKIT_URL}/hero-1.png?ik-sdk-version=javascript-1.4.3&updatedAt=1674086938720`,
-  `${env.NEXT_PUBLIC_IMAGEKIT_URL}/hero-2.png?ik-sdk-version=javascript-1.4.3&updatedAt=1674086938776`,
-  `${env.NEXT_PUBLIC_IMAGEKIT_URL}/hero-3.png?ik-sdk-version=javascript-1.4.3&updatedAt=1674086938742`,
+const heroImages = [
+  '/images/hero/hero-image-1.jpeg',
+  '/images/hero/hero-image-2.jpeg',
+  '/images/hero/hero-image-3.jpeg',
 ];
 
 const Home = () => {
@@ -48,14 +47,20 @@ const Home = () => {
           transitionTime={1000}
           className="w-full md:w-3/4"
         >
-          {carouselUrls.map((url, idx) => {
+          {heroImages.map((url, idx) => {
             return (
-              <div key={url}>
-                <Image path={url} className="w-full object-cover" alt={`Home Hero Image ${idx + 1}`} />
-              </div>
+              <Image
+                key={url}
+                src={url}
+                alt={`Home Hero Image ${idx + 1}`}
+                width={1000}
+                height={500}
+                loading="lazy"
+              />
             );
           })}
         </Carousel>
+        {/* <HeroCarousel /> */}
         <ul className="my-6 flex w-full flex-wrap pl-0 md:my-12 md:w-1/2">
           {categories?.map((category) => {
             return (

@@ -52,12 +52,12 @@ export const ProductItem = ({
     <div className={`product-item ${!isMobile ? 'columns-2' : 'px-4 my-4'}`}>
       <div className={`${!isMobile ? 'mx-auto w-3/4' : ''}`}>
         <Image
-          src={image ?? '/empty-bottle.png'}
+          src={image ?? '/images/empty-bottle.png'}
           alt="product"
           width={500}
           height={500}
           placeholder="blur"
-          blurDataURL={'/empty-bottle.png'}
+          blurDataURL={'/images/empty-bottle.png'}
           className="w-full"
         />
       </div>

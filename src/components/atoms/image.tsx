@@ -7,6 +7,8 @@ type Props = IKImageProps & {
 };
 
 // we use ImageKit for image optimization & hosting
+// TODO: use a public image provider to make use of 
+// the Next.js Image component which is more performant
 export const Image = ({ ...props }: Props) => {
   const getRelativeUrl = (path: string): string => {
     if (!path) return '';

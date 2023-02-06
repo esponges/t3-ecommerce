@@ -64,11 +64,11 @@ export const ProductCard = ({
       <Card>
         <div className="cursor-pointer" onClick={redirOnImageClick ? handleDetailsClick : undefined}>
           <Image
-            src={product?.image ?? '/empty-bottle.png'}
+            src={product?.image ?? '/images/empty-bottle.png'}
             alt="product"
             className="w-full"
             placeholder="blur"
-            blurDataURL="/empty-bottle.png"
+            blurDataURL="/images/empty-bottle.png"
             width={300}
             height={300}
           />
