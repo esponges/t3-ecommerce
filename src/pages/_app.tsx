@@ -14,6 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { ProtectedLayout } from '@/components/layouts/protected';
 import Head from 'next/head';
+import { Transition } from '@/components/layouts/transition';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -32,7 +33,14 @@ const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }: AppPropsWithLayout) => {
-  const getLayout = Component.getLayout || ((page) => <MainLayout>{page}</MainLayout>);
+  const getLayout =
+    Component.getLayout ||
+    ((page) => (
+      <MainLayout>
+        <Transition />
+        {page}
+      </MainLayout>
+    ));
   const layout = getLayout(<Component {...pageProps} />) as JSX.Element;
 
   return (
