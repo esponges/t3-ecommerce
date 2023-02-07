@@ -7,9 +7,30 @@ async function main() {
   await prisma.product.deleteMany();
   await prisma.category.deleteMany();
 
-  const names: string[] = ['Electronics', 'Books', 'Clothing', 'Home', 'Toys'];
+  const names: string[] = [
+    'Whisky',
+    'Champagne',
+    'Anis',
+    'Jarabe',
+    'Oporto',
+    'Cognac',
+    'Ginebra',
+    'Licor',
+    'Brandy',
+    'Ron',
+    'Bebidas',
+    'Vodka',
+    'Mezcal',
+    'Aperitivo',
+    'Tequila',
+    'Espumoso',
+    'Rosado',
+    'Blanco',
+    'Tinto',
+    'Cerveza Artesanal',
+  ];
   // create 5 categories
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < names.length; i++) {
     await prisma.category.create({
       data: {
         id: i + 1,
