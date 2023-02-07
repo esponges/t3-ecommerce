@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { createLoremIpsum, getRandomNumber } from '../src/lib/utils';
+import { products } from 'seed/products';
 const prisma = new PrismaClient();
 
 async function main() {
@@ -8,28 +9,23 @@ async function main() {
   await prisma.category.deleteMany();
 
   const names: string[] = [
-    'Whisky',
-    'Champagne',
-    'Anis',
-    'Jarabe',
-    'Oporto',
-    'Cognac',
-    'Ginebra',
-    'Licor',
-    'Brandy',
-    'Ron',
-    'Bebidas',
-    'Vodka',
-    'Mezcal',
-    'Aperitivo',
-    'Tequila',
-    'Espumoso',
-    'Rosado',
-    'Blanco',
-    'Tinto',
-    'Cerveza Artesanal',
+    'Electronics',
+    'Books',
+    'Clothing',
+    'Shoes',
+    'Home',
+    'Kitchen',
+    'Tools',
+    'Garden',
+    'Sports',
+    'Toys',
+    'Games',
+    'Movies',
+    'Music',
+    'Beauty',
+    'Health',
   ];
-  // create 5 categories
+  
   for (let i = 0; i < names.length; i++) {
     await prisma.category.create({
       data: {
@@ -40,15 +36,23 @@ async function main() {
     });
   }
 
-  // seed 30 products
-  for (let i = 0; i < 30; i++) {
+  // seed json from seed/products.ts (not included in repo)
+  for (let i = 0; i < products.length; i++) {
     const product = await prisma.product.create({
       data: {
-        name: createLoremIpsum().generateWords(2),
-        description: createLoremIpsum().generateSentences(2),
+        // name: createLoremIpsum().generateWords(2),
+        name: products[i]?.product ?? createLoremIpsum().generateWords(2),
+        // description: createLoremIpsum().generateSentences(2),
         discount: 0,
-        price: getRandomNumber(100, 1000),
-        categoryId: getRandomNumber(1, 5),
+        // price: getRandomNumber(100, 1000),
+        price:
+          products[i]?.price && typeof parseInt(products[i]?.price || '') === 'number'
+            ? parseInt(products[i]?.price || '')
+            : getRandomNumber(100, 1000),
+        categoryId:
+          products[i]?.categoryId && typeof parseInt(products[i]?.categoryId || '') === 'number'
+            ? parseInt(products[i]?.categoryId || '')
+            : getRandomNumber(1, 20),
         // from pokeapi
         image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${getRandomNumber(
           1,
