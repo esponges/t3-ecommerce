@@ -87,6 +87,7 @@ export const ProductItem = ({
                 onChange={handleQtyInputChange}
                 count={qty ?? quantity}
                 className={'mr-2'}
+                id={'counter'}
               />
               <Button onClick={handleAddToCart} variant="primary" disabled={isAddingToCart}>
                 {isAddingToCart ? 'Adding...' : 'Add'}
