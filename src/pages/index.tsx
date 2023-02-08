@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Head from 'next/head';
 import superjson from 'superjson';
 import type {
@@ -10,15 +11,13 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 import { ProductSearchbar } from '@/components/molecules/productSearchbar';
 import { ProductCarousel } from '@/components/organisms/productCarousel';
+import { Pill } from '@/components/atoms/pill';
 
 import { trpc } from '@/utils/trpc';
 import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '@/server/trpc/router';
 import { createContext } from '@/server/trpc/context';
 
-import { Pill } from '@/components/atoms/pill';
-import Image from 'next/image';
-import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 
 const heroImages = [
   '/images/hero/hero-image-1.jpeg',
@@ -28,7 +27,6 @@ const heroImages = [
 
 const Home = () => {
   const { data: categories } = trpc.category.getAll.useQuery();
-  const { isMobile } = useDeviceWidth();
 
   return (
     <>
@@ -79,7 +77,7 @@ const Home = () => {
         </ul>
         <h3 className="mt-6 text-xl font-bold text-gray-700">¿Estás buscando algo?</h3>
         <ProductSearchbar className="mb-6 md:mb-12" />
-        <ProductCarousel showDescriptions={!isMobile} tag="Los Más Vendidos" tagClassName="text-4xl" favorite={true} />
+        <ProductCarousel showDescriptions={false} tag="Los Más Vendidos" tagClassName="text-4xl" favorite={true} />
       </div>
     </>
   );

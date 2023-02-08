@@ -4,6 +4,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 import type { OrderDetails } from '@/types';
 import { getOrderTotal } from '@/lib/order';
 import { Table } from '@/components/molecules/table';
+import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 
 interface Props {
   order: OrderDetails;
@@ -13,6 +14,8 @@ export const OrderCard = ({ order }: Props) => {
   const products = order.orderItems.map((item) => ({ ...item.product, qty: item.quantity }));
   const total = getOrderTotal(products);
 
+  const { isMobile } = useDeviceWidth(); 
+
   const columns = useMemo<ColumnDef<typeof products[0]>[]>(
     () => [
       {
@@ -20,6 +23,8 @@ export const OrderCard = ({ order }: Props) => {
         cell: (row) => row.renderValue(),
         accessorKey: 'name',
         footer: () => 'Total',
+        maxSize: isMobile ? 250 : undefined,
+        minSize: isMobile ? 250 : 300,
       },
       {
         header: 'Precio',
@@ -33,7 +38,7 @@ export const OrderCard = ({ order }: Props) => {
         accessorKey: 'qty',
       },
     ],
-    [total]
+    [total, isMobile]
   );
 
   return (

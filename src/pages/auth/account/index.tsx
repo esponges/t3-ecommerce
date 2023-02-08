@@ -9,6 +9,7 @@ import { OrderCard } from '@/components/organisms/orderCard';
 import { Loader } from '@/components/molecules/loader';
 import { PageContainer } from '@/components/layouts/pageContainer';
 import { Header, HeaderSizes } from '@/components/atoms/header';
+import { Message } from 'semantic-ui-react';
 
 const AccountDetails = () => {
   const { data: session } = useSession();
@@ -25,7 +26,7 @@ const AccountDetails = () => {
   );
 
   return (
-    <PageContainer header={{ title: 'Información de tu cuenta' }} className='text-center'>
+    <PageContainer header={{ title: 'Información de tu cuenta' }} className="text-center">
       {isLoading ? (
         <Loader />
       ) : (
@@ -34,11 +35,19 @@ const AccountDetails = () => {
             Tus pedidos
           </Header>
           <ul>
-            {orderData?.map((order) => (
-              <li key={order.id}>
-                <OrderCard order={order as OrderDetails} />
-              </li>
-            ))}
+            {!!orderData?.length ? (
+              orderData?.map((order) => (
+                <li key={order.id}>
+                  <OrderCard order={order as OrderDetails} />
+                </li>
+              ))
+            ) : (
+              <Message
+                info
+                header="No tienes pedidos"
+                content="Puedes ver los productos que tenemos disponibles en la página principal"
+              />
+            )}
           </ul>
         </>
       )}
