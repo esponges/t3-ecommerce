@@ -76,7 +76,7 @@ export const ProductCard = ({
         <Card.Content>
           <Card.Header className="cursor-pointer">{product?.name}</Card.Header>
           <Card.Meta>
-            <span className="date">{product?.price} MXN</span>
+            <span className="date text-gray-600">{product?.price} MXN</span>
           </Card.Meta>
           {showDescription && <Card.Description className="h-20">{product?.description}</Card.Description>}
         </Card.Content>
@@ -88,6 +88,7 @@ export const ProductCard = ({
               onChange={handleQtyInputChange}
               count={qty ?? quantity}
               className={'mr-2'}
+              id={product?.id || 'counter'}
             />
             <div>
               {showAddToCartBtn ? (

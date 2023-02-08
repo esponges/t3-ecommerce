@@ -6,9 +6,10 @@ interface Props {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   count: number;
   className?: string;
+  id: string;
 }
 
-export const Counter = ({ onIncrease, onDecrease, onChange, count, className }: Props) => {
+export const Counter = ({ onIncrease, onDecrease, onChange, count, className, id }: Props) => {
   return (
     <div className={`counter flex items-center align-center justify-center ${className ??''}`}>
       <button
@@ -18,12 +19,18 @@ export const Counter = ({ onIncrease, onDecrease, onChange, count, className }: 
       >
         <Image src="/minus.svg" width={20} height={20} alt="minus" />
       </button>
-      <input
-        className="w-10 border-0 p-0 hover:no-underline hover:outline-none focus:no-underline focus:outline-none"
-        type="number"
-        value={count}
-        onChange={onChange}
-      />
+      {/* hidden label for accessibility - go Lighthouse! */}
+      <label htmlFor={id}>
+        <input
+          className="w-10 text-gray-700 border-0 p-0 
+        hover:no-underline hover:outline-none focus:no-underline focus:outline-none"
+          type="number"
+          name={id}
+          id={id}
+          value={count}
+          onChange={onChange}
+        />
+      </label>
       <button
         className="border-0 p-0 text-center hover:no-underline hover:outline-none focus:no-underline focus:outline-none"
         type="button"

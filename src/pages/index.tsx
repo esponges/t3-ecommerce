@@ -61,14 +61,15 @@ const Home = () => {
           })}
         </Carousel>
         {/* <HeroCarousel /> */}
-        <ul className="my-6 flex w-full flex-wrap pl-0 md:my-12 md:w-1/2">
+        <ul className="my-6 flex w-full flex-wrap pl-0 md:my-12 w-[80%] md:w-[60%]">
           {categories?.map((category) => {
             return (
               <li className="flex-auto text-center" key={category.id}>
                 <Pill
                   href={`/products/listing#${category.name}`}
                   roundedStyle="rounded-md"
-                  className="m-1 bg-blue-200 text-lg md:m-4 "
+                  className="m-1 bg-primary-blue text-xl md:m-2"
+                  textClassName='text-white'
                 >
                   {category.name}
                 </Pill>
