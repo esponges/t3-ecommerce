@@ -13,12 +13,10 @@ import { trpc } from '@/utils/trpc';
 import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '@/server/trpc/router';
 import { createContext } from '@/server/trpc/context';
-import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 import { Header, HeaderSizes } from '@/components/atoms/header';
 
 const ProductListing = () => {
   const { data: categories } = trpc.category.getAll.useQuery();
-  const { isMobile } = useDeviceWidth();
 
   return (
     <>
@@ -34,7 +32,7 @@ const ProductListing = () => {
         <ul className="mt-4 flex w-full flex-col gap-4">
           {categories?.length &&
             categories.map((category) => (
-              <ProductCarousel showDescriptions={!isMobile} key={category.id} category={category} />
+              <ProductCarousel showDescriptions={false} key={category.id} category={category} />
             ))}
         </ul>
       </div>

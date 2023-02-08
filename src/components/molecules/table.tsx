@@ -52,6 +52,7 @@ export const Table = <T extends object>({
     debugTable: true,
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: filterFn,
+    enableColumnResizing: true,
   });
 
   const { pagination } = table.getState();
@@ -81,8 +82,9 @@ export const Table = <T extends object>({
           <div className="p-2">
             {showGlobalFilter ? (
               <DebouncedInput
-                value={globalFilter ?? ''} onChange={(value) => setGlobalFilter(String(value))}
-                className="font-lg border-block border p-2 shadow mb-2"
+                value={globalFilter ?? ''}
+                onChange={(value) => setGlobalFilter(String(value))}
+                className="font-lg border-block mb-2 border p-2 shadow"
                 placeholder="Filtrar..."
               />
             ) : null}
@@ -91,20 +93,34 @@ export const Table = <T extends object>({
                 {table.getHeaderGroups().map((headerGroup) => (
                   <tr key={headerGroup.id}>
                     {headerGroup.headers.map((header) => (
-                      <th key={header.id} className=" px-2 md:px-6 py-4 text-sm font-medium text-gray-900">
+                      <th
+                        key={header.id}
+                        className=" px-2 py-4 text-sm font-medium text-gray-900 md:px-6"
+                        colSpan={header.colSpan}
+                        style={{
+                          position: 'relative',
+                          width: header.getSize()
+                        }}
+                      >
                         {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                       </th>
                     ))}
                   </tr>
                 ))}
               </thead>
-              <tbody>
+              <tbody className="max-w-full">
                 {table.getRowModel().rows.map((row) => (
                   <tr key={row.id} className='border-b" bg-white'>
                     {row.getVisibleCells().map((cell) => (
-                      <td 
-                        className="whitespace-nowrap px-2 md:px-6 py-4 text-sm font-light text-gray-900" 
+                      <td
+                        className="
+                        text-sm whitespace-nowrap font-light text-gray-900 
+                        px-2 md:px-6 py-4 overflow-ellipsis overflow-hidden
+                        "
                         key={cell.id}
+                        style={{
+                          maxWidth: cell.column.getSize(),
+                        }}
                       >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </td>
@@ -131,7 +147,7 @@ export const Table = <T extends object>({
             {showNavigation ? (
               <>
                 <div className="mt-5 h-2" />
-                <div className="flex items-center gap-2 justify-center">
+                <div className="flex items-center justify-center gap-2">
                   <button
                     className="cursor-pointer rounded border p-1"
                     onClick={() => handlePageChange(0)}
@@ -178,10 +194,7 @@ export const Table = <T extends object>({
                       className="w-16 rounded border p-1"
                     />
                   </span>
-                  <select
-                    value={table.getState().pagination.pageSize}
-                    onChange={handlePageSizeChange}
-                  >
+                  <select value={table.getState().pagination.pageSize} onChange={handlePageSizeChange}>
                     {[10, 20, 30, 40, 50].map((pageSize) => (
                       <option key={pageSize} value={pageSize}>
                         Ver {pageSize}

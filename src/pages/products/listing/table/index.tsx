@@ -62,19 +62,22 @@ const ProductTable = () => {
         header: 'Producto',
         cell: (row) => renderProductLink(row),
         accessorKey: 'name',
+        size: isMobile ? 250 : undefined,
       },
       {
         header: 'Precio',
         cell: (row) => row.getValue(),
         accessorKey: 'price',
+        size: 100,
       },
       {
         header: 'Categoría',
         cell: (row) => row.getValue(),
         accessorKey: 'category',
+        maxSize: 200,
       },
     ],
-    [renderProductLink]
+    [renderProductLink, isMobile]
   );
 
   return (
