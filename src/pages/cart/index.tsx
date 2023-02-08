@@ -164,7 +164,7 @@ const Cart = () => {
 
   return (
     <PageContainer verticallyCentered header={{ title: 'Tu carrito' }}>
-      <div className="my-15">
+      <div className="my-10 mx-4">
         {tableItems.length ? (
           <Table data={tableItems} columns={cols} showGlobalFilter={false} showNavigation={false} />
         ) : (
@@ -190,7 +190,7 @@ const Cart = () => {
             />
           )
         )}
-        <Button variant="link" onClick={handleBack} className="ml-2">
+        <Button variant="link" onClick={handleBack} className="ml-2 mb-4">
           Regresar
         </Button>
       </div>
