@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { createLoremIpsum, getRandomNumber } from '../src/lib/utils';
-import { products } from 'seed/products';
+// import { products } from 'seed/products';
 const prisma = new PrismaClient();
 
 async function main() {
@@ -36,23 +36,25 @@ async function main() {
     });
   }
 
-  // seed json from seed/products.ts (not included in repo)
-  for (let i = 0; i < products.length; i++) {
+  // seed json from seed/products.ts (not included in repo - using seeder for the moment)
+  for (let i = 0; i < 30; i++) {
     const product = await prisma.product.create({
       data: {
-        // name: createLoremIpsum().generateWords(2),
-        name: products[i]?.product ?? createLoremIpsum().generateWords(2),
-        // description: createLoremIpsum().generateSentences(2),
+        description: createLoremIpsum().generateSentences(2),
         discount: 0,
-        // price: getRandomNumber(100, 1000),
-        price:
-          products[i]?.price && typeof parseInt(products[i]?.price || '') === 'number'
-            ? parseInt(products[i]?.price || '')
-            : getRandomNumber(100, 1000),
-        categoryId:
-          products[i]?.categoryId && typeof parseInt(products[i]?.categoryId || '') === 'number'
-            ? parseInt(products[i]?.categoryId || '')
-            : getRandomNumber(1, 20),
+        price: getRandomNumber(100, 1000),
+        categoryId: getRandomNumber(1, names.length),
+        name: createLoremIpsum().generateWords(2),
+        // name: products[i]?.product ?? createLoremIpsum().generateWords(2),
+        // price:
+        //   products[i]?.price && typeof parseInt(products[i]?.price || '') === 'number'
+        //     ? parseInt(products[i]?.price || '')
+        //     : getRandomNumber(100, 1000),
+        // categoryId:
+        //   products[i]?.categoryId && typeof parseInt(products[i]?.categoryId || '') === 'number'
+        //     ? parseInt(products[i]?.categoryId || '')
+        //     : getRandomNumber(1, 20),
+
         // from pokeapi
         image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${getRandomNumber(
           1,
