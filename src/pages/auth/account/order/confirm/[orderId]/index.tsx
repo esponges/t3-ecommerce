@@ -19,7 +19,7 @@ const OrderConfirmDetail = () => {
   );
 
   return (
-    <PageContainer header={{ title: 'Historial de pedidos'}}>
+    <PageContainer heading={{ title: 'Historial de pedidos'}}>
       <div className='px-6'>
         {isLoading && <Loader />}
         {data && (

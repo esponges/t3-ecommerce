@@ -228,7 +228,7 @@ const Checkout = () => {
         <meta name="robots" content="noindex" />
         <title>Finalizar pedido</title>
       </Head>
-      <PageContainer className="text-center" header={{ title: 'Finalizar pedido' }}>
+      <PageContainer className="text-center" heading={{ title: 'Finalizar pedido' }}>
         <Accordion className="my-8">
           <Accordion.Title active={activeIndex === 0} index={0} onClick={handleAccordionOpenClose}>
             <Icon name="dropdown" />

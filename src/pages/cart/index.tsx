@@ -163,7 +163,7 @@ const Cart = () => {
   );
 
   return (
-    <PageContainer verticallyCentered header={{ title: 'Tu carrito' }}>
+    <PageContainer verticallyCentered heading={{ title: 'Tu carrito' }}>
       <div className="my-10 mx-4">
         {tableItems.length ? (
           <Table data={tableItems} columns={cols} showGlobalFilter={false} showNavigation={false} />

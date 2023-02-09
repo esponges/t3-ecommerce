@@ -13,7 +13,7 @@ import { trpc } from '@/utils/trpc';
 import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '@/server/trpc/router';
 import { createContext } from '@/server/trpc/context';
-import { Header, HeaderSizes } from '@/components/atoms/header';
+import { Heading, HeadingSizes } from '@/components/atoms/heading';
 
 const ProductListing = () => {
   const { data: categories } = trpc.category.getAll.useQuery();
@@ -27,7 +27,7 @@ const ProductListing = () => {
       </Head>
       {/* no need PageContainer here */}
       <div className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
-        <Header size={HeaderSizes['xl']}>¿Buscas algo específico?</Header>
+        <Heading size={HeadingSizes['xl']}>¿Buscas algo específico?</Heading>
         <ProductSearchbar />
         <ul className="mt-4 flex w-full flex-col gap-4">
           {categories?.length &&

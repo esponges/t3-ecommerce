@@ -1,4 +1,4 @@
-export enum HeaderSizes {
+export enum HeadingSizes {
   xs = 'xs',
   sm = 'sm',
   md = 'md',
@@ -14,13 +14,13 @@ export enum HeaderSizes {
   '9xl' = '9xl',
 }
 
-interface HeaderProps {
-  size?: HeaderSizes;
+interface HeadingProps {
+  size?: HeadingSizes;
   children: React.ReactNode;
   className?: string;
 }
 
-export const Header = ({ size, children, className }: HeaderProps) => {
+export const Heading = ({ size, children, className }: HeadingProps) => {
   const sizeClass = size ? `text-${size}` : 'text-2xl';
 
   return <h1 className={`${sizeClass} font-bold text-gray-700 ${className ?? ''}`}>{children}</h1>;

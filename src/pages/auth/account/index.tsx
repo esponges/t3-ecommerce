@@ -8,7 +8,7 @@ import type { User } from '@prisma/client';
 import { OrderCard } from '@/components/organisms/orderCard';
 import { Loader } from '@/components/molecules/loader';
 import { PageContainer } from '@/components/layouts/pageContainer';
-import { Header, HeaderSizes } from '@/components/atoms/header';
+import { Heading, HeadingSizes } from '@/components/atoms/heading';
 import { Message } from 'semantic-ui-react';
 
 const AccountDetails = () => {
@@ -26,14 +26,14 @@ const AccountDetails = () => {
   );
 
   return (
-    <PageContainer header={{ title: 'Información de tu cuenta' }} className="text-center">
+    <PageContainer heading={{ title: 'Información de tu cuenta' }} className="text-center">
       {isLoading ? (
         <Loader />
       ) : (
         <>
-          <Header size={HeaderSizes['2xl']} className="uppercase">
+          <Heading size={HeadingSizes['2xl']} className="uppercase">
             Tus pedidos
-          </Header>
+          </Heading>
           <ul>
             {!!orderData?.length ? (
               orderData?.map((order) => (
@@ -44,7 +44,7 @@ const AccountDetails = () => {
             ) : (
               <Message
                 info
-                header="No tienes pedidos"
+                Heading="No tienes pedidos"
                 content="Puedes ver los productos que tenemos disponibles en la página principal"
               />
             )}

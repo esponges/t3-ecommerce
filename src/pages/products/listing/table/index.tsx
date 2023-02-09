@@ -86,7 +86,7 @@ const ProductTable = () => {
         <title>Products</title>
         <meta name="description" content="Nuestra lista de productos completa" />
       </Head>
-      <PageContainer header={{ title: 'Nuestros Productos' }} className="text-center">
+      <PageContainer heading={{ title: 'Nuestros Productos' }} className="text-center">
         <Table data={data as TableItem[]} columns={cols} isMobile={isMobile} showGlobalFilter />
       </PageContainer>
     </>

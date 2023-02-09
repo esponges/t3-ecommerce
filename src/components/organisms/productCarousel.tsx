@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 import { carrouselStyle, itemsPerCarrousel } from '@/lib/products';
-import { Header, HeaderSizes } from '../atoms/header';
+import { Heading, HeadingSizes } from '../atoms/heading';
 
 type Props = {
   category?: Category;
@@ -76,11 +76,11 @@ export const ProductCarousel = ({
     <div
       className={`relative mt-6 flex flex-col items-center justify-center md:px-12 ${wrapper} ${className ?? ''}`}
     >
-      <Header size={HeaderSizes["9xl"]} className='uppercase'>
+      <Heading size={HeadingSizes["9xl"]} className='uppercase'>
         <span id={`${tag || category?.name || '#'}`}>
           {tag || category?.name || 'Products'}
         </span>
-      </Header>
+      </Heading>
       <div className="relative mt-2 flex w-full justify-center">
         {isLoading || (isFetchingNextPage && !toShow) ? <>{renderLoadingCards()}</> : null}
         {!isLoading &&
