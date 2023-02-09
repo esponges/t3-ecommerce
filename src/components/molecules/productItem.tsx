@@ -1,4 +1,6 @@
-import type { Category, Product } from '@prisma/client';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
+import type { Category } from '@prisma/client';
 import {
   Item,
   Label,
@@ -9,10 +11,10 @@ import { useProduct } from '@/lib/hooks/useProduct';
 
 import { Button } from '@/components/atoms/button';
 import { Counter } from '@/components/molecules/counter';
-import Image from 'next/image';
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
-import { useRouter } from 'next/router';
 import { PageRoutes } from '@/lib/routes';
+
+import type { Product } from '@/types';
 
 type Props = Partial<Product> & {
   onClick?: () => void;
@@ -29,6 +31,7 @@ export const ProductItem = ({
   price,
   description,
   image,
+  productSpecs,
   onAddToCart,
   category,
   showDetails = true,
@@ -49,7 +52,7 @@ export const ProductItem = ({
   };
 
   return (
-    <div className={`product-item ${!isMobile ? 'columns-2' : 'px-4 my-4'}`}>
+    <div className={`product-item ${!isMobile ? 'columns-2' : 'my-4 px-4'}`}>
       <div className={`${!isMobile ? 'mx-auto w-3/4' : ''}`}>
         <Image
           src={image ?? '/images/empty-bottle.png'}
@@ -79,7 +82,6 @@ export const ProductItem = ({
         {showDetails && <Item.Description className="mt-8">{description}</Item.Description>}
         {showCTAs && (
           <Item.Extra className="mt-8 text-center">
-            
             <div className="mt-8 flex justify-center text-center">
               <Counter
                 onIncrease={handleChangeProductQty}
@@ -90,33 +92,46 @@ export const ProductItem = ({
                 id={'counter'}
               />
               <Button onClick={handleAddToCart} variant="primary" disabled={isAddingToCart}>
-                {isAddingToCart ? 'Adding...' : 'Add'}
+                {isAddingToCart ? 'Añadiendo...' : 'Añadir al carrito'}
               </Button>
             </div>
           </Item.Extra>
         )}
         {/* Technical details */}
-        <Item.Extra className='md:mt-4 mt-2'>
-          <Table basic='very'>
+        <Item.Extra className="mt-2 md:mt-4">
+          <Table basic="very">
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>Detalles técnicos</Table.HeaderCell>
-                <Table.HeaderCell></Table.HeaderCell>
+                <Table.HeaderCell clas>Detalles técnicos</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
               <Table.Row>
                 <Table.Cell>Capacidad</Table.Cell>
-                <Table.Cell>750ml</Table.Cell>
+                <Table.Cell>{productSpecs?.capacity || 'N/D'}</Table.Cell>
               </Table.Row>
               <Table.Row>
                 <Table.Cell>Volumen Alc.</Table.Cell>
-                <Table.Cell>10%</Table.Cell>
+                <Table.Cell>{productSpecs?.volume || 'N/D'}</Table.Cell>
               </Table.Row>
-              <Table.Row>
-                <Table.Cell>País de procedencia</Table.Cell>
-                <Table.Cell>Mexico</Table.Cell>
-              </Table.Row>
+              {productSpecs?.country ? (
+                <Table.Row>
+                  <Table.Cell>País de procedencia</Table.Cell>
+                  <Table.Cell>{productSpecs.country}</Table.Cell>
+                </Table.Row>
+              ) : null}
+              {productSpecs?.age ? (
+                <Table.Row>
+                  <Table.Cell>Añada</Table.Cell>
+                  <Table.Cell>{productSpecs.age}</Table.Cell>
+                </Table.Row>
+              ) : null}
+              {productSpecs?.variety ? (
+                <Table.Row>
+                  <Table.Cell>Variedad</Table.Cell>
+                  <Table.Cell>{productSpecs.variety}</Table.Cell>
+                </Table.Row>
+              ) : null}
             </Table.Body>
           </Table>
         </Item.Extra>

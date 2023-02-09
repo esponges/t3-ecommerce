@@ -73,7 +73,7 @@ export const ProductCard = ({
             height={300}
           />
         </div>
-        <Card.Content>
+        <Card.Content onClick={redirOnImageClick ? handleDetailsClick : undefined}>
           <Card.Header className="cursor-pointer">{product?.name}</Card.Header>
           <Card.Meta>
             <span className="date text-gray-600">{product?.price} MXN</span>

@@ -31,7 +31,7 @@ export type OrderItem = Prisma.OrderItemGetPayload<{
 }>;
 
 export type Product = Prisma.ProductGetPayload<{
-  include: { category: true };
+  include: { category: true, productSpecs: true };
 }>;
 
 export type Category = Prisma.CategoryGetPayload<{}>;

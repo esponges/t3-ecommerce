@@ -11,20 +11,18 @@ import superjson from 'superjson';
 
 import { Loader } from '@/components/molecules/loader';
 import { Button } from '@/components/atoms/button';
-import { Container } from '@/components/molecules/container';
 
 import { ProductItem } from '@/components/molecules/productItem';
 import { useCartActions } from '@/store/cart';
 import { trpc } from '@/utils/trpc';
 import { appRouter } from '@/server/trpc/router';
 import { createContext } from '@/server/trpc/context';
+import { PageContainer } from '@/components/layouts/pageContainer';
 
-const ProductDetails = (
-  props: InferGetServerSidePropsType<typeof getServerSideProps>
-) => {
+const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
   const name = props.name;
-  
+
   // this query is automatically prefetched on server side
   const { data: product, isLoading } = trpc.product.getByName.useQuery({ name });
 
@@ -41,7 +39,7 @@ const ProductDetails = (
   }
 
   return (
-    <Container>
+    <PageContainer verticallyCentered>
       <Head>
         <title>{product?.name}</title>
         <meta name="description" content={product?.description} />
@@ -55,15 +53,15 @@ const ProductDetails = (
         category={product?.category}
         onAddToCart={handleAddToCart}
       />
-      <div className="mt-5 flex justify-center">
+      <div className="my-5 flex justify-center">
         <Button variant="primary" className="mr-4" onClick={() => router.push('/cart')}>
           Ir al carrito
         </Button>
-        <Button variant="secondary" className="mt-5" onClick={() => router.push('/')}>
+        <Button variant="secondary" onClick={() => router.push('/')}>
           Regresar
         </Button>
       </div>
-    </Container>
+    </PageContainer>
   );
 };
 
