@@ -122,7 +122,7 @@ model PostalCode {
     code      Int
     name      String
     city      String
-    state     String   @default("")
+    state     String   @default("Jalisco")
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
