@@ -64,6 +64,16 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
+model Category {
+    id          Int     @id @default(autoincrement())
+    name        String
+    description String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    product     Product[]
+    score       Float    @default(0)
+}
+
 model Product {
     id          String   @id @default(cuid())
     name        String
@@ -94,15 +104,7 @@ model ProductSpecs {
     variety   String?
 }
 
-model Category {
-    id          Int     @id @default(autoincrement())
-    name        String
-    description String
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    product     Product[]
-    score       Float    @default(0)
-}
+
 
 model OrderItem {
     id        String @id @default(cuid())
@@ -115,11 +117,22 @@ model OrderItem {
     product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
+model PostalCode {
+    id        String @id @default(cuid())
+    code      Int
+    name      String
+    city      String
+    state     String   @default("")
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
 model OrderDetail {
     id        String @id @default(cuid())
     address   String
     city      String
     country   String
+    // eventually this could be a relation to a postalCode table
     postalCode String
     phone     String
     schedule  String   @default("")

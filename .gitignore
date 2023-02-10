@@ -11,6 +11,8 @@
 # database
 /prisma/db.sqlite
 /prisma/db.sqlite-journal
+/prisma/mocks.ts
+/prisma/dev.db
 
 # next.js
 /.next/
@@ -23,8 +25,9 @@
 .DS_Store
 *.pem
 
-# seed
-/seed
+# prisma
+
+
 
 # debug
 npm-debug.log*
