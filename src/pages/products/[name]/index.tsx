@@ -42,7 +42,10 @@ const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideP
     <PageContainer verticallyCentered>
       <Head>
         <title>{product?.name}</title>
-        <meta name="description" content={product?.description} />
+        <meta
+          name="description"
+          content={product?.description || `${product?.name || ''} ${product?.price || ''} || Detalles del producto`}
+        />
       </Head>
       <ProductItem
         name={product?.name}
