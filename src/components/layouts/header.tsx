@@ -52,17 +52,23 @@ export const Header = ({ children }: Props) => {
   const menuItems = (
     <>
       <Link href={`${PageRoutes.List}`}>
-        <Menu.Item active={getIsActiveRoute(PageRoutes.List)}>Productos</Menu.Item>
+        <a>
+          <Menu.Item active={getIsActiveRoute(PageRoutes.List)}>Productos</Menu.Item>
+        </a>
       </Link>
       <Link href={`${PageRoutes.ListTable}`}>
-        <Menu.Item active={getIsActiveRoute(PageRoutes.ListTable)}>Lista</Menu.Item>
+        <a>
+          <Menu.Item active={getIsActiveRoute(PageRoutes.ListTable)}>Lista</Menu.Item>
+        </a>
       </Link>
       <Link href={`${PageRoutes.Cart}`}>
-        <Menu.Item active={getIsActiveRoute(PageRoutes.Cart)}>
-          <Icon name="cart" />
-          {'Carrito'}
-          {cartCount > 0 ? <Label color="yellow">{cartCount}</Label> : null}
-        </Menu.Item>
+        <a>
+          <Menu.Item active={getIsActiveRoute(PageRoutes.Cart)}>
+            <Icon name="cart" />
+            {'Carrito'}
+            {cartCount > 0 ? <Label color="yellow">{cartCount}</Label> : null}
+          </Menu.Item>
+        </a>
       </Link>
     </>
   );
@@ -71,21 +77,27 @@ export const Header = ({ children }: Props) => {
     <>
       <Menu.Item position="right">
         <Link href={`${PageRoutes.Login}`}>
-          <Button variant="primary">Login</Button>
+          <a>
+            <Button variant="primary">Login</Button>
+          </a>
         </Link>
       </Menu.Item>
     </>
   ) : (
     <>
       <Menu.Item>
-        <Button variant="primary" onClick={() => signOut()}>
-          Logout
-        </Button>
+        <a>
+          <Button variant="primary" onClick={() => signOut()}>
+            Logout
+          </Button>
+        </a>
       </Menu.Item>
       <Menu.Item>
-        <Link href={`${PageRoutes.Account}`}>
-          <Button variant="primary">Bienvenido {session?.user?.name}</Button>
-        </Link>
+        <a>
+          <Link href={`${PageRoutes.Account}`}>
+            <Button variant="primary">Bienvenido {session?.user?.name}</Button>
+          </Link>
+        </a>
       </Menu.Item>
     </>
   );
@@ -99,7 +111,7 @@ export const Header = ({ children }: Props) => {
     : [{ label: 'Login', value: 'login', onClick: () => router.push(PageRoutes.Login) }];
 
   const trigger = (
-    <span className='cursor-pointer'>
+    <span className="cursor-pointer">
       <Icon name="user" />
       Hola {session?.user?.name || ', Invitado'}
     </span>
@@ -120,14 +132,16 @@ export const Header = ({ children }: Props) => {
                   <Icon name="sidebar" />
                 </Menu.Item>
                 <Link href={`${PageRoutes.Home}`}>
-                  <Image
-                    // eslint-disable-next-line max-len
-                    path="https://ik.imagekit.io/5wjtgrwr1/logo-no-slogan.png?ik-sdk-version=javascript-1.4.3&updatedAt=1674056851908"
-                    alt="logo-vinoreo-header"
-                    width={100}
-                    height={100}
-                    className="mt-1"
-                  />
+                  <a>
+                    <Image
+                      // eslint-disable-next-line max-len
+                      path="https://ik.imagekit.io/5wjtgrwr1/logo-no-slogan.png?ik-sdk-version=javascript-1.4.3&updatedAt=1674056851908"
+                      alt="logo-vinoreo-header"
+                      width={100}
+                      height={100}
+                      className="mt-1"
+                    />
+                  </a>
                 </Link>
                 {/* searchbar */}
                 <Menu.Item position="right">
