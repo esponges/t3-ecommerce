@@ -1,4 +1,5 @@
 import { useSession } from 'next-auth/react';
+import Head from 'next/head';
 
 import { trpc } from '@/utils/trpc';
 
@@ -27,6 +28,11 @@ const AccountDetails = () => {
 
   return (
     <PageContainer heading={{ title: 'Información de tu cuenta' }} className="text-center">
+      <Head>
+        {/* dont index */}
+        <meta name="robots" content="noindex" />
+        <title>Tu cuenta</title>
+      </Head>
       {isLoading ? (
         <Loader />
       ) : (

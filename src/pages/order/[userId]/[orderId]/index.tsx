@@ -3,6 +3,7 @@
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { Card, Message } from 'semantic-ui-react';
+import Head from 'next/head';
 
 import type { OrderDetails as IOrderDetails } from '@/types';
 
@@ -57,6 +58,11 @@ const OrderDetails = () => {
 
   return (
     <PageContainer verticallyCentered className="mb-5" heading={header}>
+      <Head>
+        {/* dont index */}
+        <meta name="robots" content="noindex" />
+        <title>Tu pedido</title>
+      </Head>
       <Card className="order-success-card mb-5 md:w-1/2">
         <Card.Content className="md:w-full">
           {isLoading && <p>Loading...</p>}
@@ -75,15 +81,15 @@ const OrderDetails = () => {
                   </p>
                   <p className="mb-2">
                     Banco:
-                    <b className='ml-3'>{env.NEXT_PUBLIC_BANK_NAME}</b>
+                    <b className="ml-3">{env.NEXT_PUBLIC_BANK_NAME}</b>
                   </p>
                   <p className="mb-2">
                     CLABE:
-                    <b className='ml-3'>{env.NEXT_PUBLIC_BANK_ACCOUNT_NUMBER}</b>
+                    <b className="ml-3">{env.NEXT_PUBLIC_BANK_ACCOUNT_NUMBER}</b>
                   </p>
                   <p className="mb-2">
                     Nombre:
-                    <b className='ml-3'>{env.NEXT_PUBLIC_BANK_ACCOUNT_NAME}</b>
+                    <b className="ml-3">{env.NEXT_PUBLIC_BANK_ACCOUNT_NAME}</b>
                   </p>
                 </div>
               ) : null}

@@ -3,6 +3,7 @@ import { useEffect, useMemo } from 'react';
 import { Icon, Message } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 import type { CellContext, ColumnDef } from '@tanstack/react-table';
 import type { Item as CartItem } from '@/store/cart';
@@ -164,6 +165,11 @@ const Cart = () => {
 
   return (
     <PageContainer verticallyCentered heading={{ title: 'Tu carrito' }}>
+      <Head>
+        {/* dont index */}
+        <meta name="robots" content="noindex" />
+        <title>Carrito</title>
+      </Head>
       <div className="my-10 mx-4">
         {tableItems.length ? (
           <Table data={tableItems} columns={cols} showGlobalFilter={false} showNavigation={false} />

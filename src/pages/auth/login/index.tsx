@@ -1,5 +1,6 @@
 import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
+import Head from 'next/head';
 
 import { Button } from '@/components/atoms/button';
 import { AuthProviders } from '@/types';
@@ -30,6 +31,11 @@ const Login = () => {
 
   return (
     <PageContainer verticallyCentered>
+      <Head>
+        {/* dont index */}
+        <meta name="robots" content="noindex" />
+        <title>Sesión</title>
+      </Head>
       {!session ? (
         <div className="block p-6 text-center">
           <Message
@@ -49,7 +55,7 @@ const Login = () => {
           </div>
         </div>
       ) : (
-        <div className="text-center p-10">
+        <div className="p-10 text-center">
           <Message success header="¡Bienvenido!" content="Ya puedes acceder a la aplicación" />
           <Link href="/">
             <Button variant="primary" className="mt-4">
