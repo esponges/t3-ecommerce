@@ -1,10 +1,33 @@
 import { PrismaClient } from '@prisma/client';
 import { createLoremIpsum, getRandomNumber } from '../src/lib/utils';
-import {
-  categories,
-  products,
-  postalCodes
-} from './mocks'
+
+interface Mocks {
+  categories: Array<string>;
+  products: {
+    product: string;
+    price: string;
+    categoryId: string;
+  }[];
+  postalCodes: {
+    code: number;
+    name: string;
+    city: string
+  }[];
+}
+
+let categories: Mocks['categories'] = [];
+let products: Mocks['products'] | never[] = [];
+let postalCodes: Mocks['postalCodes'] | never[] = [];
+
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const mocks = require('./mocks') as Mocks;
+  categories = mocks.categories;
+  products = mocks.products;
+  postalCodes = mocks.postalCodes;
+} catch (e) {
+  console.log('no mocks found');
+}
 
 const prisma = new PrismaClient();
 
@@ -37,7 +60,8 @@ async function main() {
     });
   }
 
-  for (let i = 0; i < 30; i++) {
+  // change the max number to the number of products you want to seed
+  for (let i = 0; i < products?.length ?? 30; i++) {
     const product = await prisma.product.create({
       data: {
         // description: createLoremIpsum().generateSentences(2),
@@ -69,7 +93,7 @@ async function main() {
     console.log(product);
   }
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < postalCodes?.length ?? 10; i++) {
     const code = await prisma.postalCode.create({
       data: {
         // int of 5 digits
@@ -80,6 +104,7 @@ async function main() {
       },
     });
     console.log(code);
+    console.log(i, postalCodes.length - 1);
   }
 }
 main()
