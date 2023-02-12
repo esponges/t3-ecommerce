@@ -19,8 +19,9 @@ interface Props {
     id: string | number;
     name?: string;
   }[];
-  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
   multiple?: boolean;
+  id?: string;
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 }
 
 export const Searchbar = ({
@@ -31,9 +32,10 @@ export const Searchbar = ({
   debouncedTime = 500, // pass 0 to disable debouncing
   searchResults = [],
   inputType = 'text',
-  inputProps,
   placeholder = 'Buscar',
   multiple = false,
+  id = 'searchbar',
+  inputProps,
 }: Props) => {
   const [selected, setSelected] = useState<string[]>([]);
 
@@ -81,6 +83,7 @@ export const Searchbar = ({
         className={`${inputClassName} block w-full rounded-md
         focus:border-indigo-500 focus:ring-indigo-500`}
         placeholder={placeholder}
+        id={id}
         // onChange wasn't working, probably because of the debouncing
         onInput={handleDebounceInputChange}
         {...inputProps}
