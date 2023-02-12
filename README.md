@@ -27,9 +27,9 @@ To migrate the database:
 
 - Change your prisma .env file to local db
 - Delete prisma/migrations folder
-- Run npx prisma migrate dev --preview-feature to start a new migration
+- Run `npx prisma migrate dev --preview-feature` to start a new migration
 - Change your prisma .env file back to development db
-- Run npx prisma migrate resolve --applied "MIGRATION_FOLDER_NAME_GENERATED_BY_STEP_4"  --preview-feature
+- Run `npx prisma migrate resolve --applied "MIGRATION_FOLDER_NAME_GENERATED_BY_STEP_4"  --preview-feature`
 
 seen in: https://github.com/prisma/prisma/issues/4571#issuecomment-747496127
 

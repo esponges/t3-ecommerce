@@ -119,7 +119,7 @@ model OrderItem {
 
 model PostalCode {
     id        String @id @default(cuid())
-    code      Int
+    code      String
     name      String
     city      String
     state     String   @default("Jalisco")
