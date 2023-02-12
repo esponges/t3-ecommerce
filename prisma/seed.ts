@@ -9,7 +9,7 @@ interface Mocks {
     categoryId: string;
   }[];
   postalCodes: {
-    code: number;
+    code: string;
     name: string;
     city: string
   }[];
@@ -46,8 +46,8 @@ const prisma = new PrismaClient();
 async function main() {
 
   // remove if you want to keep the existing data
-  await prisma.product.deleteMany();
-  await prisma.category.deleteMany();
+  // await prisma.product.deleteMany();
+  // await prisma.category.deleteMany();
   await prisma.postalCode.deleteMany();
 
   for (let i = 0; i < categories.length; i++) {
@@ -97,7 +97,7 @@ async function main() {
     const code = await prisma.postalCode.create({
       data: {
         // int of 5 digits
-        code: postalCodes[i]?.code ?? Math.random(),
+        code: postalCodes[i]?.code ?? createLoremIpsum(1).generateWords(1),
         name: postalCodes[i]?.name ?? createLoremIpsum(1).generateWords(1),
         city: 'Guadalajara',
         state: 'Jalisco',
