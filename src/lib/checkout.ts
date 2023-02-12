@@ -1,3 +1,15 @@
+import { PaymentMethods } from "@/types";
+
+export interface CheckoutFormValues {
+  address: string;
+  city: string;
+  postalCode: string;
+  phone: string;
+  schedule: string;
+  day: string;
+  payment: PaymentMethods;
+}
+
 export const validation = {
   address: {
     required: 'La dirección es requerida',
@@ -78,4 +90,25 @@ export const getAvailableDaysOptions = () => {
     return days.slice(currentDayIndex);
   }
   return days.slice(currentDayIndex - 1);
+};
+
+export const paymentOptions = [
+  {
+    label: 'Efectivo al recibir tu pedido',
+    value: PaymentMethods.Cash,
+  },
+  {
+    label: 'Transferencia bancaria',
+    value: PaymentMethods.Transfer,
+  },
+];
+
+export const checkoutDefaultValues: CheckoutFormValues = {
+  address: '',
+  city: '',
+  postalCode: '',
+  phone: '',
+  schedule: '',
+  day: '',
+  payment: PaymentMethods.Transfer,
 };

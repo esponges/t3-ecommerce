@@ -1,11 +1,11 @@
-import type { ChangeEvent} from 'react';
 import {
   useMemo,
   useState,
-  useEffect
+  useEffect,
+  useCallback
 } from 'react'
 import { Controller, useForm } from 'react-hook-form';
-import type { User } from '@prisma/client';
+import type { PostalCode, User } from '@prisma/client';
 import {
   Dropdown,
   Form,
@@ -13,15 +13,17 @@ import {
   Icon,
   Message
 } from 'semantic-ui-react'
-import type { DropdownProps } from 'semantic-ui-react';
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import Head from 'next/head';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 import { useCartItems } from '@/lib/hooks/useCartItems';
 import {
+  checkoutDefaultValues,
   getAvailableDaysOptions,
   getScheduleOptions,
+  paymentOptions,
   validation
 } from '@/lib/checkout'
 
@@ -30,58 +32,25 @@ import { trpc } from '@/utils/trpc';
 import { PageContainer } from '@/components/layouts/pageContainer';
 import { Button } from '@/components/atoms/button';
 import { InputMessage } from '@/components/atoms/inputMessage';
-
-import type { TableCartItem } from '../cart';
-import { CartItems } from '@/components/molecules/cartItems';
-import Head from 'next/head';
-import { useCartActions } from '@/store/cart';
-import { PaymentMethods } from '@/types';
 import { RadioGroup } from '@/components/molecules/radioGroup';
+import { CartItems } from '@/components/molecules/cartItems';
 import { Searchbar } from '@/components/molecules/searchbar';
+import { Pill } from '@/components/atoms/pill';
 
-interface CheckoutFormValues {
-  address: string;
-  city: string;
-  postalCode: string;
-  phone: string;
-  schedule: string;
-  day: string;
-  payment: PaymentMethods;
-}
+import type { ChangeEvent, MouseEvent } from 'react';
+import type { DropdownProps } from 'semantic-ui-react';
+import type { TableCartItem } from '../cart';
+import type { CheckoutFormValues } from '@/lib/checkout';
 
-const checkoutDefaultValues: CheckoutFormValues = {
-  address: '',
-  city: '',
-  postalCode: '',
-  phone: '',
-  schedule: '',
-  day: '',
-  payment: PaymentMethods.Transfer,
-};
-
-const cps = [
-  {
-    key: 1,
-    text: 'CP 1',
-    value: 1,
-  },
-  {
-    key: 2,
-    text: 'CP 2',
-    value: 2,
-  },
-  {
-    key: 3,
-    text: 'CP 3',
-    value: 3,
-  },
-];
+import { PaymentMethods } from '@/types';
+import { useCartActions } from '@/store/cart';
 
 const Checkout = () => {
   const router = useRouter();
 
   const [activeIndex, setActiveIndex] = useState<number | undefined>(0);
   const [, setPaymentMethod] = useState<PaymentMethods>(PaymentMethods.Transfer);
+  const [chosenCP, setChosenCP] = useState<string | undefined>();
 
   const { data: session } = useSession();
   const user: User | undefined = session?.user as User | undefined;
@@ -95,7 +64,6 @@ const Checkout = () => {
     id: item.id,
   }));
 
-  
   const {
     register,
     handleSubmit,
@@ -105,27 +73,12 @@ const Checkout = () => {
     setError,
     control,
   } = useForm({ defaultValues: checkoutDefaultValues });
-  
+
   const utils = trpc.useContext();
   const successfulOrderConfirmation = trpc.order.success.useMutation();
-  
-  const { mutateAsync, isLoading: isCreating } = trpc.order.create.useMutation({
-    onMutate: async (_values) => {
-      // optimistic update
-      // mutation about to happen
-      // you can do something like this
-      // await utils.order.getAll.cancel();
-      // const optimisticOrders = utils.order.getAll.getData();
-      // if (optimisticOrders) {
-      //   utils.order.getAll.setData(optimisticOrders);
-      // }
-    },
 
+  const { mutateAsync, isLoading: isCreating } = trpc.order.create.useMutation({
     onSuccess: async (data, _variables, _context) => {
-      // TODO: for the moment we must do this client side.
-      // We can't do this server side because of the emailjs library
-      // there's a trpc.order.success hook that we can use to send the email
-      // server side but I have not checked how to do it yet with a different library
       const { mutateAsync } = successfulOrderConfirmation;
       if (data?.id && data.userId) {
         await mutateAsync({
@@ -149,16 +102,24 @@ const Checkout = () => {
 
   const postalCode = getValues('postalCode');
 
-  const { data: fetchedPostalCodes, refetch } = trpc.postalCodes.getAll.useQuery({
-    code: postalCode,
-    limit: 10,
-  },
-  {
-    enabled: !!postalCode,
-  });
+  const { data: fetchedPostalCodes, refetch } = trpc.postalCodes.getAll.useQuery(
+    {
+      code: postalCode,
+      limit: 10,
+    },
+    {
+      enabled: !!postalCode,
+      select: useCallback(
+        (postalCodes: PostalCode[]) =>
+          postalCodes.map(({ code, name }) => ({ id: `${code} — ${name}`, name: `${code} — ${name}` })),
+        []
+      ),
+    }
+  );
   console.log(postalCode, fetchedPostalCodes);
 
   useEffect(() => {
+    if (!postalCode) return;
     refetch();
   }, [postalCode, refetch]);
 
@@ -180,26 +141,20 @@ const Checkout = () => {
     }
   };
 
-  // const handleCPChange = (event: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
-  //   if (data.value) {
-  //     setError('postalCode', {});
-  //     if (typeof data.value === 'string') {
-  //       setValue('postalCode', data.value);
-  //       return;
-  //     }
-  //     if (typeof data.value === 'number') {
-  //       setValue('postalCode', data.value.toString());
-  //       return;
-  //     }
-  //     console.error('CP value is not a string or number');
-  //   }
-  // };
-
   const handleCPChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     if (value) {
       setError('postalCode', {});
       setValue('postalCode', value);
+    }
+  };
+
+  const handleCPSelect = (e: MouseEvent<HTMLLIElement>) => {
+    const { innerText } = e.currentTarget;
+    if (innerText) {
+      setError('postalCode', {});
+      setChosenCP(innerText);
+      setValue('postalCode', innerText);
     }
   };
 
@@ -241,17 +196,6 @@ const Checkout = () => {
         total: cartTotal,
       });
     })();
-
-  const paymentOptions = [
-    {
-      label: 'Efectivo al recibir tu pedido',
-      value: PaymentMethods.Cash,
-    },
-    {
-      label: 'Transferencia bancaria',
-      value: PaymentMethods.Transfer,
-    },
-  ];
 
   const actionsDisabled = isCreating || isValidating || isSubmitting;
 
@@ -333,23 +277,16 @@ const Checkout = () => {
             <label htmlFor="postalCode" className="form-label font-bold">
               Código Postal
             </label>
-            {/* <Dropdown
-              selection
-              options={cps}
-              placeholder="Selecciona tu código postal"
-              id="postalCode"
-              search
-              {...register('postalCode', validation.postalCode)}
-              onChange={handleCPChange}
-            /> */}
             <Searchbar
-              onSelect={() => console.log('select')}
+              onSelect={handleCPSelect}
               onChange={handleCPChange}
               placeholder="Ingresa tu código postal"
               id="postalCode"
-              inputType='number'
+              inputType="number"
+              searchResults={fetchedPostalCodes}
               inputProps={{ ...register('postalCode', validation.postalCode) }}
             />
+            {chosenCP ? <Pill>{chosenCP}</Pill> : null}
             {errors.postalCode?.message && <InputMessage type="error" message={errors.postalCode.message} />}
           </Form.Field>
           <Form.Field>
