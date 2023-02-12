@@ -100,6 +100,29 @@ const Checkout = () => {
     },
   });
 
+
+
+  const chosenDay = getValues('day');
+  const daysOptions = useMemo(() => getAvailableDaysOptions(), []);
+  const scheduleOptions = useMemo(() => getScheduleOptions(chosenDay), [chosenDay]);
+
+  const handleDayChange = (event: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
+    if (data.value && typeof data.value === 'string') {
+      setValue('day', data.value);
+      setError('day', {});
+    }
+  };
+
+  const handleScheduleChange = (event: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
+    if (data.value && typeof data.value === 'string') {
+      setValue('schedule', data.value);
+      setError('schedule', {});
+    }
+  };
+
+  // TODO?: we may want to abstract the CP searchbar into a component
+  // I don't think if its worth it right now, but in the future we may want to use it in other places
+  // or just to make this page more readable and focus the code on the form
   const postalCode = getValues('postalCode');
 
   const { data: fetchedPostalCodes, refetch } = trpc.postalCodes.getAll.useQuery(
@@ -121,24 +144,6 @@ const Checkout = () => {
     if (!postalCode) return;
     refetch();
   }, [postalCode, refetch]);
-
-  const chosenDay = getValues('day');
-  const daysOptions = useMemo(() => getAvailableDaysOptions(), []);
-  const scheduleOptions = useMemo(() => getScheduleOptions(chosenDay), [chosenDay]);
-
-  const handleDayChange = (event: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
-    if (data.value && typeof data.value === 'string') {
-      setValue('day', data.value);
-      setError('day', {});
-    }
-  };
-
-  const handleScheduleChange = (event: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
-    if (data.value && typeof data.value === 'string') {
-      setValue('schedule', data.value);
-      setError('schedule', {});
-    }
-  };
 
   const handleCPChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
