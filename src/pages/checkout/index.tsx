@@ -116,7 +116,6 @@ const Checkout = () => {
       ),
     }
   );
-  console.log(postalCode, fetchedPostalCodes);
 
   useEffect(() => {
     if (!postalCode) return;
@@ -143,7 +142,7 @@ const Checkout = () => {
 
   const handleCPChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    if (value) {
+    if (value || value === '') {
       setError('postalCode', {});
       setValue('postalCode', value);
     }
@@ -156,6 +155,11 @@ const Checkout = () => {
       setChosenCP(innerText);
       setValue('postalCode', innerText);
     }
+  };
+
+  const handleCPUnselect = () => {
+    setChosenCP(undefined);
+    setValue('postalCode', '');
   };
 
   const handleAccordionOpenClose = () => {
@@ -198,6 +202,20 @@ const Checkout = () => {
     })();
 
   const actionsDisabled = isCreating || isValidating || isSubmitting;
+
+  const renderCPPillInner = () => (
+    <div className="flex items-center">
+      <span className="text-sm">{chosenCP}</span>
+      <button
+        type="button"
+        className="ml-2 text-sm text-white hover:text-gray-700"
+        onClick={handleCPUnselect}
+        aria-label="Close"
+      >
+        x
+      </button>
+    </div>
+  );
 
   return (
     <>
@@ -286,7 +304,7 @@ const Checkout = () => {
               searchResults={fetchedPostalCodes}
               inputProps={{ ...register('postalCode', validation.postalCode) }}
             />
-            {chosenCP ? <Pill>{chosenCP}</Pill> : null}
+            {chosenCP ? <Pill className='bg-primary-blue mt-2 text-white'>{renderCPPillInner()}</Pill> : null}
             {errors.postalCode?.message && <InputMessage type="error" message={errors.postalCode.message} />}
           </Form.Field>
           <Form.Field>
