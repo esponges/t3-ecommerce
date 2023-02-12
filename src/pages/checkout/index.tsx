@@ -1,4 +1,9 @@
-import { useMemo, useState } from 'react';
+import type { ChangeEvent} from 'react';
+import {
+  useMemo,
+  useState,
+  useEffect
+} from 'react'
 import { Controller, useForm } from 'react-hook-form';
 import type { User } from '@prisma/client';
 import {
@@ -32,6 +37,7 @@ import Head from 'next/head';
 import { useCartActions } from '@/store/cart';
 import { PaymentMethods } from '@/types';
 import { RadioGroup } from '@/components/molecules/radioGroup';
+import { Searchbar } from '@/components/molecules/searchbar';
 
 interface CheckoutFormValues {
   address: string;
@@ -73,6 +79,7 @@ const cps = [
 
 const Checkout = () => {
   const router = useRouter();
+
   const [activeIndex, setActiveIndex] = useState<number | undefined>(0);
   const [, setPaymentMethod] = useState<PaymentMethods>(PaymentMethods.Transfer);
 
@@ -88,18 +95,20 @@ const Checkout = () => {
     id: item.id,
   }));
 
+  
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting, isValidating },
     setValue,
     getValues,
     setError,
     control,
   } = useForm({ defaultValues: checkoutDefaultValues });
-
+  
   const utils = trpc.useContext();
   const successfulOrderConfirmation = trpc.order.success.useMutation();
+  
   const { mutateAsync, isLoading: isCreating } = trpc.order.create.useMutation({
     onMutate: async (_values) => {
       // optimistic update
@@ -138,6 +147,21 @@ const Checkout = () => {
     },
   });
 
+  const postalCode = getValues('postalCode');
+
+  const { data: fetchedPostalCodes, refetch } = trpc.postalCodes.getAll.useQuery({
+    code: postalCode,
+    limit: 10,
+  },
+  {
+    enabled: !!postalCode,
+  });
+  console.log(postalCode, fetchedPostalCodes);
+
+  useEffect(() => {
+    refetch();
+  }, [postalCode, refetch]);
+
   const chosenDay = getValues('day');
   const daysOptions = useMemo(() => getAvailableDaysOptions(), []);
   const scheduleOptions = useMemo(() => getScheduleOptions(chosenDay), [chosenDay]);
@@ -156,18 +180,26 @@ const Checkout = () => {
     }
   };
 
-  const handleCPChange = (event: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
-    if (data.value) {
+  // const handleCPChange = (event: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
+  //   if (data.value) {
+  //     setError('postalCode', {});
+  //     if (typeof data.value === 'string') {
+  //       setValue('postalCode', data.value);
+  //       return;
+  //     }
+  //     if (typeof data.value === 'number') {
+  //       setValue('postalCode', data.value.toString());
+  //       return;
+  //     }
+  //     console.error('CP value is not a string or number');
+  //   }
+  // };
+
+  const handleCPChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (value) {
       setError('postalCode', {});
-      if (typeof data.value === 'string') {
-        setValue('postalCode', data.value);
-        return;
-      }
-      if (typeof data.value === 'number') {
-        setValue('postalCode', data.value.toString());
-        return;
-      }
-      console.error('CP value is not a string or number');
+      setValue('postalCode', value);
     }
   };
 
@@ -220,6 +252,8 @@ const Checkout = () => {
       value: PaymentMethods.Transfer,
     },
   ];
+
+  const actionsDisabled = isCreating || isValidating || isSubmitting;
 
   return (
     <>
@@ -299,7 +333,7 @@ const Checkout = () => {
             <label htmlFor="postalCode" className="form-label font-bold">
               Código Postal
             </label>
-            <Dropdown
+            {/* <Dropdown
               selection
               options={cps}
               placeholder="Selecciona tu código postal"
@@ -307,6 +341,14 @@ const Checkout = () => {
               search
               {...register('postalCode', validation.postalCode)}
               onChange={handleCPChange}
+            /> */}
+            <Searchbar
+              onSelect={() => console.log('select')}
+              onChange={handleCPChange}
+              placeholder="Ingresa tu código postal"
+              id="postalCode"
+              inputType='number'
+              inputProps={{ ...register('postalCode', validation.postalCode) }}
             />
             {errors.postalCode?.message && <InputMessage type="error" message={errors.postalCode.message} />}
           </Form.Field>
@@ -348,12 +390,12 @@ const Checkout = () => {
                a la que debes realizar la transferencia. El pedido se enviará una vez que se haya recibido el pago."
             />
           ) : null}
-          <Button variant="primary" className="btn btn-primary mt-5" type="submit" disabled={isCreating}>
-            {isCreating ? 'Generando pedido...' : 'Confirmar pedido'}
+          <Button variant="primary" className="btn btn-primary mt-5" type="submit" disabled={actionsDisabled}>
+            {actionsDisabled ? 'Generando pedido...' : 'Confirmar pedido'}
           </Button>
           <div className="mt-10">
             <Link href="/cart">
-              <Button variant="secondary" className="btn btn-secondary mt-5" disabled={isCreating}>
+              <Button variant="secondary" className="btn btn-secondary mt-5" disabled={actionsDisabled}>
                 Regresa
               </Button>
             </Link>
