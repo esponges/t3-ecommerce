@@ -92,7 +92,7 @@ export const Searchbar = ({
         <Image src="/search.svg" alt="search" width={20} height={20} />
       </div>
       {searchResults.length > 0 && (
-        <ul className="absolute top-full left-0 w-full rounded-md border border-gray-300 bg-white shadow-md">
+        <ul className="absolute z-10 top-full left-0 w-full rounded-md border border-gray-300 bg-white shadow-md">
           {searchResults.map((item) => (
             <li key={item?.id ?? item.name} className="cursor-pointer p-2 hover:bg-gray-100" onClick={handleSelect}>
               {item.name}
