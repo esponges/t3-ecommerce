@@ -128,7 +128,7 @@ const Checkout = () => {
   const postalCode = getValues('postalCode');
   const chosenPostalCode = getValues('selectedPostalCode');
 
-  const { data: fetchedPostalCodes, refetch } = trpc.postalCodes.getAll.useQuery(
+  const { data: fetchedPostalCodes, refetch } = trpc.postalCodes.getByCode.useQuery(
     {
       code: postalCode,
       limit: 10,

@@ -2,7 +2,7 @@ import { t } from '../trpc';
 import { z } from 'zod';
 
 export const postalCodesRouter = t.router({
-  getAll: t.procedure
+  getByCode: t.procedure
     .input(
       z.object({
         limit: z.number().optional(),
