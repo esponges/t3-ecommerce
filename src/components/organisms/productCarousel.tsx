@@ -16,6 +16,7 @@ type Props = {
   tagClassName?: string;
   className?: string;
   showDescriptions?: boolean;
+  ignoredIds?: string[];
 };
 
 export const ProductCarousel = ({
@@ -24,6 +25,7 @@ export const ProductCarousel = ({
   favorite = false,
   className,
   showDescriptions = true,
+  ignoredIds,
 }: Props) => {
   const router = useRouter();
   const [page, setPage] = useState(0);
@@ -37,6 +39,7 @@ export const ProductCarousel = ({
       limit,
       categoryId: category?.id,
       favorite,
+      ignoredIds,
     },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,

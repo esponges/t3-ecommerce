@@ -90,25 +90,32 @@ export const productRouter = t.router({
         skip: z.number().optional(),
         categoryId: z.number().optional(),
         favorite: z.boolean().optional(),
+        ignoredIds: z.array(z.string()).optional(),
       })
     )
     .query(async ({ ctx, input }) => {
-      const { limit, skip, categoryId, cursor, favorite } = input;
+      const { limit, skip, categoryId, cursor, favorite, ignoredIds } = input;
       const items = await ctx.prisma.product.findMany({
         take: limit + 1,
         skip: skip,
         cursor: cursor ? { id: cursor } : undefined,
         orderBy: {
-          id: 'asc',
+          favScore: 'desc',
         },
         where: {
           categoryId: categoryId ? categoryId : undefined,
+          // show only products with any favScore
           favScore: favorite
             ? {
               gt: 0,
             }
             : undefined,
+          // ignore defined ids
+          id: {
+            notIn: ignoredIds ? ignoredIds : undefined,
+          },
         },
+
       });
       let nextCursor: typeof cursor | undefined = undefined;
       if (items.length > limit) {
