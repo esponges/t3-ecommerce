@@ -24,8 +24,8 @@ import {
   getAvailableDaysOptions,
   getScheduleOptions,
   paymentOptions,
-  validation
-} from '@/lib/checkout'
+  validation,
+} from '@/lib/checkout';
 
 import { trpc } from '@/utils/trpc';
 
@@ -50,7 +50,6 @@ const Checkout = () => {
 
   const [activeIndex, setActiveIndex] = useState<number | undefined>(0);
   const [, setPaymentMethod] = useState<PaymentMethods>(PaymentMethods.Transfer);
-  const [chosenCP, setChosenCP] = useState<string | undefined>();
 
   const { data: session } = useSession();
   const user: User | undefined = session?.user as User | undefined;
@@ -73,6 +72,11 @@ const Checkout = () => {
     setError,
     control,
   } = useForm({ defaultValues: checkoutDefaultValues });
+
+  // we actually want to check the selectedPostalCode, not the postalCode
+  useEffect(() => {
+    register('selectedPostalCode', validation.selectedPostalCode);
+  }, [register]);
 
   const utils = trpc.useContext();
   const successfulOrderConfirmation = trpc.order.success.useMutation();
@@ -100,8 +104,6 @@ const Checkout = () => {
     },
   });
 
-
-
   const chosenDay = getValues('day');
   const daysOptions = useMemo(() => getAvailableDaysOptions(), []);
   const scheduleOptions = useMemo(() => getScheduleOptions(chosenDay), [chosenDay]);
@@ -124,6 +126,7 @@ const Checkout = () => {
   // I don't think if its worth it right now, but in the future we may want to use it in other places
   // or just to make this page more readable and focus the code on the form
   const postalCode = getValues('postalCode');
+  const chosenPostalCode = getValues('selectedPostalCode');
 
   const { data: fetchedPostalCodes, refetch } = trpc.postalCodes.getAll.useQuery(
     {
@@ -156,15 +159,15 @@ const Checkout = () => {
   const handleCPSelect = (e: MouseEvent<HTMLLIElement>) => {
     const { innerText } = e.currentTarget;
     if (innerText) {
+      setError('selectedPostalCode', {});
+      setValue('selectedPostalCode', innerText);
       setError('postalCode', {});
-      setChosenCP(innerText);
       setValue('postalCode', innerText);
     }
   };
 
   const handleCPUnselect = () => {
-    setChosenCP(undefined);
-    setValue('postalCode', '');
+    setValue('selectedPostalCode', '');
   };
 
   const handleAccordionOpenClose = () => {
@@ -210,7 +213,7 @@ const Checkout = () => {
 
   const renderCPPillInner = () => (
     <div className="flex items-center">
-      <span className="text-sm">{chosenCP}</span>
+      <span className="text-sm">{chosenPostalCode}</span>
       <button
         type="button"
         className="ml-2 text-sm text-white hover:text-gray-700"
@@ -304,13 +307,13 @@ const Checkout = () => {
               onSelect={handleCPSelect}
               onChange={handleCPChange}
               placeholder="Ingresa tu código postal"
-              id="postalCode"
               inputType="number"
               searchResults={fetchedPostalCodes}
-              inputProps={{ ...register('postalCode', validation.postalCode) }}
             />
-            {chosenCP ? <Pill className='bg-primary-blue mt-2 text-white'>{renderCPPillInner()}</Pill> : null}
-            {errors.postalCode?.message && <InputMessage type="error" message={errors.postalCode.message} />}
+            {chosenPostalCode ? <Pill className="mt-2 bg-primary-blue text-white">{renderCPPillInner()}</Pill> : null}
+            {errors.selectedPostalCode?.message && (
+              <InputMessage type="error" message={errors.selectedPostalCode.message} />
+            )}
           </Form.Field>
           <Form.Field>
             <label htmlFor="phone" className="form-label font-bold">
