@@ -76,6 +76,7 @@ const Checkout = () => {
   // we actually want to check the selectedPostalCode, not the postalCode
   useEffect(() => {
     register('selectedPostalCode', validation.selectedPostalCode);
+    register('postalCode', validation.postalCode);
   }, [register]);
 
   const utils = trpc.useContext();
@@ -103,6 +104,8 @@ const Checkout = () => {
       await utils.order.getByUserId.invalidate();
     },
   });
+
+  console.log(errors);
 
   const chosenDay = getValues('day');
   const daysOptions = useMemo(() => getAvailableDaysOptions(), []);
@@ -211,7 +214,7 @@ const Checkout = () => {
 
   const actionsDisabled = isCreating || isValidating || isSubmitting;
 
-  const renderCPPillInner = () => (
+  const renderPostalPillInner = () => (
     <div className="flex items-center">
       <span className="text-sm">{chosenPostalCode}</span>
       <button
@@ -303,6 +306,10 @@ const Checkout = () => {
             <label htmlFor="postalCode" className="form-label font-bold">
               Código Postal
             </label>
+
+            {errors.selectedPostalCode?.message && (
+              <InputMessage type="error" message={errors.selectedPostalCode.message} />
+            )}
             <Searchbar
               onSelect={handleCPSelect}
               onChange={handleCPChange}
@@ -310,10 +317,9 @@ const Checkout = () => {
               inputType="number"
               searchResults={fetchedPostalCodes}
             />
-            {chosenPostalCode ? <Pill className="mt-2 bg-primary-blue text-white">{renderCPPillInner()}</Pill> : null}
-            {errors.selectedPostalCode?.message && (
-              <InputMessage type="error" message={errors.selectedPostalCode.message} />
-            )}
+            {chosenPostalCode ? (
+              <Pill className="mt-2 bg-primary-blue text-white">{renderPostalPillInner()}</Pill>
+            ) : null}
           </Form.Field>
           <Form.Field>
             <label htmlFor="phone" className="form-label font-bold">

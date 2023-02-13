@@ -4,6 +4,7 @@ export interface CheckoutFormValues {
   address: string;
   city: string;
   postalCode: string;
+  selectedPostalCode: string;
   phone: string;
   schedule: string;
   day: string;
@@ -19,13 +20,16 @@ export const validation = {
     },
   },
   city: {
-    required: 'El municipio es requerida',
+    required: 'El municipio es requerido',
     minLength: {
       value: 3,
       message: 'El municipio debe tener al menos 3 caracteres',
     },
   },
   postalCode: {
+    required: 'El código postal es requerido',
+  },
+  selectedPostalCode: {
     required: 'El código postal es requerido',
   },
   phone: {
@@ -107,6 +111,7 @@ export const checkoutDefaultValues: CheckoutFormValues = {
   address: '',
   city: '',
   postalCode: '',
+  selectedPostalCode: '',
   phone: '',
   schedule: '',
   day: '',
