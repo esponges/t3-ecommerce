@@ -18,6 +18,7 @@ import { trpc } from '@/utils/trpc';
 import { appRouter } from '@/server/trpc/router';
 import { createContext } from '@/server/trpc/context';
 import { PageContainer } from '@/components/layouts/pageContainer';
+import { ProductCarousel } from '@/components/organisms/productCarousel';
 
 const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
@@ -55,6 +56,12 @@ const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideP
         id={product?.id}
         category={product?.category}
         onAddToCart={handleAddToCart}
+      />
+      <ProductCarousel
+        showDescriptions={false}
+        category={product?.category}
+        tag='Productos relacionados'
+        ignoredIds={product?.id ? [product.id] : undefined}
       />
       <div className="my-5 flex justify-center">
         <Button variant="primary" className="mr-4" onClick={() => router.push('/cart')}>

@@ -15,6 +15,7 @@ import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 import { PageRoutes } from '@/lib/routes';
 
 import type { Product } from '@/types';
+import { Heading, HeadingSizes } from '../atoms/heading';
 
 type Props = Partial<Product> & {
   onClick?: () => void;
@@ -52,7 +53,7 @@ export const ProductItem = ({
   };
 
   return (
-    <div className={`product-item ${!isMobile ? 'columns-2' : 'my-4 px-4'}`}>
+    <div className={`product-item my-8 ${!isMobile ? 'columns-2' : 'my-4 px-4'}`}>
       <div className={`${!isMobile ? 'mx-auto w-3/4' : ''}`}>
         <Image
           src={image ?? '/images/empty-bottle.png'}
@@ -65,18 +66,18 @@ export const ProductItem = ({
         />
       </div>
       <Item.Content className={`${!isMobile ? '' : 'text-center'}`}>
-        <Item.Header
-          as="h1"
+        <Heading
           onClick={handleRedirectToDetails}
           className={`${allowDetailsRedir ? 'cursor-pointer' : ''}`}
+          size={HeadingSizes['5xl']}
         >
           {name}
-        </Item.Header>
+        </Heading>
         <Item.Header as="h4" className="mt-4">
           {category?.name ? <Label>{category?.name}</Label> : null}
         </Item.Header>
         <Item.Meta>
-          <span className="cinema">{price} MXN</span>
+          <span className="cinema font-bold text-xl">${price} MXN</span>
           {qty && <span className="cinema ml-5">x{qty}</span>}
         </Item.Meta>
         {showDetails && <Item.Description className="mt-8">{description}</Item.Description>}
