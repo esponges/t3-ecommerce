@@ -105,8 +105,6 @@ const Checkout = () => {
     },
   });
 
-  console.log(errors);
-
   const chosenDay = getValues('day');
   const daysOptions = useMemo(() => getAvailableDaysOptions(), []);
   const scheduleOptions = useMemo(() => getScheduleOptions(chosenDay), [chosenDay]);
