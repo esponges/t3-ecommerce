@@ -18,10 +18,14 @@ interface HeadingProps {
   size?: HeadingSizes;
   children: React.ReactNode;
   className?: string;
+  color?: string;
+  onClick?: () => void;
 }
 
-export const Heading = ({ size, children, className }: HeadingProps) => {
-  const sizeClass = size ? `text-${size}` : 'text-2xl';
 
-  return <h1 className={`${sizeClass} font-bold text-gray-700 ${className ?? ''}`}>{children}</h1>;
+export const Heading = ({ size, children, className = '', color, onClick }: HeadingProps) => {
+  const sizeClass = size ? `text-${size}` : 'text-2xl';
+  const colorClass = color ? `text-${color}` : 'text-primary-blue';
+
+  return <h1 className={`${sizeClass}  ${className} ${colorClass} font-bold`} onClick={onClick}>{children}</h1>;
 };
