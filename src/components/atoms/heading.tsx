@@ -25,7 +25,7 @@ interface HeadingProps {
 
 export const Heading = ({ size, children, className = '', color, onClick }: HeadingProps) => {
   const sizeClass = size ? `text-${size}` : 'text-2xl';
-  const colorClass = color ? `text-${color}` : 'text-primary-blue';
+  const colorClass = color ? `text-${color}` : 'text-gray-900';
 
   return <h1 className={`${sizeClass}  ${className} ${colorClass} font-bold`} onClick={onClick}>{children}</h1>;
 };

@@ -17,6 +17,7 @@ import { trpc } from '@/utils/trpc';
 import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '@/server/trpc/router';
 import { createContext } from '@/server/trpc/context';
+import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 
 
 const heroImages = [
@@ -26,7 +27,8 @@ const heroImages = [
 ];
 
 const Home = () => {
-  const { data: categories } = trpc.category.getAll.useQuery();
+  const { isMobile } = useDeviceWidth();
+  const { data: categories } = trpc.category.getAll.useQuery({ take: isMobile ? 10 : undefined });
 
   return (
     <>

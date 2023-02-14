@@ -46,9 +46,22 @@ const prisma = new PrismaClient();
 async function main() {
 
   // remove if you want to keep the existing data
-  // await prisma.product.deleteMany();
-  // await prisma.category.deleteMany();
+  await prisma.product.deleteMany();
+  await prisma.category.deleteMany();
   await prisma.postalCode.deleteMany();
+
+  for (let i = 0; i < postalCodes?.length ?? 10; i++) {
+    console.log(postalCodes[i]);
+    const code = await prisma.postalCode.create({
+      data: {
+        code: postalCodes[i]?.code ?? createLoremIpsum(1).generateWords(1),
+        name: postalCodes[i]?.name ?? createLoremIpsum(1).generateWords(1),
+        city: postalCodes[i]?.city ?? createLoremIpsum(1).generateWords(1),
+        state: postalCodes[i]?.city ?? createLoremIpsum(1).generateWords(1),
+      },
+    });
+    console.log(code);
+  }
 
   for (let i = 0; i < categories.length; i++) {
     await prisma.category.create({
@@ -91,20 +104,6 @@ async function main() {
       },
     });
     console.log(product);
-  }
-
-  for (let i = 0; i < postalCodes?.length ?? 10; i++) {
-    const code = await prisma.postalCode.create({
-      data: {
-        // int of 5 digits
-        code: postalCodes[i]?.code ?? createLoremIpsum(1).generateWords(1),
-        name: postalCodes[i]?.name ?? createLoremIpsum(1).generateWords(1),
-        city: 'Guadalajara',
-        state: 'Jalisco',
-      },
-    });
-    console.log(code);
-    console.log(i, postalCodes.length - 1);
   }
 }
 main()
