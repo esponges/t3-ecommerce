@@ -19,7 +19,7 @@ export const ProductSearchbar = ({
   const [search, setSearch] = useState('');
   const { data, refetch } = trpc.product.search.useQuery({
     name: search,
-    limit: 2,
+    limit: 10,
   });
 
   // refetch data during rerender.

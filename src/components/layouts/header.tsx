@@ -88,17 +88,17 @@ export const Header = ({ children }: Props) => {
       <Menu.Item>
         <a>
           <Button variant="primary" onClick={() => signOut()}>
-            Logout
+            Cerrar Sesión
           </Button>
         </a>
       </Menu.Item>
-      <Menu.Item>
+      <Link href={`${PageRoutes.Account}`}>
         <a>
-          <Link href={`${PageRoutes.Account}`}>
+          <Menu.Item>
             <Button variant="primary">Bienvenido {session?.user?.name}</Button>
-          </Link>
+          </Menu.Item>
         </a>
-      </Menu.Item>
+      </Link>
     </>
   );
 
