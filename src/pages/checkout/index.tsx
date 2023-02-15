@@ -71,6 +71,7 @@ const Checkout = () => {
     getValues,
     setError,
     control,
+    trigger,
   } = useForm({ defaultValues: checkoutDefaultValues });
 
   // we actually want to check the selectedPostalCode, not the postalCode
@@ -169,6 +170,8 @@ const Checkout = () => {
 
   const handleCPUnselect = () => {
     setValue('selectedPostalCode', '');
+    // force rerender and show missing field
+    trigger('selectedPostalCode');
   };
 
   const handleAccordionOpenClose = () => {
