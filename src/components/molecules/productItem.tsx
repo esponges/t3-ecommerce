@@ -5,7 +5,7 @@ import {
   Item,
   Label,
   Table
-} from 'semantic-ui-react'
+} from 'semantic-ui-react';
 
 import { useProduct } from '@/lib/hooks/useProduct';
 
