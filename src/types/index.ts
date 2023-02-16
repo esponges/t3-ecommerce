@@ -45,3 +45,5 @@ export interface OrderDetails extends Order {
   orderDetail: OrderDetail | null;
 }
 
+export type ProductTableItem = Product & { category: string };
+
