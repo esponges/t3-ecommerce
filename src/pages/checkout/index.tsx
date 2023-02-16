@@ -3,7 +3,7 @@ import {
   useState,
   useEffect,
   useCallback
-} from 'react'
+} from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import type { PostalCode, User } from '@prisma/client';
 import {
@@ -12,7 +12,7 @@ import {
   Accordion,
   Icon,
   Message
-} from 'semantic-ui-react'
+} from 'semantic-ui-react';
 import Link from 'next/link';
 import Head from 'next/head';
 import { useSession } from 'next-auth/react';

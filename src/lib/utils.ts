@@ -13,8 +13,8 @@ export const createLoremIpsum = (sMax = 3, sMin = 1, wMax = 10, wMin = 5) => {
       min: wMin,
     },
   });
-  return loremIpsum
-}
+  return loremIpsum;
+};
 
 export const getRandomNumber = (min = 0, max = 100) => Math.floor(Math.random() * (max - min + 1)) + min;
 export const getRandomPhone = () => getRandomNumber(1000000000, 9999999999).toString();

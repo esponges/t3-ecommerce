@@ -4,7 +4,7 @@ import type {
   GetServerSidePropsContext,
   NextApiRequest,
   NextApiResponse
-} from 'next'
+} from 'next';
 
 import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '@/server/trpc/router';

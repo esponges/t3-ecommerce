@@ -5,7 +5,7 @@ import type {
   GetServerSidePropsContext,
   NextApiRequest,
   NextApiResponse
-} from 'next'
+} from 'next';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 

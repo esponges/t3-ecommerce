@@ -4,7 +4,7 @@ import type {
   GetServerSidePropsContext,
   NextApiRequest,
   NextApiResponse
-} from 'next'
+} from 'next';
 
 import { ProductSearchbar } from '@/components/molecules/productSearchbar';
 import { ProductCarousel } from '@/components/organisms/productCarousel';
