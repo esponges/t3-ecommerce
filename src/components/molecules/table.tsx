@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from 'react'
 import {
   getCoreRowModel,
   useReactTable,
@@ -75,6 +75,10 @@ export const Table = <T extends object>({
     setPageIndex(pagination.pageIndex - 1);
   };
 
+  const handleFilterChange = (value: string | number) => {
+    setGlobalFilter(String(value));
+  };
+
   return (
     <div className="flex flex-col text-center">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -82,10 +86,10 @@ export const Table = <T extends object>({
           <div className="p-2">
             {showGlobalFilter ? (
               <DebouncedInput
-                value={globalFilter ?? ''}
-                onChange={(value) => setGlobalFilter(String(value))}
+                onChange={handleFilterChange}
                 className="font-lg border-block mb-2 border p-2 shadow"
                 placeholder="Filtrar..."
+                debounceTime={500}
               />
             ) : null}
             <table className="min-w-full text-center">
