@@ -142,6 +142,7 @@ const Cart = () => {
         cell: (row) => <ProductDetailsCell<TableCartItemWithImage> row={row} imageUrl={row.row.original.image} />,
         accessorKey: 'name',
         footer: 'Total',
+        minSize: 300,
       },
       {
         header: 'Precio',
@@ -153,11 +154,13 @@ const Cart = () => {
         header: 'Cantidad',
         cell: (row) => row.renderValue(),
         accessorKey: 'quantity',
+        size: 50,
       },
       {
         header: '',
         cell: (row) => renderActions(removeFromCart, row),
         accessorKey: 'id',
+        size: 50,
       },
     ],
     [cartTotal, removeFromCart, renderActions]
