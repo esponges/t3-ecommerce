@@ -13,7 +13,7 @@ import { ProductSearchbar } from '@/components/molecules/productSearchbar';
 import { ProductCarousel } from '@/components/organisms/productCarousel';
 import { Pill } from '@/components/atoms/pill';
 
-import { trpc } from '@/utils/trpc';
+import { trpc } from '@/lib/trpc';
 import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '@/server/trpc/router';
 import { createContext } from '@/server/trpc/context';

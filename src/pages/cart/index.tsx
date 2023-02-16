@@ -16,7 +16,7 @@ import { PriceCell } from '@/components/atoms/table/PriceCell';
 import { useCartItems } from '@/lib/hooks/useCartItems';
 import { PageRoutes } from '@/lib/routes';
 
-import { trpc } from '@/utils/trpc';
+import { trpc } from '@/lib/trpc';
 import { PageContainer } from '@/components/layouts/pageContainer';
 import { ProductDetailsCell } from '@/components/atoms/table/ProductDetailsCell';
 

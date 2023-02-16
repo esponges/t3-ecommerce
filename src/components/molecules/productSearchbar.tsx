@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce';
 import { useMemo } from 'react';
 import Link from 'next/link';
 
-import { trpc } from '@/utils/trpc';
+import { trpc } from '@/lib/trpc';
 import { PageRoutes } from '@/lib/routes';
 
 interface Props {

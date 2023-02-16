@@ -2,7 +2,7 @@ import { SessionProvider } from 'next-auth/react';
 import type { Session } from 'next-auth';
 import type { NextPage } from 'next';
 import type { AppType, AppProps } from 'next/app';
-import { trpc } from '../utils/trpc';
+import { trpc } from '../lib/trpc';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { ReactNode, ReactElement } from 'react';
 import { MainLayout } from '../components/layouts/main';

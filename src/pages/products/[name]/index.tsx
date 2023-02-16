@@ -14,7 +14,7 @@ import { Button } from '@/components/atoms/button';
 
 import { ProductItem } from '@/components/molecules/productItem';
 import { useCartActions } from '@/store/cart';
-import { trpc } from '@/utils/trpc';
+import { trpc } from '@/lib/trpc';
 import { appRouter } from '@/server/trpc/router';
 import { createContext } from '@/server/trpc/context';
 import { PageContainer } from '@/components/layouts/pageContainer';

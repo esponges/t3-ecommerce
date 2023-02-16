@@ -27,7 +27,7 @@ import {
   validation,
 } from '@/lib/checkout';
 
-import { trpc } from '@/utils/trpc';
+import { trpc } from '@/lib/trpc';
 
 import { PageContainer } from '@/components/layouts/pageContainer';
 import { Button } from '@/components/atoms/button';

@@ -7,7 +7,7 @@ import Head from 'next/head';
 
 import type { OrderDetails as IOrderDetails } from '@/types';
 
-import { trpc } from '@/utils/trpc';
+import { trpc } from '@/lib/trpc';
 import { env } from '@/env/client.mjs';
 
 import type { TableCartItem } from '@/pages/cart';

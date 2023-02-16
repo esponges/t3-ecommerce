@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Category, Product } from '@prisma/client';
-import { trpc } from '@/utils/trpc';
+import { trpc } from '@/lib/trpc';
 
 import { ProductCard } from '@/components/molecules/productCard';
 import Image from 'next/image';

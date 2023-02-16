@@ -2,7 +2,7 @@
 import { useCallback, useMemo } from 'react';
 import type { ColumnDef } from '@tanstack/react-table';
 
-import { trpc } from '@/utils/trpc';
+import { trpc } from '@/lib/trpc';
 
 import { Table } from '@/components/molecules/table';
 

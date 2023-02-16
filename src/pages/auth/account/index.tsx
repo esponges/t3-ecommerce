@@ -1,7 +1,7 @@
 import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 
-import { trpc } from '@/utils/trpc';
+import { trpc } from '@/lib/trpc';
 
 import type { OrderDetails } from '@/types';
 import type { User } from '@prisma/client';
