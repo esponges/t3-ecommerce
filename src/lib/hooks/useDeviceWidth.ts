@@ -14,7 +14,7 @@ interface ReturnTypes {
 }
 
 export const useDeviceWidth = (): ReturnTypes => {
-  const [width, setWidth] = useState(typeof window !== "undefined" ? window.innerWidth : DeviceWidth.md);
+  const [width, setWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 960);
 
   useEffect(() => {
     if (!window) return;

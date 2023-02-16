@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import debounce from 'lodash/debounce';
-
-import { trpc } from '../../utils/trpc';
 import { useMemo } from 'react';
 import Link from 'next/link';
+
+import { trpc } from '@/utils/trpc';
 import { PageRoutes } from '@/lib/routes';
 
 interface Props {

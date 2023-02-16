@@ -19,6 +19,7 @@ import { PageRoutes } from '@/lib/routes';
 
 import { Dropdown } from '@/components/molecules/dropdown';
 import { Image } from '@/components/atoms/image';
+import { ProductSearchbar } from '../molecules/productSearchbar';
 
 interface Props {
   children?: React.ReactNode;
@@ -186,7 +187,10 @@ export const Header = ({ children }: Props) => {
                     />
                   </div>
                 </Link>
-                <div className="ml-auto">
+                <div className="ml-auto flex">
+                  <Menu.Item>
+                    <ProductSearchbar />
+                  </Menu.Item>
                   <Menu.Item>
                     {/* nextauth login */}
                     <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
