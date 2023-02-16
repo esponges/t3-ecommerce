@@ -15,4 +15,8 @@ const AdminProducts = () => {
   );
 };
 
+AdminProducts.requireAuth = true;
+
 export default AdminProducts;
+
+

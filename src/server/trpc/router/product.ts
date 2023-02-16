@@ -22,27 +22,31 @@ export const productRouter = t.router({
         }
       );
     }),
-  getById: t.procedure
-    .input(z.object({ id: z.string() }))
-    .query(({ ctx, input }) => {
-      const product = ctx.prisma.product.findUnique({
-        where: {
-          id: input.id,
-        },
-        // return the category information from the relation
-        include: {
-          category: true,
-        },
-      });
+  getById: t.procedure.input(z.object({ id: z.string() })).query(({ ctx, input }) => {
+    const product = ctx.prisma.product.findUnique({
+      where: {
+        id: input.id,
+      },
+      // return the category information from the relation
+      include: {
+        category: true,
+      },
+    });
 
-      return product;
-    }),
-  getByName: t.procedure
-    .input(z.object({ name: z.string() }))
+    return product;
+  }),
+  getBy: t.procedure
+    .input(
+      z.object({
+        name: z.string().optional(),
+        id: z.string().optional(),
+      })
+    )
     .query(({ ctx, input }) => {
       const product = ctx.prisma.product.findFirst({
         where: {
           name: input.name,
+          id: input.id,
         },
         include: {
           category: true,
@@ -56,9 +60,11 @@ export const productRouter = t.router({
     .input(
       z.object({
         productIds: z.array(z.string()).optional(),
-        include: z.object({
-          category: z.boolean().optional(),
-        }).optional(),
+        include: z
+          .object({
+            category: z.boolean().optional(),
+          })
+          .optional(),
       })
     )
     .query(async ({ ctx, input }) => {
@@ -115,7 +121,6 @@ export const productRouter = t.router({
             notIn: ignoredIds ? ignoredIds : undefined,
           },
         },
-
       });
       let nextCursor: typeof cursor | undefined = undefined;
       if (items.length > limit) {

@@ -6,7 +6,7 @@ import type {
   NextApiRequest,
   NextApiResponse,
   InferGetServerSidePropsType
-} from 'next'
+} from 'next';
 import superjson from 'superjson';
 
 import { Loader } from '@/components/molecules/loader';
@@ -25,7 +25,7 @@ const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideP
   const name = props.name;
 
   // this query is automatically prefetched on server side
-  const { data: product, isLoading } = trpc.product.getByName.useQuery({ name });
+  const { data: product, isLoading } = trpc.product.getBy.useQuery({ name });
 
   const { addToCart } = useCartActions();
 
@@ -91,7 +91,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
   const name = ctx.params?.name as string;
 
-  await ssg.product.getByName.prefetch({ name });
+  await ssg.product.getBy.prefetch({ name });
 
   return {
     props: {
