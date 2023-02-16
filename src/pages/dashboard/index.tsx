@@ -4,10 +4,13 @@ import Head from 'next/head';
 import { useForm } from 'react-hook-form';
 import { Button, Form } from 'semantic-ui-react';
 
+type FormValues = {
+  name: string;
+  password: string;
+};
+
 const defaultValues = {
   name: '',
-  lastName: '',
-  email: '',
   password: '',
 };
 
@@ -41,7 +44,7 @@ const Dashboard = () => {
     formState: { errors },
   } = useForm({ defaultValues });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: FormValues) => {
     console.log(data);
   };
 
@@ -55,18 +58,22 @@ const Dashboard = () => {
       <Form onSubmit={handleSubmit(onSubmit)} className="text-center md:w-1/3">
         <Form.Field>
           <label>Usuario</label>
-          <input type="text" placeholder="Usuario" id="name" {...register('name', validationSchema.name)} />
+          <input 
+            type="text" 
+            placeholder="Usuario" 
+            id="name" 
+            {...register('name', validationSchema.name)} 
+          />
           {errors.name && <InputMessage type="error" message={errors.name.message ?? ''} />}
         </Form.Field>
         <Form.Field>
-          <label>Apellido</label>
+          <label>Contraseña</label>
           <input
             type="text"
-            placeholder="Apellido"
-            id="lastName"
-            {...register('lastName', validationSchema.lastName)}
+            placeholder='Contraseña'
+            id="password"
+            {...register('password', validationSchema.password)}
           />
-          {errors.lastName && <InputMessage type="error" message={errors.lastName.message ?? ''} />}
         </Form.Field>
         <Button type="submit">Entrar</Button>
       </Form>
