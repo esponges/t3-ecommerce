@@ -11,7 +11,11 @@ import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 import { PageContainer } from '@/components/layouts/pageContainer';
 import { ProductDetailsCell } from '../atoms/table/ProductDetailsCell';
 
-export const ProductsTable = () => {
+interface Props {
+  productsUrl?: string;
+}
+
+export const ProductsTable = ({ productsUrl }: Props) => {
   const { data } = trpc.product.getAll.useQuery(
     {},
     {
@@ -35,7 +39,7 @@ export const ProductsTable = () => {
     () => [
       {
         header: 'Producto',
-        cell: (row) => <ProductDetailsCell<TableItem> row={row} />,
+        cell: (row) => <ProductDetailsCell<TableItem> row={row} baseUrl={productsUrl} />,
         accessorKey: 'name',
         size: isMobile ? 250 : undefined,
         minSize: !isMobile ? 350 : undefined,
@@ -53,13 +57,15 @@ export const ProductsTable = () => {
         size: 200,
       },
     ],
-    [isMobile]
+    [isMobile, productsUrl]
   );
 
   return (
     <>
       <PageContainer heading={{ title: 'Nuestros Productos' }} className="text-center">
-        <Table data={data as TableItem[]} columns={cols} isMobile={isMobile} showGlobalFilter />
+        {data && data.length > 0 ? (
+          <Table data={data as TableItem[]} columns={cols} isMobile={isMobile} showGlobalFilter />
+        ) : null}
       </PageContainer>
     </>
   );

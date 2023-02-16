@@ -7,9 +7,10 @@ import { useMemo } from 'react';
 interface Props<T> {
   row: CellContext<T, string>;
   imageUrl?: string;
+  baseUrl?: string;
 }
 
-export const ProductDetailsCell = <T,>({ row, imageUrl }: Props<T>) => {
+export const ProductDetailsCell = <T,>({ row, imageUrl, baseUrl }: Props<T>) => {
   return useMemo(() => {
     const value = row.getValue();
     return (
@@ -24,8 +25,8 @@ export const ProductDetailsCell = <T,>({ row, imageUrl }: Props<T>) => {
             />
           </div>
         ) : null}
-        <Link href={`${PageRoutes.Products}/${value}`}>{value}</Link>
+        <Link href={`${baseUrl ?? PageRoutes.Products}/${value}`}>{value}</Link>
       </div>
     );
-  }, [row, imageUrl]);
+  }, [row, imageUrl, baseUrl]);
 };
