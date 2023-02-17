@@ -1,158 +1,62 @@
-import { PageContainer } from "@/components/layouts/pageContainer";
-import Head from "next/head";
-import { useCallback } from "react";
-import { useForm } from "react-hook-form";
-import type { DropdownProps } from "semantic-ui-react";
-import { Form, Dropdown } from "semantic-ui-react";
-import { InputMessage } from "@/components/atoms/inputMessage";
+import { PageContainer } from '@/components/layouts/pageContainer';
+import Head from 'next/head';
+import { useCallback, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import type { DropdownProps } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
+import { Form, Dropdown } from 'semantic-ui-react';
+import { InputMessage } from '@/components/atoms/inputMessage';
+import superjson from 'superjson';
 
-import type { Category, ProductSpecs } from "@prisma/client";
-import type { Product } from "@/types";
-
-import { trpc } from "@/lib/trpc";
-
+import type { Category, ProductSpecs } from '@prisma/client';
 import type {
   GetServerSidePropsContext,
   NextApiRequest,
   NextApiResponse,
   InferGetServerSidePropsType
 } from 'next';
-import superjson from 'superjson';
-import { createProxySSGHelpers } from "@trpc/react-query/ssg";
-import { appRouter } from "@/server/trpc/router";
-import { createContext } from "@/server/trpc/context";
+import type { Product } from '@/types';
+
+import { trpc } from '@/lib/trpc';
+import { createProxySSGHelpers } from '@trpc/react-query/ssg';
+import { appRouter } from '@/server/trpc/router';
+import { createContext } from '@/server/trpc/context';
+import { adminProductDetailsSchema as validation } from '@/lib/products';
 
 interface FormValues extends Product, Omit<ProductSpecs, 'productId'> {}
 
 const formDefaultValues: Partial<FormValues> = {
-  name: "",
-  description: "",
+  name: '',
+  description: '',
   discount: 0,
-  image: "",
+  image: '',
   stock: 1000,
   score: 0,
   favScore: 0,
   capacity: '750ml',
-  volume: "",
-  age: "",
-  country: "",
-  year: "",
-  variety: "",
+  volume: '',
+  age: '',
+  country: '',
+  year: '',
+  variety: '',
 };
-
-const validation = {
-  name: {
-    required: 'Este valor es requerido',
-  },
-  description: {
-    minLength: {
-      value: 10,
-      message: 'Debe tener al menos 10 caracteres',
-    },
-  },
-  discount: {
-    min: {
-      value: 0,
-      message: 'No puede ser menor a 0',
-    },
-    max: {
-      value: 100,
-      message: 'No puede ser mayor a 100',
-    },
-  },
-  price: {
-    required: 'Este valor es requerido',
-    min: {
-      value: 0,
-      message: 'No puede ser menor a 0',
-    },
-  },
-  image: {
-    // must a valid url
-    pattern: {
-      value: /^https?:\/\/.+/,
-      message: 'Debe ser una url válida',
-    },
-  },
-  stock: {
-    min: {
-      value: 0,
-      message: 'No puede ser menor a 0',
-    },
-  },
-  score: {
-    min: {
-      value: 0,
-      message: 'No puede ser menor a 0',
-    },
-    max: {
-      value: 10,
-      message: 'No puede ser mayor a 10',
-    },
-  },
-  favScore: {
-    min: {
-      value: 0,
-      message: 'No puede ser menor a 0',
-    },
-    max: {
-      value: 10,
-      message: 'No puede ser mayor a 10',
-    },
-  },
-  capacity: {
-    // patern for 750ml, 1.5L, 3L, 5L etc
-    pattern: {
-      value: /^\d+(?:\.\d+)?(?:ml|L)$/,
-      message: 'Debe ser una capacidad válida',
-    },
-  },
-  volume: {
-    minLength: {
-      value: 1,
-      message: 'Debe tener al menos 1 caracter',
-    },
-  },
-  age: {
-    minLength: {
-      value: 1,
-      message: 'Debe tener al menos 1 caracter',
-    },
-  },
-  country: {
-    minLength: {
-      value: 1,
-      message: 'Debe tener al menos 1 caracter',
-    },
-  },
-  year: {
-    minLength: {
-      value: 1,
-      message: 'Debe tener al menos 1 caracter',
-    },
-  },
-  variety: {
-    minLength: {
-      value: 1,
-      message: 'Debe tener al menos 1 caracter',
-    },
-  },
-};
-
-
 
 const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const [isEditing, setIsEditing] = useState(false);
   const { id } = props;
 
-  const { data: productDetails, isLoading } = trpc.product.getBy.useQuery({ id, specs: true }, {
-    select: useCallback((product: Product) => {
-      return {
-        ...product,
-        ...product.productSpecs,
-      };
-    }, []),
-  });
-  const { data: categoryOptions, isLoading: loadingCats } = trpc.category.getAll.useQuery(undefined, {
+  const { data: productDetails } = trpc.product.getBy.useQuery(
+    { id, specs: true },
+    {
+      select: useCallback((product: Product) => {
+        return {
+          ...product,
+          ...product.productSpecs,
+        };
+      }, []),
+    }
+  );
+  const { data: categoryOptions } = trpc.category.getAll.useQuery(undefined, {
     select: useCallback((categories: Category[]) => {
       return categories.map((category) => ({
         key: category.id,
@@ -167,7 +71,6 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
     handleSubmit,
     setValue,
     setError,
-    getValues,
     formState: { errors },
   } = useForm<Partial<FormValues>>({
     defaultValues: !id ? formDefaultValues : productDetails,
@@ -175,30 +78,50 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
 
   console.log('errors', errors);
 
-  const handleCategoryChange = useCallback((_: unknown, data: DropdownProps) => {
-    if (data.value && typeof data.value === 'number') {
-      setValue('categoryId', data.value);
-      setError('categoryId', {});
-    }
-  }, [setValue, setError]);
+  const handleCategoryChange = useCallback(
+    (_: unknown, data: DropdownProps) => {
+      if (data.value && typeof data.value === 'number') {
+        setValue('categoryId', data.value);
+        setError('categoryId', {});
+      }
+    },
+    [setValue, setError]
+  );
 
-  const onSubmit = handleSubmit(/* async */ (values) => {
-    console.log('onsubmit', values);
-  });
+  const handleSetIsEditing = () => {
+    setIsEditing(prev => !prev);
+  };
+
+  const onSubmit = handleSubmit(
+    /* async */ (values) => {
+      console.log('onsubmit', values);
+    }
+  );
 
   return (
-    <PageContainer heading={{ title: id ?? ''}}>
+    <PageContainer heading={{ title: productDetails?.name || 'Nuevo Producto' }}>
       <Head>
         {/* no index */}
         <meta name="robots" content="noindex" />
         <title>{id}</title>
       </Head>
-      <h1>{productDetails?.name || 'Nuevo Producto'}</h1>
+      {productDetails?.name ? (
+        <div className='mb-4'>
+          <Button
+            color='yellow'
+            onClick={handleSetIsEditing}
+            className=''
+          >
+        Editar
+          </Button>
+        </div>
+      ) : null}
       <Form onSubmit={onSubmit}>
         <Form.Field required>
           <label>Nombre</label>
           <input
             placeholder="Name"
+            disabled={!isEditing}
             {...register("name", validation.name)}
           />
           {errors.name?.message && <InputMessage type="error" message={errors.name.message} />}
@@ -207,6 +130,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <label>Descripción</label>
           <input
             placeholder="Descripción"
+            disabled={!isEditing}
             {...register("description", validation.description)}
           />
           {errors.description?.message && <InputMessage type="error" message={errors.description.message} />}
@@ -216,6 +140,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <input
             placeholder="Descuento"
             type="number"
+            disabled={!isEditing}
             {...register("discount", validation.discount)}
           />
           {errors.discount?.message && <InputMessage type="error" message={errors.discount.message} />}
@@ -227,7 +152,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
             placeholder="Tipo de producto"
             fluid
             selection
-            disabled={!categoryOptions}
+            disabled={!categoryOptions || !isEditing}
             options={categoryOptions}
             defaultValue={productDetails?.categoryId}
             {...register("categoryId", { required: 'Debe seleccionar una categoría'})}
@@ -242,6 +167,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
             placeholder="Precio"
             type="number"
             step="0.01"
+            disabled={!isEditing}
             {...register("price", validation.price)}
           />
           {errors.price?.message && <InputMessage type="error" message={errors.price.message} />}
@@ -251,6 +177,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <label>Imagen</label>
           <input
             placeholder="Url completa de la imagen"
+            disabled={!isEditing}
             {...register("image", validation.image)}
           />
           {errors.image?.message && <InputMessage type="error" message={errors.image.message} />}
@@ -261,6 +188,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <input
             placeholder="Stock"
             type="number"
+            disabled={!isEditing}
             {...register("stock", validation.stock)}
           />
           {errors.stock?.message && <InputMessage type="error" message={errors.stock.message} />}
@@ -272,6 +200,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
             placeholder="Puntaje"
             type="number"
             step="0.1"
+            disabled={!isEditing}
             {...register("score", validation.score)}
           />
           {errors.score?.message && <InputMessage type="error" message={errors.score.message} />}
@@ -283,6 +212,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
             placeholder="Puntaje de favorito"
             type="number"
             step="0.1"
+            disabled={!isEditing}
             {...register("favScore", validation.favScore)}
           />
           {errors.favScore?.message && <InputMessage type="error" message={errors.favScore.message} />}
@@ -292,6 +222,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <label>Capacidad</label>
           <input
             placeholder="Capacidad"
+            disabled={!isEditing}
             {...register("capacity", validation.capacity)}
           />
           {errors.capacity?.message && <InputMessage type="error" message={errors.capacity.message} />}
@@ -301,6 +232,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <label>Volumen Alc.</label>
           <input
             placeholder="Volumen Alc."
+            disabled={!isEditing}
             {...register("volume", validation.volume)}
           />
           {errors.volume?.message && <InputMessage type="error" message={errors.volume.message} />}
@@ -310,6 +242,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <label>Añada</label>
           <input
             placeholder="Añada"
+            disabled={!isEditing}
             {...register("age", validation.year)}
           />
           {errors.age?.message && <InputMessage type="error" message={errors.age.message} />}
@@ -319,6 +252,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <label>País</label>
           <input
             placeholder="País"
+            disabled={!isEditing}
             {...register("country", validation.country)}
           />
           {errors.country?.message && <InputMessage type="error" message={errors.country.message} />}
@@ -328,6 +262,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <label>Año de producción</label>
           <input
             placeholder="Año de producción"
+            disabled={!isEditing}
             {...register("year", validation.year)}
           />
           {errors.year?.message && <InputMessage type="error" message={errors.year.message} />}
@@ -337,11 +272,12 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <label>Uva (variedad)</label>
           <input
             placeholder="Uva (variedad)"
+            disabled={!isEditing}
             {...register("variety", validation.variety)}
           />
           {errors.variety?.message && <InputMessage type="error" message={errors.variety.message} />}
         </Form.Field>
-        <Form.Button type="submit">Submit</Form.Button>
+        <Form.Button type="submit" disabled={!isEditing}>Submit</Form.Button>
       </Form>
     </PageContainer>
   );
@@ -377,4 +313,3 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     },
   };
 };
-

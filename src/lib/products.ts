@@ -45,3 +45,104 @@ export const carrouselStyle = (screen: DeviceWidth): CarrouselStyles => {
 
   return className;
 };
+
+export const adminProductDetailsSchema = {
+  name: {
+    required: 'Este valor es requerido',
+  },
+  description: {
+    minLength: {
+      value: 10,
+      message: 'Debe tener al menos 10 caracteres',
+    },
+  },
+  discount: {
+    min: {
+      value: 0,
+      message: 'No puede ser menor a 0',
+    },
+    max: {
+      value: 100,
+      message: 'No puede ser mayor a 100',
+    },
+  },
+  price: {
+    required: 'Este valor es requerido',
+    min: {
+      value: 0,
+      message: 'No puede ser menor a 0',
+    },
+  },
+  image: {
+    // must a valid url
+    pattern: {
+      value: /^https?:\/\/.+/,
+      message: 'Debe ser una url válida',
+    },
+  },
+  stock: {
+    min: {
+      value: 0,
+      message: 'No puede ser menor a 0',
+    },
+  },
+  score: {
+    min: {
+      value: 0,
+      message: 'No puede ser menor a 0',
+    },
+    max: {
+      value: 10,
+      message: 'No puede ser mayor a 10',
+    },
+  },
+  favScore: {
+    min: {
+      value: 0,
+      message: 'No puede ser menor a 0',
+    },
+    max: {
+      value: 10,
+      message: 'No puede ser mayor a 10',
+    },
+  },
+  capacity: {
+    // patern for 750ml, 1.5L, 3L, 5L etc
+    pattern: {
+      value: /^\d+(?:\.\d+)?(?:ml|L)$/,
+      message: 'Debe ser una capacidad válida (ej. 750ml, 1L',
+    },
+    required: 'Este valor es requerido'
+  },
+  volume: {
+    minLength: {
+      value: 1,
+      message: 'Debe tener al menos 1 caracter',
+    },
+    required: 'Este valor es requerido'
+  },
+  age: {
+    minLength: {
+      value: 1,
+      message: 'Debe tener al menos 1 caracter',
+    },
+  },
+  country: {
+    minLength: {
+      value: 1,
+      message: 'Debe tener al menos 1 caracter',
+    },
+  },
+  year: {
+    minLength: {
+      value: 1,
+      message: 'Debe tener al menos 1 caracter',
+    },
+  },
+  variety: {
+    minLength: {
+      value: 1,
+      message: 'Debe tener al menos 1 caracter',
+    },
+  },
+};
