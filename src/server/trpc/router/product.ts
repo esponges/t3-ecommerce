@@ -27,9 +27,14 @@ export const productRouter = t.router({
       z.object({
         name: z.string().optional(),
         id: z.string().optional(),
+        specs: z.boolean().optional(),
       })
     )
     .query(({ ctx, input }) => {
+      if (!input.name && !input.id) {
+        return;
+      }
+
       const product = ctx.prisma.product.findFirst({
         where: {
           name: input.name,
@@ -37,6 +42,7 @@ export const productRouter = t.router({
         },
         include: {
           category: true,
+          productSpecs: input.specs,
         },
       });
 
