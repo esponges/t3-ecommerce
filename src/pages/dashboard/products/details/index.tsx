@@ -25,7 +25,6 @@ import { createContext } from "@/server/trpc/context";
 interface FormValues extends Product, Omit<ProductSpecs, 'productId'> {}
 
 const formDefaultValues: Partial<FormValues> = {
-  id: "",
   name: "",
   description: "",
   discount: 0,
@@ -40,6 +39,107 @@ const formDefaultValues: Partial<FormValues> = {
   year: "",
   variety: "",
 };
+
+const validation = {
+  name: {
+    required: 'Este valor es requerido',
+  },
+  description: {
+    minLength: {
+      value: 10,
+      message: 'Debe tener al menos 10 caracteres',
+    },
+  },
+  discount: {
+    min: {
+      value: 0,
+      message: 'No puede ser menor a 0',
+    },
+    max: {
+      value: 100,
+      message: 'No puede ser mayor a 100',
+    },
+  },
+  price: {
+    required: 'Este valor es requerido',
+    min: {
+      value: 0,
+      message: 'No puede ser menor a 0',
+    },
+  },
+  image: {
+    // must a valid url
+    pattern: {
+      value: /^https?:\/\/.+/,
+      message: 'Debe ser una url válida',
+    },
+  },
+  stock: {
+    min: {
+      value: 0,
+      message: 'No puede ser menor a 0',
+    },
+  },
+  score: {
+    min: {
+      value: 0,
+      message: 'No puede ser menor a 0',
+    },
+    max: {
+      value: 10,
+      message: 'No puede ser mayor a 10',
+    },
+  },
+  favScore: {
+    min: {
+      value: 0,
+      message: 'No puede ser menor a 0',
+    },
+    max: {
+      value: 10,
+      message: 'No puede ser mayor a 10',
+    },
+  },
+  capacity: {
+    // patern for 750ml, 1.5L, 3L, 5L etc
+    pattern: {
+      value: /^\d+(?:\.\d+)?(?:ml|L)$/,
+      message: 'Debe ser una capacidad válida',
+    },
+  },
+  volume: {
+    minLength: {
+      value: 1,
+      message: 'Debe tener al menos 1 caracter',
+    },
+  },
+  age: {
+    minLength: {
+      value: 1,
+      message: 'Debe tener al menos 1 caracter',
+    },
+  },
+  country: {
+    minLength: {
+      value: 1,
+      message: 'Debe tener al menos 1 caracter',
+    },
+  },
+  year: {
+    minLength: {
+      value: 1,
+      message: 'Debe tener al menos 1 caracter',
+    },
+  },
+  variety: {
+    minLength: {
+      value: 1,
+      message: 'Debe tener al menos 1 caracter',
+    },
+  },
+};
+
+
 
 const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { id } = props;
@@ -73,6 +173,8 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
     defaultValues: !id ? formDefaultValues : productDetails,
   });
 
+  console.log('errors', errors);
+
   const handleCategoryChange = useCallback((_: unknown, data: DropdownProps) => {
     if (data.value && typeof data.value === 'number') {
       setValue('categoryId', data.value);
@@ -83,7 +185,6 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
   const onSubmit = handleSubmit(/* async */ (values) => {
     console.log('onsubmit', values);
   });
-
 
   return (
     <PageContainer heading={{ title: id ?? ''}}>
@@ -98,7 +199,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <label>Nombre</label>
           <input
             placeholder="Name"
-            {...register("name", { required: 'Este valor es requerido' })}
+            {...register("name", validation.name)}
           />
           {errors.name?.message && <InputMessage type="error" message={errors.name.message} />}
         </Form.Field>
@@ -106,7 +207,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <label>Descripción</label>
           <input
             placeholder="Descripción"
-            {...register("description", { required: 'Este valor es requerido' })}
+            {...register("description", validation.description)}
           />
           {errors.description?.message && <InputMessage type="error" message={errors.description.message} />}
         </Form.Field>
@@ -115,7 +216,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <input
             placeholder="Descuento"
             type="number"
-            {...register("discount", { required: 'Este valor es requerido' })}
+            {...register("discount", validation.discount)}
           />
           {errors.discount?.message && <InputMessage type="error" message={errors.discount.message} />}
         </Form.Field>
@@ -129,7 +230,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
             disabled={!categoryOptions}
             options={categoryOptions}
             defaultValue={productDetails?.categoryId}
-            {...register("categoryId", { required: 'Este valor es requerido' })}
+            {...register("categoryId", { required: 'Debe seleccionar una categoría'})}
             onChange={handleCategoryChange}
           />
           {errors.categoryId?.message && <InputMessage type="error" message={errors.categoryId.message} />}
@@ -140,7 +241,8 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <input
             placeholder="Precio"
             type="number"
-            {...register("price", { required: 'Este valor es requerido' })}
+            step="0.01"
+            {...register("price", validation.price)}
           />
           {errors.price?.message && <InputMessage type="error" message={errors.price.message} />}
         </Form.Field>
@@ -149,7 +251,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <label>Imagen</label>
           <input
             placeholder="Url completa de la imagen"
-            {...register("image", { required: 'Este valor es requerido' })}
+            {...register("image", validation.image)}
           />
           {errors.image?.message && <InputMessage type="error" message={errors.image.message} />}
         </Form.Field>
@@ -159,7 +261,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <input
             placeholder="Stock"
             type="number"
-            {...register("stock", { required: 'Este valor es requerido' })}
+            {...register("stock", validation.stock)}
           />
           {errors.stock?.message && <InputMessage type="error" message={errors.stock.message} />}
         </Form.Field>
@@ -169,7 +271,8 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <input
             placeholder="Puntaje"
             type="number"
-            {...register("score", { required: 'Este valor es requerido' })}
+            step="0.1"
+            {...register("score", validation.score)}
           />
           {errors.score?.message && <InputMessage type="error" message={errors.score.message} />}
         </Form.Field>
@@ -179,7 +282,8 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <input
             placeholder="Puntaje de favorito"
             type="number"
-            {...register("favScore", { required: 'Este valor es requerido' })}
+            step="0.1"
+            {...register("favScore", validation.favScore)}
           />
           {errors.favScore?.message && <InputMessage type="error" message={errors.favScore.message} />}
         </Form.Field>
@@ -188,7 +292,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <label>Capacidad</label>
           <input
             placeholder="Capacidad"
-            {...register("capacity", { required: 'Este valor es requerido' })}
+            {...register("capacity", validation.capacity)}
           />
           {errors.capacity?.message && <InputMessage type="error" message={errors.capacity.message} />}
         </Form.Field>
@@ -197,8 +301,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <label>Volumen Alc.</label>
           <input
             placeholder="Volumen Alc."
-            type="number"
-            {...register("volume", { required: 'Este valor es requerido' })}
+            {...register("volume", validation.volume)}
           />
           {errors.volume?.message && <InputMessage type="error" message={errors.volume.message} />}
         </Form.Field>
@@ -207,8 +310,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <label>Añada</label>
           <input
             placeholder="Añada"
-            type="number"
-            {...register("age", { required: 'Este valor es requerido' })}
+            {...register("age", validation.year)}
           />
           {errors.age?.message && <InputMessage type="error" message={errors.age.message} />}
         </Form.Field>
@@ -217,7 +319,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <label>País</label>
           <input
             placeholder="País"
-            {...register("country", { required: 'Este valor es requerido' })}
+            {...register("country", validation.country)}
           />
           {errors.country?.message && <InputMessage type="error" message={errors.country.message} />}
         </Form.Field>
@@ -226,8 +328,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <label>Año de producción</label>
           <input
             placeholder="Año de producción"
-            type="number"
-            {...register("year", { required: 'Este valor es requerido' })}
+            {...register("year", validation.year)}
           />
           {errors.year?.message && <InputMessage type="error" message={errors.year.message} />}
         </Form.Field>
@@ -236,7 +337,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           <label>Uva (variedad)</label>
           <input
             placeholder="Uva (variedad)"
-            {...register("variety", { required: 'Este valor es requerido' })}
+            {...register("variety", validation.variety)}
           />
           {errors.variety?.message && <InputMessage type="error" message={errors.variety.message} />}
         </Form.Field>
