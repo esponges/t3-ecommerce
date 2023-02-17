@@ -1,10 +1,10 @@
-// block path pages/d/*
-User-agent: *
+# Disallow all crawlers
 Disallow: /checkout
 Disallow: /auth/*
 Disallow: /cart
 Disallow: /order/*
 Disallow: /products/listing/table
+Disallow: /dashboard/*
 
 # Allow all crawlers
 User-agent: *
