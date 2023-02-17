@@ -23,6 +23,6 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 export const Transition = () => {
   return null;
-}
+};
 
 

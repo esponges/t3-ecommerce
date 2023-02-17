@@ -2,7 +2,7 @@ import type {
   FieldValues,
   ControllerRenderProps,
   Path
-} from 'react-hook-form'
+} from 'react-hook-form';
 
 interface Props<T extends FieldValues, fieldName extends Path<T>> {
   field: ControllerRenderProps<T, fieldName>;

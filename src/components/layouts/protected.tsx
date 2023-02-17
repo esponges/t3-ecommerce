@@ -26,7 +26,7 @@ export const ProtectedLayout = ({ children }: Props): JSX.Element => {
     if (loading || !router.isReady) return;
 
     if (unAuthorized) {
-      console.log('not authorized')
+      console.warn('not authorized');
       router.push({
         pathname: '/auth/login',
         query: { returnUrl: router.asPath },
@@ -37,7 +37,7 @@ export const ProtectedLayout = ({ children }: Props): JSX.Element => {
   if (loading) {
     return (
       <Loader />
-    )
+    );
   }
 
   return authorized ? <div>{children}</div> : <></>;

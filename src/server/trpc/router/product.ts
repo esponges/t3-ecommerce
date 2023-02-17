@@ -22,19 +22,6 @@ export const productRouter = t.router({
         }
       );
     }),
-  getById: t.procedure.input(z.object({ id: z.string() })).query(({ ctx, input }) => {
-    const product = ctx.prisma.product.findUnique({
-      where: {
-        id: input.id,
-      },
-      // return the category information from the relation
-      include: {
-        category: true,
-      },
-    });
-
-    return product;
-  }),
   getBy: t.procedure
     .input(
       z.object({

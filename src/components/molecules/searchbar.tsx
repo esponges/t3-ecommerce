@@ -5,7 +5,7 @@ import {
   useEffect,
   useCallback,
   useState
-} from 'react'
+} from 'react';
 
 interface Props {
   className?: string;
