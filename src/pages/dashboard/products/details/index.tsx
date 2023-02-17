@@ -1,18 +1,26 @@
 import { PageContainer } from "@/components/layouts/pageContainer";
 import Head from "next/head";
-import { useRouter } from "next/router";
-
-import { trpc } from "@/lib/trpc";
-import type {
-  Category,
-  Product,
-  ProductSpecs
-} from "@prisma/client";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import type { DropdownProps } from "semantic-ui-react";
 import { Form, Dropdown } from "semantic-ui-react";
 import { InputMessage } from "@/components/atoms/inputMessage";
-import { useCallback } from "react";
+
+import type { Category, ProductSpecs } from "@prisma/client";
+import type { Product } from "@/types";
+
+import { trpc } from "@/lib/trpc";
+
+import type {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+  InferGetServerSidePropsType
+} from 'next';
+import superjson from 'superjson';
+import { createProxySSGHelpers } from "@trpc/react-query/ssg";
+import { appRouter } from "@/server/trpc/router";
+import { createContext } from "@/server/trpc/context";
 
 interface FormValues extends Product, Omit<ProductSpecs, 'productId'> {}
 
@@ -33,17 +41,18 @@ const formDefaultValues: Partial<FormValues> = {
   variety: "",
 };
 
-const AdminProductDetails = () => {
-  const router = useRouter();
-  const { id } = router.query;
-  
-  // remove starting '/' from name product of the table redirection
-  const idWithoutSlash = id?.toString().replace('/', '') ?? '';
+const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const { id } = props;
 
-  const { data: productDetails, isLoading } = trpc.product.getBy.useQuery({ id: idWithoutSlash }, {
-    enabled: !!id,
+  const { data: productDetails, isLoading } = trpc.product.getBy.useQuery({ id, specs: true }, {
+    select: useCallback((product: Product) => {
+      return {
+        ...product,
+        ...product.productSpecs,
+      };
+    }, []),
   });
-  const { data: categoryOptions } = trpc.category.getAll.useQuery(undefined, {
+  const { data: categoryOptions, isLoading: loadingCats } = trpc.category.getAll.useQuery(undefined, {
     select: useCallback((categories: Category[]) => {
       return categories.map((category) => ({
         key: category.id,
@@ -58,26 +67,26 @@ const AdminProductDetails = () => {
     handleSubmit,
     setValue,
     setError,
+    getValues,
     formState: { errors },
   } = useForm<Partial<FormValues>>({
-    defaultValues: formDefaultValues,
+    defaultValues: !id ? formDefaultValues : productDetails,
   });
 
-  const handleCategoryChange = (event: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
+  const handleCategoryChange = useCallback((_: unknown, data: DropdownProps) => {
     if (data.value && typeof data.value === 'number') {
       setValue('categoryId', data.value);
       setError('categoryId', {});
     }
-  };
+  }, [setValue, setError]);
 
   const onSubmit = handleSubmit(/* async */ (values) => {
     console.log('onsubmit', values);
   });
 
-  console.log(idWithoutSlash, productDetails, isLoading, categoryOptions, errors);
 
   return (
-    <PageContainer heading={{ title: idWithoutSlash ?? ''}}>
+    <PageContainer heading={{ title: id ?? ''}}>
       <Head>
         {/* no index */}
         <meta name="robots" content="noindex" />
@@ -105,6 +114,7 @@ const AdminProductDetails = () => {
           <label>Descuento</label>
           <input
             placeholder="Descuento"
+            type="number"
             {...register("discount", { required: 'Este valor es requerido' })}
           />
           {errors.discount?.message && <InputMessage type="error" message={errors.discount.message} />}
@@ -118,6 +128,7 @@ const AdminProductDetails = () => {
             selection
             disabled={!categoryOptions}
             options={categoryOptions}
+            defaultValue={productDetails?.categoryId}
             {...register("categoryId", { required: 'Este valor es requerido' })}
             onChange={handleCategoryChange}
           />
@@ -238,3 +249,31 @@ const AdminProductDetails = () => {
 AdminProductDetails.requireAuth = true;
 
 export default AdminProductDetails;
+
+// product details must be prefetched since react-hook-form
+// caches the initial values and therefore the form will
+// not be updated if the product details are not prefetched first
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const ssg = createProxySSGHelpers({
+    router: appRouter,
+    ctx: await createContext({
+      req: ctx.req as NextApiRequest,
+      res: ctx.res as NextApiResponse,
+    }),
+    transformer: superjson,
+  });
+
+  const id = ctx.query?.id as string;
+  const idWithoutSlash = id?.toString().replace('/', '') ?? null;
+
+  await ssg.product.getBy.prefetch({ id: idWithoutSlash, specs: true });
+  await ssg.category.getAll.prefetch();
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+      id: idWithoutSlash,
+    },
+  };
+};
+
