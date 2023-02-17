@@ -40,7 +40,7 @@ const AdminProductDetails = () => {
   // remove starting '/' from name product of the table redirection
   const idWithoutSlash = id?.toString().replace('/', '') ?? '';
 
-  const { data, isLoading } = trpc.product.getBy.useQuery({ id: idWithoutSlash }, {
+  const { data: productDetails, isLoading } = trpc.product.getBy.useQuery({ id: idWithoutSlash }, {
     enabled: !!id,
   });
   const { data: categoryOptions } = trpc.category.getAll.useQuery(undefined, {
@@ -74,7 +74,7 @@ const AdminProductDetails = () => {
     console.log('onsubmit', values);
   });
 
-  console.log(idWithoutSlash, data, isLoading, categoryOptions, errors);
+  console.log(idWithoutSlash, productDetails, isLoading, categoryOptions, errors);
 
   return (
     <PageContainer heading={{ title: idWithoutSlash ?? ''}}>
@@ -83,10 +83,10 @@ const AdminProductDetails = () => {
         <meta name="robots" content="noindex" />
         <title>{id}</title>
       </Head>
-      <h1>Product: {id}</h1>
+      <h1>{productDetails?.name || 'Nuevo Producto'}</h1>
       <Form onSubmit={onSubmit}>
-        <Form.Field>
-          <label>Name</label>
+        <Form.Field required>
+          <label>Nombre</label>
           <input
             placeholder="Name"
             {...register("name", { required: 'Este valor es requerido' })}
@@ -94,26 +94,26 @@ const AdminProductDetails = () => {
           {errors.name?.message && <InputMessage type="error" message={errors.name.message} />}
         </Form.Field>
         <Form.Field>
-          <label>Description</label>
+          <label>Descripción</label>
           <input
-            placeholder="Description"
+            placeholder="Descripción"
             {...register("description", { required: 'Este valor es requerido' })}
           />
           {errors.description?.message && <InputMessage type="error" message={errors.description.message} />}
         </Form.Field>
         <Form.Field>
-          <label>Discount</label>
+          <label>Descuento</label>
           <input
-            placeholder="Discount"
+            placeholder="Descuento"
             {...register("discount", { required: 'Este valor es requerido' })}
           />
           {errors.discount?.message && <InputMessage type="error" message={errors.discount.message} />}
         </Form.Field>
-        <Form.Field>
+        <Form.Field required>
           {/* categoryId */}
-          <label>Category</label>
+          <label>Tipo de producto</label>
           <Dropdown
-            placeholder="Category"
+            placeholder="Tipo de producto"
             fluid
             selection
             disabled={!categoryOptions}
@@ -123,21 +123,21 @@ const AdminProductDetails = () => {
           />
           {errors.categoryId?.message && <InputMessage type="error" message={errors.categoryId.message} />}
         </Form.Field>
-        <Form.Field>
+        <Form.Field required>
           {/* price - float */}
-          <label>Price</label>
+          <label>Precio</label>
           <input
-            placeholder="Price"
+            placeholder="Precio"
             type="number"
             {...register("price", { required: 'Este valor es requerido' })}
           />
           {errors.price?.message && <InputMessage type="error" message={errors.price.message} />}
         </Form.Field>
-        <Form.Field>
+        <Form.Field required>
           {/* image */}
-          <label>Image</label>
+          <label>Imagen</label>
           <input
-            placeholder="Image"
+            placeholder="Url completa de la imagen"
             {...register("image", { required: 'Este valor es requerido' })}
           />
           {errors.image?.message && <InputMessage type="error" message={errors.image.message} />}
@@ -154,9 +154,9 @@ const AdminProductDetails = () => {
         </Form.Field>
         {/* score */}
         <Form.Field>
-          <label>Score</label>
+          <label>Puntaje</label>
           <input
-            placeholder="Score"
+            placeholder="Puntaje"
             type="number"
             {...register("score", { required: 'Este valor es requerido' })}
           />
@@ -164,28 +164,28 @@ const AdminProductDetails = () => {
         </Form.Field>
         {/* favScore */}
         <Form.Field>
-          <label>FavScore</label>
+          <label>Puntaje de favorito</label>
           <input
-            placeholder="FavScore"
+            placeholder="Puntaje de favorito"
             type="number"
             {...register("favScore", { required: 'Este valor es requerido' })}
           />
           {errors.favScore?.message && <InputMessage type="error" message={errors.favScore.message} />}
         </Form.Field>
         {/* capacity */}
-        <Form.Field>
-          <label>Capacity</label>
+        <Form.Field required>
+          <label>Capacidad</label>
           <input
-            placeholder="Capacity"
+            placeholder="Capacidad"
             {...register("capacity", { required: 'Este valor es requerido' })}
           />
           {errors.capacity?.message && <InputMessage type="error" message={errors.capacity.message} />}
         </Form.Field>
         {/* volume */}
-        <Form.Field>
-          <label>Volume</label>
+        <Form.Field required>
+          <label>Volumen Alc.</label>
           <input
-            placeholder="Volume"
+            placeholder="Volumen Alc."
             type="number"
             {...register("volume", { required: 'Este valor es requerido' })}
           />
@@ -193,9 +193,9 @@ const AdminProductDetails = () => {
         </Form.Field>
         {/* age */}
         <Form.Field>
-          <label>Age</label>
+          <label>Añada</label>
           <input
-            placeholder="Age"
+            placeholder="Añada"
             type="number"
             {...register("age", { required: 'Este valor es requerido' })}
           />
@@ -203,18 +203,18 @@ const AdminProductDetails = () => {
         </Form.Field>
         {/* country */}
         <Form.Field>
-          <label>Country</label>
+          <label>País</label>
           <input
-            placeholder="Country"
+            placeholder="País"
             {...register("country", { required: 'Este valor es requerido' })}
           />
           {errors.country?.message && <InputMessage type="error" message={errors.country.message} />}
         </Form.Field>
         {/* year */}
         <Form.Field>
-          <label>Year</label>
+          <label>Año de producción</label>
           <input
-            placeholder="Year"
+            placeholder="Año de producción"
             type="number"
             {...register("year", { required: 'Este valor es requerido' })}
           />
@@ -222,9 +222,9 @@ const AdminProductDetails = () => {
         </Form.Field>
         {/* variety */}
         <Form.Field>
-          <label>Variety</label>
+          <label>Uva (variedad)</label>
           <input
-            placeholder="Variety"
+            placeholder="Uva (variedad)"
             {...register("variety", { required: 'Este valor es requerido' })}
           />
           {errors.variety?.message && <InputMessage type="error" message={errors.variety.message} />}
