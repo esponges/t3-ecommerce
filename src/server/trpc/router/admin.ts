@@ -1,4 +1,4 @@
-import { env } from "@/env/server.mjs";
+// import { env } from "@/env/server.mjs";
 import { t } from "../trpc";
 import { z } from "zod";
 
@@ -18,13 +18,13 @@ export const adminRouter = t.router({
     )
     .query(({ input: { user, password } }) => {
       // todo: this could be against a database in the future
-      const adminPw = env.ADMIN_DASHBOARD_PASSWORD;
-      const adminUser = env.ADMIN_DASHBOARD_USER;
+      // const adminPw = env.ADMIN_DASHBOARD_PASSWORD;
+      // const adminUser = env.ADMIN_DASHBOARD_USER;
 
-      if (adminPw === password && adminUser === user) {
-        return true;
-      }
+      // if (adminPw === password && adminUser === user) {
+      //   return true;
+      // }
 
-      return false;
+      // return false;
     }),
 });

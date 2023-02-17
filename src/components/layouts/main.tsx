@@ -13,5 +13,5 @@ export const MainLayout = ({ children }: Props) => {
         <Footer />
       </Header>
     </div>
-  )
-}
+  );
+};

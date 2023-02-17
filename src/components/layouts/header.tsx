@@ -9,7 +9,7 @@ import {
   Sidebar,
   Icon,
   Label
-} from 'semantic-ui-react'
+} from 'semantic-ui-react';
 import { useRouter } from 'next/router';
 
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';

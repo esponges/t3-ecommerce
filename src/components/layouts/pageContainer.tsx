@@ -14,8 +14,8 @@ type Props = {
 };
 
 export const PageContainer = ({ children, verticallyCentered, className, heading }: Props) => {
-  const vertClasses = 'flex flex-col items-center justify-center md:min-h-[60vh]'
-  const classes = 'my-10 mx-auto md:min-h-[60vh] md:w-1/2'
+  const vertClasses = 'flex flex-col items-center justify-center md:min-h-[60vh]';
+  const classes = 'my-10 mx-auto md:min-h-[60vh] md:w-1/2';
  
   return (
     <div className={`${verticallyCentered ? vertClasses : classes} ${className || ''}`}>
