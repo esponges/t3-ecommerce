@@ -15,5 +15,5 @@ export enum PageRoutes {
   ListTable = "/products/listing/table",
   // Admin
   // ...
-  AdminProducts = '/dashboard/products/details?name=',
+  AdminProducts = '/dashboard/products/details?id=',
 }

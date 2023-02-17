@@ -8,9 +8,10 @@ interface Props<T> {
   row: CellContext<T, string>;
   imageUrl?: string;
   baseUrl?: string;
+  fullUrl?: string;
 }
 
-export const ProductDetailsCell = <T,>({ row, imageUrl, baseUrl }: Props<T>) => {
+export const ProductDetailsCell = <T,>({ row, imageUrl, baseUrl, fullUrl }: Props<T>) => {
   return useMemo(() => {
     const value = row.getValue();
     return (
@@ -25,8 +26,8 @@ export const ProductDetailsCell = <T,>({ row, imageUrl, baseUrl }: Props<T>) => 
             />
           </div>
         ) : null}
-        <Link href={`${baseUrl ?? PageRoutes.Products}/${value}`}>{value}</Link>
+        <Link href={fullUrl ?? `${baseUrl ?? PageRoutes.Products}/${value}`}>{value}</Link>
       </div>
     );
-  }, [row, imageUrl, baseUrl]);
+  }, [row, imageUrl, baseUrl, fullUrl]);
 };

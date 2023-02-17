@@ -13,9 +13,10 @@ import { ProductDetailsCell } from '../atoms/table/ProductDetailsCell';
 
 interface Props {
   productsUrl?: string;
+  getProductUrl?: (id: string) => string;
 }
 
-export const ProductsTable = ({ productsUrl }: Props) => {
+export const ProductsTable = ({ productsUrl, getProductUrl }: Props) => {
   const { data } = trpc.product.getAll.useQuery(
     {},
     {
@@ -24,6 +25,7 @@ export const ProductsTable = ({ productsUrl }: Props) => {
       select: useCallback(
         (products: Product[]) =>
           products.map((product) => ({
+            id: product.id,
             name: product.name,
             price: product.price,
             category: product.category.name,
@@ -39,7 +41,13 @@ export const ProductsTable = ({ productsUrl }: Props) => {
     () => [
       {
         header: 'Producto',
-        cell: (row) => <ProductDetailsCell<TableItem> row={row} baseUrl={productsUrl} />,
+        cell: (row) => (
+          <ProductDetailsCell<TableItem>
+            row={row}
+            baseUrl={productsUrl}
+            fullUrl={getProductUrl ? getProductUrl(row.row.original.id) : undefined}
+          />
+        ),
         accessorKey: 'name',
         size: isMobile ? 250 : undefined,
         minSize: !isMobile ? 350 : undefined,
@@ -57,7 +65,7 @@ export const ProductsTable = ({ productsUrl }: Props) => {
         size: 200,
       },
     ],
-    [isMobile, productsUrl]
+    [isMobile, productsUrl, getProductUrl]
   );
 
   return (
@@ -70,4 +78,3 @@ export const ProductsTable = ({ productsUrl }: Props) => {
     </>
   );
 };
-
