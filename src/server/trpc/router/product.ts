@@ -48,6 +48,73 @@ export const productRouter = t.router({
 
       return product;
     }),
+  update: t.procedure
+    .input(
+      z.object({
+        id: z.string(),
+        name: z.string().optional(),
+        description: z.string().optional(),
+        price: z.number().optional(),
+        discount: z.number().optional(),
+        categoryId: z.number().optional(),
+        image: z.string().optional(),
+        stock: z.number().optional(),
+        score: z.number().optional(),
+        favScore: z.number().optional(),
+        productSpecs: z.object({
+          capacity: z.string().optional(),
+          volume: z.string().optional(),
+          age: z.string().optional(),
+          country: z.string().optional(),
+          year: z.string().optional(),
+          variety: z.string().optional(),
+        }).optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, productSpecs, ...data } = input;
+
+      /* begin transaction */
+      const trx = await ctx.prisma.$transaction([
+        ctx.prisma.product.update({
+          where: {
+            id,
+          },
+          data: {
+            name: data.name,
+            description: data.description,
+            discount: data.discount,
+            categoryId: data.categoryId,
+            price: data.price,
+            image: data.image,
+            stock: data.stock,
+            score: data.score,
+            favScore: data.favScore,
+          },
+        }),
+
+        // upsert — update existing or create new specs
+        ctx.prisma.productSpecs.upsert({
+          where: {
+            productId: id,
+          },
+          create: {
+            // connect the updated product to the specs
+            product: {
+              connect: {
+                id,
+              },
+            },
+            ...productSpecs,
+          },
+          update: {
+            ...productSpecs,
+          }
+        }),
+      ]);
+
+      return trx;
+    }),
   // get an array of products
   getBatchByIds: t.procedure
     .input(
