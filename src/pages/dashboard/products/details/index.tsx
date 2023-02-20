@@ -6,6 +6,9 @@ import { Message } from 'semantic-ui-react';
 import { Button } from 'semantic-ui-react';
 import { Form, Dropdown } from 'semantic-ui-react';
 import superjson from 'superjson';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 
 import { InputMessage } from '@/components/atoms/inputMessage';
 import { PageContainer } from '@/components/layouts/pageContainer';
@@ -20,10 +23,11 @@ import type {
 import type { Product } from '@/types';
 
 import { trpc } from '@/lib/trpc';
-import { createProxySSGHelpers } from '@trpc/react-query/ssg';
+import { PageRoutes } from '@/lib/routes';
+import { adminProductDetailsSchema as validation } from '@/lib/products';
+
 import { appRouter } from '@/server/trpc/router';
 import { createContext } from '@/server/trpc/context';
-import { adminProductDetailsSchema as validation } from '@/lib/products';
 
 interface FormValues extends Product, Omit<ProductSpecs, 'productId'> {}
 
@@ -44,9 +48,12 @@ const formDefaultValues: Partial<FormValues> = {
 };
 
 const AdminProductDetails = ({ id }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(!id);
+  const trpcUtils = trpc.useContext();
+  const router = useRouter();
 
-  const { data: productDetails, isLoading } = trpc.product.getBy.useQuery(
+
+  const { data: productDetails } = trpc.product.getBy.useQuery(
     getFetchByIdPrefetchOpts(id),
     {
       select: useCallback((product: Product) => {
@@ -58,9 +65,6 @@ const AdminProductDetails = ({ id }: InferGetServerSidePropsType<typeof getServe
       enabled: !!id,
     }
   );
-
-  console.log('productDetails', productDetails);
-  console.log('isLoading', isLoading);
 
   const { data: categoryOptions } = trpc.category.getAll.useQuery(undefined, {
     select: useCallback((categories: Category[]) => {
@@ -77,9 +81,13 @@ const AdminProductDetails = ({ id }: InferGetServerSidePropsType<typeof getServe
       setIsEditing(false);
     },
   });
+
   const { mutateAsync: mutateAsyncCreateProduct } = trpc.product.create.useMutation({
-    onSuccess: (_values) => {
+    onSuccess: (values) => {
+      // invalidate product.getAll query
+      trpcUtils.product.getAll.invalidate();
       // redirect to product details
+      router.push(`${PageRoutes.AdminProductsDetails}?id=${values.id}`);
     },
   });
 
@@ -147,17 +155,16 @@ const AdminProductDetails = ({ id }: InferGetServerSidePropsType<typeof getServe
         <meta name="robots" content="noindex" />
         <title>{id}</title>
       </Head>
-      {productDetails?.name ? (
-        <div className='mb-4'>
+      <div className='mb-4'>
+        {!!id ? (
           <Button
             color='yellow'
             onClick={handleSetIsEditing}
-            className=''
           >
-        Editar
+            Editar
           </Button>
-        </div>
-      ) : null}
+        ): null}
+      </div>
       <Form onSubmit={onSubmit}>
         <Form.Field required>
           <label>Nombre</label>
@@ -315,6 +322,16 @@ const AdminProductDetails = ({ id }: InferGetServerSidePropsType<typeof getServe
         >
           {isNewProduct ? 'Crear producto' : 'Actualizar producto'}
         </Form.Button>
+        {/* go back */}
+        <Link href={PageRoutes.AdminProducts} className="mt-2">
+          <Button
+            type="button"
+            
+            disabled={isUpdatingProduct}
+          >
+            Regresar
+          </Button>
+        </Link>
       </Form>
       {isProductUpdatedSuccess ? (
         <Message
