@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { t } from '../trpc';
+import { t, authedProcedure} from '../trpc';
 
 export const productRouter = t.router({
   getAll: t.procedure
@@ -48,7 +48,7 @@ export const productRouter = t.router({
 
       return product;
     }),
-  update: t.procedure
+  update: authedProcedure
     .input(
       z.object({
         id: z.string(),
@@ -62,17 +62,20 @@ export const productRouter = t.router({
         score: z.number().optional(),
         favScore: z.number().optional(),
         productSpecs: z.object({
-          capacity: z.string().optional(),
-          volume: z.string().optional(),
-          age: z.string().optional(),
-          country: z.string().optional(),
-          year: z.string().optional(),
-          variety: z.string().optional(),
+          capacity: z.string().nullable().optional(),
+          volume: z.string().nullable().optional(),
+          age: z.string().nullable().optional(),
+          country: z.string().nullable().optional(),
+          year: z.string().nullable().optional(),
+          variety: z.string().nullable().optional(),
         }).optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       const { id, productSpecs, ...data } = input;
+
+      // TODO:
+      // check admin role for this
 
       /* begin transaction */
       const trx = await ctx.prisma.$transaction([
