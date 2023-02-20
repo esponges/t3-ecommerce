@@ -26,10 +26,10 @@ const OrderDetails = () => {
     },
     {
       enabled: !!orderId && !!userId,
-      select: useCallback((order: IOrderDetails) => {
+      select: useCallback((o: IOrderDetails) => {
         return {
-          ...order,
-          orderItems: order.orderItems.map((orderItem) => ({
+          ...o,
+          orderItems: o.orderItems.map((orderItem) => ({
             name: orderItem.product.name,
             price: orderItem.product.price,
             quantity: orderItem.quantity,
