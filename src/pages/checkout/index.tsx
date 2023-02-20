@@ -85,9 +85,9 @@ const Checkout = () => {
 
   const { mutateAsync, isLoading: isCreating } = trpc.order.create.useMutation({
     onSuccess: async (data, _variables, _context) => {
-      const { mutateAsync } = successfulOrderConfirmation;
+      const { mutateAsync: successfulOrderMutate } = successfulOrderConfirmation;
       if (data?.id && data.userId) {
-        await mutateAsync({
+        await successfulOrderMutate({
           id: data.id,
           userId: data.userId,
         });

@@ -13,8 +13,8 @@ export const useOutsideClick = ({ ref, onOutsideClick }: UseOutsideClickProps) =
     /**
      * Invoke Function onClick outside of element
      */
-    function handleOutsideClick(event: MouseEvent, ref: React.RefObject<HTMLDivElement>) {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
+    function handleOutsideClick(event: MouseEvent, currentRef: React.RefObject<HTMLDivElement>) {
+      if (currentRef.current && !currentRef.current.contains(event.target as Node)) {
         onOutsideClick();
       }
     }

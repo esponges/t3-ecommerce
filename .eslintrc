@@ -37,6 +37,7 @@
     ],
     "indent": "off",
     "@typescript-eslint/indent": ["error", 2],
-    "@typescript-eslint/semi": ["error", "always"]
+    "@typescript-eslint/semi": ["error", "always"],
+    "@typescript-eslint/no-shadow": "error"
   }
 }

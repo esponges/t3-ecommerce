@@ -49,12 +49,12 @@ export const Searchbar = ({
   const handleSelect = useCallback(
     (e: React.MouseEvent<HTMLLIElement>) => {
       if (multiple) {
-        const id = e.currentTarget.dataset.id;
-        if (id) {
-          if (selected.includes(id)) {
-            setSelected(selected.filter((item) => item !== id));
+        const targetId = e.currentTarget.dataset.id;
+        if (targetId) {
+          if (selected.includes(targetId)) {
+            setSelected(selected.filter((item) => item !== targetId));
           } else {
-            setSelected([...selected, id]);
+            setSelected([...selected, targetId]);
           }
         }
       } else {

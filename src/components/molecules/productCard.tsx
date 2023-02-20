@@ -38,14 +38,14 @@ export const ProductCard = ({
   const router = useRouter();
   const { addToCart } = useCartActions();
 
-  const handleAdd = (qty: number) => {
+  const handleAdd = (n: number) => {
     if (product && !onAddToCart) {
-      addToCart(product, qty);
+      addToCart(product, n);
       return;
     }
 
     if (onAddToCart) {
-      onAddToCart(qty);
+      onAddToCart(n);
     }
   };
 

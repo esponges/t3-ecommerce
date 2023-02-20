@@ -13,8 +13,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) =>
   const { children, variant, className, href, ...rest } = props;
   const router = useRouter();
 
-  const handleNavigate = (href: string) => {
-    router.push(href);
+  const handleNavigate = (url: string) => {
+    router.push(url);
   };
 
   if (variant === 'primary') {

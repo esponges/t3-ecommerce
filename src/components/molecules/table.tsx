@@ -199,9 +199,9 @@ export const Table = <T extends object>({
                     />
                   </span>
                   <select value={table.getState().pagination.pageSize} onChange={handlePageSizeChange}>
-                    {[10, 20, 30, 40, 50].map((pageSize) => (
-                      <option key={pageSize} value={pageSize}>
-                        Ver {pageSize}
+                    {[10, 20, 30, 40, 50].map((size) => (
+                      <option key={size} value={size}>
+                        Ver {size}
                       </option>
                     ))}
                   </select>
