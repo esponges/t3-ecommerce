@@ -1,12 +1,14 @@
-import { PageContainer } from '@/components/layouts/pageContainer';
-import Head from 'next/head';
 import { useCallback, useState } from 'react';
+import Head from 'next/head';
 import { useForm } from 'react-hook-form';
-import type { DropdownProps } from 'semantic-ui-react';
+import type { DropdownProps} from 'semantic-ui-react';
+import { Message } from 'semantic-ui-react';
 import { Button } from 'semantic-ui-react';
 import { Form, Dropdown } from 'semantic-ui-react';
-import { InputMessage } from '@/components/atoms/inputMessage';
 import superjson from 'superjson';
+
+import { InputMessage } from '@/components/atoms/inputMessage';
+import { PageContainer } from '@/components/layouts/pageContainer';
 
 import type { Category, ProductSpecs } from '@prisma/client';
 import type {
@@ -66,6 +68,18 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
     }, []),
   });
 
+  const { mutateAsync, status: updateStatus } = trpc.product.update.useMutation({
+    onSuccess: (_values) => {
+      setIsEditing(false);
+    },
+  });
+
+  const isUpdatingProduct = updateStatus === 'loading';
+  const isProductUpdatedSuccess = updateStatus === 'success';
+
+  console.log('isUpdatingProduct', isUpdatingProduct);
+  console.log('isProductUpdatedSuccess', isProductUpdatedSuccess);
+
   const {
     register,
     handleSubmit,
@@ -75,8 +89,6 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
   } = useForm<Partial<FormValues>>({
     defaultValues: !id ? formDefaultValues : productDetails,
   });
-
-  console.log('errors', errors);
 
   const handleCategoryChange = useCallback(
     (_: unknown, data: DropdownProps) => {
@@ -93,15 +105,34 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
   };
 
   const onSubmit = handleSubmit(
-    /* async */ (values) => {
-      console.log('onsubmit', values);
+    async (values) => {
+
+      await mutateAsync({
+        id,
+        name: values.name,
+        description: values.description,
+        price: values.price,
+        discount: values.discount,
+        categoryId: values.categoryId,
+        image: values.image,
+        stock: values.stock,
+        score: values.score,
+        favScore: values.favScore,
+        productSpecs: {
+          capacity: values?.capacity,
+          volume: values?.volume,
+          age: values?.age,
+          country: values?.country,
+          year: values?.year,
+          variety: values?.variety,
+        },
+      });
     }
   );
 
   return (
     <PageContainer heading={{ title: productDetails?.name || 'Nuevo Producto' }}>
       <Head>
-        {/* no index */}
         <meta name="robots" content="noindex" />
         <title>{id}</title>
       </Head>
@@ -141,12 +172,11 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
             placeholder="Descuento"
             type="number"
             disabled={!isEditing}
-            {...register("discount", validation.discount)}
+            {...register("discount", { ...validation.discount, valueAsNumber: true })}
           />
           {errors.discount?.message && <InputMessage type="error" message={errors.discount.message} />}
         </Form.Field>
         <Form.Field required>
-          {/* categoryId */}
           <label>Tipo de producto</label>
           <Dropdown
             placeholder="Tipo de producto"
@@ -161,19 +191,17 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           {errors.categoryId?.message && <InputMessage type="error" message={errors.categoryId.message} />}
         </Form.Field>
         <Form.Field required>
-          {/* price - float */}
           <label>Precio</label>
           <input
             placeholder="Precio"
             type="number"
             step="0.01"
             disabled={!isEditing}
-            {...register("price", validation.price)}
+            {...register("price", { ...validation.price, valueAsNumber: true })}
           />
           {errors.price?.message && <InputMessage type="error" message={errors.price.message} />}
         </Form.Field>
         <Form.Field required>
-          {/* image */}
           <label>Imagen</label>
           <input
             placeholder="Url completa de la imagen"
@@ -182,18 +210,16 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           />
           {errors.image?.message && <InputMessage type="error" message={errors.image.message} />}
         </Form.Field>
-        {/* stock */}
         <Form.Field>
           <label>Stock</label>
           <input
             placeholder="Stock"
             type="number"
             disabled={!isEditing}
-            {...register("stock", validation.stock)}
+            {...register("stock", { ...validation.stock, valueAsNumber: true })}
           />
           {errors.stock?.message && <InputMessage type="error" message={errors.stock.message} />}
         </Form.Field>
-        {/* score */}
         <Form.Field>
           <label>Puntaje</label>
           <input
@@ -201,11 +227,10 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
             type="number"
             step="0.1"
             disabled={!isEditing}
-            {...register("score", validation.score)}
+            {...register("score", { ...validation.score, valueAsNumber: true })}
           />
           {errors.score?.message && <InputMessage type="error" message={errors.score.message} />}
         </Form.Field>
-        {/* favScore */}
         <Form.Field>
           <label>Puntaje de favorito</label>
           <input
@@ -213,11 +238,10 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
             type="number"
             step="0.1"
             disabled={!isEditing}
-            {...register("favScore", validation.favScore)}
+            {...register("favScore", { ...validation.favScore, valueAsNumber: true })}
           />
           {errors.favScore?.message && <InputMessage type="error" message={errors.favScore.message} />}
         </Form.Field>
-        {/* capacity */}
         <Form.Field required>
           <label>Capacidad</label>
           <input
@@ -227,7 +251,6 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           />
           {errors.capacity?.message && <InputMessage type="error" message={errors.capacity.message} />}
         </Form.Field>
-        {/* volume */}
         <Form.Field required>
           <label>Volumen Alc.</label>
           <input
@@ -237,7 +260,6 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           />
           {errors.volume?.message && <InputMessage type="error" message={errors.volume.message} />}
         </Form.Field>
-        {/* age */}
         <Form.Field>
           <label>Añada</label>
           <input
@@ -247,7 +269,6 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           />
           {errors.age?.message && <InputMessage type="error" message={errors.age.message} />}
         </Form.Field>
-        {/* country */}
         <Form.Field>
           <label>País</label>
           <input
@@ -257,7 +278,6 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           />
           {errors.country?.message && <InputMessage type="error" message={errors.country.message} />}
         </Form.Field>
-        {/* year */}
         <Form.Field>
           <label>Año de producción</label>
           <input
@@ -267,7 +287,6 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           />
           {errors.year?.message && <InputMessage type="error" message={errors.year.message} />}
         </Form.Field>
-        {/* variety */}
         <Form.Field>
           <label>Uva (variedad)</label>
           <input
@@ -277,8 +296,21 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           />
           {errors.variety?.message && <InputMessage type="error" message={errors.variety.message} />}
         </Form.Field>
-        <Form.Button type="submit" disabled={!isEditing}>Submit</Form.Button>
+        <Form.Button 
+          type="submit" 
+          loading={isUpdatingProduct} 
+          disabled={!isEditing || isUpdatingProduct}
+        >
+            Actualizar
+        </Form.Button>
       </Form>
+      {isProductUpdatedSuccess ? (
+        <Message
+          success
+          header="Producto actualizado"
+          content="El producto se actualizó correctamente"
+        />
+      ) : null}
     </PageContainer>
   );
 };
