@@ -118,6 +118,52 @@ export const productRouter = t.router({
 
       return trx;
     }),
+  create: authedProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        description: z.string().optional(),
+        price: z.number(),
+        discount: z.number().optional(),
+        categoryId: z.number(),
+        image: z.string().optional(),
+        stock: z.number().optional(),
+        score: z.number().optional(),
+        favScore: z.number().optional(),
+        productSpecs: z.object({
+          capacity: z.string().nullable().optional(),
+          volume: z.string().nullable().optional(),
+          age: z.string().nullable().optional(),
+          country: z.string().nullable().optional(),
+          year: z.string().nullable().optional(),
+          variety: z.string().nullable().optional(),
+        }).optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { productSpecs, ...data } = input;
+
+      const product = await ctx.prisma.product.create({
+        data: {
+          name: data.name,
+          description: data.description,
+          discount: data.discount,
+          categoryId: data.categoryId,
+          price: data.price,
+          image: data.image,
+          stock: data.stock,
+          score: data.score,
+          favScore: data.favScore,
+          productSpecs: {
+            create: {
+              ...productSpecs,
+            },
+          },
+        },
+      });
+
+      return product;
+    }),
   // get an array of products
   getBatchByIds: t.procedure
     .input(

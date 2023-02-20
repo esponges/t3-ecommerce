@@ -14,9 +14,10 @@ import { ProductDetailsCell } from '../atoms/table/ProductDetailsCell';
 interface Props {
   productsUrl?: string;
   getProductUrl?: (id: string) => string;
+  title?: string;
 }
 
-export const ProductsTable = ({ productsUrl, getProductUrl }: Props) => {
+export const ProductsTable = ({ productsUrl, getProductUrl, title }: Props) => {
   const { data } = trpc.product.getAll.useQuery(
     {},
     {
@@ -70,7 +71,7 @@ export const ProductsTable = ({ productsUrl, getProductUrl }: Props) => {
 
   return (
     <>
-      <PageContainer heading={{ title: 'Nuestros Productos' }} className="text-center">
+      <PageContainer heading={{ title: title || 'Nuestros Productos' }} className="text-center">
         {data && data.length > 0 ? (
           <Table data={data as TableItem[]} columns={cols} isMobile={isMobile} showGlobalFilter />
         ) : null}

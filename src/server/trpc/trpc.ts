@@ -9,7 +9,9 @@ export const t = initTRPC.context<Context>().create({
   },
 });
 
+// TODO:  create an admin procedure
 export const authedProcedure = t.procedure.use(({ ctx, next }) => {
+
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }

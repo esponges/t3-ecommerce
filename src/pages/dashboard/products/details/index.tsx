@@ -43,12 +43,11 @@ const formDefaultValues: Partial<FormValues> = {
   variety: '',
 };
 
-const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const AdminProductDetails = ({ id }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [isEditing, setIsEditing] = useState(false);
-  const { id } = props;
 
-  const { data: productDetails } = trpc.product.getBy.useQuery(
-    { id, specs: true },
+  const { data: productDetails, isLoading } = trpc.product.getBy.useQuery(
+    getFetchByIdPrefetchOpts(id),
     {
       select: useCallback((product: Product) => {
         return {
@@ -56,8 +55,13 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           ...product.productSpecs,
         };
       }, []),
+      enabled: !!id,
     }
   );
+
+  console.log('productDetails', productDetails);
+  console.log('isLoading', isLoading);
+
   const { data: categoryOptions } = trpc.category.getAll.useQuery(undefined, {
     select: useCallback((categories: Category[]) => {
       return categories.map((category) => ({
@@ -68,17 +72,20 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
     }, []),
   });
 
-  const { mutateAsync, status: updateStatus } = trpc.product.update.useMutation({
+  const { mutateAsync: mutateAsyncUpdateProduct, status: updateStatus } = trpc.product.update.useMutation({
     onSuccess: (_values) => {
       setIsEditing(false);
     },
   });
+  const { mutateAsync: mutateAsyncCreateProduct } = trpc.product.create.useMutation({
+    onSuccess: (_values) => {
+      // redirect to product details
+    },
+  });
 
+  const isNewProduct = !id;
   const isUpdatingProduct = updateStatus === 'loading';
   const isProductUpdatedSuccess = updateStatus === 'success';
-
-  console.log('isUpdatingProduct', isUpdatingProduct);
-  console.log('isProductUpdatedSuccess', isProductUpdatedSuccess);
 
   const {
     register,
@@ -86,7 +93,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
     setValue,
     setError,
     formState: { errors },
-  } = useForm<Partial<FormValues>>({
+  } = useForm<FormValues>({
     defaultValues: !id ? formDefaultValues : productDetails,
   });
 
@@ -106,9 +113,7 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
 
   const onSubmit = handleSubmit(
     async (values) => {
-
-      await mutateAsync({
-        id,
+      const submitData = {
         name: values.name,
         description: values.description,
         price: values.price,
@@ -126,7 +131,13 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           year: values?.year,
           variety: values?.variety,
         },
-      });
+      };
+
+      if (isNewProduct) {
+        await mutateAsyncCreateProduct(submitData);
+      } else {
+        await mutateAsyncUpdateProduct({ id, ...submitData });
+      }
     }
   );
 
@@ -297,11 +308,12 @@ const AdminProductDetails = (props: InferGetServerSidePropsType<typeof getServer
           {errors.variety?.message && <InputMessage type="error" message={errors.variety.message} />}
         </Form.Field>
         <Form.Button 
-          type="submit" 
+          type="submit"
+          color="green"
           loading={isUpdatingProduct} 
           disabled={!isEditing || isUpdatingProduct}
         >
-            Actualizar
+          {isNewProduct ? 'Crear producto' : 'Actualizar producto'}
         </Form.Button>
       </Form>
       {isProductUpdatedSuccess ? (
@@ -319,6 +331,11 @@ AdminProductDetails.requireAuth = true;
 
 export default AdminProductDetails;
 
+const getFetchByIdPrefetchOpts = (id: string) => ({
+  id,
+  specs: true,
+});
+
 // product details must be prefetched since react-hook-form
 // caches the initial values and therefore the form will
 // not be updated if the product details are not prefetched first
@@ -332,16 +349,18 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     transformer: superjson,
   });
 
-  const id = ctx.query?.id as string;
-  const idWithoutSlash = id?.toString().replace('/', '') ?? null;
+  // new product won't have any query params
+  const id = ctx.query?.id as string || '';
 
-  await ssg.product.getBy.prefetch({ id: idWithoutSlash, specs: true });
+  if (!!id) {
+    await ssg.product.getBy.prefetch(getFetchByIdPrefetchOpts(id));
+  }
   await ssg.category.getAll.prefetch();
 
   return {
     props: {
       trpcState: ssg.dehydrate(),
-      id: idWithoutSlash,
+      id
     },
   };
 };
