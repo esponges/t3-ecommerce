@@ -44,11 +44,6 @@ const Login = () => {
             content="Por favor, inicia sesión con alguno de nuestros proveedores para proceder con tu pedido"
           />
           <div className="mt-10 w-full">
-            <Button variant="secondary" className="w-full" onClick={() => void signIn(AuthProviders.Discord)}>
-              Discord <Icon name="discord" size="huge" />
-            </Button>
-          </div>
-          <div className="mt-10 w-full">
             <Button variant="secondary" className="w-full" onClick={() => void signIn(AuthProviders.Google)}>
               Google <Icon name="google" size="huge" />
             </Button>
