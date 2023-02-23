@@ -66,7 +66,7 @@ export const Header = ({ children }: Props) => {
         <a>
           <Menu.Item active={getIsActiveRoute(PageRoutes.Cart)}>
             <Icon name="cart" />
-            {'Carrito'}
+            Carrito
             {cartCount > 0 ? <Label color="yellow">{cartCount}</Label> : null}
           </Menu.Item>
         </a>

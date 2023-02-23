@@ -51,6 +51,7 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
+    admin         Boolean   @default(false)
     accounts      Account[]
     sessions      Session[]
     orders        Order[]

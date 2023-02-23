@@ -23,12 +23,12 @@ For production you can use postgres. To create the database:
 - seed with `npx prisma db seed` (optional)
 - update the schema with the migrations generated in dev (see seed.ts comments and below)
 
-To migrate the database:
+To migrate or alter the database:
 
 - Change your prisma .env file to local db
 - Delete prisma/migrations folder
 - Run `npx prisma migrate dev --preview-feature` to start a new migration
-- Change your prisma .env file back to development db
+- Change your prisma .env file back to development db and connect to it (CONFIRM IT WORKS)
 - Run `npx prisma migrate resolve --applied "MIGRATION_FOLDER_NAME_GENERATED_BY_STEP_4"  --preview-feature`
 
 seen in: https://github.com/prisma/prisma/issues/4571#issuecomment-747496127
