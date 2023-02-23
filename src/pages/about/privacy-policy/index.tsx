@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { PageContainer } from '@/components/layouts/pageContainer';
 import { Container } from '@/components/molecules/container';
 import { env } from '@/env/client.mjs';
@@ -5,6 +6,10 @@ import { env } from '@/env/client.mjs';
 const PrivacyPolicy = () => {
   return (
     <PageContainer verticallyCentered heading={{ title: 'Política de Privacidad' }}>
+      <Head>
+        <title>Política de Privacidad</title>
+        <meta name="description" content="Política de Privacidad" />
+      </Head>
       <Container>
         <p>
           Esta política de privacidad describe cómo se recopila, utiliza y protege la información personal que se

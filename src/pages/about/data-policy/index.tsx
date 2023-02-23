@@ -1,10 +1,18 @@
 import { PageContainer } from '@/components/layouts/pageContainer';
 import { Container } from '@/components/molecules/container';
 import { env } from '@/env/client.mjs';
+import Head from 'next/head';
 
 const DataDeletionPolicy = () => {
   return (
     <PageContainer verticallyCentered heading={{ title: 'Política de eliminación de datos' }}>
+      <Head>
+        <title>Política de eliminación de datos</title>
+        <meta
+          name="description"
+          content="Política de eliminación de datos"
+        />
+      </Head>
       <Container>
         <p>
           Esta política describe cómo se maneja la eliminación de datos personales en esta página web. Se espera que los

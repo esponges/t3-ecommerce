@@ -194,7 +194,7 @@ export const Header = ({ children }: Props) => {
                 {renderSearchLink()}
                 <Menu.Item>
                   {/* nextauth login */}
-                  <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
+                  <Dropdown options={dropDownOptions} trigger={trigger} className='p-0 cursor-pointer' />
                 </Menu.Item>
               </div>
             </Menu>
