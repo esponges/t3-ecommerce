@@ -127,7 +127,7 @@ export const Header = ({ children }: Props) => {
     );
   };
 
-  const renderMobile = () => {
+  if (isMobile) {
     return (
       <Sidebar.Pushable>
         <Sidebar as={Menu} animation="overlay" onHide={handleToggleSidebar} vertical visible={sidebarOpened}>
@@ -162,49 +162,46 @@ export const Header = ({ children }: Props) => {
         </Sidebar.Pusher>
       </Sidebar.Pushable>
     );
-  };
+  }
 
-  const renderDesktop = () => {
-    return (
-      <>
-        <nav className="bg-primary-blue">
-          <Menu
-            fixed={'top'}
-            className={`header ${!showHeader ? 'hidden' : ''}`}
-            inverted={false}
-            pointing
-            secondary
-            size="large"
-          >
-            <Container>
-              <Menu className="relative flex w-full" secondary>
-                <div className="flex">{menuItems}</div>
-                <Link href={`${PageRoutes.Home}`}>
-                  <div className="absolute left-[45%] hover:cursor-pointer">
-                    <Image
-                      // eslint-disable-next-line max-len
-                      path="https://ik.imagekit.io/5wjtgrwr1/logo-no-bg-white.png?ik-sdk-version=javascript-1.4.3&updatedAt=1676318338413"
-                      alt="logo-vinoreo-header"
-                      width={100}
-                      height={100}
-                      className="mt-1"
-                    />
-                  </div>
-                </Link>
-                <div className="ml-auto flex">
-                  {renderSearchLink()}
-                  <Menu.Item>
-                    {/* nextauth login */}
-                    <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
-                  </Menu.Item>
+  return (
+    <>
+      <nav className="bg-primary-blue">
+        <Menu
+          fixed={'top'}
+          className={`header ${!showHeader ? 'hidden' : ''}`}
+          inverted={false}
+          pointing
+          secondary
+          size="large"
+        >
+          <Container>
+            <Menu className="relative flex w-full" secondary>
+              <div className="flex">{menuItems}</div>
+              <Link href={`${PageRoutes.Home}`}>
+                <div className="absolute left-[45%] hover:cursor-pointer">
+                  <Image
+                    // eslint-disable-next-line max-len
+                    path="https://ik.imagekit.io/5wjtgrwr1/logo-no-bg-white.png?ik-sdk-version=javascript-1.4.3&updatedAt=1676318338413"
+                    alt="logo-vinoreo-header"
+                    width={100}
+                    height={100}
+                    className="mt-1"
+                  />
                 </div>
-              </Menu>
-            </Container>
-          </Menu>
-        </nav>
-        <main className="mt-16">{children}</main>
-      </>
-    );
-  };
-  return isMobile ? renderMobile() : renderDesktop();
+              </Link>
+              <div className="ml-auto flex">
+                {renderSearchLink()}
+                <Menu.Item>
+                  {/* nextauth login */}
+                  <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
+                </Menu.Item>
+              </div>
+            </Menu>
+          </Container>
+        </Menu>
+      </nav>
+      <main className="mt-16">{children}</main>
+    </>
+  );
 };
