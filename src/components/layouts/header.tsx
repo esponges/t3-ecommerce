@@ -19,7 +19,6 @@ import { PageRoutes } from '@/lib/routes';
 
 import { Dropdown } from '@/components/molecules/dropdown';
 import { Image } from '@/components/atoms/image';
-import { ProductSearchbar } from '../molecules/productSearchbar';
 
 interface Props {
   children?: React.ReactNode;
@@ -118,6 +117,16 @@ export const Header = ({ children }: Props) => {
     </span>
   );
 
+  const renderSearchLink = () => {
+    return (
+      <Menu.Item position="right">
+        <Link href={PageRoutes.ListTable}>
+          <Icon name="search" />
+        </Link>
+      </Menu.Item>
+    );
+  };
+
   const renderMobile = () => {
     return (
       <Sidebar.Pushable>
@@ -144,12 +153,7 @@ export const Header = ({ children }: Props) => {
                     />
                   </a>
                 </Link>
-                {/* searchbar */}
-                <Menu.Item position="right">
-                  <Link href={PageRoutes.ListTable}>
-                    <Icon name="search" />
-                  </Link>
-                </Menu.Item>
+                {renderSearchLink()}
               </Menu>
             </Container>
             {/* <HomepageHeading mobile /> */}
@@ -188,9 +192,7 @@ export const Header = ({ children }: Props) => {
                   </div>
                 </Link>
                 <div className="ml-auto flex">
-                  <Menu.Item>
-                    <ProductSearchbar />
-                  </Menu.Item>
+                  {renderSearchLink()}
                   <Menu.Item>
                     {/* nextauth login */}
                     <Dropdown options={dropDownOptions} trigger={trigger} className={'p-0'} />
