@@ -14,6 +14,8 @@ export const serverSchema = z.object({
   DISCORD_CLIENT_SECRET: z.string(),
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
+  FACEBOOK_CLIENT_ID: z.string(),
+  FACEBOOK_CLIENT_SECRET: z.string(),
   GMAIL_APP_PASSWORD: z.string(),
   GMAIL_USERNAME: z.string(),
   ADMIN_EMAILS: z.string(),
@@ -31,6 +33,9 @@ export const clientSchema = z.object({
   NEXT_PUBLIC_BANK_NAME: z.string(),
   NEXT_PUBLIC_BANK_ACCOUNT_NAME: z.string(),
   NEXT_PUBLIC_BANK_ACCOUNT_NUMBER: z.string(),
+  NEXT_PUBLIC_CONTACT_EMAIL: z.string(),
+  NEXT_PUBLIC_IG_URL: z.string(),
+  NEXT_PUBLIC_PHONE_NUMBER: z.string(),
 });
 
 /**
@@ -46,4 +51,7 @@ export const clientEnv = {
   NEXT_PUBLIC_BANK_NAME: process.env.NEXT_PUBLIC_BANK_NAME,
   NEXT_PUBLIC_BANK_ACCOUNT_NAME: process.env.NEXT_PUBLIC_BANK_ACCOUNT_NAME,
   NEXT_PUBLIC_BANK_ACCOUNT_NUMBER: process.env.NEXT_PUBLIC_BANK_ACCOUNT_NUMBER,
+  NEXT_PUBLIC_CONTACT_EMAIL: process.env.NEXT_PUBLIC_CONTACT_EMAIL,
+  NEXT_PUBLIC_IG_URL: process.env.NEXT_PUBLIC_IG_URL,
+  NEXT_PUBLIC_PHONE_NUMBER: process.env.NEXT_PUBLIC_PHONE_NUMBER,
 };
