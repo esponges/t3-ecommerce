@@ -9,11 +9,14 @@ import { env } from "@/env/server.mjs";
 import { PageRoutes } from "@/lib/routes";
 
 export const authOptions: NextAuthOptions = {
-  // Include user.id on session
   callbacks: {
     session({ session, user }) {
+      // Include user.id on session
       if (session.user) {
+        // to update the User & Session schema you have to manually update it
+        // in types/next-auth.d.ts https://stackoverflow.com/a/74746543/13772033
         session.user.id = user.id;
+        session.user.admin = user?.admin;
       }
       return session;
     },
