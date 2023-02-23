@@ -345,6 +345,7 @@ const AdminProductDetails = ({ id }: InferGetServerSidePropsType<typeof getServe
 };
 
 AdminProductDetails.requireAuth = true;
+AdminProductDetails.requireAdmin = true;
 
 export default AdminProductDetails;
 

@@ -30,6 +30,7 @@ const AdminProducts = () => {
 };
 
 AdminProducts.requireAuth = true;
+AdminProducts.requireAdmin = true;
 
 export default AdminProducts;
 
