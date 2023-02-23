@@ -17,4 +17,8 @@ export enum PageRoutes {
   // ...
   AdminProducts = "/dashboard/products",
   AdminProductsDetails = '/dashboard/products/details',
+  // about
+  Privacy = "/about/privacy-policy",
+  Terms = "/about/terms",
+  DataPolicy = "/about/data-policy",
 }

@@ -1,5 +1,6 @@
-import { PageRoutes } from '@/lib/routes';
 import Link from 'next/link';
+import { env } from '@/env/client.mjs';
+import { PageRoutes } from '@/lib/routes';
 
 /* eslint-disable max-len */
 export const Footer = () => {
@@ -8,7 +9,7 @@ export const Footer = () => {
       <div className="flex items-center justify-center border-b border-gray-300 p-6 lg:justify-between">
         <div className="mr-12 hidden lg:block" />
         <div className="flex justify-center">
-          <a href="#!" className="mr-6 text-white">
+          <a href={env.NEXT_PUBLIC_IG_URL} className="mr-6 text-white cursor-pointer">
             <svg
               aria-hidden="true"
               focusable="false"
@@ -16,7 +17,7 @@ export const Footer = () => {
               data-icon="instagram"
               className="w-3.5"
               role="img"
-              xmlns="https://www.instagram.com/vinoreomx/"
+              xmlns={env.NEXT_PUBLIC_IG_URL}
               viewBox="0 0 448 512"
             >
               <path
@@ -45,7 +46,7 @@ export const Footer = () => {
         </div>
       </div>
       <div className="mx-6 py-10 text-center md:text-left">
-        <div className="grid-1 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid-1 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div className="">
             <h6
               className="
@@ -80,13 +81,13 @@ export const Footer = () => {
           <div className="">
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">Productos</h6>
             <Link href={`${PageRoutes.List}#Whisky`}>
-              <p className="mb-4">Whisky</p>
+              <p className="mb-4 cursor-pointer">Whisky</p>
             </Link>
             <Link href={`${PageRoutes.List}#Tequila`}>
-              <p className="mb-4">Tequila</p>
+              <p className="mb-4 cursor-pointer">Tequila</p>
             </Link>
             <Link href={`${PageRoutes.List}#Gin`}>
-              <p className="mb-4">Ginebra</p>
+              <p className="mb-4 cursor-pointer">Ginebra</p>
             </Link>
             <Link href={`${PageRoutes.List}#Mezcal`}>
               <p>Mezcal</p>
@@ -166,6 +167,18 @@ export const Footer = () => {
               </svg>
               + 01 234 567 89
             </p>
+          </div>
+          <div className="">
+            <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">Nosotros</h6>
+            <Link href={`${PageRoutes.Privacy}`}>
+              <p className="mb-4 cursor-pointer">Política de privacidad</p>
+            </Link>
+            <Link href={`${PageRoutes.DataPolicy}`}>
+              <p className="mb-4 cursor-pointer">Eliminación de datos</p>
+            </Link>
+            {/* <Link href={`${PageRoutes.Terms}`}>
+              <p className="mb-4 cursor-pointer">Términos y condiciones</p>
+            </Link> */}
           </div>
         </div>
       </div>
