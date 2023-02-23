@@ -48,6 +48,12 @@ const Login = () => {
               Google <Icon name="google" size="huge" />
             </Button>
           </div>
+          {/* facebook */}
+          <div className="mt-10 w-full">
+            <Button variant="secondary" className="w-full" onClick={() => void signIn(AuthProviders.Facebook)}>
+              Facebook <Icon name="facebook" size="huge" />
+            </Button>
+          </div>
         </div>
       ) : (
         <div className="p-10 text-center">

@@ -16,7 +16,7 @@ export const adminRouter = t.router({
         password: z.string(),
       })
     )
-    .query(({ input: { user, password } }) => {
+    .query(({ input: { user: _user, password: _password } }) => {
       // todo: this could be against a database in the future
       // const adminPw = env.ADMIN_DASHBOARD_PASSWORD;
       // const adminUser = env.ADMIN_DASHBOARD_USER;

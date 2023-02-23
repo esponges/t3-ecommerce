@@ -78,7 +78,7 @@ export const Header = ({ children }: Props) => {
       <Menu.Item position="right">
         <Link href={`${PageRoutes.Login}`}>
           <a>
-            <Button variant="primary">Login</Button>
+            <Button variant="primary">Iniciar Sesión</Button>
           </a>
         </Link>
       </Menu.Item>
@@ -108,7 +108,7 @@ export const Header = ({ children }: Props) => {
       { label: 'Cerra Sesión', value: 'logout', onClick: () => signOut() },
       // { label: 'Settings', value: 'settings', onClick: () => console.log('settings') },
     ]
-    : [{ label: 'Login', value: 'login', onClick: () => router.push(PageRoutes.Login) }];
+    : [{ label: 'Iniciar Sesión', value: 'login', onClick: () => router.push(PageRoutes.Login) }];
 
   const trigger = (
     <span className="cursor-pointer">
