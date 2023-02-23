@@ -20,6 +20,7 @@ import { Transition } from '@/components/layouts/transition';
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
   requireAuth?: boolean;
+  requireAdmin?: boolean;
 };
 
 type AppPropsWithLayout = AppProps & {
@@ -51,7 +52,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <link rel="icon" href="/v-icon.ico" />
       </Head>
       <ToastContainer />
-      {Component.requireAuth ? <ProtectedLayout>{layout}</ProtectedLayout> : layout}
+      {Component.requireAuth ? (
+        <ProtectedLayout requireAdmin={Component.requireAdmin}>{layout}</ProtectedLayout>
+      ) : (
+        layout
+      )}
       <ReactQueryDevtools />
     </SessionProvider>
   );

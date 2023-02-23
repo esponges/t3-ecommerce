@@ -2,9 +2,11 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Loader } from '../molecules/loader';
+import { toast } from 'react-toastify';
 
 type Props = {
   children: React.ReactElement;
+  requireAdmin?: boolean;
 };
 
 /*
@@ -15,24 +17,36 @@ type Props = {
   export default OrderDetail;
  */
 
-export const ProtectedLayout = ({ children }: Props): JSX.Element => {
+export const ProtectedLayout = ({ children, requireAdmin }: Props): JSX.Element => {
   const router = useRouter();
-  const { status: sessionStatus } = useSession();
+
+  const { status: sessionStatus, data } = useSession();
   const authorized = sessionStatus === 'authenticated';  
   const unAuthorized = sessionStatus === 'unauthenticated';
   const loading = sessionStatus === 'loading';
+
+  const user = data?.user;
+  const isAdmin = user?.admin;
 
   useEffect(() => {
     if (loading || !router.isReady) return;
 
     if (unAuthorized) {
       console.warn('not authorized');
+      toast('Por favor inicia sesión para continuar');
       router.push({
         pathname: '/auth/login',
         query: { returnUrl: router.asPath },
       });
     }
-  }, [loading, unAuthorized, sessionStatus, router]);
+
+    if (!isAdmin && requireAdmin) {
+      console.warn('not authorized');
+      router.push({
+        pathname: '/',
+      });
+    }
+  }, [loading, unAuthorized, sessionStatus, router, isAdmin, requireAdmin]);
 
   if (loading) {
     return (
