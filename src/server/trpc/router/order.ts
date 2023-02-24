@@ -171,6 +171,7 @@ export const orderRouter = t.router({
             },
           },
           orderDetail: true,
+          user: true,
         },
       });
       return order;

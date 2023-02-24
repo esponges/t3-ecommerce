@@ -1,4 +1,8 @@
-import type { Order, OrderDetail } from "@prisma/client";
+import type {
+  Order,
+  OrderDetail,
+  User
+} from "@prisma/client";
 import type { Prisma } from "@prisma/client";
 
 export interface SessionProviders {
@@ -40,9 +44,10 @@ export type OrderWithPayload = Prisma.OrderGetPayload<{
   include: { orderItems: true; orderDetail: true };
 }>;
 
-export interface OrderDetails extends Order {
+export interface OrderDetails <U extends boolean = true> extends Order {
   orderItems: OrderItem[];
   orderDetail: OrderDetail | null;
+  user: U extends true ? User : null;
 }
 
 export type ProductTableItem = Product & { category: string };

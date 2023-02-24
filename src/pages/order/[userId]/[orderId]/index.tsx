@@ -26,7 +26,7 @@ const OrderDetails = () => {
     },
     {
       enabled: !!orderId && !!userId,
-      select: useCallback((o: IOrderDetails) => {
+      select: useCallback((o: IOrderDetails<true>) => {
         return {
           ...o,
           orderItems: o.orderItems.map((orderItem) => ({
@@ -38,6 +38,8 @@ const OrderDetails = () => {
       }, []),
     }
   );
+
+  console.log('order', order);
 
   const header = {
     title: 'Detalles de tu pedido',
@@ -93,6 +95,9 @@ const OrderDetails = () => {
                   </p>
                 </div>
               ) : null}
+              {/* user name */}
+              <Label className="mb-2">Comprador</Label>
+              <p className="mt-4">{order.user.name}</p>
               <Label className="mb-2">Dirección</Label>
               <p className="mt-4">
                 {`
