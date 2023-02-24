@@ -219,6 +219,9 @@ export const productRouter = t.router({
         },
         where: {
           categoryId: categoryId ? categoryId : undefined,
+          stock: {
+            gt: 0,
+          },
           // show only products with any favScore
           favScore: favorite
             ? {

@@ -54,8 +54,10 @@ const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideP
         description={product?.description}
         image={product?.image}
         id={product?.id}
+        stock={product?.stock}
         category={product?.category}
         onAddToCart={handleAddToCart}
+        productSpecs={product?.productSpecs}
       />
       <ProductCarousel
         showDescriptions={false}
