@@ -4,6 +4,7 @@ import type { Category } from '@prisma/client';
 import {
   Item,
   Label,
+  Message,
   Table
 } from 'semantic-ui-react';
 
@@ -33,6 +34,7 @@ export const ProductItem = ({
   description,
   image,
   productSpecs,
+  stock,
   onAddToCart,
   category,
   showDetails = true,
@@ -77,11 +79,22 @@ export const ProductItem = ({
           {category?.name ? <Label>{category?.name}</Label> : null}
         </Item.Header>
         <Item.Meta>
-          <span className="cinema font-bold text-xl">${price} MXN</span>
-          {qty && <span className="cinema ml-5">x{qty}</span>}
+          {!stock ? (
+            <Message
+              className="mt-4"
+              warning
+              header="Sin existencias"
+              content="Este producto no se encuentra disponible en este momento."
+            />
+          ) : (
+            <>
+              <span className="cinema font-bold text-xl">${price}.00 MXN</span>
+              {qty && <span className="cinema ml-5">x{qty}</span>}
+            </>
+          )}
         </Item.Meta>
         {showDetails && <Item.Description className="mt-8">{description}</Item.Description>}
-        {showCTAs && (
+        {showCTAs && stock ? (
           <Item.Extra className="mt-8 text-center">
             <div className="mt-8 flex justify-center text-center">
               <Counter
@@ -97,7 +110,7 @@ export const ProductItem = ({
               </Button>
             </div>
           </Item.Extra>
-        )}
+        ): null}
         {/* Technical details */}
         <Item.Extra className="mt-2 md:mt-4">
           <Table basic="very">
@@ -109,11 +122,11 @@ export const ProductItem = ({
             <Table.Body>
               <Table.Row>
                 <Table.Cell>Capacidad</Table.Cell>
-                <Table.Cell>{productSpecs?.capacity || 'N/D'}</Table.Cell>
+                <Table.Cell>{productSpecs?.capacity || 'N/D'}.</Table.Cell>
               </Table.Row>
               <Table.Row>
                 <Table.Cell>Volumen Alc.</Table.Cell>
-                <Table.Cell>{productSpecs?.volume || 'N/D'}</Table.Cell>
+                <Table.Cell>{productSpecs?.volume || 'N/D'}%</Table.Cell>
               </Table.Row>
               {productSpecs?.country ? (
                 <Table.Row>
