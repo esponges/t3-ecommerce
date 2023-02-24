@@ -39,8 +39,6 @@ const OrderDetails = () => {
     }
   );
 
-  console.log('order', order);
-
   const header = {
     title: 'Detalles de tu pedido',
   };

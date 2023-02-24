@@ -10,6 +10,6 @@ interface Props<T> {
 // comma in the generic fixes a compiler error
 export const PriceCell = <T,>({ row, price, currency = 'MXN' }: Props<T>) => {
   const value = price ?? row?.getValue();
-  const formatted = useMemo(() => `${currency} $${value ?? ''}`, [value, currency]);
+  const formatted = useMemo(() => `${currency} $${value ?? ''}.00`, [value, currency]);
   return <>{formatted}</>;
 };

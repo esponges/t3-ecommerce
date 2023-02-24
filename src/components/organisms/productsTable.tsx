@@ -10,6 +10,7 @@ import type { Product, ProductTableItem as TableItem } from '@/types';
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 import { PageContainer } from '@/components/layouts/pageContainer';
 import { ProductDetailsCell } from '../atoms/table/ProductDetailsCell';
+import { PriceCell } from '../atoms/table/PriceCell';
 
 interface Props {
   productsUrl?: string;
@@ -55,7 +56,7 @@ export const ProductsTable = ({ productsUrl, getProductUrl, title }: Props) => {
       },
       {
         header: 'Precio',
-        cell: (row) => row.getValue(),
+        cell: (row) => <PriceCell <TableItem> row={row}/>,
         accessorKey: 'price',
         size: 100,
       },
