@@ -4,10 +4,10 @@ import { Card } from 'semantic-ui-react';
 import type { Product } from '@prisma/client';
 
 import { Button } from '@/components/atoms/button';
+import { Image } from '@/components/atoms/image';
 import { Counter } from '@/components/molecules/counter';
 import { useProduct } from '@/lib/hooks/useProduct';
 import { useCartActions } from '@/store/cart';
-import Image from 'next/image';
 import { PageRoutes } from '@/lib/routes';
 
 type Props = {
