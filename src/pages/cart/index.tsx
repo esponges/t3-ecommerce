@@ -19,6 +19,8 @@ import { PageRoutes } from '@/lib/routes';
 import { trpc } from '@/lib/trpc';
 import { PageContainer } from '@/components/layouts/pageContainer';
 import { ProductDetailsCell } from '@/components/atoms/table/ProductDetailsCell';
+import { Image } from '@/components/atoms/image';
+import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 
 export type TableCartItem = Pick<CartItem, 'name' | 'price' | 'quantity' | 'id'>;
 type TableCartItemWithImage = TableCartItem & { image: string };
@@ -27,6 +29,7 @@ type TableCartItemWithImage = TableCartItem & { image: string };
 export const MIN_PURCHASE = 1500;
 
 const Cart = () => {
+  const { isMobile } = useDeviceWidth();
   const { cartItems, cartTotal } = useCartItems();
   const { removeFromCart, updateCartItems } = useCartActions();
   const router = useRouter();
@@ -138,8 +141,14 @@ const Cart = () => {
   const cols = useMemo<ColumnDef<TableCartItemWithImage, string>[]>(
     () => [
       {
+        header: '',
+        cell: (row) => !isMobile ? <Image src={row.renderValue() || ''} alt={row.row.original.name} /> : '',
+        accessorKey: 'image',
+        size: !isMobile ? 100 : 0,
+      },
+      {
         header: 'Producto',
-        cell: (row) => <ProductDetailsCell<TableCartItemWithImage> row={row} imageUrl={row.row.original.image} />,
+        cell: (row) => <ProductDetailsCell<TableCartItemWithImage> row={row} />,
         accessorKey: 'name',
         footer: 'Total',
         minSize: 300,
@@ -163,7 +172,7 @@ const Cart = () => {
         size: 50,
       },
     ],
-    [cartTotal, removeFromCart, renderActions]
+    [cartTotal, removeFromCart, renderActions, isMobile]
   );
 
   return (
