@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 import type { Category } from '@prisma/client';
 import {
   Item,
@@ -12,11 +11,14 @@ import { useProduct } from '@/lib/hooks/useProduct';
 
 import { Button } from '@/components/atoms/button';
 import { Counter } from '@/components/molecules/counter';
+import { Image } from '@/components/atoms/image';
+
+
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 import { PageRoutes } from '@/lib/routes';
 
 import type { Product } from '@/types';
-import { Heading, HeadingSizes } from '../atoms/heading';
+import { Heading, HeadingSizes } from '@/components/atoms/heading';
 
 type Props = Partial<Product> & {
   onClick?: () => void;
