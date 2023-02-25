@@ -92,7 +92,6 @@ export const ProductCarousel = ({
               key={product.id ?? idx}
               product={product}
               onClick={() => handleCardClick(product.name)}
-              inline
               showDetailsBtn={false}
               showDescription={showDescriptions}
             />

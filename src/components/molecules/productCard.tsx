@@ -66,7 +66,6 @@ export const ProductCard = ({
           <Image
             src={product?.image ?? '/images/empty-bottle.png'}
             alt="product"
-            className="w-full"
             placeholder="blur"
             blurDataURL="/images/empty-bottle.png"
             width={300}
