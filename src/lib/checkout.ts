@@ -80,20 +80,34 @@ export const getAvailableDaysOptions = () => {
   const localTime = new Date();
 
   // get current index of the day
-  // 1 is monday, 2 is tuesday, etc
+  // 0 is sunday, 1 is monday, 2 is tuesday, etc
   const currentDayIndex = localTime.getDay();
 
-  // if saturday just return the days array
-  if (currentDayIndex === 6) {
-    return days;
+  // if saturday or sunday just return the next three days
+  if (currentDayIndex === 6 || currentDayIndex === 0) {
+    return days.slice(0, 3);
   }
 
-  // return the days array starting from the current day
-  // if it already over 10:00 AM remove the current day
-  if (localTime.getHours() >= 10) {
-    return days.slice(currentDayIndex);
+  // get the next three working days
+  // if it's before 10:00 AM, add the current day
+  const offset = localTime.getHours() < 10 ? 1 : 0;
+
+  const nextWorkingDays = [];
+  // start with the next day and consider the offset
+  let index = currentDayIndex - 1 - offset; 
+
+  while (nextWorkingDays.length < 3 + offset) {
+    index = (index + 1) % days.length;
+    const day = days[index];
+
+    nextWorkingDays.push({
+      key: day?.key,
+      text: day?.text,
+      value: day?.value,
+    });
   }
-  return days.slice(currentDayIndex - 1);
+
+  return nextWorkingDays;
 };
 
 export const paymentOptions = [
