@@ -21,11 +21,13 @@ const getIKIProps = (props: Props): IKImageProps => {
   return IKIProps;
 };
 
+const getIsIKImage = (src?: string) => src?.match(/https:\/\/ik\.imagekit\.io\/[^/]+\//);
+
 // we use ImageKit for image optimization & hosting
 // TODO: use a public image provider to make use of 
 // the Next.js Image component which is more performant
 export const Image = (props: Props) => {
-  const isIKImage = props.src.match(/https:\/\/ik\.imagekit\.io\/[^/]+\//);
+  const isIKImage = getIsIKImage(props.src);
 
   if (!isIKImage) {
     return (
@@ -45,8 +47,10 @@ export const Image = (props: Props) => {
   const IKIProps = getIKIProps(props);
 
   return (
-    <IKImage 
-      {...IKIProps}
-    />
+    <div className='iki-img-container'>
+      <IKImage 
+        {...IKIProps}
+      />
+    </div>
   );
 };

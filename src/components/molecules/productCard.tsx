@@ -62,20 +62,21 @@ export const ProductCard = ({
   return (
     <div className="card m-2">
       <Card>
-        <div className="cursor-pointer" onClick={redirOnImageClick ? handleDetailsClick : undefined}>
+        <div
+          className={"cursor-pointer"}
+          onClick={redirOnImageClick ? handleDetailsClick : undefined}
+        >
           <Image
             src={product?.image ?? '/images/empty-bottle.png'}
             alt="product"
             placeholder="blur"
             blurDataURL="/images/empty-bottle.png"
-            width={300}
-            height={300}
           />
         </div>
         <Card.Content onClick={redirOnImageClick ? handleDetailsClick : undefined}>
           <Card.Header className="cursor-pointer">{product?.name}</Card.Header>
           <Card.Meta>
-            <span className="date text-gray-600">{product?.price} MXN</span>
+            <span className="date text-gray-600">{product?.price}.00 MXN</span>
           </Card.Meta>
           {showDescription && <Card.Description className="h-20">{product?.description}</Card.Description>}
         </Card.Content>
@@ -104,7 +105,7 @@ export const ProductCard = ({
                 <Button onClick={handleDetailsClick} variant="primary">
                   Details
                 </Button>
-              ): null}
+              ) : null}
             </div>
           </div>
         </Card.Content>
