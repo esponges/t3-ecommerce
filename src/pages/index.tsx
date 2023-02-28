@@ -21,6 +21,7 @@ import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 
 
 const heroImages = [
+  '/images/hero/logo-vinoreo.png',
   '/images/hero/hero-image-1.jpeg',
   '/images/hero/hero-image-2.jpeg',
   '/images/hero/hero-image-3.jpeg',
