@@ -6,6 +6,8 @@ export interface CheckoutFormValues {
   postalCode: string;
   selectedPostalCode: string;
   phone: string;
+  name: string;
+  email: string;
   schedule: string;
   day: string;
   payment: PaymentMethods;
@@ -38,6 +40,20 @@ export const validation = {
     pattern: {
       value: /^[0-9]{10}$/,
       message: 'El teléfono debe tener 10 números, sin espacios ni guiones',
+    },
+  },
+  name: {
+    required: 'El nombre es requerido',
+    minLength: {
+      value: 3,
+      message: 'El nombre debe tener al menos 3 caracteres',
+    },
+  },
+  email: {
+    required: 'El correo es requerido',
+    pattern: {
+      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+      message: 'El correo debe tener un formato válido',
     },
   },
   day: {
@@ -127,6 +143,8 @@ export const checkoutDefaultValues: CheckoutFormValues = {
   postalCode: '',
   selectedPostalCode: '',
   phone: '',
+  name: '',
+  email: '',
   schedule: '',
   day: '',
   payment: PaymentMethods.Transfer,

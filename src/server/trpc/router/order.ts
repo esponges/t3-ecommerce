@@ -23,6 +23,8 @@ export const orderRouter = t.router({
           schedule: z.string(),
           day: z.string(),
           payment: z.string(),
+          email: z.string(),
+          name: z.string(),
         }),
         total: z.number(),
       })

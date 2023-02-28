@@ -52,7 +52,7 @@ const Checkout = () => {
   const [, setPaymentMethod] = useState<PaymentMethods>(PaymentMethods.Transfer);
 
   const { data: session } = useSession();
-  const user: User | undefined = session?.user as User | undefined;
+  const user = session?.user;
 
   const { cartItems, cartTotal } = useCartItems();
   const { clearCart } = useCartActions();
@@ -73,6 +73,20 @@ const Checkout = () => {
     control,
     trigger,
   } = useForm({ defaultValues: checkoutDefaultValues });
+
+  // set mail and name from session
+  // remember that default values are only set on first render
+  // then they must be set via setValue or reset
+  useEffect(() => {
+    if (user) {
+      if (user.name) {
+        setValue('name', user.name);
+      }
+      if (user.email) {
+        setValue('email', user.email);
+      }
+    }
+  }, [user, setValue]);
 
   // we actually want to check the selectedPostalCode, not the postalCode
   useEffect(() => {
@@ -208,6 +222,8 @@ const Checkout = () => {
           day: data.day,
           schedule: data.schedule,
           payment: data.payment,
+          name: data.name,
+          email: data.email,
         },
         total: cartTotal,
       });
@@ -334,6 +350,34 @@ const Checkout = () => {
               {...register('phone', validation.phone)}
             />
             {errors.phone && <InputMessage type="error" message={errors.phone.message ?? 'Requerido'} />}
+          </Form.Field>
+          {/* name */}
+          <Form.Field>
+            <label htmlFor="name" className="form-label font-bold">
+              Nombre
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Nombre"
+              id="name"
+              {...register('name', validation.name)}
+            />
+            {errors.name && <InputMessage type="error" message={errors.name.message ?? 'Requerido'} />}
+          </Form.Field>
+          {/* email */}
+          <Form.Field>
+            <label htmlFor="email" className="form-label font-bold">
+              Correo electrónico
+            </label>
+            <input
+              type="email"
+              className="form-control"
+              placeholder="Correo electrónico"
+              id="email"
+              {...register('email', validation.email)}
+            />
+            {errors.email && <InputMessage type="error" message={errors.email.message ?? 'Requerido'} />}
           </Form.Field>
           <Form.Field>
             <Controller
