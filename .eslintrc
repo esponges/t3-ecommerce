@@ -38,6 +38,10 @@
     "indent": "off",
     "@typescript-eslint/indent": ["error", 2],
     "@typescript-eslint/semi": ["error", "always"],
-    "@typescript-eslint/no-shadow": "error"
+    "@typescript-eslint/no-shadow": "error",
+    // no template curly braces in strings and no unnecessary template literals
+    "no-template-curly-in-string": "error",
+    // jsx curly spacing
+    "react/jsx-curly-spacing": ["error", "never"]
   }
 }
