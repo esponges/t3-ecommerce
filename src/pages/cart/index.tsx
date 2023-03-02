@@ -1,12 +1,16 @@
 /* eslint-disable react/display-name */
 import { useEffect, useMemo } from 'react';
-import { Icon, Message } from 'semantic-ui-react';
+import {
+  Icon,
+  Message,
+  Button as SemanticButton
+} from 'semantic-ui-react';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 
 import type { CellContext, ColumnDef } from '@tanstack/react-table';
-import type { Item as CartItem } from '@/store/cart';
+import type { Item as CartItem, CartState } from '@/store/cart';
 import { useCartActions } from '@/store/cart';
 
 import { Table } from '@/components/molecules/table';
@@ -31,7 +35,7 @@ export const MIN_PURCHASE = 1500;
 const Cart = () => {
   const { isMobile } = useDeviceWidth();
   const { cartItems, cartTotal } = useCartItems();
-  const { removeFromCart, updateCartItems } = useCartActions();
+  const { removeFromCart, updateCartItems, increaseQuantity } = useCartActions();
   const router = useRouter();
   useRouter;
 
@@ -103,16 +107,33 @@ const Cart = () => {
 
   const renderActions = useMemo(() => {
     // use memo doesn't take arguments, only if it returns a function as a closure
-    return (removeFn: (id: string) => void, row: CellContext<TableCartItemWithImage, string>) => {
+    return (
+      removeFn: (id: string) => void,
+      row: CellContext<TableCartItemWithImage, string>,
+      addFn: CartState['actions']['increaseQuantity']
+    ) => {
+      const id = row.getValue();
+
       const handleRemove = () => {
-        const id = row.getValue();
         removeFn(id);
       };
 
+      const handleAddOne = () => {
+        addFn(id, 1);
+      };
+
       return (
-        <div className="flex justify-center">
-          <span className="mr-5 cursor-pointer" onClick={handleRemove}>
-            <Icon name="trash" />
+        <div className="grid text">
+          <span className="cursor-pointer" onClick={handleRemove}>
+            <SemanticButton icon>
+              <Icon name="trash" />
+            </SemanticButton>
+          </span>
+          {/* add one extra */}
+          <span className="cursor-pointer" onClick={handleAddOne}>
+            <SemanticButton icon>
+              <Icon name="plus" /> <span className="ml-1">1</span>
+            </SemanticButton>
           </span>
         </div>
       );
@@ -142,7 +163,7 @@ const Cart = () => {
     () => [
       {
         header: '',
-        cell: (row) => !isMobile ? <Image src={row.renderValue() || ''} alt={row.row.original.name} /> : '',
+        cell: (row) => (!isMobile ? <Image src={row.renderValue() || ''} alt={row.row.original.name} /> : ''),
         accessorKey: 'image',
         size: !isMobile ? 100 : 0,
       },
@@ -167,12 +188,12 @@ const Cart = () => {
       },
       {
         header: '',
-        cell: (row) => renderActions(removeFromCart, row),
+        cell: (row) => renderActions(removeFromCart, row, increaseQuantity),
         accessorKey: 'id',
-        size: 50,
+        size: 75,
       },
     ],
-    [cartTotal, removeFromCart, renderActions, isMobile]
+    [cartTotal, removeFromCart, renderActions, isMobile, increaseQuantity]
   );
 
   return (
