@@ -124,7 +124,7 @@ const Cart = () => {
 
       return (
         <div className="grid text">
-          <span className="cursor-pointer" onClick={handleRemove}>
+          <span className="cursor-pointer mb-2" onClick={handleRemove}>
             <SemanticButton icon>
               <Icon name="trash" />
             </SemanticButton>

@@ -72,6 +72,8 @@ const useCartStore = create<CartState>((set) => ({
           },
         };
 
+        toast(`${item.name} (${qty}x) agregado`);
+
         setLocalCart(updatedCart.items);
 
         return updatedCart;
