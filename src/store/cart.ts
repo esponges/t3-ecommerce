@@ -1,14 +1,16 @@
+import { setLocalCart } from '@/lib/cart';
 import type { Product } from '@prisma/client';
 import { toast } from 'react-toastify';
 import create from 'zustand';
 
 export type Item = Product & { quantity: number };
 export type CartItems = { [key: string]: Item } | Record<string, never>;
-interface CartState {
+export interface CartState {
   items: CartItems;
   actions: {
     restoreCart: (cart: CartItems) => void;
     addToCart: (product: Product, quantity: number) => void;
+    increaseQuantity: (productId: string, qty: number) => void;
     removeFromCart: (productId: string) => void;
     updateCartItems: (items: Product[]) => void;
     clearCart: () => void;
@@ -42,10 +44,35 @@ const useCartStore = create<CartState>((set) => ({
         };
 
         // persist cart to local storage
-        localStorage.setItem('cart', JSON.stringify(updatedCart.items));
+        setLocalCart(updatedCart.items);
 
         // show toast
         toast(`${product.name} (${quantity}x) agregado`);
+
+        return updatedCart;
+      });
+    },
+    increaseQuantity: (productId: string, qty: number) => {
+      set((state) => {
+        const product = state.items[productId];
+
+        if (!product) {
+          console.warn(`Product ${productId} not found`);
+          return state;
+        }
+
+        const item: Item = { ...product, quantity: product.quantity + qty };
+
+        const updatedCart = {
+          items: {
+            ...state.items,
+            [productId]: {
+              ...item,
+            },
+          },
+        };
+
+        setLocalCart(updatedCart.items);
 
         return updatedCart;
       });
@@ -65,7 +92,7 @@ const useCartStore = create<CartState>((set) => ({
           };
         });
 
-        localStorage.setItem('cart', JSON.stringify(updatedCart.items));
+        setLocalCart(updatedCart.items);
 
         return updatedCart;
       });
@@ -83,7 +110,7 @@ const useCartStore = create<CartState>((set) => ({
 
         toast(`${state.items[productId]?.name || ''} eliminado`);
 
-        localStorage.setItem('cart', JSON.stringify(updatedCart.items));
+        setLocalCart(updatedCart.items);
 
         return updatedCart;
       });
@@ -95,7 +122,7 @@ const useCartStore = create<CartState>((set) => ({
           items: {},
         };
 
-        localStorage.setItem('cart', JSON.stringify(updatedCart.items));
+        setLocalCart;
 
         return updatedCart;
       });
