@@ -172,12 +172,13 @@ const Cart = () => {
         cell: (row) => <ProductDetailsCell<TableCartItemWithImage> row={row} />,
         accessorKey: 'name',
         footer: 'Total',
-        minSize: 300,
+        minSize: !isMobile ? 350 : undefined,
       },
       {
         header: 'Precio',
         cell: (row) => <PriceCell<TableCartItemWithImage> price={row.renderValue()} />,
         accessorKey: 'price',
+        size: 100,
         footer: () => <PriceCell<TableCartItemWithImage> price={cartTotal.toString()} />,
       },
       {
@@ -203,18 +204,21 @@ const Cart = () => {
         <meta name="robots" content="noindex" />
         <title>Carrito</title>
       </Head>
-      <div className="my-10 mx-4">
-        {tableItems.length ? (
-          <Table data={tableItems} columns={cols} showGlobalFilter={false} showNavigation={false} />
-        ) : (
-          <Message
-            icon="shopping cart"
-            header="Tu carrito está vacío"
-            size="big"
-            content="Agrega productos a tu carrito para continuar"
-          />
-        )}
-      </div>
+      {tableItems.length ? (
+        <Table 
+          data={tableItems} 
+          columns={cols} 
+          isMobile={isMobile} 
+          showNavigation={false}
+        />
+      ) : (
+        <Message
+          icon="shopping cart"
+          header="Tu carrito está vacío"
+          size="big"
+          content="Agrega productos a tu carrito para continuar"
+        />
+      )}
       <div className={`${!hasMinPurchase ? 'block text-center md:mx-auto md:w-1/2' : 'flex justify-center '} mb-4`}>
         {hasMinPurchase ? (
           <Button variant="primary" onClick={handleCheckout} className="mr-2">
