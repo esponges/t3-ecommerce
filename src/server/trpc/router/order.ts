@@ -138,18 +138,38 @@ export const orderRouter = t.router({
 
       return orders;
     }),
-  getAll: authedProcedure.query(async ({ ctx }) => {
-    const orders = await ctx.prisma.order.findMany({
-      include: {
-        orderItems: true,
-        orderDetail: true,
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
-    return orders;
-  }),
+  get: authedProcedure
+    .input(
+      z.object({
+        take: z.number().optional(),
+        skip: z.number().optional(),
+        details: z.boolean().optional(),
+        orderItems: z.boolean().optional(),
+        userDetail: z.boolean().optional(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const orders = await ctx.prisma.order.findMany({
+        include: {
+          orderItems: input.orderItems
+            ? {
+              include: {
+                product: true,
+              },
+            }
+            : true,
+          orderDetail: input.details,
+          user: input.userDetail,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        take: input.take,
+        skip: input.skip,
+      });
+
+      return orders;
+    }),
   getById: authedProcedure
     .input(
       // allow lazy fetching for Checkout
