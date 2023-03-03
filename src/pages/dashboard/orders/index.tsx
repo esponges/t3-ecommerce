@@ -29,7 +29,6 @@ export default function AdminOrders () {
       {
         header: 'Fecha',
         accessorKey: 'createdAt',
-        // cell: (row) => row.renderValue(),
       },
       {
         header: 'Total',
@@ -63,3 +62,6 @@ export default function AdminOrders () {
     </PageContainer>
   );
 }
+
+AdminOrders.requireAuth = true;
+AdminOrders.requireAdmin = true;
