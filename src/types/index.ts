@@ -2,8 +2,8 @@ import type {
   Order,
   OrderDetail,
   User
-} from "@prisma/client";
-import type { Prisma } from "@prisma/client";
+} from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 
 export interface SessionProviders {
   discord: 'discord';
@@ -35,7 +35,7 @@ export type OrderItem = Prisma.OrderItemGetPayload<{
 }>;
 
 export type Product = Prisma.ProductGetPayload<{
-  include: { category: true, productSpecs: true };
+  include: { category: true; productSpecs: true };
 }>;
 
 export type Category = Prisma.CategoryGetPayload<{}>;
@@ -44,11 +44,20 @@ export type OrderWithPayload = Prisma.OrderGetPayload<{
   include: { orderItems: true; orderDetail: true };
 }>;
 
-export interface OrderDetails <U extends boolean = true> extends Order {
+export type OrderWithOptPayload<
+  U extends boolean = true,
+  D extends boolean = true,
+  I extends boolean = true
+> = Order & {
+  orderItems: I extends true ? OrderItem[] : null;
+  orderDetail: D extends true ? OrderDetail | null : null;
+  user: U extends true ? User : null;
+};
+
+export interface OrderDetails<U extends boolean = true> extends Order {
   orderItems: OrderItem[];
   orderDetail: OrderDetail | null;
   user: U extends true ? User : null;
 }
 
 export type ProductTableItem = Product & { category: string };
-
