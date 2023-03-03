@@ -24,8 +24,6 @@ export const ProtectedLayout = ({ children, requireAdmin }: Props): JSX.Element 
   const unAuthorized = sessionStatus === 'unauthenticated';
   const loading = sessionStatus === 'loading';
 
-  console.log('sessionStatus', sessionStatus);
-
   const user = data?.user;
   const isAdmin = user?.admin;
 
