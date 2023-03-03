@@ -7,10 +7,13 @@ import { Table } from "@/components/molecules/table";
 import type { OrderWithOptPayload } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
+import { useRouter } from "next/router";
 
 type TableOrderItem = OrderWithOptPayload<false, false, false>;
 
 export default function AdminOrders () {
+  const router = useRouter();
+
   const { data: orders, isLoading } = trpc.order.get.useQuery({}, {
     select: (orderItems: TableOrderItem[]) => orderItems.map((order) => ({
       id: order.id,
@@ -19,12 +22,31 @@ export default function AdminOrders () {
     }))
   });
 
+  const handleOrderClick = (id: string) => {
+    // add orderId to url params
+    router.push({
+      pathname: '/dashboard/orders',
+      query: { orderId: id },
+    });
+  };
+
+  const renderDetailCell = (id?: string|null) => {
+    return (
+      <button
+        className="text-blue-500 hover:text-blue-700"
+        onClick={() => handleOrderClick(id ?? '')}
+      >
+        {id ?? ''}
+      </button>
+    );
+  };
+
   const cols = useMemo<ColumnDef<TableOrderItem, string>[]>(
     () => [
       {
         header: 'id',
         accessorKey: 'id',
-        cell: (row) => row.renderValue(),
+        cell: (row) => renderDetailCell(row.renderValue()),
       },
       {
         header: 'Fecha',
@@ -41,7 +63,7 @@ export default function AdminOrders () {
   );
 
   return (
-    <PageContainer heading={{ title: 'Información de tu cuenta' }} className="text-center">
+    <PageContainer heading={{ title: 'Órdenes' }} className="text-center">
       <Head>
         {/* dont index */}
         <meta name="robots" content="noindex" />
