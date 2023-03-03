@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { trpc } from "@/lib/trpc";
 import Head from "next/head";
 import { PageContainer } from "@/components/layouts/pageContainer";
@@ -6,7 +7,7 @@ import { Table } from "@/components/molecules/table";
 
 import type { OrderWithOptPayload } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useRouter } from "next/router";
 
 type TableOrderItem = OrderWithOptPayload<false, false, false>;
@@ -22,24 +23,26 @@ export default function AdminOrders () {
     }))
   });
 
-  const handleOrderClick = (id: string) => {
+  const handleOrderClick = useCallback((id: string) => {
     // add orderId to url params
     router.push({
       pathname: '/dashboard/orders',
       query: { orderId: id },
     });
-  };
+  }, [router]);
 
-  const renderDetailCell = (id?: string|null) => {
-    return (
-      <button
-        className="text-blue-500 hover:text-blue-700"
-        onClick={() => handleOrderClick(id ?? '')}
-      >
-        {id ?? ''}
-      </button>
-    );
-  };
+  const renderDetailCell = useMemo(() => {
+    return (id?: string|null) => {
+      return (
+        <button
+          className="text-blue-500 hover:text-blue-700"
+          onClick={() => handleOrderClick(id ?? '')}
+        >
+          {id ?? ''}
+        </button>
+      );
+    };
+  }, [handleOrderClick]);
 
   const cols = useMemo<ColumnDef<TableOrderItem, string>[]>(
     () => [
@@ -59,7 +62,7 @@ export default function AdminOrders () {
         size: 50,
       },
     ],
-    []
+    [renderDetailCell]
   );
 
   return (
