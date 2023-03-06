@@ -33,7 +33,7 @@ import { PageContainer } from '@/components/layouts/pageContainer';
 import { Button } from '@/components/atoms/button';
 import { InputMessage } from '@/components/atoms/inputMessage';
 import { RadioGroup } from '@/components/molecules/radioGroup';
-import { CartItems } from '@/components/molecules/cartItems';
+import { CartItemsTable } from '@/components/molecules/cartItemsTable';
 import { Searchbar } from '@/components/molecules/searchbar';
 import { Pill } from '@/components/atoms/pill';
 
@@ -259,7 +259,7 @@ const Checkout = () => {
             Tu pedido
           </Accordion.Title>
           <Accordion.Content active={activeIndex === 0}>
-            <CartItems tableItems={tableCartItems} cartTotal={cartTotal} />
+            <CartItemsTable tableItems={tableCartItems} cartTotal={cartTotal} />
           </Accordion.Content>
         </Accordion>
         <Form onSubmit={handleSubmit(handleFormSubmit)} className="px-5 text-left">

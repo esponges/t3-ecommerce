@@ -13,7 +13,7 @@ import { env } from '@/env/client.mjs';
 import type { TableCartItem } from '@/pages/cart';
 import { PageContainer } from '@/components/layouts/pageContainer';
 import { Label } from '@/components/atoms/label';
-import { CartItems } from '@/components/molecules/cartItems';
+import { CartItemsTable } from '@/components/molecules/cartItemsTable';
 import { Button } from '@/components/atoms/button';
 
 const OrderDetails = () => {
@@ -73,7 +73,7 @@ const OrderDetails = () => {
               <Label className="mb-2">Total</Label>
               <p className="mt-4">${order.total} MXN</p>
               <Label className="mb-2">Productos</Label>
-              <CartItems tableItems={order.orderItems as TableCartItem[]} cartTotal={order.total as number} />
+              <CartItemsTable tableItems={order.orderItems as TableCartItem[]} cartTotal={order.total as number} />
               {order.orderDetail?.payment === 'transfer' ? (
                 <div className="my-5 border border-gray-300 p-5">
                   <p className="mb-2">

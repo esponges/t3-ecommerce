@@ -12,7 +12,7 @@ interface Props {
   cartTotal: number;
 }
 
-export const CartItems = ({ tableItems, cartTotal }: Props) => {
+export const CartItemsTable = ({ tableItems, cartTotal }: Props) => {
   const { isMobile } = useDeviceWidth();
 
   const cols = useMemo<ColumnDef<TableCartItem, string>[]>(
