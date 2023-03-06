@@ -24,7 +24,7 @@ export const Modal = ({ children, onClose, open, title }: Props) => {
         {children}
       </SemanticModal.Content>
       <SemanticModal.Actions>
-        <Button variant="primary" onClick={onClose}>Cerrar</Button>
+        <Button variant="primary" className="mb-4" onClick={onClose}>Cerrar</Button>
       </SemanticModal.Actions>
     </SemanticModal>
   );
