@@ -40,8 +40,8 @@ export type Product = Prisma.ProductGetPayload<{
 
 export type Category = Prisma.CategoryGetPayload<{}>;
 
-export type OrderWithPayload = Prisma.OrderGetPayload<{
-  include: { orderItems: true; orderDetail: true };
+export type OrderWithPayload<U extends boolean = false> = Prisma.OrderGetPayload<{
+  include: { orderItems: true; orderDetail: true, user: U extends true ? true : false };
 }>;
 
 export type OrderWithOptPayload<
