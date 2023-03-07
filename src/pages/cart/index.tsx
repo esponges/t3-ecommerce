@@ -32,7 +32,7 @@ type TableCartItemWithImage = TableCartItem & { image: string };
 // consider moving this to a constants file when there's one
 export const MIN_PURCHASE = 1500;
 
-const Cart = () => {
+export default function Cart () {
   const { isMobile } = useDeviceWidth();
   const { cartItems, cartTotal } = useCartItems();
   const { removeFromCart, updateCartItems, increaseQuantity } = useCartActions();
@@ -178,7 +178,7 @@ const Cart = () => {
         header: 'Precio',
         cell: (row) => <PriceCell<TableCartItemWithImage> price={row.renderValue()} />,
         accessorKey: 'price',
-        size: 100,
+        size: 120,
         footer: () => <PriceCell<TableCartItemWithImage> price={cartTotal.toString()} />,
       },
       {
@@ -239,6 +239,4 @@ const Cart = () => {
       </div>
     </PageContainer>
   );
-};
-
-export default Cart;
+}
