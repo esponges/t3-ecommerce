@@ -38,6 +38,7 @@ export const sendOrderConfirmationEmail = async (
     bankName: envClient.NEXT_PUBLIC_BANK_NAME,
     accountName: envClient.NEXT_PUBLIC_BANK_ACCOUNT_NAME,
     accountNumber: envClient.NEXT_PUBLIC_BANK_ACCOUNT_NUMBER,
+    accountCLABE: envClient.NEXT_PUBLIC_BANK_ACCOUNT_CLABE,
   } : null;
 
   const template = path.join(process.cwd(), 'src/server/common/templates/confirmation.ejs');

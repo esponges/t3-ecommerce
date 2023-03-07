@@ -16,7 +16,7 @@ import { Label } from '@/components/atoms/label';
 import { CartItemsTable } from '@/components/molecules/cartItemsTable';
 import { Button } from '@/components/atoms/button';
 
-const OrderDetails = () => {
+export default function OrderDetails () {
   const router = useRouter();
   const { userId, orderId } = router.query;
 
@@ -63,7 +63,7 @@ const OrderDetails = () => {
         <meta name="robots" content="noindex" />
         <title>Tu pedido</title>
       </Head>
-      <Card className="order-success-card mb-5 md:w-1/2">
+      <Card className="order-success-card mb-5">
         <Card.Content className="md:w-full">
           {isLoading && <p>Loading...</p>}
           {order && (
@@ -80,16 +80,20 @@ const OrderDetails = () => {
                     Para poderte enviar tu pedido, por favor realiza el pago a la siguiente cuenta bancaria:
                   </p>
                   <p className="mb-2">
+                    Nombre:
+                    <b className="ml-3">{env.NEXT_PUBLIC_BANK_ACCOUNT_NAME}</b>
+                  </p>
+                  <p className="mb-2">
                     Banco:
                     <b className="ml-3">{env.NEXT_PUBLIC_BANK_NAME}</b>
                   </p>
                   <p className="mb-2">
-                    CLABE:
+                    Cuenta:
                     <b className="ml-3">{env.NEXT_PUBLIC_BANK_ACCOUNT_NUMBER}</b>
                   </p>
                   <p className="mb-2">
-                    Nombre:
-                    <b className="ml-3">{env.NEXT_PUBLIC_BANK_ACCOUNT_NAME}</b>
+                    CLABE:
+                    <b className="ml-3">{env.NEXT_PUBLIC_BANK_ACCOUNT_NUMBER}</b>
                   </p>
                 </div>
               ) : null}
@@ -120,8 +124,7 @@ const OrderDetails = () => {
       </Card>
     </PageContainer>
   );
-};
+}
 
 OrderDetails.requireAuth = true;
 
-export default OrderDetails;

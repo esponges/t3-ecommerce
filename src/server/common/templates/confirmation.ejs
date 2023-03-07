@@ -20,14 +20,14 @@
           <tr>
             <td><%= item.product.name %></td>
             <td><%= item.quantity %></td>
-            <td><%= item.product.price %></td>
+            <td>MXN $<%= item.product.price %></td>
           </tr>
         <% }); %>
       </tbody>
     </table>
     <p>
       <b>
-        Total: <%= order.total %>
+        Total: MXN $<%= order.total %>.00
       </b>
     </p>
     <% if (bankDetails) { %>
@@ -41,9 +41,15 @@
         </p>
         <p>
           <b>
-            CLABE:
+            Cuenta:
           </b>
           <%= bankDetails.accountNumber %>
+        </p>
+        <p>
+          <b>
+            CLABE:
+          </b>
+          <%= bankDetails.accountCLABE %>
         </p>
         <p>
           <b>
