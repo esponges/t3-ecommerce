@@ -6,7 +6,8 @@ import type { ImageProps } from 'next/image';
 import type { IKImageProps } from 'imagekitio-react/dist/types/components/IKImage/combinedProps';
 import { useState } from 'react';
 
-type Props = IKImageProps & ImageProps & {
+type Props = IKImageProps &
+ImageProps & {
   src: string;
 };
 
@@ -22,13 +23,19 @@ const getIKIProps = (props: Props): IKImageProps => {
   return IKIProps;
 };
 
+const getIsPokeImage = (src?: string) => {
+  // check the src matches "raw.githubusercontent.com" for the pokemon dummy images
+  return src?.match(/https:\/\/raw\.githubusercontent\.com\/[^/]+\//);
+};
+
 const getIsIKImage = (src?: string) => src?.match(/https:\/\/ik\.imagekit\.io\/[^/]+\//);
 
 // we use ImageKit for image optimization & hosting
-// TODO: use a public image provider to make use of 
+// TODO: use a public image provider to make use of
 // the Next.js Image component which is more performant
 export const Image = (props: Props) => {
   const isIKImage = getIsIKImage(props.src);
+  const isPokeImage = getIsPokeImage(props.src);
   const [hasIKIError, setHasIKIError] = useState(false);
 
   if (!isIKImage || hasIKIError) {
@@ -37,11 +44,11 @@ export const Image = (props: Props) => {
         alt={props.alt || 'image'}
         className={props.className || 'w-full'}
         placeholder="blur"
-        blurDataURL='/images/empty-bottle.png'
+        blurDataURL="/images/empty-bottle.png"
         width={props.width || 300}
         height={props.height || 300}
         {...props}
-        src={!hasIKIError ? props.src : '/images/empty-bottle.png'}
+        src={!hasIKIError && !isPokeImage ? props.src : '/images/empty-bottle.png'}
       />
     );
   }
@@ -54,9 +61,9 @@ export const Image = (props: Props) => {
   };
 
   return (
-    <div className='iki-img-container'>
+    <div className="iki-img-container">
       <IKImage
-        loading='lazy'
+        loading="lazy"
         onError={handleIKIError}
         lqip={{ active: true, quality: 20 }}
         {...IKIProps}
