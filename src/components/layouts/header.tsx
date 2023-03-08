@@ -145,10 +145,10 @@ export const Header = ({ children }: Props) => {
                   <a>
                     <Image
                       // eslint-disable-next-line max-len
-                      src="https://ik.imagekit.io/5wjtgrwr1/logo-no-bg-white.png?ik-sdk-version=javascript-1.4.3&updatedAt=1676318338413"
+                      src="/logo-no-bg-white.png"
                       alt="logo-vinoreo-header"
                       width={100}
-                      height={100}
+                      height={45}
                       className="mt-1"
                     />
                   </a>
@@ -182,10 +182,10 @@ export const Header = ({ children }: Props) => {
                 <div className="absolute left-[45%] hover:cursor-pointer">
                   <Image
                     // eslint-disable-next-line max-len
-                    src="https://ik.imagekit.io/5wjtgrwr1/logo-no-bg-white.png?ik-sdk-version=javascript-1.4.3&updatedAt=1676318338413"
+                    src="/logo-no-bg-white.png"
                     alt="logo-vinoreo-header"
                     width={100}
-                    height={100}
+                    height={45}
                     className="mt-1"
                   />
                 </div>
