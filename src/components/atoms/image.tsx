@@ -39,6 +39,8 @@ export const Image = (props: Props) => {
   const [hasIKIError, setHasIKIError] = useState(false);
 
   if (!isIKImage || hasIKIError) {
+    const backupSrc = !hasIKIError ? '/images/empty-bottle.png' : '/images/empty-bottle-error.png';
+
     return (
       <NextImage
         alt={props.alt || 'image'}
@@ -48,7 +50,7 @@ export const Image = (props: Props) => {
         width={props.width || 300}
         height={props.height || 300}
         {...props}
-        src={!hasIKIError && !isPokeImage ? props.src : '/images/empty-bottle.png'}
+        src={!hasIKIError && !isPokeImage ? props.src : backupSrc}
       />
     );
   }
