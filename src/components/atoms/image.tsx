@@ -1,6 +1,7 @@
 import { env } from '@/env/client.mjs';
 import NextImage from 'next/image';
 import { IKImage } from 'imagekitio-react';
+import omit from 'lodash/omit';
 
 import type { ImageProps } from 'next/image';
 import type { IKImageProps } from 'imagekitio-react/dist/types/components/IKImage/combinedProps';
@@ -15,11 +16,21 @@ const getIKIProps = (props: Props): IKImageProps => {
   const { src, ...rest } = props;
   const urlEndpoint = env.NEXT_PUBLIC_IMAGEKIT_URL;
   const path = src.replace(/https:\/\/ik\.imagekit\.io\/[^/]+\//, '');
-  const IKIProps = {
+  let IKIProps = {
     urlEndpoint,
     path,
     ...rest,
   };
+
+  // possible blurDataURL prop
+  // remove from props and replace for equivalent lqip prop
+  if (props.blurDataURL) {
+    IKIProps.lqip = {
+      active: true,
+      quality: 20,
+    };
+    IKIProps = omit(IKIProps, 'blurDataURL');
+  }
   return IKIProps;
 };
 
