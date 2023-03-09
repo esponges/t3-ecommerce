@@ -16,4 +16,10 @@
       object-fit: cover;
     }
   }
+
+  .content {
+    .header {
+      min-height: 3em;
+    }
+  }
 }
