@@ -17,9 +17,12 @@
     }
   }
 
-  .content {
-    .header {
-      min-height: 3em;
+  @media (min-width: 767px) {
+    .content {
+      .header {
+        height: 2.8em;
+        overflow: hidden;
+      }
     }
   }
 }
