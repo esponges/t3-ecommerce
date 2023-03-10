@@ -42,7 +42,7 @@ export const ProductsTable = ({ productsUrl, getProductUrl, title }: Props) => {
   const cols = useMemo<ColumnDef<TableItem, string>[]>(
     () => [
       {
-        header: 'Producto',
+        header: 'Product',
         cell: (row) => (
           <ProductDetailsCell<TableItem>
             row={row}
@@ -55,13 +55,13 @@ export const ProductsTable = ({ productsUrl, getProductUrl, title }: Props) => {
         minSize: !isMobile ? 350 : undefined,
       },
       {
-        header: 'Precio',
+        header: 'Price',
         cell: (row) => <PriceCell <TableItem> row={row}/>,
         accessorKey: 'price',
         size: 100,
       },
       {
-        header: 'Categoría',
+        header: 'Category',
         cell: (row) => row.getValue(),
         accessorKey: 'category',
         size: 200,
@@ -72,7 +72,7 @@ export const ProductsTable = ({ productsUrl, getProductUrl, title }: Props) => {
 
   return (
     <>
-      <PageContainer heading={{ title: title || 'Nuestros Productos' }} className="text-center">
+      <PageContainer heading={{ title: title || 'Our Products' }} className="text-center">
         {data && data.length > 0 ? (
           <Table data={data as TableItem[]} columns={cols} isMobile={isMobile} showGlobalFilter />
         ) : null}

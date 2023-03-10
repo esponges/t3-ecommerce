@@ -88,7 +88,7 @@ export const Table = <T extends object>({
               <DebouncedInput
                 onChange={handleFilterChange}
                 className="font-lg border-block mb-2 border p-2 shadow"
-                placeholder="Filtrar..."
+                placeholder="Filter..."
                 debounceTime={500}
               />
             ) : null}
@@ -181,13 +181,13 @@ export const Table = <T extends object>({
                     {'>>'}
                   </button>
                   <span className="flex cursor-pointer items-center gap-1">
-                    <div>{!isMobile ? 'Página' : 'Pag'}</div>
+                    <div>Page</div>
                     <strong>
-                      {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
+                      {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
                     </strong>
                   </span>
                   <span className="flex items-center gap-1">
-                    | Ir a:
+                    | Go to:
                     <input
                       type="number"
                       defaultValue={table.getState().pagination.pageIndex + 1}
@@ -201,7 +201,7 @@ export const Table = <T extends object>({
                   <select value={table.getState().pagination.pageSize} onChange={handlePageSizeChange}>
                     {[10, 20, 30, 40, 50].map((size) => (
                       <option key={size} value={size}>
-                        Ver {size}
+                        See {size}
                       </option>
                     ))}
                   </select>

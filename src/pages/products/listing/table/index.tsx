@@ -16,8 +16,8 @@ const ProductTable = () => {
   return (
     <>
       <Head>
-        <title>Productos</title>
-        <meta name="description" content="Nuestra lista de productos completa" />
+        <title>Products</title>
+        <meta name="description" content="All our products" />
       </Head>
       <ProductsTable />
     </>
