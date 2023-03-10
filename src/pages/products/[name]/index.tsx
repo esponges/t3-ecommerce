@@ -45,7 +45,7 @@ const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideP
         <title>{product?.name}</title>
         <meta
           name="description"
-          content={product?.description || `${product?.name || ''} ${product?.price || ''} || Detalles del producto`}
+          content={product?.description || `${product?.name || ''} ${product?.price || ''}`}
         />
       </Head>
       <ProductItem
@@ -62,15 +62,15 @@ const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideP
       <ProductCarousel
         showDescriptions={false}
         category={product?.category}
-        tag='Productos relacionados'
+        tag='Related Products'
         ignoredIds={product?.id ? [product.id] : undefined}
       />
       <div className="my-5 flex justify-center">
         <Button variant="primary" className="mr-4" onClick={() => router.push('/cart')}>
-          Ir al carrito
+          Go to cart
         </Button>
         <Button variant="secondary" onClick={() => router.push('/')}>
-          Regresar
+          Go Back
         </Button>
       </div>
     </PageContainer>

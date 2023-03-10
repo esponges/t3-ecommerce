@@ -85,12 +85,12 @@ export const ProductItem = ({
             <Message
               className="mt-4"
               warning
-              header="Sin existencias"
-              content="Este producto no se encuentra disponible en este momento."
+              header="Out of stock"
+              content="This product is currently out of stock"
             />
           ) : (
             <>
-              <span className="cinema font-bold text-xl">${price}.00 MXN</span>
+              <span className="cinema font-bold text-xl">${price} USD</span>
               {qty && <span className="cinema ml-5">x{qty}</span>}
             </>
           )}
@@ -108,7 +108,7 @@ export const ProductItem = ({
                 id={'counter'}
               />
               <Button onClick={handleAddToCart} variant="primary" disabled={isAddingToCart}>
-                {isAddingToCart ? 'Añadiendo...' : 'Añadir al carrito'}
+                {isAddingToCart ? 'Adding...' : 'Shop now'}
               </Button>
             </div>
           </Item.Extra>
@@ -118,36 +118,18 @@ export const ProductItem = ({
           <Table basic="very">
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell clas>Detalles técnicos</Table.HeaderCell>
+                <Table.HeaderCell clas>Details</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
               <Table.Row>
-                <Table.Cell>Capacidad</Table.Cell>
-                <Table.Cell>{productSpecs?.capacity || 'N/D'}.</Table.Cell>
+                <Table.Cell>Capacity</Table.Cell>
+                <Table.Cell>{productSpecs?.capacity || 'N/A'}.</Table.Cell>
               </Table.Row>
               <Table.Row>
-                <Table.Cell>Volumen Alc.</Table.Cell>
-                <Table.Cell>{productSpecs?.volume || 'N/D'}%</Table.Cell>
+                <Table.Cell>More details</Table.Cell>
+                <Table.Cell>{productSpecs?.volume || 'N/A'}</Table.Cell>
               </Table.Row>
-              {productSpecs?.country ? (
-                <Table.Row>
-                  <Table.Cell>País de procedencia</Table.Cell>
-                  <Table.Cell>{productSpecs.country}</Table.Cell>
-                </Table.Row>
-              ) : null}
-              {productSpecs?.age ? (
-                <Table.Row>
-                  <Table.Cell>Añada</Table.Cell>
-                  <Table.Cell>{productSpecs.age}</Table.Cell>
-                </Table.Row>
-              ) : null}
-              {productSpecs?.variety ? (
-                <Table.Row>
-                  <Table.Cell>Variedad</Table.Cell>
-                  <Table.Cell>{productSpecs.variety}</Table.Cell>
-                </Table.Row>
-              ) : null}
             </Table.Body>
           </Table>
         </Item.Extra>

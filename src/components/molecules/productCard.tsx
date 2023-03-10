@@ -76,7 +76,7 @@ export const ProductCard = ({
         <Card.Content onClick={redirOnImageClick ? handleDetailsClick : undefined}>
           <Card.Header className="cursor-pointer">{product?.name}</Card.Header>
           <Card.Meta>
-            <span className="date text-gray-600">{product?.price}.00 MXN</span>
+            <span className="date text-gray-600">${product?.price} USD</span>
           </Card.Meta>
           {showDescription && <Card.Description className="h-20">{product?.description}</Card.Description>}
         </Card.Content>
@@ -98,7 +98,7 @@ export const ProductCard = ({
                   className={`${inline ? 'mr-2' : ''}`}
                   disabled={isAddingToCart}
                 >
-                  {isAddingToCart ? 'Añadiendo...' : fullWidth ? 'Añadir al carrito' : 'Añadir'}
+                  {isAddingToCart ? 'Adding...' : fullWidth ? 'Add to cart' : 'Add'}
                 </Button>
               ) : null}
               {showDetailsBtn ? (
