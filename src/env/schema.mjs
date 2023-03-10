@@ -37,6 +37,8 @@ export const clientSchema = z.object({
   NEXT_PUBLIC_IG_URL: z.string(),
   NEXT_PUBLIC_PHONE_NUMBER: z.string(),
   NEXT_PUBLIC_BANK_ACCOUNT_CLABE: z.string(),
+  NEXT_PUBLIC_STORE_NAME: z.string(),
+  NEXT_PUBLIC_STORE_ADDRESS: z.string(),
 });
 
 /**
@@ -56,4 +58,6 @@ export const clientEnv = {
   NEXT_PUBLIC_CONTACT_EMAIL: process.env.NEXT_PUBLIC_CONTACT_EMAIL,
   NEXT_PUBLIC_IG_URL: process.env.NEXT_PUBLIC_IG_URL,
   NEXT_PUBLIC_PHONE_NUMBER: process.env.NEXT_PUBLIC_PHONE_NUMBER,
+  NEXT_PUBLIC_STORE_NAME: process.env.NEXT_PUBLIC_STORE_NAME,
+  NEXT_PUBLIC_STORE_ADDRESS: process.env.NEXT_PUBLIC_STORE_ADDRESS,
 };
