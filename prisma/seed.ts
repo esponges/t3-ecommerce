@@ -100,7 +100,8 @@ async function main() {
         createdAt: new Date(),
         updatedAt: new Date(),
         score: 0,
-        favScore: 0,
+        // 10% chance to have score > 0
+        favScore: Math.random() > 0.9 ? getRandomNumber(1, 100) : 0,
       },
     });
     console.log(product);
