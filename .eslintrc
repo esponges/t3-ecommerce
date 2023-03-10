@@ -41,6 +41,8 @@
     "@typescript-eslint/no-shadow": "error",
     // no template curly braces in strings and no unnecessary template literals
     "no-template-curly-in-string": "error",
+    // don't allow needless curly braces around static values
+    "react/jsx-curly-brace-presence": ["warn", { "props": "never", "children": "never" }],
     // jsx curly spacing
     "react/jsx-curly-spacing": ["error", "never"]
   }

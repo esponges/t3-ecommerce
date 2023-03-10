@@ -63,7 +63,7 @@ export const ProductCard = ({
     <div className="card m-2">
       <Card>
         <div
-          className={"cursor-pointer"}
+          className="cursor-pointer"
           onClick={redirOnImageClick ? handleDetailsClick : undefined}
         >
           <Image
@@ -87,7 +87,7 @@ export const ProductCard = ({
               onDecrease={handleChangeProductQty}
               onChange={handleQtyInputChange}
               count={qty ?? quantity}
-              className={'mr-2'}
+              className="mr-2"
               id={product?.id || 'counter'}
             />
             <div>

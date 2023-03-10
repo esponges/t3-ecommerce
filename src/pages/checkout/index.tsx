@@ -5,7 +5,7 @@ import {
   useCallback
 } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import type { PostalCode, User } from '@prisma/client';
+import type { PostalCode } from '@prisma/client';
 import {
   Dropdown,
   Form,

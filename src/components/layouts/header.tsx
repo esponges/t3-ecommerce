@@ -170,7 +170,7 @@ export const Header = ({ children }: Props) => {
     <>
       <nav className="bg-primary-blue">
         <Menu
-          fixed={'top'}
+          fixed="top"
           className={`header ${!showHeader ? 'hidden' : ''}`}
           inverted={false}
           pointing

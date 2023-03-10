@@ -19,7 +19,6 @@ interface ReactTableProps<T extends object> {
   showGlobalFilter?: boolean;
   filterFn?: FilterFn<T>;
   pageSize?: number;
-  isMobile?: boolean;
 }
 
 export const Table = <T extends object>({
@@ -30,7 +29,6 @@ export const Table = <T extends object>({
   showGlobalFilter = false,
   filterFn = filterFns.fuzzy,
   pageSize = 15,
-  isMobile = false,
 }: ReactTableProps<T>) => {
   const [globalFilter, setGlobalFilter] = useState('');
   const [pageIndex, setPageIndex] = useState(0);

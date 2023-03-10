@@ -65,7 +65,7 @@ export const ProductItem = ({
           width={500}
           height={500}
           placeholder="blur"
-          blurDataURL={'/images/empty-bottle.png'}
+          blurDataURL="/images/empty-bottle.png"
           className="w-full"
         />
       </div>
@@ -104,8 +104,8 @@ export const ProductItem = ({
                 onDecrease={handleChangeProductQty}
                 onChange={handleQtyInputChange}
                 count={qty ?? quantity}
-                className={'mr-2'}
-                id={'counter'}
+                className="mr-2"
+                id="counter"
               />
               <Button onClick={handleAddToCart} variant="primary" disabled={isAddingToCart}>
                 {isAddingToCart ? 'Adding...' : 'Shop now'}
