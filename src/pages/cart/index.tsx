@@ -29,8 +29,8 @@ import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 export type TableCartItem = Pick<CartItem, 'name' | 'price' | 'quantity' | 'id'>;
 type TableCartItemWithImage = TableCartItem & { image: string };
 
-// consider moving this to a constants file when there's one
-export const MIN_PURCHASE = 1500;
+// if any min purchase add it here
+export const MIN_PURCHASE = 0;
 
 export default function Cart () {
   const { isMobile } = useDeviceWidth();
@@ -85,12 +85,12 @@ export default function Cart () {
       updateCartItems(toUpdate);
     }
 
-    // TODO: in the future we'd like to show a warning instead of removing the items
+    // TODO: in the future we'd like to show a warning and update with latest instead of removing the items
     if (!!noStockIds.length) {
       noStockIds.forEach((id) => {
         removeFromCart(id);
       });
-      toast('Algunos productos fueron retirados de tu carrito por falta de stock', {
+      toast('Some products were removed due to stock changes', {
         type: 'error',
       });
     }
@@ -168,21 +168,21 @@ export default function Cart () {
         size: !isMobile ? 100 : 0,
       },
       {
-        header: 'Producto',
+        header: 'Product',
         cell: (row) => <ProductDetailsCell<TableCartItemWithImage> row={row} />,
         accessorKey: 'name',
         footer: 'Total',
         minSize: !isMobile ? 350 : undefined,
       },
       {
-        header: 'Precio',
+        header: 'Price',
         cell: (row) => <PriceCell<TableCartItemWithImage> price={row.renderValue()} />,
         accessorKey: 'price',
         size: 120,
         footer: () => <PriceCell<TableCartItemWithImage> price={cartTotal.toString()} />,
       },
       {
-        header: 'Cantidad',
+        header: 'Quantity',
         cell: (row) => row.renderValue(),
         accessorKey: 'quantity',
         size: 50,
@@ -198,11 +198,11 @@ export default function Cart () {
   );
 
   return (
-    <PageContainer verticallyCentered heading={{ title: 'Tu carrito' }}>
+    <PageContainer verticallyCentered heading={{ title: 'Your Cart' }}>
       <Head>
         {/* dont index */}
         <meta name="robots" content="noindex" />
-        <title>Carrito</title>
+        <title>Cart</title>
       </Head>
       {tableItems.length ? (
         <Table 
@@ -214,27 +214,27 @@ export default function Cart () {
       ) : (
         <Message
           icon="shopping cart"
-          header="Tu carrito está vacío"
+          header="Your cart is empty"
           size="big"
-          content="Agrega productos a tu carrito para continuar"
+          content="Add some products to your cart to continue"
         />
       )}
       <div className={`${!hasMinPurchase ? 'block text-center md:mx-auto md:w-1/2' : 'flex justify-center '} mb-4`}>
         {hasMinPurchase ? (
           <Button variant="primary" onClick={handleCheckout} className="mr-2">
-            Continuar
+            Continue
           </Button>
         ) : (
           !!tableItems.length && (
             <Message
               icon="info circle"
-              header="Aún no puedes continuar"
-              content={`Para continuar debes tener al menos $${MIN_PURCHASE} en el carrito`}
+              header="Minimum purchase not reached"
+              content={`To continue, please spend at least $${MIN_PURCHASE}`}
             />
           )
         )}
         <Button variant="link" onClick={handleBack} className="ml-2">
-          Regresar
+          Go Back
         </Button>
       </div>
     </PageContainer>
