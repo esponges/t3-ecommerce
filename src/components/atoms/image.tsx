@@ -34,11 +34,6 @@ const getIKIProps = (props: Props): IKImageProps => {
   return IKIProps;
 };
 
-const getIsPokeImage = (src?: string) => {
-  // check the src matches "raw.githubusercontent.com" for the pokemon dummy images
-  return src?.match(/https:\/\/raw\.githubusercontent\.com\/[^/]+\//);
-};
-
 const getIsIKImage = (src?: string) => src?.match(/https:\/\/ik\.imagekit\.io\/[^/]+\//);
 
 // we use ImageKit for image optimization & hosting
@@ -46,7 +41,6 @@ const getIsIKImage = (src?: string) => src?.match(/https:\/\/ik\.imagekit\.io\/[
 // the Next.js Image component which is more performant
 export const Image = (props: Props) => {
   const isIKImage = getIsIKImage(props.src);
-  const isPokeImage = getIsPokeImage(props.src);
   const [hasIKIError, setHasIKIError] = useState(false);
 
   if (!isIKImage || hasIKIError) {
@@ -61,7 +55,7 @@ export const Image = (props: Props) => {
         width={props.width || 300}
         height={props.height || 300}
         {...props}
-        src={!hasIKIError && !isPokeImage ? props.src : backupSrc}
+        src={!hasIKIError ? props.src : backupSrc}
       />
     );
   }

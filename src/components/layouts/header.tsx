@@ -146,7 +146,8 @@ export const Header = ({ children }: Props) => {
                   <a>
                     <Image
                       // eslint-disable-next-line max-len
-                      src="/logo-no-bg-white.png"
+                      // pokemon api logo
+                      src="raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"
                       alt="logo-vinoreo-header"
                       width={100}
                       height={45}
@@ -183,7 +184,8 @@ export const Header = ({ children }: Props) => {
                 <div className="absolute left-[42%] hover:cursor-pointer">
                   <Image
                     // eslint-disable-next-line max-len
-                    src="/store-logo.png"
+                    // src="/store-logo.png"
+                    src="https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"
                     alt={`logo-${env.NEXT_PUBLIC_STORE_NAME}-header`}
                     width={150}
                     height={45}
