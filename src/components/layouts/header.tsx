@@ -19,6 +19,7 @@ import { PageRoutes } from '@/lib/routes';
 
 import { Dropdown } from '@/components/molecules/dropdown';
 import { Image } from '@/components/atoms/image';
+import { env } from '@/env/client.mjs';
 
 interface Props {
   children?: React.ReactNode;
@@ -53,19 +54,19 @@ export const Header = ({ children }: Props) => {
     <>
       <Link href={`${PageRoutes.List}`}>
         <a>
-          <Menu.Item active={getIsActiveRoute(PageRoutes.List)}>Productos</Menu.Item>
+          <Menu.Item active={getIsActiveRoute(PageRoutes.List)}>Products</Menu.Item>
         </a>
       </Link>
       <Link href={`${PageRoutes.ListTable}`}>
         <a>
-          <Menu.Item active={getIsActiveRoute(PageRoutes.ListTable)}>Lista</Menu.Item>
+          <Menu.Item active={getIsActiveRoute(PageRoutes.ListTable)}>Full List</Menu.Item>
         </a>
       </Link>
       <Link href={`${PageRoutes.Cart}`}>
         <a>
           <Menu.Item active={getIsActiveRoute(PageRoutes.Cart)}>
             <Icon name="cart" />
-            Carrito
+            Cart
             {cartCount > 0 ? <Label color="yellow">{cartCount}</Label> : null}
           </Menu.Item>
         </a>
@@ -78,7 +79,7 @@ export const Header = ({ children }: Props) => {
       <Menu.Item position="right">
         <Link href={`${PageRoutes.Login}`}>
           <a>
-            <Button variant="primary">Iniciar Sesión</Button>
+            <Button variant="primary">Log In</Button>
           </a>
         </Link>
       </Menu.Item>
@@ -88,14 +89,14 @@ export const Header = ({ children }: Props) => {
       <Menu.Item>
         <a>
           <Button variant="primary" onClick={() => signOut()}>
-            Cerrar Sesión
+            Log Out
           </Button>
         </a>
       </Menu.Item>
       <Link href={`${PageRoutes.Account}`}>
         <a>
           <Menu.Item>
-            <Button variant="primary">Bienvenido {session?.user?.name}</Button>
+            <Button variant="primary">Welcome {session?.user?.name}</Button>
           </Menu.Item>
         </a>
       </Link>
@@ -104,16 +105,16 @@ export const Header = ({ children }: Props) => {
 
   const dropDownOptions = session
     ? [
-      { label: 'Cuenta', value: 'account', onClick: () => router.push(PageRoutes.Account) },
-      { label: 'Cerrar Sesión', value: 'logout', onClick: () => signOut() },
+      { label: 'Account', value: 'account', onClick: () => router.push(PageRoutes.Account) },
+      { label: 'Log out', value: 'logout', onClick: () => signOut() },
       // { label: 'Settings', value: 'settings', onClick: () => console.log('settings') },
     ]
-    : [{ label: 'Iniciar Sesión', value: 'login', onClick: () => router.push(PageRoutes.Login) }];
+    : [{ label: 'Log out', value: 'login', onClick: () => router.push(PageRoutes.Login) }];
 
   const trigger = (
     <span className="cursor-pointer">
       <Icon name="user" />
-      Hola {session?.user?.name || ', Invitado'}
+      Hello {session?.user?.name || ', guest'}
     </span>
   );
 
@@ -179,12 +180,12 @@ export const Header = ({ children }: Props) => {
             <Menu className="relative flex w-full" secondary>
               <div className="flex">{menuItems}</div>
               <Link href={`${PageRoutes.Home}`}>
-                <div className="absolute left-[45%] hover:cursor-pointer">
+                <div className="absolute left-[42%] hover:cursor-pointer">
                   <Image
                     // eslint-disable-next-line max-len
-                    src="/logo-no-bg-white.png"
-                    alt="logo-vinoreo-header"
-                    width={100}
+                    src="/store-logo.png"
+                    alt={`logo-${env.NEXT_PUBLIC_STORE_NAME}-header`}
+                    width={150}
                     height={45}
                     className="mt-1"
                   />
