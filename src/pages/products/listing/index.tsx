@@ -27,7 +27,6 @@ const ProductListing = () => {
       </Head>
       {/* no need PageContainer here */}
       <div className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
-        <Heading size={HeadingSizes['xl']}>Looking for something?</Heading>
         <ProductSearchbar />
         <ul className="mt-4 flex w-full flex-col gap-4">
           {categories?.length &&

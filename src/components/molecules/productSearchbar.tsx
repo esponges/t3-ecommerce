@@ -10,11 +10,13 @@ import { PageRoutes } from '@/lib/routes';
 interface Props {
   className?: string;
   inputClassName?: string;
+  heading?: string;
 }
 
 export const ProductSearchbar = ({
   className = '',
   inputClassName = 'border-gray-300 bg-gray-200 pl-10 sm:text-sm',
+  heading = 'Looking for something?',
 }: Props) => {
   const [search, setSearch] = useState('');
   const { data, refetch } = trpc.product.search.useQuery({
@@ -49,12 +51,13 @@ export const ProductSearchbar = ({
 
   return (
     <form onSubmit={handleSearch}>
+      <h3 className="mt-6 text-xl font-bold text-gray-700">{heading}</h3>
       <div className={`relative ${className}`}>
         <input
           type="text"
           className={`${inputClassName} block w-full rounded-md 
           focus:border-indigo-500 focus:ring-indigo-500`}
-          placeholder="Buscar producto"
+          placeholder="Search products"
           onChange={debouncedHandleInputChange}
         />
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">

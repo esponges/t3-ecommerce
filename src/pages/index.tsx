@@ -78,7 +78,6 @@ const Home = () => {
             );
           })}
         </ul>
-        <h3 className="mt-6 text-xl font-bold text-gray-700">¿Estás buscando algo?</h3>
         <ProductSearchbar className="mb-6 md:mb-12" />
         <ProductCarousel showDescriptions={false} tag="Los Más Vendidos" tagClassName="text-4xl" favorite={true} />
       </div>
