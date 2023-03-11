@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Confirmación de order</title>
+    <title>Order confirmation</title>
   </head>
   <body>
-    <h1>Confirmación de orden</h1>
-    <p>Estimado <%= userName %>,</p>
-    <p>Gracias por tu orden en Vinoreo</p>
+    <h1>Order confirmation</h1>
+    <p>Dear <%= userName %>,</p>
+    <p>Thanks for shopping with us</p>
     <table>
       <thead>
         <tr>
-          <th>Producto</th>
-          <th>Cantidad</th>
-          <th>Precio</th>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Price</th>
         </tr>
       </thead>
       <tbody>
@@ -20,28 +20,28 @@
           <tr>
             <td><%= item.product.name %></td>
             <td><%= item.quantity %></td>
-            <td>MXN $<%= item.product.price %></td>
+            <td>USD $<%= item.product.price %></td>
           </tr>
         <% }); %>
       </tbody>
     </table>
     <p>
       <b>
-        Total: MXN $<%= order.total %>.00
+        Total: USD $<%= order.total %>
       </b>
     </p>
     <% if (bankDetails) { %>
       <div>
-        <h3>Transferencia bancaria</h3>
+        <h3>Bank Transfer</h3>
         <p>
           <b>
-            Banco:
+            Bank:
           </b>
           <%= bankDetails.bankName %>
         </p>
         <p>
           <b>
-            Cuenta:
+            Account number:
           </b>
           <%= bankDetails.accountNumber %>
         </p>
@@ -53,7 +53,7 @@
         </p>
         <p>
           <b>
-            Nombre:
+            Account name:
           </b>
           <%= bankDetails.accountName %>
         </p>
@@ -61,7 +61,7 @@
     <% } %>
     <p>
       <b>
-        Dirección de envío:
+        Order address:
       </b>
     </p>
     <p>
@@ -72,15 +72,15 @@
     </p>
     <p>
       <b>
-        Horario y día de entrega:
+        Order delivery date:
       </b>
     </p>
     <p>
       <%= order.orderDetail.day %> —
       <%= order.orderDetail.schedule %>, 
     </p>
-    <p>Te contactaremos si tenemos dudas.</p>
-    <p>Gracias por tu compra!</p>
-    <h5>Vinoreo</h5>
+    <p>We'll reach you in case we need more information.</p>
+    <p>Thanks for shopping with us!</p>
+    <h5></h5>
   </body>
 </html>
