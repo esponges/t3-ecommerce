@@ -51,7 +51,7 @@ async function main() {
 
   console.log('seeding...');
 
-  for (let i = 0; i < postalCodes?.length ?? 10; i++) {
+  for (let i = 0; i < postalCodes?.length || 10; i++) {
     const code = await prisma.postalCode.create({
       data: {
         code: postalCodes[i]?.code ?? createLoremIpsum(1).generateWords(1),
@@ -63,7 +63,7 @@ async function main() {
     console.log(code);
   }
 
-  for (let i = 0; i < categories.length ?? 10; i++) {
+  for (let i = 0; i < categories.length || 10; i++) {
     await prisma.category.create({
       data: {
         id: i + 1,
@@ -84,7 +84,7 @@ async function main() {
     name: string;
   }
 
-  for (let i = 0; i < products?.length ?? 50; i++) {
+  for (let i = 0; i < products?.length || 50; i++) {
     const pokeId = getRandomNumber(1, 898);
     const pokemon = (await fetch(`https://pokeapi.co/api/v2/pokemon/${pokeId}`).then((res) =>
       res.json()
