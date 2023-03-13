@@ -56,7 +56,7 @@ export const ProductsTable = ({ productsUrl, getProductUrl, title }: Props) => {
       },
       {
         header: 'Price',
-        cell: (row) => <PriceCell <TableItem> row={row}/>,
+        cell: (row) => <PriceCell<TableItem> row={row} />,
         accessorKey: 'price',
         size: 100,
       },
@@ -72,9 +72,16 @@ export const ProductsTable = ({ productsUrl, getProductUrl, title }: Props) => {
 
   return (
     <>
-      <PageContainer heading={{ title: title || 'Our Products' }} className="text-center">
+      <PageContainer
+        heading={{ title: title || 'Our Products' }}
+        className="text-center"
+      >
         {data && data.length > 0 ? (
-          <Table data={data as TableItem[]} columns={cols} isMobile={isMobile} showGlobalFilter />
+          <Table
+            data={data as TableItem[]}
+            columns={cols}
+            showGlobalFilter
+          />
         ) : null}
       </PageContainer>
     </>

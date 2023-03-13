@@ -32,7 +32,7 @@ type TableCartItemWithImage = TableCartItem & { image: string };
 // if any min purchase add it here
 export const MIN_PURCHASE = 0;
 
-export default function Cart () {
+export default function Cart() {
   const { isMobile } = useDeviceWidth();
   const { cartItems, cartTotal } = useCartItems();
   const { removeFromCart, updateCartItems, increaseQuantity } = useCartActions();
@@ -123,14 +123,20 @@ export default function Cart () {
       };
 
       return (
-        <div className="grid text">
-          <span className="cursor-pointer mb-2" onClick={handleRemove}>
+        <div className="text grid">
+          <span
+            className="mb-2 cursor-pointer"
+            onClick={handleRemove}
+          >
             <SemanticButton icon>
               <Icon name="trash" />
             </SemanticButton>
           </span>
           {/* add one extra */}
-          <span className="cursor-pointer" onClick={handleAddOne}>
+          <span
+            className="cursor-pointer"
+            onClick={handleAddOne}
+          >
             <SemanticButton icon>
               <Icon name="plus" /> <span className="ml-1">1</span>
             </SemanticButton>
@@ -163,7 +169,15 @@ export default function Cart () {
     () => [
       {
         header: '',
-        cell: (row) => (!isMobile ? <Image src={row.renderValue() || ''} alt={row.row.original.name} /> : ''),
+        cell: (row) =>
+          !isMobile ? (
+            <Image
+              src={row.renderValue() || ''}
+              alt={row.row.original.name}
+            />
+          ) : (
+            ''
+          ),
         accessorKey: 'image',
         size: !isMobile ? 100 : 0,
       },
@@ -198,17 +212,22 @@ export default function Cart () {
   );
 
   return (
-    <PageContainer verticallyCentered heading={{ title: 'Your Cart' }}>
+    <PageContainer
+      verticallyCentered
+      heading={{ title: 'Your Cart' }}
+    >
       <Head>
         {/* dont index */}
-        <meta name="robots" content="noindex" />
+        <meta
+          name="robots"
+          content="noindex"
+        />
         <title>Cart</title>
       </Head>
       {tableItems.length ? (
-        <Table 
-          data={tableItems} 
-          columns={cols} 
-          isMobile={isMobile} 
+        <Table
+          data={tableItems}
+          columns={cols}
           showNavigation={false}
         />
       ) : (
@@ -221,7 +240,11 @@ export default function Cart () {
       )}
       <div className={`${!hasMinPurchase ? 'block text-center md:mx-auto md:w-1/2' : 'flex justify-center '} mb-4`}>
         {hasMinPurchase ? (
-          <Button variant="primary" onClick={handleCheckout} className="mr-2">
+          <Button
+            variant="primary"
+            onClick={handleCheckout}
+            className="mr-2"
+          >
             Continue
           </Button>
         ) : (
@@ -233,7 +256,11 @@ export default function Cart () {
             />
           )
         )}
-        <Button variant="link" onClick={handleBack} className="ml-2">
+        <Button
+          variant="link"
+          onClick={handleBack}
+          className="ml-2"
+        >
           Go Back
         </Button>
       </div>
