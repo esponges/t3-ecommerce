@@ -15,16 +15,16 @@ interface Mocks {
   }[];
 }
 
-let categories: Mocks['categories'] = [];
-let products: Mocks['products'] | never[] = [];
-let postalCodes: Mocks['postalCodes'] | never[] = [];
+const categories: Mocks['categories'] = [];
+const products: Mocks['products'] | never[] = [];
+const postalCodes: Mocks['postalCodes'] | never[] = [];
 
 try {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const mocks = require('./mocks') as Mocks;
-  categories = mocks.categories;
-  products = mocks.products;
-  postalCodes = mocks.postalCodes;
+  // const mocks = require('./mocks') as Mocks;
+  // categories = mocks.categories;
+  // products = mocks.products;
+  // postalCodes = mocks.postalCodes;
 } catch (e) {
   console.log('no mocks found');
 }
@@ -51,7 +51,11 @@ async function main() {
 
   console.log('seeding...');
 
-  for (let i = 0; i < postalCodes?.length || 10; i++) {
+  console.log(postalCodes.length, 'postal codes', postalCodes?.length || 10);
+  console.log(categories.length, 'categories', categories?.length || 10);
+  console.log(products.length, 'products', products?.length || 50);
+
+  for (let i = 0; i < (postalCodes.length > 0 ? postalCodes.length : 30); i++) {
     const code = await prisma.postalCode.create({
       data: {
         code: postalCodes[i]?.code ?? createLoremIpsum(1).generateWords(1),
@@ -60,10 +64,10 @@ async function main() {
         state: postalCodes[i]?.city ?? createLoremIpsum(1).generateWords(1),
       },
     });
-    console.log(code);
+    console.log(code, i);
   }
 
-  for (let i = 0; i < categories.length || 10; i++) {
+  for (let i = 0; i < (categories.length > 0 ? categories.length : 10); i++) {
     await prisma.category.create({
       data: {
         id: i + 1,
@@ -84,7 +88,7 @@ async function main() {
     name: string;
   }
 
-  for (let i = 0; i < products?.length || 50; i++) {
+  for (let i = 0; i < (products.length > 0 ? products.length : 50); i++) {
     const pokeId = getRandomNumber(1, 898);
     const pokemon = (await fetch(`https://pokeapi.co/api/v2/pokemon/${pokeId}`).then((res) =>
       res.json()
