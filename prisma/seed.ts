@@ -11,7 +11,7 @@ interface Mocks {
   postalCodes: {
     code: string;
     name: string;
-    city: string
+    city: string;
   }[];
 }
 
@@ -44,14 +44,14 @@ const prisma = new PrismaClient();
 */
 
 async function main() {
-
   // remove if you want to keep the existing data
   await prisma.product.deleteMany();
   await prisma.category.deleteMany();
   await prisma.postalCode.deleteMany();
 
+  console.log('seeding...');
+
   for (let i = 0; i < postalCodes?.length ?? 10; i++) {
-    console.log(postalCodes[i]);
     const code = await prisma.postalCode.create({
       data: {
         code: postalCodes[i]?.code ?? createLoremIpsum(1).generateWords(1),
@@ -63,7 +63,7 @@ async function main() {
     console.log(code);
   }
 
-  for (let i = 0; i < categories.length; i++) {
+  for (let i = 0; i < categories.length ?? 10; i++) {
     await prisma.category.create({
       data: {
         id: i + 1,
@@ -74,15 +74,29 @@ async function main() {
   }
 
   // change the max number to the number of products you want to seed
-  for (let i = 0; i < products?.length ?? 30; i++) {
+  interface PokeAbility {
+    name: string;
+    url: string;
+  }
+
+  interface PokeResponse {
+    abilities: PokeAbility[];
+    name: string;
+  }
+
+  for (let i = 0; i < products?.length ?? 50; i++) {
+    const pokeId = getRandomNumber(1, 898);
+    const pokemon = (await fetch(`https://pokeapi.co/api/v2/pokemon/${pokeId}`).then((res) =>
+      res.json()
+    )) as PokeResponse;
+
+    const abilitiesData = pokemon.abilities.map((ability) => ({
+      ability: ability.name,
+    }));
+
     const product = await prisma.product.create({
       data: {
-        // description: createLoremIpsum().generateSentences(2),
-        // discount: 0,
-        // price: getRandomNumber(100, 1000),
-        // categoryId: getRandomNumber(1, names.length),
-        // name: createLoremIpsum().generateWords(2),
-        name: products[i]?.product ?? createLoremIpsum().generateWords(2),
+        name: products[i]?.product ?? pokemon.name,
         price:
           products[i]?.price && typeof parseInt(products[i]?.price || '') === 'number'
             ? parseInt(products[i]?.price || '')
@@ -90,23 +104,26 @@ async function main() {
         categoryId:
           products[i]?.categoryId && typeof parseInt(products[i]?.categoryId || '') === 'number'
             ? parseInt(products[i]?.categoryId || '')
-            : getRandomNumber(1, 20),
+            : getRandomNumber(1, 10),
 
         // from pokeapi
-        image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${getRandomNumber(
-          1,
-          898
-        )}.png`,
+        image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokeId}.png`,
         createdAt: new Date(),
         updatedAt: new Date(),
         score: 0,
         // 10% chance to have score > 0
-        favScore: Math.random() > 0.9 ? getRandomNumber(1, 100) : 0,
+        favScore: Math.random() > 0.7 ? getRandomNumber(1, 100) : 0,
+        productSpecs: {
+          create: {
+            abilities: { createMany: { data: abilitiesData } },
+          },
+        },
       },
     });
     console.log(product);
   }
 }
+
 main()
   .then(async () => {
     await prisma.$disconnect();

@@ -93,10 +93,18 @@ model Product {
     productSpecs ProductSpecs?
 }
 
+model Abilities {
+    id        String @id @default(cuid())
+    ability   String?
+    productId String
+    productSpecs ProductSpecs @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
 model ProductSpecs {
     id        String @id @default(cuid())
     productId String @unique
     product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+    abilities Abilities[]
     capacity  String?
     volume    String?
     age       String?
