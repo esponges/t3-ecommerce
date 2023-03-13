@@ -29,7 +29,6 @@ export const serverSchema = z.object({
 export const clientSchema = z.object({
   // NEXT_PUBLIC_BAR: z.string(),
   NEXT_PUBLIC_NEXTAUTH_URL: z.string().url(),
-  NEXT_PUBLIC_IMAGEKIT_URL: z.string(),
   NEXT_PUBLIC_BANK_NAME: z.string(),
   NEXT_PUBLIC_BANK_ACCOUNT_NAME: z.string(),
   NEXT_PUBLIC_BANK_ACCOUNT_NUMBER: z.string(),
@@ -50,7 +49,6 @@ export const clientSchema = z.object({
 export const clientEnv = {
   // NEXT_PUBLIC_BAR: process.env.NEXT_PUBLIC_BAR,
   NEXT_PUBLIC_NEXTAUTH_URL: process.env.NEXT_PUBLIC_NEXTAUTH_URL,
-  NEXT_PUBLIC_IMAGEKIT_URL: process.env.NEXT_PUBLIC_IMAGEKIT_URL,
   NEXT_PUBLIC_BANK_NAME: process.env.NEXT_PUBLIC_BANK_NAME,
   NEXT_PUBLIC_BANK_ACCOUNT_NAME: process.env.NEXT_PUBLIC_BANK_ACCOUNT_NAME,
   NEXT_PUBLIC_BANK_ACCOUNT_NUMBER: process.env.NEXT_PUBLIC_BANK_ACCOUNT_NUMBER,
