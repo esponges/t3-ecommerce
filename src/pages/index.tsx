@@ -21,10 +21,8 @@ import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 
 
 const heroImages = [
-  '/images/hero/logo-vinoreo.png',
-  '/images/hero/hero-image-1.jpeg',
-  '/images/hero/hero-image-2.jpeg',
-  '/images/hero/hero-image-3.jpeg',
+  '/images/hero/poke-hero-1.png',
+  '/images/hero/poke-hero-2.png',
 ];
 
 const Home = () => {
