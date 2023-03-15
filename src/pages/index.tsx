@@ -32,7 +32,7 @@ const Home = () => {
   return (
     <>
       <Head>
-        <meta name="description" content="Vinoreo Home Page" />
+        <meta name="description" content="Store Home Page" />
         <link rel="icon" href="/v-icon.ico" />
       </Head>
       <div className="container mx-auto flex flex-col items-center justify-center p-4 md:min-h-screen">

@@ -58,7 +58,7 @@ export const sendOrderConfirmationEmail = async (
   const mailOptions = {
     from: env.GMAIL_USERNAME,
     to: userEmail,
-    subject: 'Confirmación de tu pedido en Vinoreo',
+    subject: 'Order confirmation',
     html,
   };
 
@@ -89,7 +89,7 @@ export const sendOrderConfirmationEmail = async (
     const adminMailOptions = {
       from: env.GMAIL_USERNAME,
       to: adminEmail,
-      subject: 'Nuevo pedido en Vinoreo',
+      subject: 'New order request',
       html,
     };
 

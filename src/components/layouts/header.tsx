@@ -88,7 +88,10 @@ export const Header = ({ children }: Props) => {
     <>
       <Menu.Item>
         <a>
-          <Button variant="primary" onClick={() => signOut()}>
+          <Button
+            variant="primary"
+            onClick={() => signOut()}
+          >
             Log Out
           </Button>
         </a>
@@ -128,31 +131,54 @@ export const Header = ({ children }: Props) => {
     );
   };
 
+  const renderStoreLogo = () => {
+    return (
+      <Image
+        // pokemon api logo
+        // eslint-disable-next-line max-len
+        src="https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"
+        alt={`logo-${env.NEXT_PUBLIC_STORE_NAME}-header`}
+        width={150}
+        height={40}
+        className="mt-1"
+      />
+    );
+  };
+
   if (isMobile) {
     return (
       <Sidebar.Pushable>
-        <Sidebar as={Menu} animation="overlay" onHide={handleToggleSidebar} vertical visible={sidebarOpened}>
+        <Sidebar
+          as={Menu}
+          animation="overlay"
+          onHide={handleToggleSidebar}
+          vertical
+          visible={sidebarOpened}
+        >
           {menuItems}
           {menuItemsMobile}
         </Sidebar>
         <Sidebar.Pusher dimmed={sidebarOpened}>
-          <Segment textAlign="center" className="header bg-primary-blue" style={{ padding: '0.25rem 0rem' }} vertical>
+          <Segment
+            textAlign="center"
+            className="header bg-primary-blue"
+            style={{ padding: '0.25rem 0rem' }}
+            vertical
+          >
             <Container>
-              <Menu secondary size="large">
-                <Menu.Item onClick={handleToggleSidebar} position="left">
+              <Menu
+                secondary
+                size="large"
+              >
+                <Menu.Item
+                  onClick={handleToggleSidebar}
+                  position="left"
+                >
                   <Icon name="sidebar" />
                 </Menu.Item>
                 <Link href={`${PageRoutes.Home}`}>
                   <a>
-                    <Image
-                      // eslint-disable-next-line max-len
-                      // pokemon api logo
-                      src="raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"
-                      alt="logo-vinoreo-header"
-                      width={100}
-                      height={45}
-                      className="mt-1"
-                    />
+                    {renderStoreLogo()}
                   </a>
                 </Link>
                 {renderSearchLink()}
@@ -178,26 +204,25 @@ export const Header = ({ children }: Props) => {
           size="large"
         >
           <Container>
-            <Menu className="relative flex w-full" secondary>
+            <Menu
+              className="relative flex w-full"
+              secondary
+            >
               <div className="flex">{menuItems}</div>
               <Link href={`${PageRoutes.Home}`}>
                 <div className="absolute left-[42%] hover:cursor-pointer">
-                  <Image
-                    // eslint-disable-next-line max-len
-                    // src="/store-logo.png"
-                    src="https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"
-                    alt={`logo-${env.NEXT_PUBLIC_STORE_NAME}-header`}
-                    width={150}
-                    height={45}
-                    className="mt-1"
-                  />
+                  {renderStoreLogo()}
                 </div>
               </Link>
               <div className="ml-auto flex">
                 {renderSearchLink()}
                 <Menu.Item>
                   {/* nextauth login */}
-                  <Dropdown options={dropDownOptions} trigger={trigger} className='p-0 cursor-pointer' />
+                  <Dropdown
+                    options={dropDownOptions}
+                    trigger={trigger}
+                    className="cursor-pointer p-0"
+                  />
                 </Menu.Item>
               </div>
             </Menu>

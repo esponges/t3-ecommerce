@@ -47,8 +47,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <Head>
-        <title>Vinoreo</title>
-        <meta name="description" content="Tienda de vinos y licores" />
+        <title>Store</title>
+        <meta name="description" content="A cool store" />
         <link rel="icon" href="/v-icon.ico" />
       </Head>
       <ToastContainer />
