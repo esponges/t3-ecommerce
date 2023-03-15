@@ -51,10 +51,6 @@ async function main() {
 
   console.log('seeding...');
 
-  console.log(postalCodes.length, 'postal codes', postalCodes?.length || 10);
-  console.log(categories.length, 'categories', categories?.length || 10);
-  console.log(products.length, 'products', products?.length || 50);
-
   for (let i = 0; i < (postalCodes.length > 0 ? postalCodes.length : 30); i++) {
     const code = await prisma.postalCode.create({
       data: {

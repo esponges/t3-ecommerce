@@ -77,7 +77,7 @@ const Home = () => {
           })}
         </ul>
         <ProductSearchbar className="mb-6 md:mb-12" />
-        <ProductCarousel showDescriptions={false} tag="Los Más Vendidos" tagClassName="text-4xl" favorite={true} />
+        <ProductCarousel showDescriptions={false} tag="BEST SELLERS" tagClassName="text-4xl" favorite={true} />
       </div>
     </>
   );
