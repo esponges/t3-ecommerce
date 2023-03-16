@@ -11,19 +11,15 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 import { ProductSearchbar } from '@/components/molecules/productSearchbar';
 import { ProductCarousel } from '@/components/organisms/productCarousel';
-import { Pill } from '@/components/atoms/pill';
 
 import { trpc } from '@/lib/trpc';
 import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '@/server/trpc/router';
 import { createContext } from '@/server/trpc/context';
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
+import FeatureLink from '@/components/atoms/featureLink';
 
-
-const heroImages = [
-  '/images/hero/poke-hero-1.png',
-  '/images/hero/poke-hero-2.png',
-];
+const heroImages = ['/images/hero/poke-hero-1.png', '/images/hero/poke-hero-2.png'];
 
 const Home = () => {
   const { isMobile } = useDeviceWidth();
@@ -32,8 +28,14 @@ const Home = () => {
   return (
     <>
       <Head>
-        <meta name="description" content="Store Home Page" />
-        <link rel="icon" href="/v-icon.ico" />
+        <meta
+          name="description"
+          content="Store Home Page"
+        />
+        <link
+          rel="icon"
+          href="/v-icon.ico"
+        />
       </Head>
       <div className="container mx-auto flex flex-col items-center justify-center p-4 md:min-h-screen">
         <Carousel
@@ -60,24 +62,30 @@ const Home = () => {
           })}
         </Carousel>
         {/* <HeroCarousel /> */}
-        <ul className="my-6 flex w-full flex-wrap pl-0 md:my-12 w-[80%] md:w-[60%]">
+        <ul className="my-6 flex w-full w-[80%] flex-wrap pl-0 md:my-12 md:w-[60%]">
           {categories?.map((category) => {
             return (
-              <li className="flex-auto text-center" key={category.id}>
-                <Pill
+              <li
+                className="w-1/2 flex-auto p-2 text-center md:w-1/3 lg:w-1/4"
+                key={category.id}
+              >
+                <FeatureLink
+                  title={category.name}
                   href={`/products/listing#${category.name}`}
-                  roundedStyle="rounded-md"
-                  className="m-1 bg-primary-blue text-xl md:m-2"
-                  textClassName='text-white'
-                >
-                  {category.name}
-                </Pill>
+                  color="text-white-900"
+                  backgroundColor="bg-gray-200"
+                />
               </li>
             );
           })}
         </ul>
         <ProductSearchbar className="mb-6 md:mb-12" />
-        <ProductCarousel showDescriptions={false} tag="BEST SELLERS" tagClassName="text-4xl" favorite={true} />
+        <ProductCarousel
+          showDescriptions={false}
+          tag="BEST SELLERS"
+          tagClassName="text-4xl"
+          favorite={true}
+        />
       </div>
     </>
   );
