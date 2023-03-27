@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import Link from 'next/link';
 
 import { trpc } from '@/lib/trpc';
-import { PageRoutes } from '@/lib/routes';
+import { PageRoutes, getProductDetailsRoute } from '@/lib/routes';
 
 interface Props {
   className?: string;
@@ -68,7 +68,7 @@ export const ProductSearchbar = ({
             <ul className="rounded-md border border-gray-300 bg-white">
               {toShow.map((product) => (
                 <li key={product.id}>
-                  <Link href={`${PageRoutes.Products}/${product.name}`}>
+                  <Link href={getProductDetailsRoute(PageRoutes.Products, product.name)}>
                     <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">{product.name}</a>
                   </Link>
                 </li>

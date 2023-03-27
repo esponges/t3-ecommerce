@@ -1,4 +1,4 @@
-import { PageRoutes } from '@/lib/routes';
+import { PageRoutes, getProductDetailsRoute } from '@/lib/routes';
 import type { CellContext } from '@tanstack/react-table';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -26,7 +26,7 @@ export const ProductDetailsCell = <T,>({ row, imageUrl, baseUrl, fullUrl }: Prop
             />
           </div>
         ) : null}
-        <Link href={fullUrl ?? `${baseUrl ?? PageRoutes.Products}/${value}`}>{value}</Link>
+        <Link href={fullUrl || baseUrl || getProductDetailsRoute(PageRoutes.Products, value)}>{value}</Link>
       </div>
     );
   }, [row, imageUrl, baseUrl, fullUrl]);

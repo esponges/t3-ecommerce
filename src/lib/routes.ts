@@ -22,3 +22,8 @@ export enum PageRoutes {
   Terms = "/about/terms",
   DataPolicy = "/about/data-policy",
 }
+
+export const getProductDetailsRoute = (path: string, name: string) => {
+  const encodedName = encodeURIComponent(name);
+  return `${path}/${encodedName}`;
+};

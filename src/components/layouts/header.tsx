@@ -109,10 +109,10 @@ export const Header = ({ children }: Props) => {
   const dropDownOptions = session
     ? [
       { label: 'Account', value: 'account', onClick: () => router.push(PageRoutes.Account) },
-      { label: 'Log out', value: 'logout', onClick: () => signOut() },
+      { label: 'Log Out', value: 'logout', onClick: () => signOut() },
       // { label: 'Settings', value: 'settings', onClick: () => console.log('settings') },
     ]
-    : [{ label: 'Log out', value: 'login', onClick: () => router.push(PageRoutes.Login) }];
+    : [{ label: 'Log In', value: 'login', onClick: () => router.push(PageRoutes.Login) }];
 
   const trigger = (
     <span className="cursor-pointer">
