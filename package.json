@@ -10,7 +10,7 @@
     "postinstall": "prisma generate",
     "test": "jest --watch",
     "test:ci": "jest --ci",
-    "test-e2e": "playwright test src/__tests__/e2e"
+    "test-e2e": "playwright test"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
