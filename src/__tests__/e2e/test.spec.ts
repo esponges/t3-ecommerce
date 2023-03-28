@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('proof of concept', async ({ page }) => {
-  await page.goto('http://localhost:3000/');
+  await page.goto('/');
   
   // use along with the --headed flag to see the browser and debug
   // await page.pause();

@@ -1,4 +1,5 @@
 import { defineConfig } from '@playwright/test';
+import { devices } from "@playwright/test";
 
 export default defineConfig({
   // Look for test files in the "tests" directory, relative to this configuration file.
@@ -30,8 +31,7 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      // use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome'] },
     },
   ],
   // Run your local dev server before starting the tests.
