@@ -1,14 +1,22 @@
 import { test, expect } from '@playwright/test';
 
-test('test', async ({ page }) => {
+test('proof of concept', async ({ page }) => {
   await page.goto('http://localhost:3000/');
-  await page.getByRole('img', { name: 'product' }).first().click();
+  
+  // use along with the --headed flag to see the browser and debug
+  // await page.pause();
+
+  // get the first div with the product-card-image datatest-id
+  const productCardImage = page.locator('[datatest-id="product-card-image"]').first();
+  await productCardImage.click();
+
+  // get the first element with product-item-name datatest-id
+  const productItemName = page.locator('[datatest-id="product-item-name"]').first();
+  expect(await productItemName.innerText()).toBeTruthy();
+
+  
   await page.getByRole('link', { name: 'Cart' }).click();
-  await page.getByText('Your cart is empty').click();
-
-  // go to cart
-
-  // expect datatest-id 'product-item-name' to be in the page
-  // const productItemName = await page.$('[datatest-id="product-item-name"]');
-  // expect(productItemName).toBeTruthy();
+  // get the first element with empty-cart-message datatest-id
+  const emptyCartMessage = page.locator('[datatest-id="empty-cart-message"]').first();
+  expect(await emptyCartMessage.innerText()).toBeTruthy();
 });

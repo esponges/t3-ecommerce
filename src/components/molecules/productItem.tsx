@@ -13,7 +13,6 @@ import { Button } from '@/components/atoms/button';
 import { Counter } from '@/components/molecules/counter';
 import { Image } from '@/components/atoms/image';
 
-
 import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 import { PageRoutes } from '@/lib/routes';
 
@@ -74,10 +73,14 @@ export const ProductItem = ({
           onClick={handleRedirectToDetails}
           className={`${allowDetailsRedir ? 'cursor-pointer' : ''}`}
           size={HeadingSizes['5xl']}
+          dataTestId='product-item-name'
         >
           {name}
         </Heading>
-        <Item.Header as="h4" className="mt-4">
+        <Item.Header
+          as="h4"
+          className="mt-4"
+        >
           {category?.name ? <Label>{category?.name}</Label> : null}
         </Item.Header>
         <Item.Meta>
@@ -90,7 +93,7 @@ export const ProductItem = ({
             />
           ) : (
             <>
-              <span className="cinema font-bold text-xl">${price} USD</span>
+              <span className="cinema text-xl font-bold">${price} USD</span>
               {qty && <span className="cinema ml-5">x{qty}</span>}
             </>
           )}
@@ -107,12 +110,16 @@ export const ProductItem = ({
                 className="mr-2"
                 id="counter"
               />
-              <Button onClick={handleAddToCart} variant="primary" disabled={isAddingToCart}>
+              <Button
+                onClick={handleAddToCart}
+                variant="primary"
+                disabled={isAddingToCart}
+              >
                 {isAddingToCart ? 'Adding...' : 'Shop now'}
               </Button>
             </div>
           </Item.Extra>
-        ): null}
+        ) : null}
         {/* Technical details */}
         <Item.Extra className="mt-2 md:mt-4">
           <Table basic="very">

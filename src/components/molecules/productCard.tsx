@@ -65,6 +65,7 @@ export const ProductCard = ({
         <div
           className="cursor-pointer"
           onClick={redirOnImageClick ? handleDetailsClick : undefined}
+          datatest-id="product-card-image"
         >
           <Image
             src={product?.image ?? '/images/empty-bottle.png'}
@@ -102,7 +103,10 @@ export const ProductCard = ({
                 </Button>
               ) : null}
               {showDetailsBtn ? (
-                <Button onClick={handleDetailsClick} variant="primary">
+                <Button
+                  onClick={handleDetailsClick}
+                  variant="primary"
+                >
                   Details
                 </Button>
               ) : null}
