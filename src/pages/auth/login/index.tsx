@@ -40,20 +40,25 @@ const Login = () => {
         <div className="block p-6 text-center">
           <Message
             info
-            header="¡Hola!"
-            content="Por favor, inicia sesión con alguno de nuestros proveedores para proceder con tu pedido"
+            header="Hello!"
+            content="Please sign in to continue"
           />
-          <div className="mt-10 w-full">
+          {/* <div className="mt-10 w-full">
             <Button variant="secondary" className="w-full" onClick={() => void signIn(AuthProviders.Google)}>
               Google <Icon name="google" size="huge" />
             </Button>
+          </div> */}
+          <div className="mt-10 w-full">
+            <Button variant="secondary" className="w-full" onClick={() => void signIn(AuthProviders.Discord)}>
+              Discord <Icon name="discord" size="huge" />
+            </Button>
           </div>
-          {/* facebook */}
+          {/* facebook
           <div className="mt-10 w-full">
             <Button variant="secondary" className="w-full" onClick={() => void signIn(AuthProviders.Facebook)}>
               Facebook <Icon name="facebook" size="huge" />
             </Button>
-          </div>
+          </div> */}
         </div>
       ) : (
         <div className="p-10 text-center">
