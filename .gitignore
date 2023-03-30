@@ -47,3 +47,5 @@ yarn-error.log*
 
 # playwright reports
 /playwright-report
+/playwright/.auth
+
