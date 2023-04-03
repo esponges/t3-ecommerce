@@ -8,6 +8,9 @@ export default defineConfig({
   // add global setup (auth mainly)
   globalSetup: 'src/__tests__/e2e/setup/global.ts',
 
+  // add global teardown (auth mainly)
+  globalTeardown: 'src/__tests__/e2e/setup/teardown.ts',
+
   // Run all tests in parallel.
   fullyParallel: true,
 

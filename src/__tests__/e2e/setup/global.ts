@@ -19,17 +19,21 @@ const testCookie: Cookie = {
 };
 
 export const mockedUserName = 'Octocat';
+export const mockedUser = {
+  name: mockedUserName,
+  email: 'octocat@github.com',
+};
 
 export default async function globalSetup() {
   const now = new Date();
 
   await prisma.user.upsert({
     where: {
-      email: 'octocat@github.com',
+      email: mockedUser.email,
     },
     create: {
       name: mockedUserName,
-      email: 'octocat@github.com',
+      email: mockedUser.email,
       image: 'https://github.com/octocat.png',
       sessions: {
         create: {
@@ -80,3 +84,4 @@ export default async function globalSetup() {
     console.error(`Error saving storage state:`);
   }
 }
+
