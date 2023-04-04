@@ -14,19 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       preview_url: ${{ steps.waitForVercelPreviewDeployment.outputs.url }}
-    # the environment variables are set here so that they are available to the next job
-    # fix the Invalid environment variables when running tests in playwright
-    env:
-      NEXT_PUBLIC_NEXTAUTH_URL: "https://example.com"
-      NEXT_PUBLIC_BANK_NAME: "My Bank"
-      NEXT_PUBLIC_BANK_ACCOUNT_NAME: "Account Name"
-      NEXT_PUBLIC_BANK_ACCOUNT_NUMBER: "1234567890"
-      NEXT_PUBLIC_CONTACT_EMAIL: "contact@example.com"
-      NEXT_PUBLIC_IG_URL: "https://www.instagram.com/example/"
-      NEXT_PUBLIC_PHONE_NUMBER: "123-456-7890"
-      NEXT_PUBLIC_BANK_ACCOUNT_CLABE: "123456789012345678"
-      NEXT_PUBLIC_STORE_NAME: "My Store"
-      NEXT_PUBLIC_STORE_ADDRESS: "123 Main St."
     steps:
       - name: Wait for Vercel Preview
         uses: patrickedqvist/wait-for-vercel-preview@v1.3.1
@@ -54,3 +41,16 @@ jobs:
         run: timeout 300 npx playwright test || exit 1
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.test_setup.outputs.preview_url }}
+          # the environment variables are set here so that they are available to the next job
+          # fix the Invalid environment variables when running tests in playwright
+          NEXT_PUBLIC_NEXTAUTH_URL: "https://example.com"
+          NEXT_PUBLIC_BANK_NAME: "My Bank"
+          NEXT_PUBLIC_BANK_ACCOUNT_NAME: "Account Name"
+          NEXT_PUBLIC_BANK_ACCOUNT_NUMBER: "1234567890"
+          NEXT_PUBLIC_CONTACT_EMAIL: "contact@example.com"
+          NEXT_PUBLIC_IG_URL: "https://www.instagram.com/example/"
+          NEXT_PUBLIC_PHONE_NUMBER: "123-456-7890"
+          NEXT_PUBLIC_BANK_ACCOUNT_CLABE: "123456789012345678"
+          NEXT_PUBLIC_STORE_NAME: "My Store"
+          NEXT_PUBLIC_STORE_ADDRESS: "123 Main St."
+          PLAYWRIGHT_TEST_BASE_URL: "https://example.com"
