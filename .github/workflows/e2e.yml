@@ -41,7 +41,7 @@ jobs:
         run: timeout 300 npx playwright test || exit 1
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.test_setup.outputs.preview_url }}
-          NODE_ENV: "development"
+          NODE_ENV: "test"
           # the environment variables are set here so that they are available to the next job
           # fix the Invalid environment variables when running tests in playwright
           NEXT_PUBLIC_NEXTAUTH_URL: ${{ needs.test_setup.outputs.preview_url }}
