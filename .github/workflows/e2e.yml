@@ -41,6 +41,7 @@ jobs:
         run: timeout 300 npx playwright test || exit 1
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.test_setup.outputs.preview_url }}
+          NODE_ENV: "development"
           # the environment variables are set here so that they are available to the next job
           # fix the Invalid environment variables when running tests in playwright
           NEXT_PUBLIC_NEXTAUTH_URL: "https://example.com"
@@ -53,3 +54,11 @@ jobs:
           NEXT_PUBLIC_BANK_ACCOUNT_CLABE: "123456789012345678"
           NEXT_PUBLIC_STORE_NAME: "My Store"
           NEXT_PUBLIC_STORE_ADDRESS: "123 Main St."
+          DATABASE_URL: "mocked_database_url"
+          NEXTAUTH_SECRET: "mocked_nextauth_secret"
+          NEXTAUTH_URL: "mocked_nextauth_url"
+          DISCORD_CLIENT_ID: "mocked_discord_client_id"
+          DISCORD_CLIENT_SECRET: "mocked_discord_client_secret"
+          GMAIL_APP_PASSWORD: "mocked_gmail_app_password"
+          GMAIL_USERNAME: "mocked_gmail_username"
+          ADMIN_EMAILS: "mocked_admin_emails"
