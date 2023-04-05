@@ -39,7 +39,12 @@ jobs:
         run: npx playwright install
       # set the DATABASE_URL environment variable to the database url secret
       - name: Set environment variables
-        run: echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+        run: |
+         if [ "${{ secrets.DATABASE_URL }}" != "" ]; then
+           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+         else
+           echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/postgres" >> $GITHUB_ENV
+         fi
       - name: Run tests
         run: timeout 300 npx playwright test || exit 1
         env:
