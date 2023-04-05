@@ -236,7 +236,7 @@ export default function Cart() {
           header="Your cart is empty"
           size="big"
           content="Add some products to your cart to continue"
-          datatest-id="empty-cart-message"
+          data-testid="empty-cart-message"
         />
       )}
       <div className={`${!hasMinPurchase ? 'block text-center md:mx-auto md:w-1/2' : 'flex justify-center '} mb-4`}>

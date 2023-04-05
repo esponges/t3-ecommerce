@@ -31,7 +31,7 @@ export const Heading = ({ size, children, className = '', color, onClick, dataTe
     <h1
       className={`${sizeClass}  ${className} ${colorClass} font-bold`}
       onClick={onClick}
-      datatest-id={dataTestId}
+      data-testid={dataTestId}
     >
       {children}
     </h1>

@@ -65,7 +65,7 @@ export const ProductCard = ({
         <div
           className="cursor-pointer"
           onClick={redirOnImageClick ? handleDetailsClick : undefined}
-          datatest-id="product-card-image"
+          data-testid="product-card-image"
         >
           <Image
             src={product?.image ?? '/images/empty-bottle.png'}
