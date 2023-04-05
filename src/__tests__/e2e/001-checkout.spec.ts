@@ -7,8 +7,11 @@ test.describe('Checkout', () => {
 
     await page.goto('/');
 
+    // give some time for the page to load
+    await page.waitForLoadState('networkidle');
+
     // go to the first product and add it to cart
-    await page.getByRole('img', { name: 'product' }).first().click();
+    await page.getByTestId('product-card-image').first().click();
 
     // add to cart
     await page.getByRole('button', { name: 'Shop now' }).click();

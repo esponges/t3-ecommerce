@@ -11,6 +11,8 @@ export default defineConfig({
   // add global teardown (auth mainly)
   globalTeardown: 'src/__tests__/e2e/setup/teardown.ts',
 
+  fullyParallel: true,
+
   use: {
     // Base URL to use in actions like `await page.goto('/')`.
     // the PLAYWRIGHT_TEST_BASE_URL env var is set in the github action

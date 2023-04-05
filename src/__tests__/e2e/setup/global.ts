@@ -27,6 +27,13 @@ export const mockedUser = {
 export default async function globalSetup() {
   const now = new Date();
 
+  // if there's any existing user with the mocked email, delete it
+  await prisma.user.deleteMany({
+    where: {
+      email: mockedUser.email,
+    },
+  });
+
   await prisma.user.upsert({
     where: {
       email: mockedUser.email,
