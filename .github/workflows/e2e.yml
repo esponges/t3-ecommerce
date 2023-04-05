@@ -39,6 +39,9 @@ jobs:
         run: npx playwright install
       - name: Run tests
         run: timeout 300 npx playwright test || exit 1
+      # confirm the secrets for the database is set
+      - name: Confirm secrets are set
+        run: "echo database url ${{ secrets.DATABASE_URL }}"
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.test_setup.outputs.preview_url }}
           NODE_ENV: "test"
