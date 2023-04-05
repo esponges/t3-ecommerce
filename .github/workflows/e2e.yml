@@ -37,11 +37,11 @@ jobs:
         run: npm ci
       - name: Install playwright browsers
         run: npx playwright install
+      # set the DATABASE_URL environment variable to the database url secret
+      - name: Set environment variables
+        run: echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
       - name: Run tests
         run: timeout 300 npx playwright test || exit 1
-      # confirm the secrets for the database is set
-      - name: Confirm secrets are set
-        run: "echo database url ${{ secrets.DATABASE_URL }}"
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.test_setup.outputs.preview_url }}
           NODE_ENV: "test"
