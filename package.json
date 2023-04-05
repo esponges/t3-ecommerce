@@ -10,11 +10,10 @@
     "postinstall": "prisma generate",
     "test": "jest --watch",
     "test:ci": "jest --ci",
-    "test-e2e": "NODE_ENV=test playwright test",
-    "test-e2e:codegen": "NODE_ENV=test playwright codegen localhost:3000",
-    "test-e2e:headed": "NODE_ENV=test playwright test --headed",
-    "test-e2e:start-server-headed": "start-server-and-test dev 3000 \"NODE_ENV=test playwright test --headed\"",
-    "test-e2e:start-server": "start-server-and-test dev 3000 \"NODE_ENV=test playwright test\""
+    "test-e2e:codegen": "NODE_ENV=test playwright codegen localhost:3000 --worker=1",
+    "test-e2e:headed": "NODE_ENV=test playwright test --headed --worker=1",
+    "test-e2e:start-server-headed": "start-server-and-test dev 3000 \"NODE_ENV=test playwright test --headed --worker=1\"",
+    "test-e2e:start-server": "start-server-and-test dev 3000 \"NODE_ENV=test playwright test --worker=1\""
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
