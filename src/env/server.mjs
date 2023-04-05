@@ -11,10 +11,9 @@ const _serverEnv = serverSchema.safeParse(process.env);
 // console.log("🔐 Validating environment variables for the server...", serverSchema.data);
 console.log("🔐 Validating environment variables for the client...", clientEnv);
 
-
-/** @type {{ NODE_ENV?: string }} */
-let env = {};
-
+let env = {
+  NODE_ENV: process.env.NODE_ENV || "development",
+};
 
 // bypass checks in test environment
 if (process.env.NODE_ENV !== "test") {
@@ -34,8 +33,6 @@ if (process.env.NODE_ENV !== "test") {
     }
   }
   env = { ..._serverEnv.data, ...clientEnv };
-} else {
-  env = { NODE_ENV: "test", ...clientEnv };
 }
 
 export { env };
