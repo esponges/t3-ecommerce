@@ -11,8 +11,9 @@
     "test": "jest --watch",
     "test:ci": "jest --ci",
     "test-e2e": "NODE_ENV=test playwright test",
-    "test-e2e-headed": "NODE_ENV=test playwright test --headed",
-    "test-e2e-start-server": "start-server-and-test dev 3000 \"NODE_ENV=test playwright test --headed\""
+    "test-e2e:headed": "NODE_ENV=test playwright test --headed",
+    "test-e2e:start-server-headed": "start-server-and-test dev 3000 \"NODE_ENV=test playwright test --headed\"",
+    "test-e2e:start-server": "start-server-and-test dev 3000 \"NODE_ENV=test playwright test\""
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
