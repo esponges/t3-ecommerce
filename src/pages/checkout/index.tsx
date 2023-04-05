@@ -249,41 +249,68 @@ const Checkout = () => {
     <>
       <Head>
         {/* dont index */}
-        <meta name="robots" content="noindex" />
-        <title>Finalizar pedido</title>
+        <meta
+          name="robots"
+          content="noindex"
+        />
+        <title>Order Details</title>
       </Head>
-      <PageContainer className="text-center" heading={{ title: 'Finalizar pedido' }}>
+      <PageContainer
+        className="text-center"
+        heading={{ title: 'Order Details' }}
+      >
         <Accordion className="my-8">
-          <Accordion.Title active={activeIndex === 0} index={0} onClick={handleAccordionOpenClose}>
+          <Accordion.Title
+            active={activeIndex === 0}
+            index={0}
+            onClick={handleAccordionOpenClose}
+          >
             <Icon name="dropdown" />
-            Tu pedido
+            Your order
           </Accordion.Title>
           <Accordion.Content active={activeIndex === 0}>
-            <CartItemsTable tableItems={tableCartItems} cartTotal={cartTotal} />
+            <CartItemsTable
+              tableItems={tableCartItems}
+              cartTotal={cartTotal}
+            />
           </Accordion.Content>
         </Accordion>
-        <Form onSubmit={handleSubmit(handleFormSubmit)} className="px-5 text-left">
+        <Form
+          onSubmit={handleSubmit(handleFormSubmit)}
+          className="px-5 text-left"
+        >
           <Form.Field>
-            <label htmlFor="day" className="form-label font-bold">
-              Día de entrega
+            <label
+              htmlFor="day"
+              className="form-label font-bold"
+            >
+              Delivery Day
             </label>
             <Dropdown
-              placeholder="Día de entrega"
+              placeholder="Delivery Day"
               fluid
               selection
               options={daysOptions}
               {...register('day', validation.day)}
               onChange={handleDayChange}
             />
-            {errors.day?.message && <InputMessage type="error" message={errors.day.message} />}
+            {errors.day?.message && (
+              <InputMessage
+                type="error"
+                message={errors.day.message}
+              />
+            )}
           </Form.Field>
           {/* chose schedule */}
           <Form.Field>
-            <label htmlFor="schedule" className="form-label font-bold">
-              Horario de entrega
+            <label
+              htmlFor="schedule"
+              className="form-label font-bold"
+            >
+              Delivery Time
             </label>
             <Dropdown
-              placeholder={chosenDay ? 'Horario de entrega' : 'Elige primero el día'}
+              placeholder={chosenDay ? 'Delivery Time' : 'First choose a day'}
               fluid
               selection
               options={scheduleOptions}
@@ -291,46 +318,73 @@ const Checkout = () => {
               {...register('schedule', validation.schedule)}
               onChange={handleScheduleChange}
             />
-            {errors.schedule?.message && <InputMessage type="error" message={errors.schedule.message} />}
+            {errors.schedule?.message && (
+              <InputMessage
+                type="error"
+                message={errors.schedule.message}
+              />
+            )}
           </Form.Field>
           <Form.Field>
-            <label htmlFor="address" className="form-label font-bold">
-              Dirección de envío
+            <label
+              htmlFor="address"
+              className="form-label font-bold"
+            >
+              Address
             </label>
             <input
               type="text"
-              placeholder="Calle/Av + Exterior e Interior"
+              placeholder="Street, number, apartment"
               className="form-control"
               id="address"
               {...register('address', validation.address)}
             />
-            {errors.address && <InputMessage type="error" message={errors.address.message || 'Requerido'} />}
+            {errors.address && (
+              <InputMessage
+                type="error"
+                message={errors.address.message || 'Requerido'}
+              />
+            )}
           </Form.Field>
           <Form.Field>
-            <label htmlFor="city" className="form-label font-bold">
-              Municipio
+            <label
+              htmlFor="city"
+              className="form-label font-bold"
+            >
+              Neighborhood
             </label>
             <input
               type="text"
-              placeholder="Municipio"
+              placeholder="Neighborhood"
               className="form-control"
               id="city"
               {...register('city', validation.city)}
             />
-            {errors.city && <InputMessage type="error" message={errors.city.message ?? 'Requerido'} />}
+            {errors.city && (
+              <InputMessage
+                type="error"
+                message={errors.city.message ?? 'Requerido'}
+              />
+            )}
           </Form.Field>
           <Form.Field>
-            <label htmlFor="postalCode" className="form-label font-bold">
-              Código Postal
+            <label
+              htmlFor="postalCode"
+              className="form-label font-bold"
+            >
+              Postal Code
             </label>
 
             {errors.selectedPostalCode?.message && (
-              <InputMessage type="error" message={errors.selectedPostalCode.message} />
+              <InputMessage
+                type="error"
+                message={errors.selectedPostalCode.message}
+              />
             )}
             <Searchbar
               onSelect={handleCPSelect}
               onChange={handleCPChange}
-              placeholder="Ingresa tu código postal"
+              placeholder="Your Postal Code"
               inputType="number"
               searchResults={fetchedPostalCodes}
             />
@@ -339,45 +393,69 @@ const Checkout = () => {
             ) : null}
           </Form.Field>
           <Form.Field>
-            <label htmlFor="phone" className="form-label font-bold">
-              Teléfono de contacto
+            <label
+              htmlFor="phone"
+              className="form-label font-bold"
+            >
+              Contact Phone
             </label>
             <input
               type="text"
               className="form-control"
-              placeholder="Teléfono de 10 dígitos"
+              placeholder="10 digit phone number"
               id="phone"
               {...register('phone', validation.phone)}
             />
-            {errors.phone && <InputMessage type="error" message={errors.phone.message ?? 'Requerido'} />}
+            {errors.phone && (
+              <InputMessage
+                type="error"
+                message={errors.phone.message ?? 'Requerido'}
+              />
+            )}
           </Form.Field>
           {/* name */}
           <Form.Field>
-            <label htmlFor="name" className="form-label font-bold">
-              Nombre
+            <label
+              htmlFor="name"
+              className="form-label font-bold"
+            >
+              Name
             </label>
             <input
               type="text"
               className="form-control"
-              placeholder="Nombre"
+              placeholder="Name"
               id="name"
               {...register('name', validation.name)}
             />
-            {errors.name && <InputMessage type="error" message={errors.name.message ?? 'Requerido'} />}
+            {errors.name && (
+              <InputMessage
+                type="error"
+                message={errors.name.message ?? 'Requerido'}
+              />
+            )}
           </Form.Field>
           {/* email */}
           <Form.Field>
-            <label htmlFor="email" className="form-label font-bold">
-              Correo electrónico
+            <label
+              htmlFor="email"
+              className="form-label font-bold"
+            >
+              Email
             </label>
             <input
               type="email"
               className="form-control"
-              placeholder="Correo electrónico"
+              placeholder="Email"
               id="email"
               {...register('email', validation.email)}
             />
-            {errors.email && <InputMessage type="error" message={errors.email.message ?? 'Requerido'} />}
+            {errors.email && (
+              <InputMessage
+                type="error"
+                message={errors.email.message ?? 'Requerido'}
+              />
+            )}
           </Form.Field>
           <Form.Field>
             <Controller
@@ -387,30 +465,44 @@ const Checkout = () => {
                 <RadioGroup
                   onChange={handlePaymentChange}
                   className="flex flex-col"
-                  label="Método de pago"
+                  label="Payment Method"
                   field={field}
                   options={paymentOptions}
                 />
               )}
             />
-            {errors.payment?.message && <InputMessage type="error" message={errors.payment.message} />}
+            {errors.payment?.message && (
+              <InputMessage
+                type="error"
+                message={errors.payment.message}
+              />
+            )}
           </Form.Field>
           {getValues('payment') === PaymentMethods.Transfer ? (
             <Message
               info
               icon="info circle"
-              header="Información de transferencia"
-              content="Una vez que hayas realizado tu pedido, recibirás un correo con los datos de la cuenta bancaria
-               a la que debes realizar la transferencia. El pedido se enviará una vez que se haya recibido el pago."
+              header="Bank Transfer"
+              content="Please use the following details for your bank transfer. 
+              Once you have completed the transfer, please click the button below to confirm your order."
             />
           ) : null}
-          <Button variant="primary" className="btn btn-primary mt-5" type="submit" disabled={actionsDisabled}>
-            {actionsDisabled ? 'Generando pedido...' : 'Confirmar pedido'}
+          <Button
+            variant="primary"
+            className="btn btn-primary mt-5"
+            type="submit"
+            disabled={actionsDisabled}
+          >
+            {actionsDisabled ? 'Generatin order...' : 'Confirm order'}
           </Button>
           <div className="mt-10">
             <Link href="/cart">
-              <Button variant="secondary" className="btn btn-secondary mt-5" disabled={actionsDisabled}>
-                Regresa
+              <Button
+                variant="secondary"
+                className="btn btn-secondary mt-5"
+                disabled={actionsDisabled}
+              >
+                Back
               </Button>
             </Link>
           </div>
