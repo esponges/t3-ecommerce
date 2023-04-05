@@ -42,6 +42,8 @@ jobs:
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ needs.test_setup.outputs.preview_url }}
           NODE_ENV: "test"
+          # Github secret set in the repository settings
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           # the environment variables are set here so that they are available to the next job
           # fix the Invalid environment variables when running tests in playwright
           NEXT_PUBLIC_NEXTAUTH_URL: ${{ needs.test_setup.outputs.preview_url }}
@@ -54,7 +56,6 @@ jobs:
           NEXT_PUBLIC_BANK_ACCOUNT_CLABE: "123456789012345678"
           NEXT_PUBLIC_STORE_NAME: "My Store"
           NEXT_PUBLIC_STORE_ADDRESS: "123 Main St."
-          DATABASE_URL: "postgresql://fertostado@localhost:5432/t3-ecommerce?schema=public"
           NEXTAUTH_SECRET: "mocked_nextauth_secret"
           NEXTAUTH_URL: ${{ needs.test_setup.outputs.preview_url }}
           DISCORD_CLIENT_ID: "mocked_discord_client_id"
