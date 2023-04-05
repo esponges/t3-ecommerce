@@ -37,8 +37,6 @@ jobs:
         run: npm ci
       - name: Install playwright browsers
         run: npx playwright install
-      # set the DATABASE_URL environment variable to the database url secret
-      - name: Set environment variables
       - name: Run tests in localhost
         run: timeout 300 npm run test-e2e:start-server || exit 1
         env:
