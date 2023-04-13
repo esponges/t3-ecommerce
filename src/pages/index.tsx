@@ -16,14 +16,12 @@ import { trpc } from '@/lib/trpc';
 import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '@/server/trpc/router';
 import { createContext } from '@/server/trpc/context';
-import { useDeviceWidth } from '@/lib/hooks/useDeviceWidth';
 import FeatureLink from '@/components/atoms/featureLink';
 
 const heroImages = ['/images/hero/poke-hero-1.png', '/images/hero/poke-hero-2.png'];
 
 const Home = () => {
-  const { isMobile } = useDeviceWidth();
-  const { data: categories } = trpc.category.getAll.useQuery({ take: isMobile ? 10 : undefined });
+  const { data: categories } = trpc.category.getAll.useQuery();
 
   return (
     <>
@@ -101,9 +99,6 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   });
 
   await ssg.category.getAll.prefetch();
-  // we'll set limit to 4 for now since we don't have a way to know the screen size
-  // on the server side
-  await ssg.product.getBatch.prefetch({ favorite: true, limit: 4 });
 
   return {
     props: {
