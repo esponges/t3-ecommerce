@@ -36,8 +36,8 @@ const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideP
   // this query is automatically prefetched on server side
   const { data: product, isLoading } = trpc.product.getBy.useQuery({ name });
   const {
-    data: pokemonDetails,
-    isLoading: pokemonDetailsLoading,
+    data: apiProductDetails,
+    isLoading: productDetailsIsLoading,
     mutateAsync: getAIDetails,
     isError,
   } = trpc.product.getAIDetails.useMutation();
@@ -50,7 +50,7 @@ const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideP
     }
   };
 
-  const handleGetPokemonDetails = async () => {
+  const handleGetapiProductDetails = async () => {
     const details = await getAIDetails({ name });
     if (details.message !== 'Error') {
       setProductDetails(details.message);
@@ -65,7 +65,7 @@ const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideP
     return <Loader text />;
   }
 
-  console.log('pokemonDetails', pokemonDetails, 'pokemonDetailsLoading', pokemonDetailsLoading);
+  console.log('apiProductDetails', apiProductDetails, 'productDetailsIsLoading', productDetailsIsLoading);
 
   return (
     <PageContainer verticallyCentered>
@@ -114,8 +114,8 @@ const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideP
               className="text-md font-bold"
               style={{ whiteSpace: 'pre-wrap' }}
             >
-              {(!isError && !productDetails && !pokemonDetailsLoading ) ? 'No details fetched yet' : null}
-              {!isError && pokemonDetailsLoading ? 'Loading...' : null}
+              {(!isError && !productDetails && !productDetailsIsLoading ) ? 'No details fetched yet' : null}
+              {!isError && productDetailsIsLoading ? 'Loading...' : null}
               {!isError && !!productDetails && productDetails ? productDetails : null}
               {isError ? 'Error fetching details' : null}
             </div>
@@ -124,8 +124,8 @@ const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideP
         <Modal.Actions>
           <Button
             variant="primary"
-            disabled={pokemonDetailsLoading || !!productDetails || isError}
-            onClick={handleGetPokemonDetails}
+            disabled={productDetailsIsLoading || !!productDetails || isError}
+            onClick={handleGetapiProductDetails}
           >
             Get Details with AI <Icon name="gem" />
           </Button>
