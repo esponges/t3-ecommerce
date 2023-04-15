@@ -101,7 +101,7 @@ const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideP
                 color="red"
                 floating
               >
-                Powered by AI
+                Powered with AI
               </Label>
             </Menu.Item>
           </Menu>
