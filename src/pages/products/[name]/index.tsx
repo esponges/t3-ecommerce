@@ -8,6 +8,13 @@ import type {
   InferGetServerSidePropsType
 } from 'next';
 import superjson from 'superjson';
+import {
+  Icon,
+  Label,
+  Menu,
+  Modal
+} from 'semantic-ui-react';
+import { useState } from 'react';
 
 import { Loader } from '@/components/molecules/loader';
 import { Button } from '@/components/atoms/button';
@@ -22,14 +29,17 @@ import { ProductCarousel } from '@/components/organisms/productCarousel';
 
 const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
-  const name = props.name;
+  const [isOpenDetailsModal, setIsOpenDetailsModal] = useState(false);
+  const [productDetails, setProductDetails] = useState<string | undefined>(undefined);
 
+  const { name } = props;
   // this query is automatically prefetched on server side
   const { data: product, isLoading } = trpc.product.getBy.useQuery({ name });
   const {
     data: pokemonDetails,
     isLoading: pokemonDetailsLoading,
-    mutate: getAIDetails,
+    mutateAsync: getAIDetails,
+    isError,
   } = trpc.product.getAIDetails.useMutation();
 
   const { addToCart } = useCartActions();
@@ -40,8 +50,15 @@ const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideP
     }
   };
 
-  const handleGetPokemonDetails = () => {
-    getAIDetails({ name });
+  const handleGetPokemonDetails = async () => {
+    const details = await getAIDetails({ name });
+    if (details.message !== 'Error') {
+      setProductDetails(details.message);
+    }
+  };
+
+  const handleToggleDetailsModal = () => {
+    setIsOpenDetailsModal((prev) => !prev);
   };
 
   if (isLoading) {
@@ -70,6 +87,50 @@ const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideP
         onAddToCart={handleAddToCart}
         productSpecs={product?.productSpecs}
       />
+      <Modal
+        onClose={handleToggleDetailsModal}
+        onOpen={handleToggleDetailsModal}
+        open={isOpenDetailsModal}
+        size="mini"
+        closeIcon
+        trigger={
+          <Menu compact>
+            <Menu.Item as="a">
+              <Icon name="gem" /> Get Details
+              <Label
+                color="red"
+                floating
+              >
+                Powered by AI
+              </Label>
+            </Menu.Item>
+          </Menu>
+        }
+      >
+        <Modal.Header>{product?.name}</Modal.Header>
+        <Modal.Content>
+          <Modal.Description>
+            <div
+              className="text-md font-bold"
+              style={{ whiteSpace: 'pre-wrap' }}
+            >
+              {(!isError && !productDetails && !pokemonDetailsLoading ) ? 'No details fetched yet' : null}
+              {!isError && pokemonDetailsLoading ? 'Loading...' : null}
+              {!isError && !!productDetails && productDetails ? productDetails : null}
+              {isError ? 'Error fetching details' : null}
+            </div>
+          </Modal.Description>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button
+            variant="primary"
+            disabled={pokemonDetailsLoading || !!productDetails || isError}
+            onClick={handleGetPokemonDetails}
+          >
+            Get Details with AI <Icon name="gem" />
+          </Button>
+        </Modal.Actions>
+      </Modal>
       <ProductCarousel
         showDescriptions={false}
         category={product?.category}
@@ -89,12 +150,6 @@ const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideP
           onClick={() => router.push('/')}
         >
           Go Back
-        </Button>
-        <Button
-          variant="secondary"
-          onClick={handleGetPokemonDetails}
-        >
-          Get Pokemon Details
         </Button>
       </div>
     </PageContainer>
