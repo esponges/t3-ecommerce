@@ -26,6 +26,11 @@ const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideP
 
   // this query is automatically prefetched on server side
   const { data: product, isLoading } = trpc.product.getBy.useQuery({ name });
+  const {
+    data: pokemonDetails,
+    isLoading: pokemonDetailsLoading,
+    mutate: getAIDetails,
+  } = trpc.product.getAIDetails.useMutation();
 
   const { addToCart } = useCartActions();
 
@@ -35,9 +40,15 @@ const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideP
     }
   };
 
+  const handleGetPokemonDetails = () => {
+    getAIDetails({ name });
+  };
+
   if (isLoading) {
     return <Loader text />;
   }
+
+  console.log('pokemonDetails', pokemonDetails, 'pokemonDetailsLoading', pokemonDetailsLoading);
 
   return (
     <PageContainer verticallyCentered>
@@ -62,15 +73,28 @@ const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideP
       <ProductCarousel
         showDescriptions={false}
         category={product?.category}
-        tag='Related Products'
+        tag="Related Products"
         ignoredIds={product?.id ? [product.id] : undefined}
       />
       <div className="my-5 flex justify-center">
-        <Button variant="primary" className="mr-4" onClick={() => router.push('/cart')}>
+        <Button
+          variant="primary"
+          className="mr-4"
+          onClick={() => router.push('/cart')}
+        >
           Go to cart
         </Button>
-        <Button variant="secondary" onClick={() => router.push('/')}>
+        <Button
+          variant="secondary"
+          onClick={() => router.push('/')}
+        >
           Go Back
+        </Button>
+        <Button
+          variant="secondary"
+          onClick={handleGetPokemonDetails}
+        >
+          Get Pokemon Details
         </Button>
       </div>
     </PageContainer>
