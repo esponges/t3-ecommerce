@@ -1,5 +1,18 @@
 import { z } from 'zod';
-import { t, authedProcedure} from '../trpc';
+import {
+  ChatCompletionRequestMessageRoleEnum,
+  Configuration,
+  OpenAIApi
+} from 'openai';
+
+import { t, authedProcedure } from '../trpc';
+import { env } from '@/env/server.mjs';
+
+const openAIConfig = new Configuration({
+  organization: env.OPENAI_ORG_ID,
+  apiKey: env.OPENAI_API_KEY,
+});
+const openAI = new OpenAIApi(openAIConfig);
 
 export const productRouter = t.router({
   getAll: t.procedure
@@ -61,14 +74,16 @@ export const productRouter = t.router({
         stock: z.number().optional(),
         score: z.number().optional(),
         favScore: z.number().optional(),
-        productSpecs: z.object({
-          capacity: z.string().nullable().optional(),
-          volume: z.string().nullable().optional(),
-          age: z.string().nullable().optional(),
-          country: z.string().nullable().optional(),
-          year: z.string().nullable().optional(),
-          variety: z.string().nullable().optional(),
-        }).optional(),
+        productSpecs: z
+          .object({
+            capacity: z.string().nullable().optional(),
+            volume: z.string().nullable().optional(),
+            age: z.string().nullable().optional(),
+            country: z.string().nullable().optional(),
+            year: z.string().nullable().optional(),
+            variety: z.string().nullable().optional(),
+          })
+          .optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -112,7 +127,7 @@ export const productRouter = t.router({
           },
           update: {
             ...productSpecs,
-          }
+          },
         }),
       ]);
 
@@ -130,14 +145,16 @@ export const productRouter = t.router({
         stock: z.number().optional(),
         score: z.number().optional(),
         favScore: z.number().optional(),
-        productSpecs: z.object({
-          capacity: z.string().nullable().optional(),
-          volume: z.string().nullable().optional(),
-          age: z.string().nullable().optional(),
-          country: z.string().nullable().optional(),
-          year: z.string().nullable().optional(),
-          variety: z.string().nullable().optional(),
-        }).optional(),
+        productSpecs: z
+          .object({
+            capacity: z.string().nullable().optional(),
+            volume: z.string().nullable().optional(),
+            age: z.string().nullable().optional(),
+            country: z.string().nullable().optional(),
+            year: z.string().nullable().optional(),
+            variety: z.string().nullable().optional(),
+          })
+          .optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -290,5 +307,44 @@ export const productRouter = t.router({
         items,
         nextCursor,
       };
+    }),
+  getAIDetails: t.procedure
+    .input(
+      z.object({
+        name: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const { name } = input;
+
+      const prompt = [
+        {
+          role: ChatCompletionRequestMessageRoleEnum.System,
+          content:
+            'You are a Pokemon expert and you will return meaningful' +
+            'information about the pokemon you are being asked about',
+        },
+        {
+          role: ChatCompletionRequestMessageRoleEnum.User,
+          content: `Please give me information about ${name}`,
+        },
+      ];
+
+      const requestObject = {
+        messages: prompt,
+        model: 'gpt-3.5-turbo',
+        temperature: 0.5,
+      };
+
+      try {
+        const details = await openAI.createChatCompletion(requestObject);
+        return {
+          message: details.data.choices[0]?.message?.content,
+        };
+      } catch (error) {
+        return {
+          message: 'Error',
+        };
+      }
     }),
 });
