@@ -63,3 +63,5 @@ jobs:
           GMAIL_APP_PASSWORD: "mocked_gmail_app_password"
           GMAIL_USERNAME: "mocked_gmail_username"
           ADMIN_EMAILS: "mocked_admin_emails"
+          OPENAI_ORG_ID: "mocked_openai_org_id"
+          OPENAI_API_KEY: "mocked_openai_api_key"
