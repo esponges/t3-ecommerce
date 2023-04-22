@@ -5,7 +5,9 @@ generator client {
     provider = "prisma-client-js"
     // speed up cold starts 
     // https://www.prisma.io/blog/prisma-and-serverless-73hbgKnZ6t
-    previewFeatures = ["jsonProtocol"]
+    // previewFeatures = ["jsonProtocol"]
+
+    // REVERTED FLAG: working locally (not in tests) but not in prod. Should wait to be stable
 }
 
 datasource db {
