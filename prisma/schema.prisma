@@ -3,6 +3,9 @@
 
 generator client {
     provider = "prisma-client-js"
+    // speed up cold starts 
+    // https://www.prisma.io/blog/prisma-and-serverless-73hbgKnZ6t
+    previewFeatures = ["jsonProtocol"]
 }
 
 datasource db {
