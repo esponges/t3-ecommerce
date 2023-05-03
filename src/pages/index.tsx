@@ -17,11 +17,12 @@ import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '@/server/trpc/router';
 import { createContext } from '@/server/trpc/context';
 import FeatureLink from '@/components/atoms/featureLink';
+import { Loader } from '@/components/molecules/loader';
 
 const heroImages = ['/images/hero/poke-hero-1.png', '/images/hero/poke-hero-2.png'];
 
 const Home = () => {
-  const { data: categories } = trpc.category.getAll.useQuery();
+  const { data: categories, isLoading: loadingCategories } = trpc.category.getAll.useQuery();
 
   return (
     <>
@@ -59,9 +60,8 @@ const Home = () => {
             );
           })}
         </Carousel>
-        {/* <HeroCarousel /> */}
         <ul className="my-6 flex w-full w-[80%] flex-wrap pl-0 md:my-12 md:w-[60%]">
-          {categories?.map((category) => {
+          {!loadingCategories ? categories?.map((category) => {
             return (
               <li
                 className="w-1/2 flex-auto p-2 text-center md:w-1/3 lg:w-1/4"
@@ -75,7 +75,7 @@ const Home = () => {
                 />
               </li>
             );
-          })}
+          }) : <Loader className='sticky mx-auto' />}
         </ul>
         <ProductSearchbar className="mb-6 md:mb-12" />
         <ProductCarousel
