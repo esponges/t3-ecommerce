@@ -38,4 +38,4 @@ seen in: https://github.com/prisma/prisma/issues/4571#issuecomment-747496127
 This is an app bootstrapped according to the [init.tips](https://init.tips) stack, also known as the T3-Stack.
 # t3-ecommerce
 
-This app has been forked initially from https://github.com/esponges/t3-ecommerce
+This app has been forked initially from https://github.com/esponges/t3-ecommerce .
