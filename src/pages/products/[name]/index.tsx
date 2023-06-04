@@ -52,8 +52,10 @@ const ProductDetails = (props: InferGetServerSidePropsType<typeof getServerSideP
 
   const handleGetapiProductDetails = async () => {
     const details = await getAIDetails({ name });
-    if (details.message !== 'Error') {
+    if (!details.error) {
       setProductDetails(details.message);
+    } else {
+      console.error('Error fetching details', details.error);
     }
   };
 
