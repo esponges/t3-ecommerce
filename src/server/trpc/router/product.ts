@@ -7,6 +7,7 @@ import {
 
 import { t, authedProcedure } from '../trpc';
 import { env } from '@/env/server.mjs';
+import { getErrorMessage } from '@/lib/utils';
 
 const openAIConfig = new Configuration({
   organization: env.OPENAI_ORG_ID,
@@ -343,7 +344,7 @@ export const productRouter = t.router({
         };
       } catch (error) {
         return {
-          message: 'Error',
+          error: getErrorMessage(error),
         };
       }
     }),
