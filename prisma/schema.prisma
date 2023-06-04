@@ -3,6 +3,8 @@
 
 generator client {
     provider = "prisma-client-js"
+    // add debian for the vercel pipeline to pass when doing e2e
+    binaryTargets = ["native", "debian-openssl-3.0.x"]
     // speed up cold starts 
     // https://www.prisma.io/blog/prisma-and-serverless-73hbgKnZ6t
     // previewFeatures = ["jsonProtocol"]
