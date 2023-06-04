@@ -25,7 +25,9 @@ export default defineNextConfig({
   },
   // todo: this strategy changes in next13
   images: {
-    domains: ["raw.githubusercontent.com"],
+    domains: ["raw.githubusercontent.com", "ik.imagekit.io"],
+    // imagekit
+    
   },
   // add sass support
   sassOptions: {
